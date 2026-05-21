@@ -187,55 +187,6 @@ export default function Landing() {
           </div>
         </section>
 
-        <section className="mx-auto max-w-7xl px-4 sm:px-6 py-24">
-          <div className="flex items-end justify-between flex-wrap gap-4 mb-10">
-            <h2 className="display text-5xl sm:text-7xl">YOUR JOURNEY.</h2>
-          </div>
-          <div className="grid lg:grid-cols-2 gap-8 items-center">
-            <div className="relative h-[400px]">
-              {[0, 1, 2, 3].map((i) => {
-                const size = 360 - i * 70;
-                const rot = i * 22;
-                return (
-                  <div
-                    key={i}
-                    className="absolute top-1/2 left-1/2 border-2 border-[var(--color-neon)]/30"
-                    style={{
-                      width: size,
-                      height: size,
-                      marginLeft: -size / 2,
-                      marginTop: -size / 2,
-                      transform: `rotate(${rot}deg)`,
-                      borderRadius: i === 3 ? "20%" : "0",
-                      animation: "blob-float 20s ease-in-out infinite",
-                      animationDelay: `${i * 0.5}s`,
-                    }}
-                  />
-                );
-              })}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-center">
-                  <div className="display text-5xl neon-text">YOU</div>
-                  <div className="mono text-xs text-white/40 mt-2">at the center</div>
-                </div>
-              </div>
-            </div>
-            <div className="space-y-4">
-              {[
-                { t: "Day 1", d: "Onboard, set a goal, take a baseline." },
-                { t: "Day 3", d: "First adaptive course generated for your weak topics." },
-                { t: "Day 10", d: "Spaced-repetition queue is humming, mastery radar fills in." },
-                { t: "Day 30", d: "You can defend the topics you used to dodge in interviews." },
-              ].map((j, i) => (
-                <div key={i} className="card-base p-5 flex items-center gap-4">
-                  <div className="display text-3xl neon-text w-24 shrink-0">{j.t}</div>
-                  <div className="text-white/70">{j.d}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
         <section className="mx-auto max-w-7xl px-4 sm:px-6 py-24 border-y border-white/10">
           <h2 className="display text-5xl sm:text-7xl mb-10">PALSED IN NUMBERS.</h2>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
@@ -284,21 +235,6 @@ export default function Landing() {
           </div>
         </section>
 
-        <section className="mx-auto max-w-7xl px-4 sm:px-6 py-24">
-          <Card className="bg-[var(--color-neon)] text-black flex flex-col lg:flex-row items-center justify-between gap-6 border-0">
-            <div>
-              <div className="display text-4xl sm:text-6xl">READY TO ADAPT?</div>
-              <div className="text-sm mt-2 opacity-80">
-                Onboarding takes 30 seconds. Browser stores it all. No emails.
-              </div>
-            </div>
-            <Link to="/onboarding">
-              <Button size="lg" variant="outline" className="!bg-black !text-[var(--color-neon)] !border-black">
-                Start now <ArrowRight className="w-4 h-4" />
-              </Button>
-            </Link>
-          </Card>
-        </section>
       </div>
       <Footer />
     </>
