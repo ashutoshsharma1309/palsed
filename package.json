@@ -1,0 +1,22 @@
+{
+  "name": "palsed",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently -n server,client -c green,magenta \"npm:dev:server\" \"npm:dev:client\"",
+    "dev:server": "cd server && npm run dev",
+    "dev:client": "wait-on file:./.ports.json && cd client && npm run dev",
+    "install:all": "npm install && (cd server && npm install) && (cd client && npm install)",
+    "build": "(cd client && npm install --include=dev && npm run build)",
+    "postinstall": "(cd server && npm install) && (cd client && npm install --include=dev)",
+    "start": "cd server && NODE_ENV=production node index.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.1",
+    "wait-on": "^8.0.1"
+  }
+}

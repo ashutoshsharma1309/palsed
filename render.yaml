@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: palsed
+    runtime: node
+    plan: free
+    region: oregon
+    buildCommand: npm install && cd client && npm install --include=dev && npm run build && cd ../server && npm install
+    startCommand: cd server && NODE_ENV=production node index.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: GROQ_API_KEY
+        sync: false
+      - key: CORS_ALLOW_ALL
+        value: "1"
+    healthCheckPath: /api/health
