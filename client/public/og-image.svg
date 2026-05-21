@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <defs>
+    <pattern id="g" x="0" y="0" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M 48 0 L 0 0 0 48" fill="none" stroke="#c8ff3d" stroke-opacity="0.08" stroke-width="1"/>
+    </pattern>
+    <radialGradient id="glow" cx="0.5" cy="0.5">
+      <stop offset="0" stop-color="#c8ff3d" stop-opacity="0.25"/>
+      <stop offset="1" stop-color="#c8ff3d" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="#0a0a0a"/>
+  <rect width="1200" height="630" fill="url(#g)"/>
+  <circle cx="900" cy="200" r="280" fill="url(#glow)"/>
+  <text x="80" y="100" font-family="Share Tech Mono, monospace" font-size="22" fill="#c8ff3d" letter-spacing="6">// ADAPTIVE AI LEARNING UNIVERSE</text>
+  <text x="80" y="260" font-family="Anton, Impact, sans-serif" font-size="180" font-weight="900" fill="#ffffff" letter-spacing="-4">PALSED</text>
+  <text x="80" y="380" font-family="Inter, sans-serif" font-size="36" fill="#c8ff3d" font-weight="800">Your adaptive AI learning universe.</text>
+  <text x="80" y="440" font-family="Inter, sans-serif" font-size="22" fill="#a0a0a0">Multi-style lessons · Adaptive difficulty · Spaced repetition · Pure browser</text>
+  <g transform="translate(80,520)">
+    <rect width="280" height="48" rx="24" fill="#c8ff3d"/>
+    <text x="140" y="32" font-family="Inter, sans-serif" font-size="20" font-weight="700" fill="#000" text-anchor="middle">Start learning →</text>
+  </g>
+  <text x="1120" y="600" font-family="Share Tech Mono, monospace" font-size="14" fill="#666" text-anchor="end">localStorage · Free forever</text>
+</svg>

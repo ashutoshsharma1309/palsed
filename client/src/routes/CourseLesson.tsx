@@ -9,6 +9,7 @@ import { Card } from "../components/ui/Card";
 import { Button } from "../components/ui/Button";
 import { Loader } from "../components/ui/Loader";
 import { MarkdownView } from "../components/lesson/MarkdownView";
+import { MermaidDiagram } from "../components/lesson/MermaidDiagram";
 import { apiPost } from "../lib/api";
 import type { AICourse, LessonProgress, Style } from "../types/course";
 import type { Profile } from "./Onboarding";
@@ -227,10 +228,7 @@ export default function CourseLesson() {
         <MarkdownView>{exp.markdown}</MarkdownView>
 
         {style === "visual" && exp && (exp as any).diagram_mermaid && (
-          <div className="mt-4 p-4 bg-[#0a0a0a] rounded-lg overflow-x-auto">
-            <div className="mono text-xs text-white/50 mb-2">// mermaid source</div>
-            <pre className="text-xs text-white/80 mono whitespace-pre-wrap">{(exp as any).diagram_mermaid}</pre>
-          </div>
+          <MermaidDiagram source={(exp as any).diagram_mermaid} />
         )}
 
         {style === "code_first" && (exp as any).code_examples?.map((ex: any, i: number) => (

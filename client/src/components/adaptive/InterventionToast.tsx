@@ -21,6 +21,8 @@ export function InterventionToast() {
       lowSinceRef.current = null;
       return;
     }
+    // Mute interventions during Focus Mode — deep work is sacred
+    if ((window as any).__palsed_focus_active) return;
     if (signal < STUCK_THRESHOLD) {
       if (lowSinceRef.current === null) lowSinceRef.current = Date.now();
       const elapsed = Date.now() - lowSinceRef.current;

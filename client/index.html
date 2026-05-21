@@ -2,8 +2,34 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#0a0a0a" />
+
     <title>PalsEd — Your Adaptive AI Learning Universe</title>
+    <meta name="description" content="PalsEd watches how you learn — your pace, your engagement, your gaps — and reshapes every lesson, hint, and quiz to fit you. Multi-style explanations, adaptive difficulty, spaced repetition. Pure browser. Free." />
+    <meta name="keywords" content="adaptive learning, AI tutor, DSA practice, spaced repetition, system design, coding interview prep" />
+    <meta name="author" content="PalsEd" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="PalsEd" />
+    <meta property="og:title" content="PalsEd — Your Adaptive AI Learning Universe" />
+    <meta property="og:description" content="Adaptive AI lessons that reshape themselves to your pace. Multi-style explanations · Adaptive difficulty · Spaced repetition." />
+    <meta property="og:image" content="/og-image.svg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="PalsEd — Adaptive AI Learning" />
+    <meta name="twitter:description" content="Multi-style lessons that adapt to your pace. Pure browser, free, no signup." />
+    <meta name="twitter:image" content="/og-image.svg" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -17,6 +43,11 @@
   </head>
   <body>
     <div id="root"></div>
+    <noscript>
+      <div style="font-family:sans-serif;padding:40px;color:#fff;background:#0a0a0a;text-align:center">
+        PalsEd needs JavaScript. Please enable it.
+      </div>
+    </noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Send } from "lucide-react";
+import { Send, Mic, MicOff } from "lucide-react";
+import { useVoiceInput } from "../hooks/useVoiceInput";
 import toast from "react-hot-toast";
 import { Card } from "../components/ui/Card";
 import { Button } from "../components/ui/Button";
@@ -29,6 +30,7 @@ export default function Tutor() {
   const [draft, setDraft] = useState("");
   const [loading, setLoading] = useState(false);
   const [followups, setFollowups] = useState<string[]>([]);
+  const voice = useVoiceInput((text) => setDraft((d) => (d ? d + " " : "") + text));
 
   const newThread = () => {
     const t: Thread = {
@@ -135,11 +137,20 @@ export default function Tutor() {
           <div className="flex gap-2">
             <input
               className="flex-1 bg-[#1a1a1a] border border-white/10 rounded-full px-4 py-2.5 outline-none focus:border-[var(--color-neon)]"
-              placeholder="Ask the tutor…"
+              placeholder={voice.listening ? "Listening…" : "Ask the tutor…"}
               value={draft}
               onChange={(e) => setDraft(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && send(draft)}
             />
+            {voice.supported && (
+              <Button
+                variant={voice.listening ? "danger" : "outline"}
+                onClick={voice.toggle}
+                title={voice.listening ? "Stop listening" : "Voice input"}
+              >
+                {voice.listening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
+              </Button>
+            )}
             <Button onClick={() => send(draft)} disabled={loading}>
               <Send className="w-4 h-4" />
             </Button>
