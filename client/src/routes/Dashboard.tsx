@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useLocalStorageState, LS_KEYS } from "../hooks/useLocalStorageState";
 import { useMastery } from "../hooks/useMastery";
 import { useSRS } from "../hooks/useSRS";
+import { usePlacementProgress } from "../hooks/usePlacementProgress";
 import { useEngagement } from "../components/adaptive/EngagementProvider";
 import { Card } from "../components/ui/Card";
 import { Button } from "../components/ui/Button";
@@ -9,7 +10,7 @@ import { Donut } from "../components/ui/Donut";
 import { Radar } from "../components/ui/Radar";
 import { ProgressBar } from "../components/ui/ProgressBar";
 import type { Profile } from "./Onboarding";
-import { Flame, GraduationCap, Map as MapIcon, BrainCircuit, Layers, Sparkles, AlertTriangle } from "lucide-react";
+import { Flame, GraduationCap, Map as MapIcon, BrainCircuit, Layers, Sparkles, AlertTriangle, Rocket, ArrowRight, Bookmark } from "lucide-react";
 
 const DEFAULT_PROFILE: Profile = {
   displayName: "Learner",
@@ -29,6 +30,7 @@ export default function Dashboard() {
   const { map: mastery, top } = useMastery();
   const { dueCount } = useSRS();
   const { streakDays, log } = useEngagement();
+  const placement = usePlacementProgress();
 
   const solved = Object.values(statuses).filter((s) => s === "solved").length;
   const attempted = Object.values(statuses).filter((s) => s === "attempted").length;
@@ -105,6 +107,69 @@ export default function Dashboard() {
           <div className="text-xs text-white/40 mt-2">{attempted} attempted but unsolved</div>
         </Card>
       </div>
+
+      {/* Placement Hub analytics */}
+      <Card className="mb-6 bg-white/[0.04] backdrop-blur-xl">
+        <div className="flex items-center justify-between mb-5 flex-wrap gap-3">
+          <div className="flex items-center gap-3">
+            <Rocket className="w-5 h-5 text-[var(--color-neon)]" />
+            <h3 className="display text-2xl">PLACEMENT HUB.</h3>
+          </div>
+          <Link to="/placement-hub">
+            <Button size="sm" variant="outline">
+              Open hub <ArrowRight className="w-4 h-4" />
+            </Button>
+          </Link>
+        </div>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 items-center">
+          <div className="flex items-center gap-4">
+            <Donut
+              size={84}
+              thickness={11}
+              showLegend={false}
+              centerValue={placement.readinessScore}
+              segments={[
+                { label: "Ready", value: placement.readinessScore, color: "#c8ff3d" },
+                { label: "Left", value: Math.max(0, 100 - placement.readinessScore), color: "#1f1f1f" },
+              ]}
+            />
+            <div>
+              <div className="mono text-[11px] uppercase tracking-widest text-white/50">Readiness</div>
+              <div className="text-xs text-white/40 mt-1">placement score</div>
+            </div>
+          </div>
+          <div>
+            <div className="mono text-[11px] uppercase tracking-widest text-white/50 mb-2">Topics completed</div>
+            <div className="display text-4xl">
+              {placement.completedCount}<span className="text-white/30 text-xl">/{placement.totalTopics}</span>
+            </div>
+            <div className="mt-2"><ProgressBar value={placement.completionPct} /></div>
+          </div>
+          <div>
+            <div className="mono text-[11px] uppercase tracking-widest text-white/50 mb-2">Recommended next</div>
+            <ul className="space-y-1">
+              {placement.recommended.slice(0, 3).map((r) => (
+                <li key={r.topicId} className="text-sm text-white/75 truncate">
+                  <Link to="/placement-hub" className="hover:text-[var(--color-neon)]">
+                    {r.topicTitle}
+                    <span className="text-white/30 text-xs"> · {r.sectionTitle}</span>
+                  </Link>
+                </li>
+              ))}
+              {placement.recommended.length === 0 && (
+                <li className="text-sm text-[var(--color-neon)]">All topics done 🎉</li>
+              )}
+            </ul>
+          </div>
+          <div>
+            <div className="mono text-[11px] uppercase tracking-widest text-white/50 mb-2 flex items-center gap-1.5">
+              <Bookmark className="w-3.5 h-3.5" /> Saved resources
+            </div>
+            <div className="display text-4xl">{placement.bookmarks.length}</div>
+            <div className="text-xs text-white/40 mt-1">bookmarked across the hub</div>
+          </div>
+        </div>
+      </Card>
 
       <div className="grid lg:grid-cols-3 gap-5 mb-6">
         <Card className="lg:col-span-2">

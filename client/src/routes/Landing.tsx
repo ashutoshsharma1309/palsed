@@ -95,47 +95,86 @@ export default function Landing() {
           </nav>
         </header>
 
-        <section className="mx-auto max-w-7xl px-4 sm:px-6 pt-12 pb-24">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="max-w-5xl"
-          >
-            <div className="mono text-xs uppercase tracking-[0.3em] text-[var(--color-neon)] mb-4">
-              · adaptive ai learning universe ·
-            </div>
-            <h1 className="display text-[14vw] sm:text-[110px] lg:text-[150px] leading-[0.85]">
-              YOUR
-              <br />
-              ADAPTIVE
-              <br />
-              <span className="neon-text">LEARNING</span>
-              <br />
-              UNIVERSE.
-            </h1>
-            <p className="text-lg sm:text-xl text-white/70 max-w-2xl mt-8">
-              PrepNext watches how you learn — your pace, your engagement, your gaps — and reshapes
-              every lesson, hint, and quiz to fit you. Pure browser, zero backend storage,
-              ridiculously powerful AI.
-            </p>
-            <div className="flex flex-wrap gap-3 mt-10">
-              <Link to="/onboarding">
-                <Button size="lg">
-                  Start learning <ArrowRight className="w-4 h-4" />
-                </Button>
-              </Link>
-              <Link to="/dsa">
-                <Button size="lg" variant="outline">
-                  Browse DSA Hub
-                </Button>
-              </Link>
-            </div>
+        <section className="mx-auto max-w-7xl px-4 sm:px-6 pt-12 pb-20">
+          <div className="grid lg:grid-cols-[1.35fr_minmax(340px,420px)] gap-10 lg:gap-12 items-center">
+            {/* LEFT — hero content (unchanged copy) */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              <div className="mono text-xs uppercase tracking-[0.3em] text-[var(--color-neon)] mb-4">
+                · adaptive ai learning universe ·
+              </div>
+              <h1 className="display text-[13vw] sm:text-[90px] lg:text-[112px] leading-[0.85]">
+                YOUR
+                <br />
+                ADAPTIVE
+                <br />
+                <span className="neon-text">LEARNING</span>
+                <br />
+                UNIVERSE.
+              </h1>
+              <div className="flex flex-wrap gap-3 mt-10">
+                <Link to="/onboarding">
+                  <Button size="lg">
+                    Start learning <ArrowRight className="w-4 h-4" />
+                  </Button>
+                </Link>
+                <Link to="/dsa">
+                  <Button size="lg" variant="outline">
+                    Browse DSA Hub
+                  </Button>
+                </Link>
+              </div>
+            </motion.div>
 
-            <div id="signin" className="mt-16 scroll-mt-24">
+            {/* RIGHT — authentication card */}
+            <motion.div
+              id="signin"
+              className="scroll-mt-24 flex justify-center lg:justify-end"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.15 }}
+            >
               <AuthPanel />
+            </motion.div>
+          </div>
+        </section>
+
+        {/* PLACEMENT TRAINING HUB — prominent promo */}
+        <section className="mx-auto max-w-7xl px-4 sm:px-6 pb-20">
+          <Link to="/placement-hub" className="block group" aria-label="Explore the Placement Training Hub">
+            <div className="relative overflow-hidden rounded-3xl border border-[var(--color-neon)]/30 bg-white/[0.04] backdrop-blur-2xl p-8 sm:p-12 transition-all duration-300 group-hover:border-[var(--color-neon)] group-hover:shadow-[0_10px_60px_rgba(200,255,61,0.18)]">
+              <div className="absolute -right-16 -top-16 w-72 h-72 rounded-full bg-[var(--color-neon)]/10 blur-3xl pointer-events-none" />
+              <div className="relative flex flex-col lg:flex-row lg:items-center gap-8 justify-between">
+                <div className="max-w-2xl">
+                  <div className="mono text-xs uppercase tracking-[0.3em] text-[var(--color-neon)] mb-3">
+                    · new · one-stop placement prep ·
+                  </div>
+                  <h2 className="display text-4xl sm:text-6xl">
+                    PLACEMENT TRAINING <span className="neon-text">HUB.</span>
+                  </h2>
+                  <p className="text-white/65 mt-4 text-lg">
+                    Languages, DSA, LeetCode, Web, ML, AI, App Dev, Aptitude, Core CS, and Interviews —
+                    curated roadmaps and resources with progress tracking, all in one place.
+                  </p>
+                  <div className="flex flex-wrap gap-2 mt-5">
+                    {["DSA", "LeetCode", "Web Dev", "ML / AI", "Core CS", "Interviews"].map((t) => (
+                      <span key={t} className="text-xs px-3 py-1 rounded-full border border-white/15 text-white/70">
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                <div className="shrink-0">
+                  <Button size="lg">
+                    Explore Placement Hub <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                  </Button>
+                </div>
+              </div>
             </div>
-          </motion.div>
+          </Link>
         </section>
 
         <section className="border-y border-white/10 bg-black/40 backdrop-blur-sm">
