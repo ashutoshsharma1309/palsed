@@ -8,6 +8,7 @@ import { InterventionToast } from "./components/adaptive/InterventionToast";
 import { FocusMode } from "./components/adaptive/FocusMode";
 import { CommandPalette } from "./components/CommandPalette";
 import { ErrorBoundary } from "./components/ErrorBoundary";
+import { RequireAuth } from "./components/auth/RequireAuth";
 import { Loader } from "./components/ui/Loader";
 import { refreshApiUrl } from "./lib/api";
 
@@ -77,31 +78,37 @@ export default function App() {
             <main className="flex-1">
               <Suspense fallback={<div className="py-32"><Loader label="Loading" /></div>}>
                 <Routes>
+                  {/* Public — accessible without login */}
                   <Route path="/" element={<Landing />} />
-                  <Route path="/onboarding" element={<Onboarding />} />
-                  <Route path="/dashboard" element={<Dashboard />} />
-                  <Route path="/dsa" element={<Dsa />} />
-                  <Route path="/dsa/:slug" element={<DsaProblem />} />
-                  <Route path="/courses" element={<Courses />} />
-                  <Route path="/courses/create" element={<CourseCreate />} />
-                  <Route path="/courses/:id" element={<CourseDetail />} />
-                  <Route path="/courses/:id/lesson/:lessonId" element={<CourseLesson />} />
-                  <Route path="/courses/:id/quiz" element={<CourseQuiz />} />
-                  <Route path="/roadmaps" element={<Roadmaps />} />
-                  <Route path="/roadmaps/create" element={<RoadmapCreate />} />
-                  <Route path="/roadmaps/:id" element={<RoadmapDetail />} />
-                  <Route path="/tutor" element={<Tutor />} />
-                  <Route path="/review" element={<Review />} />
-                  <Route path="/system-design" element={<SystemDesign />} />
-                  <Route path="/core-cs" element={<CoreCs />} />
-                  <Route path="/aptitude" element={<Aptitude />} />
-                  <Route path="/interview-resources" element={<InterviewResources />} />
-                  <Route path="/mastery" element={<Mastery />} />
-                  <Route path="/engagement" element={<Engagement />} />
-                  <Route path="/certificates" element={<Certificates />} />
                   <Route path="/verify-certificate" element={<VerifyCertificate />} />
-                  <Route path="/settings" element={<Settings />} />
-                  <Route path="/placement-hub" element={<PlacementHub />} />
+
+                  {/* Protected — login required */}
+                  <Route element={<RequireAuth />}>
+                    <Route path="/onboarding" element={<Onboarding />} />
+                    <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/dsa" element={<Dsa />} />
+                    <Route path="/dsa/:slug" element={<DsaProblem />} />
+                    <Route path="/courses" element={<Courses />} />
+                    <Route path="/courses/create" element={<CourseCreate />} />
+                    <Route path="/courses/:id" element={<CourseDetail />} />
+                    <Route path="/courses/:id/lesson/:lessonId" element={<CourseLesson />} />
+                    <Route path="/courses/:id/quiz" element={<CourseQuiz />} />
+                    <Route path="/roadmaps" element={<Roadmaps />} />
+                    <Route path="/roadmaps/create" element={<RoadmapCreate />} />
+                    <Route path="/roadmaps/:id" element={<RoadmapDetail />} />
+                    <Route path="/tutor" element={<Tutor />} />
+                    <Route path="/review" element={<Review />} />
+                    <Route path="/system-design" element={<SystemDesign />} />
+                    <Route path="/core-cs" element={<CoreCs />} />
+                    <Route path="/aptitude" element={<Aptitude />} />
+                    <Route path="/interview-resources" element={<InterviewResources />} />
+                    <Route path="/mastery" element={<Mastery />} />
+                    <Route path="/engagement" element={<Engagement />} />
+                    <Route path="/certificates" element={<Certificates />} />
+                    <Route path="/settings" element={<Settings />} />
+                    <Route path="/placement-hub" element={<PlacementHub />} />
+                  </Route>
+
                   <Route path="/auth" element={<Navigate to="/onboarding" replace />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>

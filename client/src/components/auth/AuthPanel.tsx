@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { LogIn, UserPlus, LogOut, ArrowRight } from "lucide-react";
 import { Button } from "../ui/Button";
 import { useAuth } from "../../hooks/useAuth";
@@ -17,6 +17,9 @@ const shell =
 export function AuthPanel() {
   const { isAuthenticated, user, login, signup, logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  // Where to land after auth: the page the user was bounced from, else dashboard.
+  const dest = (location.state as { from?: string } | null)?.from || "/dashboard";
 
   const [tab, setTab] = useState<Tab>("signup"); // Create Account first — new users are primary.
   const [fullName, setFullName] = useState("");
@@ -60,7 +63,7 @@ export function AuthPanel() {
     try {
       if (tab === "signup") await signup(email, password, fullName);
       else await login(email, password);
-      navigate("/dashboard");
+      navigate(dest, { replace: true });
     } catch (err: any) {
       setError(err?.message || "Something went wrong");
     } finally {
