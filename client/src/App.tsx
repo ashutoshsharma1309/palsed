@@ -37,6 +37,7 @@ const Engagement = lazy(() => import("./routes/Engagement"));
 const Certificates = lazy(() => import("./routes/Certificates"));
 const VerifyCertificate = lazy(() => import("./routes/VerifyCertificate"));
 const Settings = lazy(() => import("./routes/Settings"));
+const PlacementHub = lazy(() => import("./routes/PlacementHub"));
 const NotFound = lazy(() => import("./routes/NotFound"));
 
 function ScrollToTop() {
@@ -100,6 +101,7 @@ export default function App() {
                   <Route path="/certificates" element={<Certificates />} />
                   <Route path="/verify-certificate" element={<VerifyCertificate />} />
                   <Route path="/settings" element={<Settings />} />
+                  <Route path="/placement-hub" element={<PlacementHub />} />
                   <Route path="/auth" element={<Navigate to="/onboarding" replace />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>

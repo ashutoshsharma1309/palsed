@@ -6,6 +6,7 @@ import { useEngagement } from "../adaptive/EngagementProvider";
 
 const LINKS = [
   { to: "/dashboard", label: "Dashboard" },
+  { to: "/placement-hub", label: "Placement Hub" },
   { to: "/dsa", label: "DSA" },
   { to: "/courses", label: "Courses" },
   { to: "/roadmaps", label: "Roadmaps" },
