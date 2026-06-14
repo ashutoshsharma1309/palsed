@@ -304,24 +304,32 @@ export default function Landing() {
           <div className="space-y-2">
             {[
               {
+                q: "Who is PrepNext for?",
+                a: "Students, job-seekers, career switchers, and working professionals preparing for technical interviews and campus placements — anyone who wants a structured, personalized path instead of scattered resources.",
+              },
+              {
                 q: "Do I need an account?",
-                a: "Yes — create a free account so your progress, courses, and mastery sync securely to your profile.",
+                a: "Yes. A free account lets PrepNext securely sync your progress, courses, mastery scores, and bookmarks to your profile so you can pick up on any device.",
               },
               {
-                q: "How does the AI know me?",
-                a: "Every interaction (lesson, quiz, DSA solve) feeds per-topic mastery scores. Those scores get bundled into every AI request so the model adapts.",
+                q: "How does the personalization work?",
+                a: "PrepNext continuously models your skill level from every lesson, quiz, and problem you complete. It then targets the difficulty to your ~70% success band, adapts explanations to your preferred style, and schedules spaced repetition on the topics you find hardest.",
               },
               {
-                q: "What model is this?",
-                a: "openai/gpt-oss-120b through Groq. Strict JSON mode, validated server-side.",
+                q: "Is my data secure?",
+                a: "Yes. Passwords are hashed with bcrypt (never stored in plain text), sessions use signed JWTs, and every account's data is fully isolated. Your learning data is kept in a managed cloud database.",
               },
               {
-                q: "Can I export my progress?",
-                a: "Yes. /settings → Export → download a JSON blob. Import it on another machine and you're back where you left off.",
+                q: "How much does it cost?",
+                a: "You can get started for free. Core adaptive learning, the Placement Hub, and progress tracking are available at no cost while PrepNext is in active development.",
               },
               {
-                q: "Is the resource content yours?",
-                a: "No. PrepNext links out to canonical sources (donnemartin/system-design-primer, OSTEP, CMU 15-445, IndiaBix, etc.). We don't host or republish anything.",
+                q: "Where do the learning resources come from?",
+                a: "PrepNext curates and links to authoritative, canonical sources (official docs, well-known open-source sheets, and reputable courses) alongside its own AI-generated lessons. We surface the best material — we don't republish third-party content.",
+              },
+              {
+                q: "Can I export my data?",
+                a: "Absolutely. From Settings you can export a complete backup of your learning data and re-import it anytime — your progress is always yours.",
               },
             ].map((f, i) => (
               <details key={i} className="card-base p-5 group">
