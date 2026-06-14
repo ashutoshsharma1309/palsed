@@ -9,21 +9,28 @@
     "dev:client": "wait-on file:./.ports.json && cd client && npm run dev",
     "install:all": "npm install && (cd client && npm install)",
     "build": "(cd client && npm install --include=dev && npm run build)",
-    "start": "NODE_ENV=production node server/index.js"
+    "start": "NODE_ENV=production node server/index.js",
+    "postinstall": "prisma generate --schema=server/prisma/schema.prisma"
   },
   "engines": {
     "node": ">=20"
   },
   "dependencies": {
+    "@prisma/adapter-mariadb": "^7.8.0",
+    "@prisma/client": "^7.8.0",
+    "bcryptjs": "^3.0.3",
     "compression": "^1.8.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "groq-sdk": "^0.9.1",
+    "jsonwebtoken": "^9.0.3",
+    "mariadb": "^3.5.3",
     "morgan": "^1.10.0"
   },
   "devDependencies": {
     "concurrently": "^9.0.1",
+    "prisma": "^7.8.0",
     "wait-on": "^8.0.1"
   }
 }
