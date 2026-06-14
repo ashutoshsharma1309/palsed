@@ -59,7 +59,7 @@ export default function Onboarding() {
           <div className="mono text-xs text-[var(--color-neon)] uppercase tracking-[0.3em] mb-3">
             // onboarding · step {step + 1} / 4
           </div>
-          <h1 className="display text-5xl sm:text-6xl mb-8">SET UP PALSED.</h1>
+          <h1 className="display text-5xl sm:text-6xl mb-8">SET UP PREPNEXT.</h1>
 
           <Card className="space-y-6">
             {step === 0 && (
@@ -160,7 +160,7 @@ export default function Onboarding() {
               {step < 3 ? (
                 <Button onClick={() => setStep((s) => s + 1)}>Continue</Button>
               ) : (
-                <Button onClick={finish}>Enter PalsEd →</Button>
+                <Button onClick={finish}>Enter PrepNext →</Button>
               )}
             </div>
           </div>

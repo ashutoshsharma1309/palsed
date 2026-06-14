@@ -182,7 +182,7 @@ export default function CourseQuiz() {
           ) : (
             <div className="border-t border-white/10 pt-6">
               <div className="text-white/70 mb-3">
-                Almost there. PalsEd added your missed questions to your spaced-repetition queue —
+                Almost there. PrepNext added your missed questions to your spaced-repetition queue —
                 come back tomorrow for review and re-take.
               </div>
               <Link to="/review"><Button fullWidth variant="outline">Open review queue</Button></Link>

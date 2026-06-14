@@ -1,4 +1,4 @@
-# PalsEd — Your Adaptive AI Learning Universe
+# PrepNext — Your Adaptive AI Learning Universe
 
 Built for the Pals hackathon · Challenge 3 (Education / AI).
 

@@ -12,6 +12,8 @@ import tutorRouter from "./routes/tutor.js";
 import quizRouter from "./routes/quiz.js";
 import feedbackRouter from "./routes/feedback.js";
 import healthRouter from "./routes/health.js";
+import dbRouter from "./routes/db/index.js";
+import authRouter from "./routes/auth.js";
 
 export function buildApp() {
   const app = express();
@@ -38,8 +40,14 @@ export function buildApp() {
     rate.set(key, arr);
     next();
   });
+
+  // DB CRUD layer — mounted before the strict body validator because legitimate
+  // payloads (e.g. a full AI course) are large/deeply nested. Still rate-limited.
+  app.use("/api/db", dbRouter);
+
   app.use("/api/", validateRequestBody);
 
+  app.use("/api/auth", authRouter);
   app.use("/api/health", healthRouter);
   app.use("/api/roadmaps", roadmapsRouter);
   app.use("/api/courses", coursesRouter);

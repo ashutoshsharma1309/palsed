@@ -28,7 +28,7 @@ export default function Settings() {
     const url = URL.createObjectURL(data);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `palsed-${new Date().toISOString().slice(0, 10)}.json`;
+    a.download = `prepnext-${new Date().toISOString().slice(0, 10)}.json`;
     a.click();
     URL.revokeObjectURL(url);
     toast.success("Exported your data");
@@ -107,7 +107,7 @@ export default function Settings() {
       <Card className="mb-6">
         <h2 className="display text-2xl mb-4">EXPORT / IMPORT.</h2>
         <p className="text-sm text-white/60 mb-4">
-          PalsEd is 100% localStorage. Export your blob to back it up or move browsers.
+          PrepNext is 100% localStorage. Export your blob to back it up or move browsers.
         </p>
         <div className="flex flex-wrap gap-3">
           <Button onClick={exportData}>Export JSON</Button>
@@ -121,7 +121,7 @@ export default function Settings() {
       <Card>
         <h2 className="display text-2xl mb-4">WIPE EVERYTHING.</h2>
         <p className="text-sm text-white/60 mb-4">
-          Removes your profile, courses, mastery, SRS — everything PalsEd has saved on this browser.
+          Removes your profile, courses, mastery, SRS — everything PrepNext has saved on this browser.
           No undo.
         </p>
         {confirming ? (

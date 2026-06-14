@@ -30,7 +30,7 @@ export function Nav() {
           to="/"
           className="display text-2xl tracking-tight neon-text shrink-0"
         >
-          PALSED
+          PREPNEXT
         </Link>
 
         <div className="hidden lg:flex items-center gap-1">
