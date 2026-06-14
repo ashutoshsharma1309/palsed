@@ -81,3 +81,7 @@ The client checks `/runtime-config.json` at startup so the API URL is hot-pickup
 - **SM-2 lite SRS**: wrong answers + unsolved DSA problems land in `/review`
 - **Client-side certificates**: jsPDF + QR + URL-payload verification
 - **150 hand-curated DSA problems** across 18 topics; **~140 curated resource links**
+
+---
+
+Made by **Ashutosh Sharma** — [www.linkedin.com/in/ashutoshsharma1309](https://www.linkedin.com/in/ashutoshsharma1309)

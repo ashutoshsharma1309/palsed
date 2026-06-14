@@ -5,11 +5,22 @@ export function Footer() {
         <div>
           <div className="display text-2xl neon-text">PREPNEXT</div>
           <div className="text-xs text-white/40 mt-1 mono">
-            adaptive · ai-driven · localstorage-only · free forever
+            adaptive · ai-driven · cloud-synced
           </div>
         </div>
-        <div className="text-xs text-white/40 mono">
-          built for the pals hackathon — challenge 3 / education · ai
+        <div className="text-xs text-white/40 mono md:text-right">
+          <div>© {new Date().getFullYear()} PrepNext. All rights reserved.</div>
+          <div className="mt-2 text-white/60">
+            Made by Ashutosh Sharma ·{" "}
+            <a
+              href="https://www.linkedin.com/in/ashutoshsharma1309"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[var(--color-neon)] hover:underline"
+            >
+              linkedin.com/in/ashutoshsharma1309
+            </a>
+          </div>
         </div>
       </div>
     </footer>

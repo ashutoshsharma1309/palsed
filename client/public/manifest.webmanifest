@@ -1,7 +1,7 @@
 {
-  "name": "PalsEd — Adaptive AI Learning",
-  "short_name": "PalsEd",
-  "description": "Your adaptive AI learning universe. Multi-style lessons, adaptive difficulty, spaced repetition — all in your browser.",
+  "name": "PrepNext — Adaptive AI Learning & Placement Prep",
+  "short_name": "PrepNext",
+  "description": "AI-powered adaptive learning and placement preparation: personalized roadmaps, DSA practice, multi-style lessons, and progress tracking.",
   "start_url": "/dashboard",
   "scope": "/",
   "display": "standalone",

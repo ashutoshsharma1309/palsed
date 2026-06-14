@@ -49,8 +49,8 @@ const FEATURES = [
 ];
 
 const HOW_IT_ADAPTS = [
-  { n: "01", t: "Profile you", d: "Pick a goal + a preferred teaching style at onboarding. Your browser is your identity." },
-  { n: "02", t: "Watch you learn", d: "Every interaction feeds per-topic EWMA mastery scores stored in localStorage." },
+  { n: "01", t: "Profile you", d: "Pick a goal + a preferred teaching style when you create your account." },
+  { n: "02", t: "Watch you learn", d: "Every interaction feeds per-topic EWMA mastery scores that build your profile." },
   { n: "03", t: "Tune difficulty", d: "Next question / next problem aims at your ~70% success band. Easy when you struggle, hard when you fly." },
   { n: "04", t: "Pivot the explanation", d: "Stuck? PrepNext offers a re-explanation in a different style or shortens the lesson." },
 ];
@@ -58,8 +58,8 @@ const HOW_IT_ADAPTS = [
 const STATS = [
   { v: "150+", l: "Curated DSA problems" },
   { v: "400+", l: "Curated resource links" },
+  { v: "10", l: "Placement prep tracks" },
   { v: "4", l: "Teaching styles per lesson" },
-  { v: "0", l: "Servers needed to run you" },
 ];
 
 export default function Landing() {
@@ -220,8 +220,8 @@ export default function Landing() {
             {[
               "Adaptive",
               "AI-Driven",
-              "localStorage-only",
-              "Free Forever",
+              "Cloud-Synced",
+              "Secure Accounts",
             ].map((s, i) => (
               <div key={i} className="flex flex-col">
                 <div className="mono text-xs uppercase tracking-widest text-white/40">// pillar {i + 1}</div>
@@ -305,7 +305,7 @@ export default function Landing() {
             {[
               {
                 q: "Do I need an account?",
-                a: "No. Your browser is your identity. Everything lives in localStorage. Wipe it from /settings whenever you want.",
+                a: "Yes — create a free account so your progress, courses, and mastery sync securely to your profile.",
               },
               {
                 q: "How does the AI know me?",
