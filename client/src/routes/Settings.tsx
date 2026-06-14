@@ -107,7 +107,7 @@ export default function Settings() {
       <Card className="mb-6">
         <h2 className="display text-2xl mb-4">EXPORT / IMPORT.</h2>
         <p className="text-sm text-white/60 mb-4">
-          PrepNext is 100% localStorage. Export your blob to back it up or move browsers.
+          Export your learning data as a backup, or import it on another device.
         </p>
         <div className="flex flex-wrap gap-3">
           <Button onClick={exportData}>Export JSON</Button>
