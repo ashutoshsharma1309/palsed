@@ -1,6 +1,7 @@
-import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
-import { ArrowRight, Brain, Cpu, GitBranch, Layers, Sparkles, Zap } from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowRight, Brain, Cpu, GitBranch, Layers, Sparkles, Zap, X, Lock } from "lucide-react";
 import { Button } from "../components/ui/Button";
 import { Card } from "../components/ui/Card";
 import { Background } from "../components/layout/Background";
@@ -63,6 +64,38 @@ const STATS = [
 
 export default function Landing() {
   const { isAuthenticated, user, logout } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Full-screen auth experience. authGate = { dest, tab } when open, else null.
+  const [authGate, setAuthGate] = useState<{ dest: string; tab: "login" | "signup" } | null>(null);
+
+  // If a route guard bounced an unauthenticated user here, open the gate on the
+  // destination they tried to reach.
+  useEffect(() => {
+    const from = (location.state as { from?: string } | null)?.from;
+    if (from && !isAuthenticated) setAuthGate({ dest: from, tab: "login" });
+  }, [location.state, isAuthenticated]);
+
+  // Lock body scroll while the full-screen gate is open.
+  useEffect(() => {
+    if (!authGate) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [authGate]);
+
+  // CTA handler: authenticated users go straight through; otherwise open the gate.
+  const goOrAuth = useCallback(
+    (dest: string, tab: "login" | "signup" = "signup") => {
+      if (isAuthenticated) navigate(dest);
+      else setAuthGate({ dest, tab });
+    },
+    [isAuthenticated, navigate]
+  );
+
   return (
     <>
       <Background />
@@ -84,12 +117,16 @@ export default function Landing() {
               </>
             ) : (
               <>
-                <a href="#signin" className="text-xs text-white/60 hover:text-white px-3 py-2">
+                <button
+                  type="button"
+                  onClick={() => setAuthGate({ dest: "/dashboard", tab: "login" })}
+                  className="text-xs text-white/60 hover:text-white px-3 py-2"
+                >
                   Sign in
-                </a>
-                <Link to="/onboarding">
-                  <Button size="sm">Get started</Button>
-                </Link>
+                </button>
+                <Button size="sm" onClick={() => setAuthGate({ dest: "/onboarding", tab: "signup" })}>
+                  Get started
+                </Button>
               </>
             )}
           </nav>
@@ -116,16 +153,12 @@ export default function Landing() {
                 UNIVERSE.
               </h1>
               <div className="flex flex-wrap gap-3 mt-10">
-                <Link to="/onboarding">
-                  <Button size="lg">
-                    Start learning <ArrowRight className="w-4 h-4" />
-                  </Button>
-                </Link>
-                <Link to="/dsa">
-                  <Button size="lg" variant="outline">
-                    Browse DSA Hub
-                  </Button>
-                </Link>
+                <Button size="lg" onClick={() => goOrAuth("/onboarding", "signup")}>
+                  Start learning <ArrowRight className="w-4 h-4" />
+                </Button>
+                <Button size="lg" variant="outline" onClick={() => goOrAuth("/dsa", "login")}>
+                  Browse DSA Hub
+                </Button>
               </div>
             </motion.div>
 
@@ -144,7 +177,12 @@ export default function Landing() {
 
         {/* PLACEMENT TRAINING HUB — prominent promo */}
         <section className="mx-auto max-w-7xl px-4 sm:px-6 pb-20">
-          <Link to="/placement-hub" className="block group" aria-label="Explore the Placement Training Hub">
+          <button
+            type="button"
+            onClick={() => goOrAuth("/placement-hub", "signup")}
+            className="block w-full text-left group"
+            aria-label="Explore the Placement Training Hub"
+          >
             <div className="relative overflow-hidden rounded-3xl border border-[var(--color-neon)]/30 bg-white/[0.04] backdrop-blur-2xl p-8 sm:p-12 transition-all duration-300 group-hover:border-[var(--color-neon)] group-hover:shadow-[0_10px_60px_rgba(200,255,61,0.18)]">
               <div className="absolute -right-16 -top-16 w-72 h-72 rounded-full bg-[var(--color-neon)]/10 blur-3xl pointer-events-none" />
               <div className="relative flex flex-col lg:flex-row lg:items-center gap-8 justify-between">
@@ -168,13 +206,13 @@ export default function Landing() {
                   </div>
                 </div>
                 <div className="shrink-0">
-                  <Button size="lg">
+                  <span className="inline-flex items-center justify-center gap-2 font-semibold rounded-full px-7 py-3.5 text-base bg-[var(--color-neon)] text-black transition-all group-hover:shadow-[0_0_28px_rgba(200,255,61,0.55)]">
                     Explore Placement Hub <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                  </Button>
+                  </span>
                 </div>
               </div>
             </div>
-          </Link>
+          </button>
         </section>
 
         <section className="border-y border-white/10 bg-black/40 backdrop-blur-sm">
@@ -299,6 +337,58 @@ export default function Landing() {
 
       </div>
       <Footer />
+
+      {/* Full-screen authentication gate */}
+      <AnimatePresence>
+        {authGate && (
+          <motion.div
+            className="fixed inset-0 z-50 flex items-center justify-center px-4 py-10 overflow-y-auto"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Sign in to continue"
+          >
+            {/* Backdrop — fades out the marketing/hero content */}
+            <div
+              className="absolute inset-0 bg-black/85 backdrop-blur-2xl"
+              onClick={() => setAuthGate(null)}
+            />
+
+            <motion.div
+              className="relative w-full max-w-md"
+              initial={{ opacity: 0, scale: 0.94, y: 18 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.96, y: 10 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+            >
+              <button
+                type="button"
+                onClick={() => setAuthGate(null)}
+                aria-label="Close sign in"
+                className="absolute -top-12 right-0 p-2 rounded-full text-white/60 hover:text-white hover:bg-white/10 transition-colors"
+              >
+                <X className="w-6 h-6" />
+              </button>
+
+              <div className="text-center mb-6">
+                <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-[var(--color-neon)]/12 border border-[var(--color-neon)]/40 text-[var(--color-neon)] mb-4">
+                  <Lock className="w-6 h-6" aria-hidden="true" />
+                </div>
+                <h2 className="display text-3xl sm:text-4xl">UNLOCK PREPNEXT.</h2>
+                <p className="text-white/60 text-sm mt-3 max-w-sm mx-auto">
+                  Sign in to access DSA Practice, Placement Preparation, Progress Tracking, and
+                  Personalized Learning.
+                </p>
+              </div>
+
+              <AuthPanel redirectTo={authGate.dest} defaultTab={authGate.tab} />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }

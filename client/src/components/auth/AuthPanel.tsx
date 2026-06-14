@@ -14,14 +14,21 @@ const labelCls = "text-[11px] uppercase tracking-widest text-white/50 mono";
 const shell =
   "w-full max-w-md rounded-3xl border border-white/12 bg-white/[0.05] backdrop-blur-2xl p-6 sm:p-7 shadow-[0_8px_50px_rgba(0,0,0,0.45)] ring-1 ring-[var(--color-neon)]/10";
 
-export function AuthPanel() {
+interface AuthPanelProps {
+  /** Where to send the user after a successful login/signup (overrides router state). */
+  redirectTo?: string;
+  /** Which tab to open with. Defaults to "signup" (new users are primary). */
+  defaultTab?: Tab;
+}
+
+export function AuthPanel({ redirectTo, defaultTab = "signup" }: AuthPanelProps = {}) {
   const { isAuthenticated, user, login, signup, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  // Where to land after auth: the page the user was bounced from, else dashboard.
-  const dest = (location.state as { from?: string } | null)?.from || "/dashboard";
+  // Where to land after auth: explicit prop → router redirect state → dashboard.
+  const dest = redirectTo || (location.state as { from?: string } | null)?.from || "/dashboard";
 
-  const [tab, setTab] = useState<Tab>("signup"); // Create Account first — new users are primary.
+  const [tab, setTab] = useState<Tab>(defaultTab);
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
