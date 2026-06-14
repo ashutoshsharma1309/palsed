@@ -164,7 +164,7 @@ export default function Dashboard() {
             <div className="flex-1">
               <div className="font-bold mb-1">Weak topic alert</div>
               <div className="text-sm text-white/70 mb-3">
-                Your lowest-mastery topics right now: <strong>{weak.join(", ")}</strong>. PalsEd will
+                Your lowest-mastery topics right now: <strong>{weak.join(", ")}</strong>. PrepNext will
                 push easier questions on these and weight your next course toward them.
               </div>
               <Link to="/courses/create">

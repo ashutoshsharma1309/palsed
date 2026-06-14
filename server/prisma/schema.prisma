@@ -1,0 +1,362 @@
+// PrepNext — relational schema for MySQL.
+// Mirrors the entities currently held in browser localStorage, modeled for a
+// real multi-user backend. Deeply-nested AI-generated payloads (lesson
+// explanations, roadmap stages) are kept as JSON columns; the relational
+// structure around them is normalized to 3NF with FKs + indexes.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+// ---------- enums ----------
+
+enum Style {
+  visual
+  code_first
+  analogy
+  step_by_step
+}
+
+enum Level {
+  Beginner
+  Intermediate
+  Advanced
+}
+
+enum LessonStatus {
+  in_progress
+  complete
+}
+
+enum SRSKind {
+  concept
+  dsa
+  quiz
+}
+
+enum TutorRole {
+  user
+  assistant
+}
+
+enum DsaStatus {
+  todo
+  attempted
+  solved
+}
+
+// ---------- account / profile ----------
+
+model User {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  passwordHash  String?  @db.Text // bcrypt hash; null for accounts created before auth (e.g. seed/demo)
+  displayName   String   @default("Learner")
+  avatarSeed    String   @default("")
+  learningGoal  String   @default("Master DSA")
+  preferredStyle Style   @default(step_by_step)
+  dailyMinutes  Int      @default(30)
+  joinedAt      DateTime @default(now())
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  courses        Course[]
+  lessonProgress LessonProgress[]
+  roadmaps       Roadmap[]
+  masteryEntries MasteryEntry[]
+  srsItems       SRSItem[]
+  certificates   Certificate[]
+  tutorThreads   TutorThread[]
+  engagementDays EngagementDay[]
+  interventions  EngagementIntervention[]
+  dsaStatuses    DsaProblemStatus[]
+  dsaBookmarks   DsaBookmark[]
+  dsaAttempts    DsaAttempt[]
+  notes          Note[]
+  notifications  Notification[]
+}
+
+// ---------- courses (course -> chapters -> lessons) ----------
+
+model Course {
+  id                     String   @id @default(cuid())
+  userId                 String
+  externalId             String   // client-generated course id
+  title                  String
+  description            String   @db.Text
+  level                  Level    @default(Beginner)
+  estimatedHours         Int      @default(0)
+  prerequisites          Json // string[]
+  finalQuizTopics        Json // string[]
+  certificatePassingScore Float   @default(0.7)
+  createdAt              DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  chapters Chapter[]
+
+  @@unique([userId, externalId])
+  @@index([userId])
+}
+
+model Chapter {
+  id            String  @id @default(cuid())
+  courseId      String
+  externalId    String
+  title         String
+  summary       String  @db.Text
+  position      Int     @default(0)
+  masteryTopics Json // string[]
+
+  course  Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  lessons Lesson[]
+
+  @@index([courseId])
+}
+
+model Lesson {
+  id               String @id @default(cuid())
+  chapterId        String
+  externalId       String
+  title            String
+  difficulty       Int    @default(1) // 1..5
+  estimatedMinutes Int    @default(0)
+  position         Int    @default(0)
+  explanations     Json // { visual, code_first, analogy, step_by_step }
+  checkQuestions   Json // CheckQuestion[]
+
+  chapter Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+
+  @@index([chapterId])
+}
+
+model LessonProgress {
+  id                String       @id @default(cuid())
+  userId            String
+  courseExternalId  String
+  lessonExternalId  String
+  status            LessonStatus @default(in_progress)
+  score             Float?
+  attempts          Int          @default(0)
+  masteryScore      Float?
+  msSpent           Int          @default(0)
+  preferredStyle    Style?
+  extraExplanations Json? // Array<{ style, markdown, at }>
+  lastAt            DateTime     @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, lessonExternalId])
+  @@index([userId])
+  @@index([userId, courseExternalId])
+}
+
+// ---------- roadmaps ----------
+
+model Roadmap {
+  id          String   @id @default(cuid())
+  userId      String
+  externalId  String
+  title       String
+  description String   @db.Text
+  stages      Json // AIRoadmap.stages[]
+  tools       Json // AIRoadmap.tools[]
+  certifications Json // AIRoadmap.certifications[]
+  careerPath  Json // AIRoadmap.career_path
+  createdAt   DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, externalId])
+  @@index([userId])
+}
+
+// ---------- mastery (EWMA per topic) ----------
+
+model MasteryEntry {
+  id            String   @id @default(cuid())
+  userId        String
+  topic         String
+  score         Float    @default(0)
+  samples       Int      @default(0)
+  lastUpdatedAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, topic])
+  @@index([userId])
+}
+
+// ---------- spaced repetition (SM-2 lite) ----------
+
+model SRSItem {
+  id             String    @id @default(cuid())
+  userId         String
+  itemId         String
+  kind           SRSKind
+  payload        Json?
+  dueAt          DateTime
+  easeFactor     Float     @default(2.5)
+  interval       Int       @default(1)
+  reps           Int       @default(0)
+  lastReviewedAt DateTime?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, itemId, kind])
+  @@index([userId])
+  @@index([userId, dueAt])
+}
+
+// ---------- certificates ----------
+
+model Certificate {
+  id               String   @id @default(cuid())
+  userId           String
+  externalId       String
+  courseExternalId String
+  courseTitle      String
+  displayName      String
+  score            Float
+  verifyCode       String   @unique
+  issuedAt         DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+// ---------- AI tutor (thread -> messages) ----------
+
+model TutorThread {
+  id         String   @id @default(cuid())
+  userId     String
+  externalId String
+  title      String   @default("New chat")
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  user     User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages TutorMessage[]
+
+  @@unique([userId, externalId])
+  @@index([userId])
+}
+
+model TutorMessage {
+  id        String    @id @default(cuid())
+  threadId  String
+  role      TutorRole
+  content   String    @db.Text
+  position  Int       @default(0)
+  createdAt DateTime  @default(now())
+
+  thread TutorThread @relation(fields: [threadId], references: [id], onDelete: Cascade)
+
+  @@index([threadId])
+}
+
+// ---------- engagement analytics ----------
+
+model EngagementDay {
+  id            String   @id @default(cuid())
+  userId        String
+  date          String // YYYY-MM-DD
+  activeMs      Int      @default(0)
+  interventions Int      @default(0)
+  routes        Json // Record<route, ms>
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, date])
+  @@index([userId])
+}
+
+model EngagementIntervention {
+  id     String   @id @default(cuid())
+  userId String
+  at     DateTime @default(now())
+  route  String
+  action String
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+// ---------- DSA practice tracker ----------
+
+model DsaProblemStatus {
+  id        String    @id @default(cuid())
+  userId    String
+  problemId Int
+  status    DsaStatus @default(todo)
+  updatedAt DateTime  @updatedAt @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, problemId])
+  @@index([userId])
+}
+
+model DsaBookmark {
+  id        String   @id @default(cuid())
+  userId    String
+  problemId Int
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, problemId])
+  @@index([userId])
+}
+
+model DsaAttempt {
+  id        String   @id @default(cuid())
+  userId    String
+  problemId Int
+  count     Int      @default(0)
+  msSpent   Int      @default(0)
+  hintsUsed Int      @default(0)
+  lastAt    DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, problemId])
+  @@index([userId])
+}
+
+// ---------- notes & notifications ----------
+
+model Note {
+  id        String   @id @default(cuid())
+  userId    String
+  refKey    String // lesson/problem/course id this note is attached to
+  body      String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([userId, refKey])
+}
+
+model Notification {
+  id        String    @id @default(cuid())
+  userId    String
+  title     String
+  body      String    @db.Text
+  type      String    @default("info")
+  readAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([userId, readAt])
+}

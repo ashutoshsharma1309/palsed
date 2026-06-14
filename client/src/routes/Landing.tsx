@@ -5,6 +5,8 @@ import { Button } from "../components/ui/Button";
 import { Card } from "../components/ui/Card";
 import { Background } from "../components/layout/Background";
 import { Footer } from "../components/layout/Footer";
+import { AuthPanel } from "../components/auth/AuthPanel";
+import { useAuth } from "../hooks/useAuth";
 
 const FEATURES = [
   {
@@ -49,7 +51,7 @@ const HOW_IT_ADAPTS = [
   { n: "01", t: "Profile you", d: "Pick a goal + a preferred teaching style at onboarding. Your browser is your identity." },
   { n: "02", t: "Watch you learn", d: "Every interaction feeds per-topic EWMA mastery scores stored in localStorage." },
   { n: "03", t: "Tune difficulty", d: "Next question / next problem aims at your ~70% success band. Easy when you struggle, hard when you fly." },
-  { n: "04", t: "Pivot the explanation", d: "Stuck? PalsEd offers a re-explanation in a different style or shortens the lesson." },
+  { n: "04", t: "Pivot the explanation", d: "Stuck? PrepNext offers a re-explanation in a different style or shortens the lesson." },
 ];
 
 const STATS = [
@@ -60,19 +62,36 @@ const STATS = [
 ];
 
 export default function Landing() {
+  const { isAuthenticated, user, logout } = useAuth();
   return (
     <>
       <Background />
       <div className="relative z-10">
         <header className="mx-auto max-w-7xl px-4 sm:px-6 flex items-center justify-between h-16">
-          <div className="display text-2xl neon-text">PALSED</div>
+          <div className="display text-2xl neon-text">PREPNEXT</div>
           <nav className="flex items-center gap-2">
-            <Link to="/dashboard" className="text-xs text-white/60 hover:text-white px-3 py-2">
-              Dashboard
-            </Link>
-            <Link to="/onboarding">
-              <Button size="sm">Get started</Button>
-            </Link>
+            {isAuthenticated ? (
+              <>
+                <span className="text-xs text-white/40 px-2 hidden sm:inline">
+                  {user?.displayName}
+                </span>
+                <Link to="/dashboard" className="text-xs text-white/60 hover:text-white px-3 py-2">
+                  Dashboard
+                </Link>
+                <Button size="sm" variant="ghost" onClick={logout}>
+                  Log out
+                </Button>
+              </>
+            ) : (
+              <>
+                <a href="#signin" className="text-xs text-white/60 hover:text-white px-3 py-2">
+                  Sign in
+                </a>
+                <Link to="/onboarding">
+                  <Button size="sm">Get started</Button>
+                </Link>
+              </>
+            )}
           </nav>
         </header>
 
@@ -96,7 +115,7 @@ export default function Landing() {
               UNIVERSE.
             </h1>
             <p className="text-lg sm:text-xl text-white/70 max-w-2xl mt-8">
-              PalsEd watches how you learn — your pace, your engagement, your gaps — and reshapes
+              PrepNext watches how you learn — your pace, your engagement, your gaps — and reshapes
               every lesson, hint, and quiz to fit you. Pure browser, zero backend storage,
               ridiculously powerful AI.
             </p>
@@ -111,6 +130,10 @@ export default function Landing() {
                   Browse DSA Hub
                 </Button>
               </Link>
+            </div>
+
+            <div id="signin" className="mt-16 scroll-mt-24">
+              <AuthPanel />
             </div>
           </motion.div>
         </section>
@@ -135,7 +158,7 @@ export default function Landing() {
           <div className="flex items-end justify-between flex-wrap gap-4 mb-10">
             <h2 className="display text-5xl sm:text-7xl">FEATURES.</h2>
             <p className="text-white/60 max-w-md">
-              Six pieces that together make PalsEd actually adapt to you — not just slap "AI" on a CMS.
+              Six pieces that together make PrepNext actually adapt to you — not just slap "AI" on a CMS.
             </p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -160,7 +183,7 @@ export default function Landing() {
         <section className="mx-auto max-w-7xl px-4 sm:px-6 py-24">
           <div className="mb-12">
             <div className="mono text-xs uppercase tracking-[0.3em] text-[var(--color-neon)] mb-3">
-              · how palsed adapts ·
+              · how prepnext adapts ·
             </div>
             <h2 className="display text-5xl sm:text-7xl">FOUR STEPS, ON LOOP.</h2>
           </div>
@@ -188,7 +211,7 @@ export default function Landing() {
         </section>
 
         <section className="mx-auto max-w-7xl px-4 sm:px-6 py-24 border-y border-white/10">
-          <h2 className="display text-5xl sm:text-7xl mb-10">PALSED IN NUMBERS.</h2>
+          <h2 className="display text-5xl sm:text-7xl mb-10">PREPNEXT IN NUMBERS.</h2>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
             {STATS.map((s, i) => (
               <div key={i} className="card-base p-8 text-center">
@@ -221,7 +244,7 @@ export default function Landing() {
               },
               {
                 q: "Is the resource content yours?",
-                a: "No. PalsEd links out to canonical sources (donnemartin/system-design-primer, OSTEP, CMU 15-445, IndiaBix, etc.). We don't host or republish anything.",
+                a: "No. PrepNext links out to canonical sources (donnemartin/system-design-primer, OSTEP, CMU 15-445, IndiaBix, etc.). We don't host or republish anything.",
               },
             ].map((f, i) => (
               <details key={i} className="card-base p-5 group">

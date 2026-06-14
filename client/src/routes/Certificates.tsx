@@ -64,7 +64,7 @@ function CertificateView({ cert }: { cert: Certificate }) {
           <div className="mono text-xs uppercase tracking-[0.3em] text-[var(--color-neon)] mb-4">
             // certificate of completion
           </div>
-          <div className="display text-3xl sm:text-5xl mb-8 leading-tight">PALSED</div>
+          <div className="display text-3xl sm:text-5xl mb-8 leading-tight">PREPNEXT</div>
           <div className="text-sm text-white/60 mb-2">This is to certify that</div>
           <div className="display text-4xl mb-8">{cert.displayName}</div>
           <div className="text-sm text-white/60 mb-2">has successfully completed</div>
@@ -88,7 +88,7 @@ function CertificateView({ cert }: { cert: Certificate }) {
         </div>
       </div>
       <div className="flex gap-3 mt-4 flex-wrap">
-        <Button onClick={() => ref.current && downloadCertificatePdf(ref.current, `palsed-${cert.verifyCode}.pdf`)}>
+        <Button onClick={() => ref.current && downloadCertificatePdf(ref.current, `prepnext-${cert.verifyCode}.pdf`)}>
           Download PDF
         </Button>
         <Button variant="outline" onClick={() => { navigator.clipboard.writeText(url); alert("Verify URL copied"); }}>
