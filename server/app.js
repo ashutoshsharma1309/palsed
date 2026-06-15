@@ -6,14 +6,22 @@ import compression from "compression";
 import { buildCors } from "./cors.js";
 import { securityHeaders, validateRequestBody } from "./security.js";
 
-import roadmapsRouter from "./routes/roadmaps.js";
-import coursesRouter from "./routes/courses.js";
-import tutorRouter from "./routes/tutor.js";
-import quizRouter from "./routes/quiz.js";
-import feedbackRouter from "./routes/feedback.js";
 import healthRouter from "./routes/health.js";
 import dbRouter from "./routes/db/index.js";
 import authRouter from "./routes/auth.js";
+import { Router } from "express";
+
+// AI endpoints retired in v2 (Placement Season OS pivot).
+// We keep the routes mounted so any cached client still gets a clean 410 Gone
+// instead of a confusing 404. Remove these lines entirely once we're sure no
+// client is calling them.
+const aiGoneRouter = Router();
+aiGoneRouter.all("*", (_req, res) =>
+  res.status(410).json({
+    error: "This endpoint has been retired. PrepNext no longer uses AI generation.",
+    upgrade: "Use the Placement Season OS: /api/db, /api/auth.",
+  })
+);
 
 export function buildApp() {
   const app = express();
@@ -49,11 +57,13 @@ export function buildApp() {
 
   app.use("/api/auth", authRouter);
   app.use("/api/health", healthRouter);
-  app.use("/api/roadmaps", roadmapsRouter);
-  app.use("/api/courses", coursesRouter);
-  app.use("/api/tutor", tutorRouter);
-  app.use("/api/quiz", quizRouter);
-  app.use("/api/feedback", feedbackRouter);
+
+  // Retired AI endpoints — return 410 Gone
+  app.use("/api/roadmaps", aiGoneRouter);
+  app.use("/api/courses", aiGoneRouter);
+  app.use("/api/tutor", aiGoneRouter);
+  app.use("/api/quiz", aiGoneRouter);
+  app.use("/api/feedback", aiGoneRouter);
 
   app.use((err, req, res, _next) => {
     console.error("[error]", err);

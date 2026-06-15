@@ -1,8 +1,12 @@
 import { Router } from "express";
-import { MODEL } from "../groq.js";
 
 const r = Router();
 r.get("/", (_req, res) => {
-  res.json({ ok: true, model: MODEL, version: "1.0.0" });
+  res.json({
+    ok: true,
+    service: "prepnext",
+    version: "2.0.0",
+    features: ["companies", "pyq-vault", "applications", "dsa", "placement-hub"],
+  });
 });
 export default r;

@@ -1,101 +1,67 @@
-import { useCallback, useEffect, useState } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, Brain, Cpu, GitBranch, Layers, Sparkles, Zap, X, Lock } from "lucide-react";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import { ArrowRight, Building2, Calendar, Database, Layers, Search, Target } from "lucide-react";
 import { Button } from "../components/ui/Button";
 import { Card } from "../components/ui/Card";
 import { Background } from "../components/layout/Background";
 import { Footer } from "../components/layout/Footer";
-import { AuthPanel } from "../components/auth/AuthPanel";
-import { useAuth } from "../hooks/useAuth";
+import { COMPANIES } from "../data/companies";
+import { PYQ_SEED } from "../data/pyqs-seed";
 
 const FEATURES = [
   {
     tint: "neon" as const,
-    icon: <Brain className="w-7 h-7" />,
-    title: "Adaptive AI Tutor",
-    desc: "Re-explains in your preferred style. If you stall, it pivots to a different angle automatically.",
+    icon: <Building2 className="w-7 h-7" />,
+    title: "Recruiter Map",
+    desc: "50 top companies — eligibility, packages, rounds, OA platforms, topics asked, tips from past offer holders.",
   },
   {
     tint: "mint" as const,
-    icon: <Layers className="w-7 h-7" />,
-    title: "Multi-Style Lessons",
-    desc: "Every lesson has Visual / Code-first / Analogy / Step-by-step variants. Switch with one click.",
+    icon: <Database className="w-7 h-7" />,
+    title: "PYQ Vault",
+    desc: "Previous-year questions by company × round × year. Crowd-sourced, verified, voted.",
   },
   {
     tint: "peach" as const,
-    icon: <Cpu className="w-7 h-7" />,
-    title: "Adaptive Difficulty",
-    desc: "Quiz questions target ~70% expected success — the desirable-difficulty sweet spot.",
+    icon: <Target className="w-7 h-7" />,
+    title: "Application Tracker",
+    desc: "Kanban for your placement season. Wishlist → OA → Tech → HR → Offer. Deadlines, notes, conversion rate.",
   },
   {
     tint: "yellow" as const,
-    icon: <Zap className="w-7 h-7" />,
-    title: "Engagement Watchdog",
-    desc: "We watch focus, scroll, tab-switches. When you're stuck, we step in — gently.",
+    icon: <Layers className="w-7 h-7" />,
+    title: "Per-Company Prep Kits",
+    desc: "DSA topics + system design + behavioral + PYQs, bundled per company. Open one. Start studying.",
   },
   {
     tint: "blue" as const,
-    icon: <GitBranch className="w-7 h-7" />,
-    title: "Mastery Knowledge Graph",
-    desc: "Per-topic EWMA scores feed a live radar chart. See your weak spots in one glance.",
+    icon: <Calendar className="w-7 h-7" />,
+    title: "Placement Calendar",
+    desc: "Every upcoming round date with company logo, role, and prep status. iCal export soon.",
   },
   {
     tint: "purple" as const,
-    icon: <Sparkles className="w-7 h-7" />,
-    title: "Spaced Repetition",
-    desc: "SM-2 lite reviews wrong quiz answers and unsolved DSA problems on the right day.",
+    icon: <Search className="w-7 h-7" />,
+    title: "Spaced-repetition + Mastery",
+    desc: "Missed questions resurface on the right day. Per-topic mastery radar. Cmd+K to jump anywhere.",
   },
 ];
 
-const HOW_IT_ADAPTS = [
-  { n: "01", t: "Profile you", d: "Pick a goal + a preferred teaching style when you create your account." },
-  { n: "02", t: "Watch you learn", d: "Every interaction feeds per-topic EWMA mastery scores that build your profile." },
-  { n: "03", t: "Tune difficulty", d: "Next question / next problem aims at your ~70% success band. Easy when you struggle, hard when you fly." },
-  { n: "04", t: "Pivot the explanation", d: "Stuck? PrepNext offers a re-explanation in a different style or shortens the lesson." },
+const HOW_IT_WORKS = [
+  { n: "01", t: "Sign up", d: "Email + password. 30 seconds. No analysis." },
+  { n: "02", t: "Pick your targets", d: "Browse 50 recruiter pages. Bookmark the ones visiting your campus." },
+  { n: "03", t: "Track every round", d: "Add each application to the kanban. Move it as you progress." },
+  { n: "04", t: "Prep with PYQs", d: "Open any company → past questions, topics, tips. Quiz yourself daily." },
 ];
 
 const STATS = [
-  { v: "150+", l: "Curated DSA problems" },
-  { v: "400+", l: "Curated resource links" },
-  { v: "10", l: "Placement prep tracks" },
-  { v: "4", l: "Teaching styles per lesson" },
+  { v: COMPANIES.length.toString(), l: "Curated recruiters" },
+  { v: PYQ_SEED.length.toString() + "+", l: "PYQs (and growing)" },
+  { v: "150", l: "DSA problems" },
+  { v: "0", l: "AI calls · zero ops cost" },
 ];
 
 export default function Landing() {
-  const { isAuthenticated, user, logout } = useAuth();
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  // Full-screen auth experience. authGate = { dest, tab } when open, else null.
-  const [authGate, setAuthGate] = useState<{ dest: string; tab: "login" | "signup" } | null>(null);
-
-  // If a route guard bounced an unauthenticated user here, open the gate on the
-  // destination they tried to reach.
-  useEffect(() => {
-    const from = (location.state as { from?: string } | null)?.from;
-    if (from && !isAuthenticated) setAuthGate({ dest: from, tab: "login" });
-  }, [location.state, isAuthenticated]);
-
-  // Lock body scroll while the full-screen gate is open.
-  useEffect(() => {
-    if (!authGate) return;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = prev;
-    };
-  }, [authGate]);
-
-  // CTA handler: authenticated users go straight through; otherwise open the gate.
-  const goOrAuth = useCallback(
-    (dest: string, tab: "login" | "signup" = "signup") => {
-      if (isAuthenticated) navigate(dest);
-      else setAuthGate({ dest, tab });
-    },
-    [isAuthenticated, navigate]
-  );
-
   return (
     <>
       <Background />
@@ -103,129 +69,63 @@ export default function Landing() {
         <header className="mx-auto max-w-7xl px-4 sm:px-6 flex items-center justify-between h-16">
           <div className="display text-2xl neon-text">PREPNEXT</div>
           <nav className="flex items-center gap-2">
-            {isAuthenticated ? (
-              <>
-                <span className="text-xs text-white/40 px-2 hidden sm:inline">
-                  {user?.displayName}
-                </span>
-                <Link to="/dashboard" className="text-xs text-white/60 hover:text-white px-3 py-2">
-                  Dashboard
-                </Link>
-                <Button size="sm" variant="ghost" onClick={logout}>
-                  Log out
-                </Button>
-              </>
-            ) : (
-              <>
-                <button
-                  type="button"
-                  onClick={() => setAuthGate({ dest: "/dashboard", tab: "login" })}
-                  className="text-xs text-white/60 hover:text-white px-3 py-2"
-                >
-                  Sign in
-                </button>
-                <Button size="sm" onClick={() => setAuthGate({ dest: "/onboarding", tab: "signup" })}>
-                  Get started
-                </Button>
-              </>
-            )}
+            <Link to="/companies" className="text-xs text-white/60 hover:text-white px-3 py-2">
+              Recruiter Map
+            </Link>
+            <Link to="/pyq" className="text-xs text-white/60 hover:text-white px-3 py-2">
+              PYQ Vault
+            </Link>
+            <Link to="/onboarding">
+              <Button size="sm">Sign in</Button>
+            </Link>
           </nav>
         </header>
 
-        <section className="mx-auto max-w-7xl px-4 sm:px-6 pt-12 pb-20">
-          <div className="grid lg:grid-cols-[1.35fr_minmax(340px,420px)] gap-10 lg:gap-12 items-center">
-            {/* LEFT — hero content (unchanged copy) */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-            >
-              <div className="mono text-xs uppercase tracking-[0.3em] text-[var(--color-neon)] mb-4">
-                · adaptive ai learning universe ·
-              </div>
-              <h1 className="display text-[13vw] sm:text-[90px] lg:text-[112px] leading-[0.85]">
-                YOUR
-                <br />
-                ADAPTIVE
-                <br />
-                <span className="neon-text">LEARNING</span>
-                <br />
-                UNIVERSE.
-              </h1>
-              <div className="flex flex-wrap gap-3 mt-10">
-                <Button size="lg" onClick={() => goOrAuth("/onboarding", "signup")}>
-                  Start learning <ArrowRight className="w-4 h-4" />
-                </Button>
-                <Button size="lg" variant="outline" onClick={() => goOrAuth("/dsa", "login")}>
-                  Browse DSA Hub
-                </Button>
-              </div>
-            </motion.div>
-
-            {/* RIGHT — authentication card */}
-            <motion.div
-              id="signin"
-              className="scroll-mt-24 flex justify-center lg:justify-end"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.15 }}
-            >
-              <AuthPanel />
-            </motion.div>
-          </div>
-        </section>
-
-        {/* PLACEMENT TRAINING HUB — prominent promo */}
-        <section className="mx-auto max-w-7xl px-4 sm:px-6 pb-20">
-          <button
-            type="button"
-            onClick={() => goOrAuth("/placement-hub", "signup")}
-            className="block w-full text-left group"
-            aria-label="Explore the Placement Training Hub"
+        <section className="mx-auto max-w-7xl px-4 sm:px-6 pt-12 pb-24">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="max-w-5xl"
           >
-            <div className="relative overflow-hidden rounded-3xl border border-[var(--color-neon)]/30 bg-white/[0.04] backdrop-blur-2xl p-8 sm:p-12 transition-all duration-300 group-hover:border-[var(--color-neon)] group-hover:shadow-[0_10px_60px_rgba(200,255,61,0.18)]">
-              <div className="absolute -right-16 -top-16 w-72 h-72 rounded-full bg-[var(--color-neon)]/10 blur-3xl pointer-events-none" />
-              <div className="relative flex flex-col lg:flex-row lg:items-center gap-8 justify-between">
-                <div className="max-w-2xl">
-                  <div className="mono text-xs uppercase tracking-[0.3em] text-[var(--color-neon)] mb-3">
-                    · new · one-stop placement prep ·
-                  </div>
-                  <h2 className="display text-4xl sm:text-6xl">
-                    PLACEMENT TRAINING <span className="neon-text">HUB.</span>
-                  </h2>
-                  <p className="text-white/65 mt-4 text-lg">
-                    Languages, DSA, LeetCode, Web, ML, AI, App Dev, Aptitude, Core CS, and Interviews —
-                    curated roadmaps and resources with progress tracking, all in one place.
-                  </p>
-                  <div className="flex flex-wrap gap-2 mt-5">
-                    {["DSA", "LeetCode", "Web Dev", "ML / AI", "Core CS", "Interviews"].map((t) => (
-                      <span key={t} className="text-xs px-3 py-1 rounded-full border border-white/15 text-white/70">
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-                <div className="shrink-0">
-                  <span className="inline-flex items-center justify-center gap-2 font-semibold rounded-full px-7 py-3.5 text-base bg-[var(--color-neon)] text-black transition-all group-hover:shadow-[0_0_28px_rgba(200,255,61,0.55)]">
-                    Explore Placement Hub <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                  </span>
-                </div>
-              </div>
+            <div className="mono text-xs uppercase tracking-[0.3em] text-[var(--color-neon)] mb-4">
+              · placement season · operating system ·
             </div>
-          </button>
+            <h1 className="display text-[14vw] sm:text-[110px] lg:text-[150px] leading-[0.85]">
+              YOUR
+              <br />
+              PLACEMENT
+              <br />
+              <span className="neon-text">SEASON,</span>
+              <br />
+              ORGANIZED.
+            </h1>
+            <p className="text-lg sm:text-xl text-white/70 max-w-2xl mt-8">
+              Every recruiter visiting your campus. Every previous-year question. Every application
+              you've submitted. One platform. No more scattered WhatsApp groups or rotting Google Docs.
+            </p>
+            <div className="flex flex-wrap gap-3 mt-10">
+              <Link to="/onboarding">
+                <Button size="lg">
+                  Start tracking <ArrowRight className="w-4 h-4" />
+                </Button>
+              </Link>
+              <Link to="/companies">
+                <Button size="lg" variant="outline">
+                  Browse 50 recruiters
+                </Button>
+              </Link>
+            </div>
+          </motion.div>
         </section>
 
         <section className="border-y border-white/10 bg-black/40 backdrop-blur-sm">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 py-10 grid grid-cols-2 md:grid-cols-4 gap-6">
-            {[
-              "Adaptive",
-              "AI-Driven",
-              "Cloud-Synced",
-              "Secure Accounts",
-            ].map((s, i) => (
+            {STATS.map((s, i) => (
               <div key={i} className="flex flex-col">
                 <div className="mono text-xs uppercase tracking-widest text-white/40">// pillar {i + 1}</div>
-                <div className="display text-3xl sm:text-4xl mt-2 neon-text">{s}</div>
+                <div className="display text-3xl sm:text-4xl mt-2 neon-text">{s.v}</div>
+                <div className="text-xs text-white/50 mt-1">{s.l}</div>
               </div>
             ))}
           </div>
@@ -233,9 +133,9 @@ export default function Landing() {
 
         <section className="mx-auto max-w-7xl px-4 sm:px-6 py-24">
           <div className="flex items-end justify-between flex-wrap gap-4 mb-10">
-            <h2 className="display text-5xl sm:text-7xl">FEATURES.</h2>
+            <h2 className="display text-5xl sm:text-7xl">WHAT YOU GET.</h2>
             <p className="text-white/60 max-w-md">
-              Six pieces that together make PrepNext actually adapt to you — not just slap "AI" on a CMS.
+              Six features that turn your placement season from a panic into a workflow.
             </p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -260,12 +160,12 @@ export default function Landing() {
         <section className="mx-auto max-w-7xl px-4 sm:px-6 py-24">
           <div className="mb-12">
             <div className="mono text-xs uppercase tracking-[0.3em] text-[var(--color-neon)] mb-3">
-              · how prepnext adapts ·
+              · how it works ·
             </div>
-            <h2 className="display text-5xl sm:text-7xl">FOUR STEPS, ON LOOP.</h2>
+            <h2 className="display text-5xl sm:text-7xl">FOUR STEPS. NO BS.</h2>
           </div>
           <div className="grid lg:grid-cols-4 gap-5">
-            {HOW_IT_ADAPTS.map((step, i) => (
+            {HOW_IT_WORKS.map((step, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, y: 20 }}
@@ -287,49 +187,29 @@ export default function Landing() {
           </div>
         </section>
 
-        <section className="mx-auto max-w-7xl px-4 sm:px-6 py-24 border-y border-white/10">
-          <h2 className="display text-5xl sm:text-7xl mb-10">PREPNEXT IN NUMBERS.</h2>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-            {STATS.map((s, i) => (
-              <div key={i} className="card-base p-8 text-center">
-                <div className="display text-6xl neon-text">{s.v}</div>
-                <div className="text-xs text-white/60 mt-2 uppercase tracking-widest mono">{s.l}</div>
-              </div>
-            ))}
-          </div>
-        </section>
-
         <section className="mx-auto max-w-4xl px-4 sm:px-6 py-24">
           <h2 className="display text-5xl sm:text-7xl mb-10">FAQ.</h2>
           <div className="space-y-2">
             {[
               {
-                q: "Who is PrepNext for?",
-                a: "Students, job-seekers, career switchers, and working professionals preparing for technical interviews and campus placements — anyone who wants a structured, personalized path instead of scattered resources.",
+                q: "Is this another AI-powered edtech?",
+                a: "No. PrepNext does zero AI calls at runtime. We don't analyze you, predict you, or grade you. The platform is pure workflow — recruiter data + your data + tracking. Faster, cheaper, more trustworthy.",
               },
               {
-                q: "Do I need an account?",
-                a: "Yes. A free account lets PrepNext securely sync your progress, courses, mastery scores, and bookmarks to your profile so you can pick up on any device.",
+                q: "Where do the questions come from?",
+                a: "Seeded by us, then crowd-contributed. Every submission goes into a verification queue. Once 3 students confirm accuracy, it gets a ✓ badge.",
               },
               {
-                q: "How does the personalization work?",
-                a: "PrepNext continuously models your skill level from every lesson, quiz, and problem you complete. It then targets the difficulty to your ~70% success band, adapts explanations to your preferred style, and schedules spaced repetition on the topics you find hardest.",
+                q: "Is my data private?",
+                a: "Your application tracker, notes, mastery — only you see them. Public profiles are opt-in.",
               },
               {
-                q: "Is my data secure?",
-                a: "Yes. Passwords are hashed with bcrypt (never stored in plain text), sessions use signed JWTs, and every account's data is fully isolated. Your learning data is kept in a managed cloud database.",
+                q: "What does it cost?",
+                a: "Free during beta. Premium tier later: priority verification, deeper salary data, recruiter visibility.",
               },
               {
-                q: "How much does it cost?",
-                a: "You can get started for free. Core adaptive learning, the Placement Hub, and progress tracking are available at no cost while PrepNext is in active development.",
-              },
-              {
-                q: "Where do the learning resources come from?",
-                a: "PrepNext curates and links to authoritative, canonical sources (official docs, well-known open-source sheets, and reputable courses) alongside its own AI-generated lessons. We surface the best material — we don't republish third-party content.",
-              },
-              {
-                q: "Can I export my data?",
-                a: "Absolutely. From Settings you can export a complete backup of your learning data and re-import it anytime — your progress is always yours.",
+                q: "What if my college isn't listed?",
+                a: "Doesn't matter — companies are companies. The platform works regardless of college. We'll add per-college visit schedules in v2.",
               },
             ].map((f, i) => (
               <details key={i} className="card-base p-5 group">
@@ -342,61 +222,8 @@ export default function Landing() {
             ))}
           </div>
         </section>
-
       </div>
       <Footer />
-
-      {/* Full-screen authentication gate */}
-      <AnimatePresence>
-        {authGate && (
-          <motion.div
-            className="fixed inset-0 z-50 flex items-center justify-center px-4 py-10 overflow-y-auto"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            role="dialog"
-            aria-modal="true"
-            aria-label="Sign in to continue"
-          >
-            {/* Backdrop — fades out the marketing/hero content */}
-            <div
-              className="absolute inset-0 bg-black/85 backdrop-blur-2xl"
-              onClick={() => setAuthGate(null)}
-            />
-
-            <motion.div
-              className="relative w-full max-w-md"
-              initial={{ opacity: 0, scale: 0.94, y: 18 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.96, y: 10 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
-            >
-              <button
-                type="button"
-                onClick={() => setAuthGate(null)}
-                aria-label="Close sign in"
-                className="absolute -top-12 right-0 p-2 rounded-full text-white/60 hover:text-white hover:bg-white/10 transition-colors"
-              >
-                <X className="w-6 h-6" />
-              </button>
-
-              <div className="text-center mb-6">
-                <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-[var(--color-neon)]/12 border border-[var(--color-neon)]/40 text-[var(--color-neon)] mb-4">
-                  <Lock className="w-6 h-6" aria-hidden="true" />
-                </div>
-                <h2 className="display text-3xl sm:text-4xl">UNLOCK PREPNEXT.</h2>
-                <p className="text-white/60 text-sm mt-3 max-w-sm mx-auto">
-                  Sign in to access DSA Practice, Placement Preparation, Progress Tracking, and
-                  Personalized Learning.
-                </p>
-              </div>
-
-              <AuthPanel redirectTo={authGate.dest} defaultTab={authGate.tab} />
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </>
   );
 }

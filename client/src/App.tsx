@@ -4,7 +4,6 @@ import { Background } from "./components/layout/Background";
 import { Nav } from "./components/layout/Nav";
 import { Footer } from "./components/layout/Footer";
 import { EngagementProvider } from "./components/adaptive/EngagementProvider";
-import { InterventionToast } from "./components/adaptive/InterventionToast";
 import { FocusMode } from "./components/adaptive/FocusMode";
 import { CommandPalette } from "./components/CommandPalette";
 import { ErrorBoundary } from "./components/ErrorBoundary";
@@ -19,15 +18,11 @@ const Onboarding = lazy(() => import("./routes/Onboarding"));
 const Dashboard = lazy(() => import("./routes/Dashboard"));
 const Dsa = lazy(() => import("./routes/Dsa"));
 const DsaProblem = lazy(() => import("./routes/DsaProblem"));
-const Courses = lazy(() => import("./routes/Courses"));
-const CourseCreate = lazy(() => import("./routes/CourseCreate"));
-const CourseDetail = lazy(() => import("./routes/CourseDetail"));
-const CourseLesson = lazy(() => import("./routes/CourseLesson"));
-const CourseQuiz = lazy(() => import("./routes/CourseQuiz"));
-const Roadmaps = lazy(() => import("./routes/Roadmaps"));
-const RoadmapCreate = lazy(() => import("./routes/RoadmapCreate"));
-const RoadmapDetail = lazy(() => import("./routes/RoadmapDetail"));
-const Tutor = lazy(() => import("./routes/Tutor"));
+const Companies = lazy(() => import("./routes/Companies"));
+const CompanyDetail = lazy(() => import("./routes/CompanyDetail"));
+const Pyq = lazy(() => import("./routes/Pyq"));
+const PyqSubmit = lazy(() => import("./routes/PyqSubmit"));
+const Applications = lazy(() => import("./routes/Applications"));
 const Review = lazy(() => import("./routes/Review"));
 const SystemDesign = lazy(() => import("./routes/SystemDesign"));
 const CoreCs = lazy(() => import("./routes/CoreCs"));
@@ -81,6 +76,9 @@ export default function App() {
                   {/* Public — accessible without login */}
                   <Route path="/" element={<Landing />} />
                   <Route path="/verify-certificate" element={<VerifyCertificate />} />
+                  <Route path="/companies" element={<Companies />} />
+                  <Route path="/companies/:slug" element={<CompanyDetail />} />
+                  <Route path="/pyq" element={<Pyq />} />
 
                   {/* Protected — login required */}
                   <Route element={<RequireAuth />}>
@@ -88,15 +86,8 @@ export default function App() {
                     <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="/dsa" element={<Dsa />} />
                     <Route path="/dsa/:slug" element={<DsaProblem />} />
-                    <Route path="/courses" element={<Courses />} />
-                    <Route path="/courses/create" element={<CourseCreate />} />
-                    <Route path="/courses/:id" element={<CourseDetail />} />
-                    <Route path="/courses/:id/lesson/:lessonId" element={<CourseLesson />} />
-                    <Route path="/courses/:id/quiz" element={<CourseQuiz />} />
-                    <Route path="/roadmaps" element={<Roadmaps />} />
-                    <Route path="/roadmaps/create" element={<RoadmapCreate />} />
-                    <Route path="/roadmaps/:id" element={<RoadmapDetail />} />
-                    <Route path="/tutor" element={<Tutor />} />
+                    <Route path="/pyq/submit" element={<PyqSubmit />} />
+                    <Route path="/applications" element={<Applications />} />
                     <Route path="/review" element={<Review />} />
                     <Route path="/system-design" element={<SystemDesign />} />
                     <Route path="/core-cs" element={<CoreCs />} />
@@ -109,13 +100,18 @@ export default function App() {
                     <Route path="/placement-hub" element={<PlacementHub />} />
                   </Route>
 
+                  {/* Legacy redirects — old AI routes → new homes */}
+                  <Route path="/courses" element={<Navigate to="/companies" replace />} />
+                  <Route path="/courses/*" element={<Navigate to="/companies" replace />} />
+                  <Route path="/roadmaps" element={<Navigate to="/companies" replace />} />
+                  <Route path="/roadmaps/*" element={<Navigate to="/companies" replace />} />
+                  <Route path="/tutor" element={<Navigate to="/applications" replace />} />
                   <Route path="/auth" element={<Navigate to="/onboarding" replace />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </Suspense>
             </main>
           </HideChromeForLanding>
-          <InterventionToast />
         </div>
       </EngagementProvider>
     </ErrorBoundary>

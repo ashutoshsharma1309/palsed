@@ -1,7 +1,19 @@
 // Auth helpers: JWT sign/verify + Bearer-token middleware.
 import jwt from "jsonwebtoken";
+import crypto from "node:crypto";
 
-const SECRET = process.env.JWT_SECRET || "dev-insecure-secret-change-me";
+// HARD FAIL in production if JWT_SECRET is missing — never silently use a fallback.
+// In dev, use a per-process random secret so tokens don't survive a restart.
+const SECRET = (() => {
+  if (process.env.JWT_SECRET && process.env.JWT_SECRET.length >= 16) {
+    return process.env.JWT_SECRET;
+  }
+  if (process.env.NODE_ENV === "production") {
+    throw new Error("JWT_SECRET must be set (>=16 chars) in production");
+  }
+  console.warn("[auth] JWT_SECRET missing — using ephemeral dev secret");
+  return crypto.randomBytes(48).toString("hex");
+})();
 const EXPIRES_IN = process.env.JWT_EXPIRES_IN || "7d";
 
 export function signToken(user) {

@@ -6,11 +6,11 @@ import { useEngagement } from "../adaptive/EngagementProvider";
 
 const LINKS = [
   { to: "/dashboard", label: "Dashboard" },
-  { to: "/placement-hub", label: "Placement Hub" },
+  { to: "/companies", label: "Companies" },
+  { to: "/pyq", label: "PYQ Vault" },
+  { to: "/applications", label: "My Apps" },
   { to: "/dsa", label: "DSA" },
-  { to: "/courses", label: "Courses" },
-  { to: "/roadmaps", label: "Roadmaps" },
-  { to: "/tutor", label: "Tutor" },
+  { to: "/placement-hub", label: "Placement Hub" },
   { to: "/review", label: "Review" },
   { to: "/mastery", label: "Mastery" },
   { to: "/system-design", label: "System Design" },
