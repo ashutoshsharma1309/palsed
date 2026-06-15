@@ -9,6 +9,7 @@ const LINKS = [
   { to: "/companies", label: "Companies" },
   { to: "/pyq", label: "PYQ Vault" },
   { to: "/applications", label: "My Apps" },
+  { to: "/internships", label: "Internships" },
   { to: "/dsa", label: "DSA" },
   { to: "/placement-hub", label: "Placement Hub" },
   { to: "/review", label: "Review" },

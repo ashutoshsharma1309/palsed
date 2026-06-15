@@ -39,6 +39,7 @@ export function CommandPalette() {
       { label: "PYQ Vault — browse questions", hint: "/pyq", icon: <BookOpen className="w-4 h-4" />, run: () => navigate("/pyq"), keywords: "previous year questions pyq" },
       { label: "Contribute a PYQ", hint: "/pyq/submit", icon: <Sparkles className="w-4 h-4" />, run: () => navigate("/pyq/submit"), keywords: "submit add question crowd" },
       { label: "My Applications (kanban)", hint: "/applications", icon: <MapIcon className="w-4 h-4" />, run: () => navigate("/applications"), keywords: "applications tracker kanban offers" },
+      { label: "Internship Boards · 50+ platforms", hint: "/internships", icon: <Compass className="w-4 h-4" />, run: () => navigate("/internships"), keywords: "internship intern jobs find apply board linkedin internshala yc" },
       { label: "DSA Practice Hub", hint: "/dsa", icon: <Code2 className="w-4 h-4" />, run: () => navigate("/dsa") },
       { label: "Placement Hub (10 sections)", hint: "/placement-hub", icon: <GraduationCap className="w-4 h-4" />, run: () => navigate("/placement-hub") },
       { label: "Spaced repetition review", hint: "/review", icon: <RotateCw className="w-4 h-4" />, run: () => navigate("/review"), keywords: "srs flashcards due" },

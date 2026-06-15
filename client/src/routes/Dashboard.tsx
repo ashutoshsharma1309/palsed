@@ -71,6 +71,7 @@ export default function Dashboard() {
         <div className="flex flex-wrap gap-3">
           <Link to="/applications"><Button><Plus className="w-4 h-4" /> Track application</Button></Link>
           <Link to="/companies"><Button variant="outline">Browse recruiters</Button></Link>
+          <Link to="/internships"><Button variant="outline">Find internships</Button></Link>
           <Link to="/review">
             <Button variant="ghost">
               Review {dueCount > 0 && `(${dueCount} due)`}

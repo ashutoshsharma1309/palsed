@@ -23,6 +23,7 @@ const CompanyDetail = lazy(() => import("./routes/CompanyDetail"));
 const Pyq = lazy(() => import("./routes/Pyq"));
 const PyqSubmit = lazy(() => import("./routes/PyqSubmit"));
 const Applications = lazy(() => import("./routes/Applications"));
+const Internships = lazy(() => import("./routes/Internships"));
 const Review = lazy(() => import("./routes/Review"));
 const SystemDesign = lazy(() => import("./routes/SystemDesign"));
 const CoreCs = lazy(() => import("./routes/CoreCs"));
@@ -79,6 +80,7 @@ export default function App() {
                   <Route path="/companies" element={<Companies />} />
                   <Route path="/companies/:slug" element={<CompanyDetail />} />
                   <Route path="/pyq" element={<Pyq />} />
+                  <Route path="/internships" element={<Internships />} />
 
                   {/* Protected — login required */}
                   <Route element={<RequireAuth />}>
