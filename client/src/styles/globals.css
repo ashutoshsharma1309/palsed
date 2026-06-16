@@ -1,24 +1,119 @@
 @import "tailwindcss";
 
+/* ────────────────────────────────────────────────────────────────────────
+   Theme tokens
+   - Static Tailwind tokens declared via @theme.
+   - Dynamic tokens declared via plain CSS custom properties on :root and
+     [data-theme="light"], so they can be flipped at runtime.
+   ──────────────────────────────────────────────────────────────────────── */
+
 @theme {
+  --font-display: "Anton", "Bebas Neue", "Inter", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
+  --font-mono: "Share Tech Mono", "JetBrains Mono", ui-monospace, monospace;
+}
+
+/* DARK (default) ────────────────────────────────────────────────────────── */
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+
   --color-bg: #0a0a0a;
   --color-bg-soft: #111111;
   --color-card: #161616;
+  --color-card-soft: #1a1a1a;
   --color-line: #222222;
+  --color-input: #1a1a1a;
+  --color-input-strong: #0d0d0d;
+
+  --color-text: #f7f7f7;
+  --color-text-dim: #a0a0a0;
+  --color-text-faint: #666666;
+
+  /* brand neon */
   --color-neon: #c8ff3d;
   --color-neon-dim: #97c12a;
+  --color-neon-text: #c8ff3d;
+  --color-neon-glow: rgba(200, 255, 61, 0.45);
+  --color-neon-glow-subtle: rgba(200, 255, 61, 0.18);
+
+  /* pastel feature-card tints (work on both themes) */
   --color-mint: #b9f5c8;
   --color-peach: #ffd4b0;
   --color-yellow: #ffe87a;
   --color-blue: #b5d4ff;
   --color-purple: #d6c1ff;
-  --color-text: #f7f7f7;
-  --color-text-dim: #a0a0a0;
 
-  --font-display: "Anton", "Bebas Neue", "Inter", system-ui, sans-serif;
-  --font-body: "Inter", system-ui, sans-serif;
-  --font-mono: "Share Tech Mono", "JetBrains Mono", ui-monospace, monospace;
+  /* surface tints — used in CSS overrides for opacity utilities */
+  --tint-text-rgb: 255, 255, 255; /* "white-with-opacity" → muted text */
+  --tint-surface-rgb: 255, 255, 255; /* white/N → subtle highlight */
+  --tint-line-rgb: 255, 255, 255; /* white/N → borders */
+  --tint-glass-rgb: 0, 0, 0; /* black/N → translucent nav/modal backdrops */
+  --tint-overlay-rgb: 0, 0, 0; /* black/N → dim overlays */
+
+  /* grid + blob accent */
+  --grid-line: rgba(200, 255, 61, 0.045);
+  --blob-a: #c8ff3d;
+  --blob-b: #b5d4ff;
+  --blob-c: #d6c1ff;
+  --blob-opacity: 0.35;
+
+  /* scrollbar */
+  --sb-track: #0a0a0a;
+  --sb-thumb: #2a2a2a;
+  --sb-thumb-hover: var(--color-neon-dim);
 }
+
+/* LIGHT ─────────────────────────────────────────────────────────────────── */
+[data-theme="light"] {
+  color-scheme: light;
+
+  --color-bg: #f7f7f5;
+  --color-bg-soft: #ffffff;
+  --color-card: #ffffff;
+  --color-card-soft: #f0f0eb;
+  --color-line: #e6e4dc;
+  --color-input: #f0f0eb;
+  --color-input-strong: #e9e7df;
+
+  --color-text: #0a0a0a;
+  --color-text-dim: #555555;
+  --color-text-faint: #8a8a85;
+
+  /* brand neon — dimmer + a darker text-only variant for readability on white */
+  --color-neon: #b4e62a;
+  --color-neon-dim: #7d9e1e;
+  --color-neon-text: #4a6b0b;
+  --color-neon-glow: rgba(125, 158, 30, 0);
+  --color-neon-glow-subtle: rgba(125, 158, 30, 0.12);
+
+  --color-mint: #b9f5c8;
+  --color-peach: #ffd4b0;
+  --color-yellow: #ffe87a;
+  --color-blue: #b5d4ff;
+  --color-purple: #d6c1ff;
+
+  /* invert tint origins so opacity utilities work on a light surface */
+  --tint-text-rgb: 10, 10, 10;
+  --tint-surface-rgb: 10, 10, 10;
+  --tint-line-rgb: 10, 10, 10;
+  --tint-glass-rgb: 255, 255, 255;
+  --tint-overlay-rgb: 10, 10, 10;
+
+  --grid-line: rgba(10, 10, 10, 0.045);
+  --blob-a: #b4e62a;
+  --blob-b: #9bc3ff;
+  --blob-c: #c0a8ff;
+  --blob-opacity: 0.22;
+
+  --sb-track: #efeee9;
+  --sb-thumb: #cdcbc2;
+  --sb-thumb-hover: var(--color-neon-dim);
+}
+
+/* ────────────────────────────────────────────────────────────────────────
+   Base
+   ──────────────────────────────────────────────────────────────────────── */
 
 html,
 body,
@@ -27,6 +122,7 @@ body,
   color: var(--color-text);
   font-family: var(--font-body);
   min-height: 100vh;
+  transition: background-color 0.18s ease, color 0.18s ease;
 }
 
 body {
@@ -51,12 +147,12 @@ body {
 }
 
 .neon-glow {
-  box-shadow: 0 0 24px rgba(200, 255, 61, 0.45);
+  box-shadow: 0 0 24px var(--color-neon-glow);
 }
 
 .neon-text {
-  color: var(--color-neon);
-  text-shadow: 0 0 24px rgba(200, 255, 61, 0.35);
+  color: var(--color-neon-text);
+  text-shadow: 0 0 24px var(--color-neon-glow-subtle);
 }
 
 .card-base {
@@ -67,8 +163,8 @@ body {
 
 .grid-bg {
   background-image:
-    linear-gradient(rgba(200, 255, 61, 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(200, 255, 61, 0.045) 1px, transparent 1px);
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
   background-size: 48px 48px;
   animation: grid-pulse 9s ease-in-out infinite;
 }
@@ -82,7 +178,7 @@ body {
   position: absolute;
   border-radius: 9999px;
   filter: blur(80px);
-  opacity: 0.35;
+  opacity: var(--blob-opacity);
   pointer-events: none;
   will-change: transform;
   animation: blob-float 18s ease-in-out infinite;
@@ -105,8 +201,9 @@ input, select, textarea, button {
 
 /* highlight.js dark adjustment */
 .hljs {
-  background: #0d0d0d !important;
+  background: var(--color-input-strong) !important;
   border-radius: 12px;
+  color: var(--color-text);
 }
 
 pre code.hljs {
@@ -114,6 +211,24 @@ pre code.hljs {
   font-family: var(--font-mono);
   font-size: 13px;
 }
+
+/* In light mode, override the CDN dark theme's harsh hardcoded palette
+   so code blocks don't look like a dark window on a light page. */
+[data-theme="light"] .hljs {
+  color: #1a1a1a !important;
+}
+[data-theme="light"] .hljs-keyword,
+[data-theme="light"] .hljs-built_in,
+[data-theme="light"] .hljs-name,
+[data-theme="light"] .hljs-tag { color: #7d9e1e !important; }
+[data-theme="light"] .hljs-string,
+[data-theme="light"] .hljs-attr { color: #2a7c3b !important; }
+[data-theme="light"] .hljs-number,
+[data-theme="light"] .hljs-literal { color: #a35c0c !important; }
+[data-theme="light"] .hljs-comment,
+[data-theme="light"] .hljs-meta { color: #8a8a85 !important; font-style: italic; }
+[data-theme="light"] .hljs-title,
+[data-theme="light"] .hljs-function .hljs-title { color: #1f4e8c !important; }
 
 .markdown-body h1, .markdown-body h2, .markdown-body h3 {
   font-family: var(--font-display);
@@ -123,19 +238,118 @@ pre code.hljs {
 }
 .markdown-body h1 { font-size: 1.8rem; }
 .markdown-body h2 { font-size: 1.4rem; }
-.markdown-body h3 { font-size: 1.15rem; color: var(--color-neon); }
-.markdown-body p { margin: 0.7em 0; line-height: 1.65; color: #e5e5e5; }
+.markdown-body h3 { font-size: 1.15rem; color: var(--color-neon-text); }
+.markdown-body p { margin: 0.7em 0; line-height: 1.65; color: var(--color-text); }
 .markdown-body ul, .markdown-body ol { padding-left: 1.4em; margin: 0.6em 0; }
 .markdown-body li { margin: 0.3em 0; line-height: 1.55; }
-.markdown-body a { color: var(--color-neon); text-decoration: underline; text-underline-offset: 3px; }
-.markdown-body code { background: #1a1a1a; padding: 2px 6px; border-radius: 4px; font-family: var(--font-mono); font-size: 0.9em; }
+.markdown-body a { color: var(--color-neon-text); text-decoration: underline; text-underline-offset: 3px; }
+.markdown-body code {
+  background: var(--color-input);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
 .markdown-body pre { margin: 0.8em 0; }
-.markdown-body blockquote { border-left: 3px solid var(--color-neon); padding-left: 14px; color: #ccc; margin: 0.8em 0; }
+.markdown-body blockquote {
+  border-left: 3px solid var(--color-neon);
+  padding-left: 14px;
+  color: var(--color-text-dim);
+  margin: 0.8em 0;
+}
 .markdown-body table { border-collapse: collapse; margin: 0.7em 0; }
-.markdown-body th, .markdown-body td { border: 1px solid var(--color-line); padding: 6px 10px; }
+.markdown-body th, .markdown-body td {
+  border: 1px solid var(--color-line);
+  padding: 6px 10px;
+}
 
 /* scrollbars */
 ::-webkit-scrollbar { width: 10px; height: 10px; }
-::-webkit-scrollbar-track { background: #0a0a0a; }
-::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 6px; }
-::-webkit-scrollbar-thumb:hover { background: var(--color-neon-dim); }
+::-webkit-scrollbar-track { background: var(--sb-track); }
+::-webkit-scrollbar-thumb { background: var(--sb-thumb); border-radius: 6px; }
+::-webkit-scrollbar-thumb:hover { background: var(--sb-thumb-hover); }
+
+/* ────────────────────────────────────────────────────────────────────────
+   Opacity-utility overrides
+   The codebase uses Tailwind utilities like `text-white/70`, `bg-white/5`,
+   `border-white/10`, `bg-black/60`. Tailwind compiles these to literal
+   `rgba(255,255,255,...)`. To make them flip in light mode without
+   touching every component, we redirect them through CSS variables here.
+   ──────────────────────────────────────────────────────────────────────── */
+
+/* text-white/N → muted text on whatever surface we're on */
+.text-white      { color: rgb(var(--tint-text-rgb)) !important; }
+.text-white\/95  { color: rgb(var(--tint-text-rgb) / 0.95) !important; }
+.text-white\/90  { color: rgb(var(--tint-text-rgb) / 0.90) !important; }
+.text-white\/80  { color: rgb(var(--tint-text-rgb) / 0.80) !important; }
+.text-white\/70  { color: rgb(var(--tint-text-rgb) / 0.70) !important; }
+.text-white\/60  { color: rgb(var(--tint-text-rgb) / 0.60) !important; }
+.text-white\/50  { color: rgb(var(--tint-text-rgb) / 0.50) !important; }
+.text-white\/40  { color: rgb(var(--tint-text-rgb) / 0.40) !important; }
+.text-white\/30  { color: rgb(var(--tint-text-rgb) / 0.30) !important; }
+.text-white\/20  { color: rgb(var(--tint-text-rgb) / 0.20) !important; }
+
+/* bg-white/N → subtle highlight surface */
+.bg-white        { background-color: rgb(var(--tint-surface-rgb)) !important; }
+.bg-white\/5     { background-color: rgb(var(--tint-surface-rgb) / 0.05) !important; }
+.bg-white\/10    { background-color: rgb(var(--tint-surface-rgb) / 0.10) !important; }
+.bg-white\/20    { background-color: rgb(var(--tint-surface-rgb) / 0.20) !important; }
+.bg-white\/30    { background-color: rgb(var(--tint-surface-rgb) / 0.30) !important; }
+
+/* border-white/N → subtle line */
+.border-white\/5    { border-color: rgb(var(--tint-line-rgb) / 0.05) !important; }
+.border-white\/10   { border-color: rgb(var(--tint-line-rgb) / 0.10) !important; }
+.border-white\/15   { border-color: rgb(var(--tint-line-rgb) / 0.15) !important; }
+.border-white\/20   { border-color: rgb(var(--tint-line-rgb) / 0.20) !important; }
+.border-white\/30   { border-color: rgb(var(--tint-line-rgb) / 0.30) !important; }
+.border-white\/40   { border-color: rgb(var(--tint-line-rgb) / 0.40) !important; }
+
+/* bg-black/N → translucent backdrop for nav/modals etc. */
+.bg-black           { background-color: rgb(var(--tint-glass-rgb)) !important; }
+.bg-black\/40       { background-color: rgb(var(--tint-glass-rgb) / 0.45) !important; }
+.bg-black\/60       { background-color: rgb(var(--tint-glass-rgb) / 0.65) !important; }
+.bg-black\/70       { background-color: rgb(var(--tint-glass-rgb) / 0.75) !important; }
+.bg-black\/95       { background-color: rgb(var(--tint-glass-rgb) / 0.96) !important; }
+
+/* The hardcoded greyscale hex values used in editor surfaces / inputs.
+   Map them to theme-aware surfaces so light mode doesn't show dark slabs. */
+[data-theme="light"] .bg-\[\#1a1a1a\] { background-color: var(--color-input) !important; }
+[data-theme="light"] .bg-\[\#161616\] { background-color: var(--color-card) !important; }
+[data-theme="light"] .bg-\[\#0a0a0a\] { background-color: var(--color-bg) !important; }
+[data-theme="light"] .bg-\[\#0d0d0d\] { background-color: var(--color-input-strong) !important; }
+[data-theme="light"] .bg-\[\#111111\] { background-color: var(--color-bg-soft) !important; }
+
+/* Tailwind opacity classes that target `text-black` (mostly on pastel cards
+   — that already works fine on both themes, so no override needed). Leave. */
+
+/* ────────────────────────────────────────────────────────────────────────
+   In light mode the "neon-text" class for big headings can be hard to read
+   when the brand color is brought down. The CSS variables above already
+   handle this; keep a small extra rule to drop the glow in light mode so
+   headings stay crisp.
+   ──────────────────────────────────────────────────────────────────────── */
+[data-theme="light"] .neon-text {
+  text-shadow: none;
+}
+[data-theme="light"] .neon-glow {
+  box-shadow: 0 8px 24px -10px rgba(0, 0, 0, 0.18),
+              0 0 0 1px rgba(125, 158, 30, 0.35);
+}
+
+/* Theme-toggle button visuals */
+.theme-toggle {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  display: inline-grid;
+  place-items: center;
+  border: 1px solid var(--color-line);
+  background: var(--color-card-soft);
+  color: var(--color-text);
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+.theme-toggle:hover {
+  border-color: var(--color-neon);
+  color: var(--color-neon-text);
+}

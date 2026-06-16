@@ -3,6 +3,7 @@ import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import { useSRS } from "../../hooks/useSRS";
 import { useEngagement } from "../adaptive/EngagementProvider";
+import { ThemeToggle } from "../ui/ThemeToggle";
 
 const LINKS = [
   { to: "/dashboard", label: "Dashboard" },
@@ -64,6 +65,7 @@ export function Nav() {
               🔥 {streakDays}d
             </div>
           )}
+          <ThemeToggle />
           <Link
             to="/settings"
             className="text-xs text-white/60 hover:text-white"
@@ -72,13 +74,16 @@ export function Nav() {
           </Link>
         </div>
 
-        <button
-          className="lg:hidden text-white"
-          onClick={() => setOpen((v) => !v)}
-          aria-label="Toggle menu"
-        >
-          {open ? <X /> : <Menu />}
-        </button>
+        <div className="lg:hidden flex items-center gap-2">
+          <ThemeToggle />
+          <button
+            className="text-white"
+            onClick={() => setOpen((v) => !v)}
+            aria-label="Toggle menu"
+          >
+            {open ? <X /> : <Menu />}
+          </button>
+        </div>
       </div>
 
       {open && (

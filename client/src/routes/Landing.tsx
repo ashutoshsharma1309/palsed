@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, Building2, Calendar, Database, Layers, Search, Target } from "lucide-react";
 import { Button } from "../components/ui/Button";
 import { Card } from "../components/ui/Card";
+import { ThemeToggle } from "../components/ui/ThemeToggle";
 import { Background } from "../components/layout/Background";
 import { Footer } from "../components/layout/Footer";
 import { COMPANIES } from "../data/companies";
@@ -75,6 +76,7 @@ export default function Landing() {
             <Link to="/pyq" className="text-xs text-white/60 hover:text-white px-3 py-2">
               PYQ Vault
             </Link>
+            <ThemeToggle />
             <Link to="/onboarding">
               <Button size="sm">Sign in</Button>
             </Link>
