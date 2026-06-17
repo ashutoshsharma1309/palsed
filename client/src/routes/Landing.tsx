@@ -84,61 +84,62 @@ export default function Landing() {
           </nav>
         </header>
 
-        <section className="mx-auto max-w-7xl px-4 sm:px-6 pt-12 pb-24">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="max-w-5xl"
-          >
-            <div className="mono text-xs uppercase tracking-[0.3em] text-[var(--color-neon)] mb-4">
-              · placement season · operating system ·
-            </div>
-            <h1 className="display text-[14vw] sm:text-[110px] lg:text-[150px] leading-[0.85]">
-              YOUR
-              <br />
-              PLACEMENT
-              <br />
-              <span className="neon-text">SEASON,</span>
-              <br />
-              ORGANIZED.
-            </h1>
-            <p className="text-lg sm:text-xl text-white/70 max-w-2xl mt-8">
-              Every recruiter visiting your campus. Every previous-year question. Every application
-              you've submitted. One platform. No more scattered WhatsApp groups or rotting Google Docs.
-            </p>
-            <div className="flex flex-wrap gap-3 mt-10">
-              <a href="#auth">
-                <Button size="lg">
-                  Start tracking <ArrowRight className="w-4 h-4" />
-                </Button>
-              </a>
-              <Link to="/companies">
-                <Button size="lg" variant="outline">
-                  Browse 50 recruiters
-                </Button>
-              </Link>
-            </div>
-          </motion.div>
-        </section>
-
-        {/* Sign-up / sign-in panel — the actual gate to every feature behind RequireAuth */}
-        <section id="auth" className="mx-auto max-w-7xl px-4 sm:px-6 py-16">
-          <div className="grid lg:grid-cols-2 gap-10 items-center">
-            <div>
-              <div className="mono text-xs uppercase tracking-[0.3em] text-[var(--color-neon)] mb-3">
-                · 30-second signup ·
+        {/* HERO — two-column on lg: headline + AuthPanel side-by-side.
+            On smaller screens it stacks vertically (headline first, AuthPanel below). */}
+        <section className="mx-auto max-w-7xl px-4 sm:px-6 pt-10 lg:pt-16 pb-24">
+          <div className="grid lg:grid-cols-[1.5fr_minmax(380px,1fr)] gap-10 lg:gap-14 items-center">
+            {/* LEFT — headline + copy + secondary CTA */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.55 }}
+            >
+              <div className="mono text-xs uppercase tracking-[0.3em] text-[var(--color-neon)] mb-4">
+                · placement season · operating system ·
               </div>
-              <h2 className="display text-5xl sm:text-7xl">JOIN THE BETA.</h2>
-              <p className="text-white/60 max-w-md mt-4">
-                Email + password. No analysis questionnaires. After signup you
-                land straight in the dashboard — track your first company in
-                under a minute.
+              <h1 className="display text-[13vw] sm:text-[88px] lg:text-[104px] xl:text-[124px] leading-[0.86]">
+                YOUR
+                <br />
+                PLACEMENT
+                <br />
+                <span className="neon-text">SEASON,</span>
+                <br />
+                ORGANIZED.
+              </h1>
+              <p className="text-base sm:text-lg text-white/70 max-w-xl mt-7">
+                Every recruiter visiting your campus. Every previous-year question. Every application
+                you've submitted. One platform. No more scattered WhatsApp groups or rotting Google Docs.
               </p>
-            </div>
-            <div className="flex justify-center lg:justify-end">
-              <AuthPanel defaultTab="signup" />
-            </div>
+              <div className="flex flex-wrap gap-3 mt-8">
+                <a href="#auth" className="lg:hidden">
+                  <Button size="lg">
+                    Start tracking <ArrowRight className="w-4 h-4" />
+                  </Button>
+                </a>
+                <Link to="/companies">
+                  <Button size="lg" variant="outline">
+                    Browse 50 recruiters
+                  </Button>
+                </Link>
+              </div>
+            </motion.div>
+
+            {/* RIGHT — AuthPanel always visible alongside the headline on lg+,
+                stacks below on smaller screens. Anchor target for #auth scrolls. */}
+            <motion.div
+              id="auth"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="flex justify-center lg:justify-end scroll-mt-24"
+            >
+              <div className="w-full max-w-md lg:max-w-sm xl:max-w-md">
+                <div className="mono text-[10px] uppercase tracking-[0.32em] text-[var(--color-neon)] text-center lg:text-left mb-3">
+                  · 30-second signup · no questionnaires ·
+                </div>
+                <AuthPanel defaultTab="signup" />
+              </div>
+            </motion.div>
           </div>
         </section>
 
