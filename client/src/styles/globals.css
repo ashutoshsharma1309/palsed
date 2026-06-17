@@ -323,10 +323,12 @@ pre code.hljs {
    — that already works fine on both themes, so no override needed). Leave. */
 
 /* ────────────────────────────────────────────────────────────────────────
-   In light mode the "neon-text" class for big headings can be hard to read
-   when the brand color is brought down. The CSS variables above already
-   handle this; keep a small extra rule to drop the glow in light mode so
-   headings stay crisp.
+   Light-mode neon redirect
+   147 places use `text-[var(--color-neon)]` for accents, overlines, and
+   hover states. The literal neon (#b4e62a in light mode) is unreadable on
+   white. Redirect every text-color usage to --color-neon-text (a deeper
+   olive) without affecting backgrounds or borders. The text-shadow on
+   .neon-text is also dropped so big display headings stay crisp.
    ──────────────────────────────────────────────────────────────────────── */
 [data-theme="light"] .neon-text {
   text-shadow: none;
@@ -335,6 +337,44 @@ pre code.hljs {
   box-shadow: 0 8px 24px -10px rgba(0, 0, 0, 0.18),
               0 0 0 1px rgba(125, 158, 30, 0.35);
 }
+[data-theme="light"] .text-\[var\(--color-neon\)\] {
+  color: var(--color-neon-text) !important;
+}
+[data-theme="light"] .hover\:text-\[var\(--color-neon\)\]:hover {
+  color: var(--color-neon-text) !important;
+}
+[data-theme="light"] .group:hover .group-hover\:text-\[var\(--color-neon\)\] {
+  color: var(--color-neon-text) !important;
+}
+[data-theme="light"] .focus\:text-\[var\(--color-neon\)\]:focus {
+  color: var(--color-neon-text) !important;
+}
+/* Variants with opacity */
+[data-theme="light"] [class*="text-[var(--color-neon)]\\/"] {
+  color: var(--color-neon-text) !important;
+}
+/* Inputs using the neon as focus border keep the brighter lime — it's a
+   pure border accent, plenty visible against the off-white surface. */
+
+/* Subtle background tints that use --color-neon (e.g. bg-[var(--color-neon)]/10)
+   stay as decoration but get bumped slightly so they actually show on white. */
+[data-theme="light"] [class*="bg-[var(--color-neon)]\\/10"] {
+  background-color: rgb(180 230 42 / 0.22) !important;
+}
+[data-theme="light"] [class*="bg-[var(--color-neon)]\\/15"] {
+  background-color: rgb(180 230 42 / 0.28) !important;
+}
+[data-theme="light"] [class*="bg-[var(--color-neon)]\\/20"] {
+  background-color: rgb(180 230 42 / 0.32) !important;
+}
+
+/* Light-mode-specific link cleanup inside markdown / resource cards */
+[data-theme="light"] .markdown-body a {
+  color: var(--color-neon-text);
+}
+
+/* Toast styling — without an explicit color, react-hot-toast picks our
+   --color-card var which works in both themes. */
 
 /* Theme-toggle button visuals */
 .theme-toggle {
