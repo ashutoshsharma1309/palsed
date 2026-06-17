@@ -4,6 +4,7 @@ import { ArrowRight, Building2, Calendar, Database, Layers, Search, Target } fro
 import { Button } from "../components/ui/Button";
 import { Card } from "../components/ui/Card";
 import { ThemeToggle } from "../components/ui/ThemeToggle";
+import { AuthPanel } from "../components/auth/AuthPanel";
 import { Background } from "../components/layout/Background";
 import { Footer } from "../components/layout/Footer";
 import { COMPANIES } from "../data/companies";
@@ -77,9 +78,9 @@ export default function Landing() {
               PYQ Vault
             </Link>
             <ThemeToggle />
-            <Link to="/onboarding">
+            <a href="#auth">
               <Button size="sm">Sign in</Button>
-            </Link>
+            </a>
           </nav>
         </header>
 
@@ -107,11 +108,11 @@ export default function Landing() {
               you've submitted. One platform. No more scattered WhatsApp groups or rotting Google Docs.
             </p>
             <div className="flex flex-wrap gap-3 mt-10">
-              <Link to="/onboarding">
+              <a href="#auth">
                 <Button size="lg">
                   Start tracking <ArrowRight className="w-4 h-4" />
                 </Button>
-              </Link>
+              </a>
               <Link to="/companies">
                 <Button size="lg" variant="outline">
                   Browse 50 recruiters
@@ -119,6 +120,26 @@ export default function Landing() {
               </Link>
             </div>
           </motion.div>
+        </section>
+
+        {/* Sign-up / sign-in panel — the actual gate to every feature behind RequireAuth */}
+        <section id="auth" className="mx-auto max-w-7xl px-4 sm:px-6 py-16">
+          <div className="grid lg:grid-cols-2 gap-10 items-center">
+            <div>
+              <div className="mono text-xs uppercase tracking-[0.3em] text-[var(--color-neon)] mb-3">
+                · 30-second signup ·
+              </div>
+              <h2 className="display text-5xl sm:text-7xl">JOIN THE BETA.</h2>
+              <p className="text-white/60 max-w-md mt-4">
+                Email + password. No analysis questionnaires. After signup you
+                land straight in the dashboard — track your first company in
+                under a minute.
+              </p>
+            </div>
+            <div className="flex justify-center lg:justify-end">
+              <AuthPanel defaultTab="signup" />
+            </div>
+          </div>
         </section>
 
         <section className="border-y border-white/10 bg-black/40 backdrop-blur-sm">

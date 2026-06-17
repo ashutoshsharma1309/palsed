@@ -45,12 +45,6 @@ export default function Dashboard() {
     value: v.score,
   }));
 
-  // Continue-where-you-left-off: most recently touched lesson
-  const recentLessons = Object.entries(lessons)
-    .filter(([, v]) => v?.lastAt)
-    .sort((a, b) => new Date(b[1].lastAt).getTime() - new Date(a[1].lastAt).getTime());
-  const resume = recentLessons[0];
-
   const todayActiveMs = log.days.find((d) => d.date === new Date().toISOString().slice(0, 10))?.activeMs ?? 0;
   const goalMs = profile.dailyMinutes * 60 * 1000;
   const goalFrac = Math.min(1, todayActiveMs / goalMs);

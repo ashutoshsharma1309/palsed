@@ -180,7 +180,11 @@ export default function CompanyDetail() {
         </Card>
         <Card>
           <h3 className="font-bold mb-3">Core CS</h3>
-          <div className="flex flex-wrap gap-1.5">{c.topicsAsked.coreCs.map((t) => (<Chip key={t}>{t}</Chip>))}</div>
+          {c.topicsAsked.coreCs && c.topicsAsked.coreCs.length > 0 ? (
+            <div className="flex flex-wrap gap-1.5">{c.topicsAsked.coreCs.map((t) => (<Chip key={t}>{t}</Chip>))}</div>
+          ) : (
+            <div className="text-xs text-white/40">No core-CS topics reported for this round mix.</div>
+          )}
           {c.topicsAsked.behavioral && (
             <>
               <h3 className="font-bold mt-4 mb-2">Behavioral focus</h3>

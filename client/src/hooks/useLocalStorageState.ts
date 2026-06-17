@@ -132,6 +132,7 @@ export function useLocalStorageState<T>(
 }
 
 export const LS_KEYS = {
+  // legacy "palsed.*" namespace (still used by features built pre-pivot)
   profile: "palsed.profile.v1",
   dsaStatuses: "palsed.dsa.statuses.v1",
   dsaBookmarks: "palsed.dsa.bookmarks.v1",
@@ -146,4 +147,14 @@ export const LS_KEYS = {
   certificates: "palsed.certificates.v1",
   notes: "palsed.notes.v1",
   notifications: "palsed.notifications.v1",
+  focusMode: "palsed.focusmode.v1",
+
+  // new "prepnext.*" namespace (placement-OS pivot)
+  applications: "prepnext.applications.v1",
+  pyq: "prepnext.pyq.v1",
+  placementCompleted: "prepnext.placement.completed.v1",
+  placementBookmarks: "prepnext.placement.bookmarks.v1",
+  authToken: "prepnext.auth.token.v1",
+  authUser: "prepnext.auth.user.v1",
+  theme: "prepnext.theme.v1",
 } as const;

@@ -50,7 +50,7 @@ export interface Company {
   rounds: CompanyRound[];
   topicsAsked: {
     dsa: string[];
-    coreCs: string[];
+    coreCs?: string[];
     systemDesign?: string[];
     behavioral?: string[];
   };

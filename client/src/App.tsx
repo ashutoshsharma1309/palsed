@@ -81,10 +81,12 @@ export default function App() {
                   <Route path="/companies/:slug" element={<CompanyDetail />} />
                   <Route path="/pyq" element={<Pyq />} />
                   <Route path="/internships" element={<Internships />} />
+                  {/* Onboarding is a profile-setup form, not the gate — keep it public.
+                      The real signup/login lives on Landing via <AuthPanel />. */}
+                  <Route path="/onboarding" element={<Onboarding />} />
 
                   {/* Protected — login required */}
                   <Route element={<RequireAuth />}>
-                    <Route path="/onboarding" element={<Onboarding />} />
                     <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="/dsa" element={<Dsa />} />
                     <Route path="/dsa/:slug" element={<DsaProblem />} />

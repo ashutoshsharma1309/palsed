@@ -92,7 +92,7 @@ export const INTERNSHIP_BOARDS: InternshipBoard[] = [
       description: "Monthly thread of every YC-adjacent and indie tech company hiring. Search by Ctrl-F.",
       tip: "Search for 'INTERN' + 'REMOTE' + your stack. Email the contacts directly — usually founders/CTOs." }),
   B({ name: "Otta", url: "https://otta.com", category: "Global · Startups & YC", tier: "freemium",
-      focus: ["fresher", "tech", "startup"], region: ["UK", "US", "Remote-OK"],
+      focus: ["fresher", "tech", "startup"], region: ["Europe", "US", "Remote-OK"],
       description: "Curated tech jobs at high-quality startups. Heavy UK + US slant." }),
   B({ name: "Built In", url: "https://builtin.com", category: "Global · Startups & YC", tier: "free",
       focus: ["fresher", "startup", "tech"], region: ["US"],
