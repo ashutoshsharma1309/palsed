@@ -1,5 +1,7 @@
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import toast from "react-hot-toast";
 import { ArrowRight, Building2, Calendar, Database, Layers, Search, Target } from "lucide-react";
 import { Button } from "../components/ui/Button";
 import { Card } from "../components/ui/Card";
@@ -64,6 +66,25 @@ const STATS = [
 ];
 
 export default function Landing() {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // If the user landed here via RequireAuth redirect, notify them and
+  // bring the AuthPanel into view.
+  useEffect(() => {
+    const state = location.state as { requiresAuth?: boolean; from?: string } | null;
+    if (!state?.requiresAuth) return;
+    toast.error("Please log in to access that feature.", { id: "auth-required", duration: 4500 });
+    // give the page a tick to mount before scrolling
+    const t = setTimeout(() => {
+      document.getElementById("auth")?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 80);
+    // Strip the state so a refresh doesn't keep firing the toast.
+    navigate(location.pathname + location.search, { replace: true, state: { from: state.from } });
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
       <Background />
@@ -71,12 +92,6 @@ export default function Landing() {
         <header className="mx-auto max-w-7xl px-4 sm:px-6 flex items-center justify-between h-16">
           <div className="display text-2xl neon-text">PREPNEXT</div>
           <nav className="flex items-center gap-2">
-            <Link to="/companies" className="text-xs text-white/60 hover:text-white px-3 py-2">
-              Recruiter Map
-            </Link>
-            <Link to="/pyq" className="text-xs text-white/60 hover:text-white px-3 py-2">
-              PYQ Vault
-            </Link>
             <ThemeToggle />
             <a href="#auth">
               <Button size="sm">Sign in</Button>

@@ -77,17 +77,17 @@ export default function App() {
                   {/* Public — accessible without login */}
                   <Route path="/" element={<Landing />} />
                   <Route path="/verify-certificate" element={<VerifyCertificate />} />
-                  <Route path="/companies" element={<Companies />} />
-                  <Route path="/companies/:slug" element={<CompanyDetail />} />
-                  <Route path="/pyq" element={<Pyq />} />
-                  <Route path="/internships" element={<Internships />} />
                   {/* Onboarding is a profile-setup form, not the gate — keep it public.
                       The real signup/login lives on Landing via <AuthPanel />. */}
                   <Route path="/onboarding" element={<Onboarding />} />
 
-                  {/* Protected — login required */}
+                  {/* Protected — login required for every feature */}
                   <Route element={<RequireAuth />}>
                     <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/companies" element={<Companies />} />
+                    <Route path="/companies/:slug" element={<CompanyDetail />} />
+                    <Route path="/pyq" element={<Pyq />} />
+                    <Route path="/internships" element={<Internships />} />
                     <Route path="/dsa" element={<Dsa />} />
                     <Route path="/dsa/:slug" element={<DsaProblem />} />
                     <Route path="/pyq/submit" element={<PyqSubmit />} />
