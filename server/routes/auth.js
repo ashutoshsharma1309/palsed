@@ -1,112 +1,56 @@
-// Email + password authentication backed by the MySQL `User` table.
+// Auth endpoints. All of signup/login/password-reset/OAuth is handled by
+// Supabase Auth on the client. The server only:
+//   1) Verifies the incoming Supabase JWT,
+//   2) Syncs (find-or-create) the matching row in our `User` table,
+//   3) Returns the synced user.
+//
+// The middleware in ../auth.js (`requireAuth`) does the heavy lifting.
 import { Router } from "express";
-import bcrypt from "bcryptjs";
 import { prisma } from "../db.js";
-import { signToken, requireAuth, publicUser } from "../auth.js";
+import { requireAuth, publicUser } from "../auth.js";
 
 const r = Router();
 
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const MIN_PASSWORD = 8;
-const MAX_FIELD = 200;
-
-function normalizeEmail(e) {
-  return typeof e === "string" ? e.trim().toLowerCase() : "";
-}
-
-// Login throttling: 5 failed attempts per email per 15 min triggers a 15-min lockout.
-// Per-process memory; for multi-instance use Redis (see Phase 7 plan).
-const FAIL_WINDOW_MS = 15 * 60 * 1000;
-const FAIL_LIMIT = 5;
-const loginFails = new Map(); // key: email → [{ at }]
-
-function recordFailure(email) {
-  const now = Date.now();
-  const arr = (loginFails.get(email) || []).filter((x) => now - x.at < FAIL_WINDOW_MS);
-  arr.push({ at: now });
-  loginFails.set(email, arr);
-  return arr.length;
-}
-function isLockedOut(email) {
-  const now = Date.now();
-  const arr = (loginFails.get(email) || []).filter((x) => now - x.at < FAIL_WINDOW_MS);
-  loginFails.set(email, arr);
-  return arr.length >= FAIL_LIMIT;
-}
-function clearFailures(email) {
-  loginFails.delete(email);
-}
-
-// POST /api/auth/signup  { email, password, displayName? }
-r.post("/signup", async (req, res, next) => {
-  try {
-    const email = normalizeEmail(req.body?.email);
-    const password = req.body?.password;
-    const displayName = (req.body?.displayName || "").trim();
-
-    if (!EMAIL_RE.test(email) || email.length > MAX_FIELD) return res.status(400).json({ error: "A valid email is required" });
-    if (typeof password !== "string" || password.length < MIN_PASSWORD || password.length > MAX_FIELD) {
-      return res.status(400).json({ error: `Password must be ${MIN_PASSWORD}-${MAX_FIELD} characters` });
-    }
-    if (displayName.length > MAX_FIELD) return res.status(400).json({ error: "Display name too long" });
-
-    const existing = await prisma.user.findUnique({ where: { email } });
-    if (existing) return res.status(409).json({ error: "An account with this email already exists" });
-
-    const passwordHash = await bcrypt.hash(password, 10);
-    const user = await prisma.user.create({
-      data: {
-        email,
-        passwordHash,
-        displayName: displayName || email.split("@")[0],
-      },
-    });
-
-    const token = signToken(user);
-    res.status(201).json({ token, user: publicUser(user) });
-  } catch (err) {
-    next(err);
-  }
-});
-
-// POST /api/auth/login  { email, password }
-r.post("/login", async (req, res, next) => {
-  try {
-    const email = normalizeEmail(req.body?.email);
-    const password = req.body?.password;
-    if (!EMAIL_RE.test(email) || typeof password !== "string" || password.length > MAX_FIELD) {
-      return res.status(400).json({ error: "Email and password are required" });
-    }
-
-    if (isLockedOut(email)) {
-      res.setHeader("Retry-After", "900");
-      return res.status(429).json({ error: "Too many failed attempts. Try again in 15 minutes." });
-    }
-
-    const user = await prisma.user.findUnique({ where: { email } });
-    const ok = user?.passwordHash ? await bcrypt.compare(password, user.passwordHash) : false;
-    if (!ok) {
-      recordFailure(email);
-      return res.status(401).json({ error: "Invalid email or password" });
-    }
-
-    clearFailures(email);
-    const token = signToken(user);
-    res.json({ token, user: publicUser(user) });
-  } catch (err) {
-    next(err);
-  }
-});
-
-// GET /api/auth/me   (Authorization: Bearer <token>)
+// GET /api/auth/me  → returns the synced User row (creates one if missing).
 r.get("/me", requireAuth, async (req, res, next) => {
   try {
-    const user = await prisma.user.findUnique({ where: { id: req.auth.sub } });
+    const user = await prisma.user.findUnique({ where: { id: req.auth.id } });
     if (!user) return res.status(404).json({ error: "User not found" });
     res.json({ user: publicUser(user) });
   } catch (err) {
     next(err);
   }
 });
+
+// PATCH /api/auth/me  { displayName?, learningGoal?, preferredStyle?, dailyMinutes? }
+// Lets the user edit their profile.
+r.patch("/me", requireAuth, async (req, res, next) => {
+  try {
+    const { displayName, learningGoal, preferredStyle, dailyMinutes } = req.body || {};
+    const data = {};
+    if (typeof displayName === "string" && displayName.trim()) data.displayName = displayName.trim().slice(0, 80);
+    if (typeof learningGoal === "string") data.learningGoal = learningGoal.trim().slice(0, 80);
+    if (typeof preferredStyle === "string") data.preferredStyle = preferredStyle;
+    if (typeof dailyMinutes === "number" && dailyMinutes >= 5 && dailyMinutes <= 240) data.dailyMinutes = dailyMinutes;
+    if (Object.keys(data).length === 0) return res.status(400).json({ error: "Nothing to update" });
+
+    const user = await prisma.user.update({ where: { id: req.auth.id }, data });
+    res.json({ user: publicUser(user) });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// Legacy endpoints — return 410 Gone so any cached client calling them gets a clear error.
+r.post("/signup", (_req, res) =>
+  res.status(410).json({
+    error: "Signup has moved to Supabase Auth. Use the client signup flow.",
+  })
+);
+r.post("/login", (_req, res) =>
+  res.status(410).json({
+    error: "Login has moved to Supabase Auth. Use the client login flow.",
+  })
+);
 
 export default r;

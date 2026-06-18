@@ -24,6 +24,7 @@ const Pyq = lazy(() => import("./routes/Pyq"));
 const PyqSubmit = lazy(() => import("./routes/PyqSubmit"));
 const Applications = lazy(() => import("./routes/Applications"));
 const Internships = lazy(() => import("./routes/Internships"));
+const AuthCallback = lazy(() => import("./routes/AuthCallback"));
 const Review = lazy(() => import("./routes/Review"));
 const SystemDesign = lazy(() => import("./routes/SystemDesign"));
 const CoreCs = lazy(() => import("./routes/CoreCs"));
@@ -77,6 +78,7 @@ export default function App() {
                   {/* Public — accessible without login */}
                   <Route path="/" element={<Landing />} />
                   <Route path="/verify-certificate" element={<VerifyCertificate />} />
+                  <Route path="/auth/callback" element={<AuthCallback />} />
                   {/* Onboarding is a profile-setup form, not the gate — keep it public.
                       The real signup/login lives on Landing via <AuthPanel />. */}
                   <Route path="/onboarding" element={<Onboarding />} />
