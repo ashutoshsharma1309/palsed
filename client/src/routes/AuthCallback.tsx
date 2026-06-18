@@ -28,24 +28,46 @@ export default function AuthCallback() {
 
   useEffect(() => {
     let cancelled = false;
-    (async () => {
-      // supabase-js parses tokens from the URL hash/query automatically.
-      // Give it a tick, then check.
-      await new Promise((r) => setTimeout(r, 60));
-      const { data, error } = await supabase.auth.getSession();
-      if (cancelled) return;
-      if (error) { setError(error.message); setStatus("error"); return; }
-      if (!data.session) { setStatus("error"); setError("No active session — link may have expired."); return; }
 
+    // Race three signals — whichever fires first wins:
+    //   1. Existing session (already exchanged)
+    //   2. onAuthStateChange "SIGNED_IN" event (token detected from URL)
+    //   3. 6-second timeout → show error
+    const settle = async (msg?: string) => {
+      if (cancelled) return;
       if (intent === "reset") {
-        // Stay on this page and let the user pick a new password.
+        const { data } = await supabase.auth.getSession();
+        if (!data.session) { setStatus("error"); setError("Reset link expired. Request a new one."); return; }
         setStatus("reset");
-      } else {
-        toast.success("You're in!");
-        navigate("/dashboard", { replace: true });
+        return;
       }
+      const { data } = await supabase.auth.getSession();
+      if (!data.session) { setStatus("error"); setError(msg || "No active session — sign-in link may have expired."); return; }
+      toast.success("You're in!");
+      navigate("/dashboard", { replace: true });
+    };
+
+    // 1) maybe we already have a session
+    (async () => {
+      const { data } = await supabase.auth.getSession();
+      if (data.session) await settle();
     })();
-    return () => { cancelled = true; };
+
+    // 2) listen for SIGNED_IN or PASSWORD_RECOVERY
+    const { data: sub } = supabase.auth.onAuthStateChange(async (event, _session) => {
+      if (event === "SIGNED_IN" || event === "PASSWORD_RECOVERY" || event === "INITIAL_SESSION") {
+        await settle();
+      }
+    });
+
+    // 3) hard timeout — gives us a chance to recover after token exchange
+    const t = setTimeout(() => settle("Sign-in took too long. Try again."), 6000);
+
+    return () => {
+      cancelled = true;
+      sub.subscription.unsubscribe();
+      clearTimeout(t);
+    };
   }, [intent, navigate]);
 
   const doReset = async (e: React.FormEvent) => {
