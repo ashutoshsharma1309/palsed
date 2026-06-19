@@ -11,6 +11,7 @@ import { Router } from "express";
 import { prisma } from "../db.js";
 import { requireAuth, publicUser } from "../auth.js";
 import { getSupabaseAdmin } from "../lib/supabaseAdmin.js";
+import { validateEmail } from "../lib/emailValidator.js";
 
 const r = Router();
 
@@ -127,6 +128,12 @@ r.post("/signup", async (req, res, next) => {
     }
     if (displayName.length > MAX_FIELD) {
       return res.status(400).json({ error: "Display name too long" });
+    }
+
+    // Block fake/disposable/non-deliverable emails BEFORE creating the user.
+    const { ok, reason } = await validateEmail(email);
+    if (!ok) {
+      return res.status(400).json({ error: reason });
     }
 
     const admin = getSupabaseAdmin();
