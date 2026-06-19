@@ -19,7 +19,16 @@ export function buildCors() {
       return cb(null, false);
     },
     credentials: false,
-    methods: ["GET", "POST", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Accept"],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: [
+      "Content-Type",
+      "Accept",
+      "Authorization",       // bearer token (Supabase JWT)
+      "X-Requested-With",
+      "X-Client-Info",       // sent by supabase-js
+      "apikey",              // sent by supabase-js for direct Supabase calls
+    ],
+    exposedHeaders: ["Retry-After"],
+    maxAge: 86400, // cache preflight 24h
   });
 }
