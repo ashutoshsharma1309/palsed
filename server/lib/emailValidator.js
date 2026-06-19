@@ -123,8 +123,9 @@ const SUSPICIOUS_LOCAL_PARTS = new Set([
 function looksLikeGibberish(local) {
   if (local.length < 3) return true;
 
-  // Single character repeated 3+ times anywhere → "aaa", "iiiiiii"
-  if (/(.)\1{2,}/.test(local)) return true;
+  // Single LETTER repeated 3+ times anywhere → "aaa", "iiiiiii"
+  // (Digits intentionally allowed: years/phones often contain runs like "888".)
+  if (/([a-z])\1{2,}/i.test(local)) return true;
 
   // 2-3 char unit repeated 3+ times → "adadada", "xyxyxy", "abcabcabc"
   if (/^(.{2,3})\1{2,}$/.test(local)) return true;
