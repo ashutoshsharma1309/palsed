@@ -58,6 +58,65 @@ export async function fetchAppUser(): Promise<AuthUser> {
 }
 
 /**
+ * Server-side check — is this an email we should bother sending an OTP to?
+ * Catches gibberish/disposable/no-MX addresses before they consume a Supabase
+ * email rate-limit slot.
+ */
+export async function validateEmail(email: string): Promise<{ ok: boolean; reason?: string }> {
+  const base = await ensureApi();
+  const res = await fetch(`${base}/api/auth/validate-email`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email }),
+  });
+  const json = await res.json().catch(() => ({}));
+  if (!res.ok) return { ok: false, reason: json.reason || json.error || "Invalid email" };
+  return { ok: true };
+}
+
+/**
+ * Send a 6-digit OTP to the user's email. Creates the user if they don't exist
+ * yet (and stamps `display_name` into user_metadata for first-time signups).
+ * After this returns, the user receives a code in their inbox; verify it via
+ * verifyOtpCode().
+ */
+export async function sendOtp(email: string, displayName?: string): Promise<void> {
+  const { error } = await supabase.auth.signInWithOtp({
+    email,
+    options: {
+      shouldCreateUser: true,
+      emailRedirectTo: `${window.location.origin}/auth/callback`,
+      data: displayName ? { display_name: displayName } : undefined,
+    },
+  });
+  if (error) {
+    // Supabase rate-limit message: "email rate limit exceeded"
+    if (/rate limit|too many/i.test(error.message)) {
+      throw new Error("Too many emails sent. Wait a few minutes and try again.");
+    }
+    throw new Error(error.message);
+  }
+}
+
+/**
+ * Verify a 6-digit code the user typed. On success, Supabase issues a session
+ * and onAuthStateChange fires (useAuth updates automatically).
+ */
+export async function verifyOtpCode(email: string, code: string): Promise<void> {
+  const { error } = await supabase.auth.verifyOtp({
+    email,
+    token: code.trim(),
+    type: "email",
+  });
+  if (error) {
+    if (/invalid|expired/i.test(error.message)) {
+      throw new Error("That code is wrong or expired. Request a new one.");
+    }
+    throw new Error(error.message);
+  }
+}
+
+/**
  * Email + password signup via our server (admin API).
  *
  * Why server-side instead of supabase.auth.signUp?

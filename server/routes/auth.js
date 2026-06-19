@@ -45,6 +45,28 @@ r.patch("/me", requireAuth, async (req, res, next) => {
 });
 
 /**
+ * POST /api/auth/validate-email  { email }
+ *
+ * Cheap pre-check before the client triggers an OTP send via Supabase. Catches
+ * fake/disposable/gibberish addresses so we don't waste a rate-limited email
+ * on something that obviously won't work. Returns { ok: true } if the address
+ * passes all our heuristics + DNS MX lookup; otherwise { ok: false, reason }.
+ */
+r.post("/validate-email", async (req, res, next) => {
+  try {
+    const email = String(req.body?.email || "").trim().toLowerCase();
+    if (!email) return res.status(400).json({ ok: false, reason: "Email required" });
+
+    const result = await validateEmail(email);
+    if (!result.ok) return res.status(400).json(result);
+
+    res.json({ ok: true });
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
  * POST /api/auth/dev-confirm  { email }
  *
  * Forces email confirmation for a freshly-signed-up Supabase user, using the
@@ -97,86 +119,15 @@ r.post("/dev-confirm", async (req, res, next) => {
   }
 });
 
-/**
- * POST /api/auth/signup  { email, password, displayName }
- *
- * Server-side signup using the Supabase Admin API. This bypasses Supabase's
- * public /auth/v1/signup endpoint entirely, which means:
- *   - No confirmation email is sent (`email_confirm: true` marks it verified).
- *   - Not subject to Supabase's free-tier email rate limit
- *     ("over_email_send_rate_limit" error that blocks the public endpoint).
- *   - Works regardless of the "Confirm email" toggle in the dashboard.
- *
- * The client then signs in via supabase.auth.signInWithPassword() to get a
- * session. We deliberately don't return tokens here — keep tokens client-side.
- */
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const MIN_PW = 8;
-const MAX_FIELD = 200;
-
-r.post("/signup", async (req, res, next) => {
-  try {
-    const email = String(req.body?.email || "").trim().toLowerCase();
-    const password = req.body?.password;
-    const displayName = String(req.body?.displayName || "").trim() || email.split("@")[0];
-
-    if (!EMAIL_RE.test(email) || email.length > MAX_FIELD) {
-      return res.status(400).json({ error: "A valid email is required" });
-    }
-    if (typeof password !== "string" || password.length < MIN_PW || password.length > MAX_FIELD) {
-      return res.status(400).json({ error: `Password must be ${MIN_PW}-${MAX_FIELD} characters` });
-    }
-    if (displayName.length > MAX_FIELD) {
-      return res.status(400).json({ error: "Display name too long" });
-    }
-
-    // Block fake/disposable/non-deliverable emails BEFORE creating the user.
-    const { ok, reason } = await validateEmail(email);
-    if (!ok) {
-      return res.status(400).json({ error: reason });
-    }
-
-    const admin = getSupabaseAdmin();
-
-    // Create the user pre-confirmed — no email sent, no rate limit.
-    const { data, error } = await admin.auth.admin.createUser({
-      email,
-      password,
-      email_confirm: true,
-      user_metadata: { display_name: displayName },
-    });
-
-    if (error) {
-      // Supabase admin returns 422 on duplicate; map to a friendly 409.
-      const msg = (error.message || "").toLowerCase();
-      if (
-        msg.includes("already") ||
-        msg.includes("duplicate") ||
-        msg.includes("user_already_exists") ||
-        msg.includes("registered")
-      ) {
-        return res.status(409).json({ error: "An account with this email already exists" });
-      }
-      console.error("[signup] admin.createUser failed:", error);
-      return res.status(502).json({ error: error.message || "Couldn't create account" });
-    }
-
-    res.status(201).json({
-      ok: true,
-      user: {
-        id: data.user?.id,
-        email: data.user?.email,
-        displayName,
-      },
-    });
-  } catch (err) {
-    next(err);
-  }
-});
-
-// Legacy login endpoint — login goes through Supabase JS client directly.
+// Signup + login moved entirely to OTP via Supabase. The client calls
+// supabase.auth.signInWithOtp() to send the code and supabase.auth.verifyOtp()
+// to consume it. The server only validates the email beforehand (above) so we
+// don't waste a rate-limited send on garbage addresses.
+r.post("/signup", (_req, res) =>
+  res.status(410).json({ error: "Signup moved to OTP email verification. Use /api/auth/validate-email then supabase.auth.signInWithOtp." })
+);
 r.post("/login", (_req, res) =>
-  res.status(410).json({ error: "Login moved to Supabase Auth. Use the client login flow." })
+  res.status(410).json({ error: "Login moved to OTP email verification. Use supabase.auth.signInWithOtp." })
 );
 
 export default r;

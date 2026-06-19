@@ -1,11 +1,9 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { LogIn, UserPlus, LogOut, ArrowRight, Mail, KeyRound } from "lucide-react";
+import { LogOut, ArrowRight, Mail, KeyRound, ArrowLeft } from "lucide-react";
 import { Button } from "../ui/Button";
 import { useAuth } from "../../hooks/useAuth";
-import { requestPasswordReset, resendConfirmation, devConfirmEmail } from "../../lib/auth";
-
-type Tab = "signup" | "login";
+import { validateEmail, sendOtp, verifyOtpCode, loginGoogle } from "../../lib/auth";
 
 const inputCls =
   "w-full mt-1 bg-white/[0.03] border border-white/15 rounded-xl px-3.5 py-2.5 text-sm text-white placeholder-white/30 outline-none focus:border-[var(--color-neon)] focus:bg-white/[0.06] transition-colors";
@@ -16,33 +14,47 @@ const shell =
 
 interface AuthPanelProps {
   redirectTo?: string;
-  defaultTab?: Tab;
 }
 
-export function AuthPanel({ redirectTo, defaultTab = "signup" }: AuthPanelProps = {}) {
-  const { isAuthenticated, user, login, signup, google, logout } = useAuth();
+type Phase = "enterEmail" | "enterCode";
+
+const RESEND_COOLDOWN_S = 45;
+
+export function AuthPanel({ redirectTo }: AuthPanelProps = {}) {
+  const { isAuthenticated, user, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const dest = redirectTo || (location.state as { from?: string } | null)?.from || "/dashboard";
 
-  const [tab, setTab] = useState<Tab>(defaultTab);
-  const [fullName, setFullName] = useState("");
+  const [phase, setPhase] = useState<Phase>("enterEmail");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirm, setConfirm] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [code, setCode] = useState("");
   const [busy, setBusy] = useState(false);
   const [googleBusy, setGoogleBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [info, setInfo] = useState<string | null>(null);
+  const [resendIn, setResendIn] = useState(0);
 
-  // After signup, we may need to show a "check your email" state instead of redirecting.
-  const [needsVerification, setNeedsVerification] = useState<string | null>(null);
+  // Resend cooldown ticker
+  useEffect(() => {
+    if (resendIn <= 0) return;
+    const t = setTimeout(() => setResendIn((s) => Math.max(0, s - 1)), 1000);
+    return () => clearTimeout(t);
+  }, [resendIn]);
 
-  // Forgot-password sub-flow
-  const [forgotOpen, setForgotOpen] = useState(false);
-  const [forgotEmail, setForgotEmail] = useState("");
-  const [forgotBusy, setForgotBusy] = useState(false);
-  const [forgotSent, setForgotSent] = useState(false);
+  // Auto-redirect once the session lands (set by Supabase after verifyOtp).
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate(dest, { replace: true });
+    }
+  }, [isAuthenticated, dest, navigate]);
+
+  // Auto-focus the code input when we switch to that phase
+  const codeRef = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    if (phase === "enterCode") setTimeout(() => codeRef.current?.focus(), 80);
+  }, [phase]);
 
   // ─── Signed-in state ──────────────────────────────────────────────────
   if (isAuthenticated && user) {
@@ -63,206 +75,146 @@ export function AuthPanel({ redirectTo, defaultTab = "signup" }: AuthPanelProps 
     );
   }
 
-  // ─── Post-signup: confirm-your-email state ────────────────────────────
-  if (needsVerification) {
-    return (
-      <div className={shell}>
-        <div className="mono text-xs uppercase tracking-[0.3em] text-[var(--color-neon)] mb-2">· almost there ·</div>
-        <div className="display text-2xl">Verify to continue.</div>
-        <p className="text-white/70 text-sm mt-3">
-          We sent a confirmation link to <strong className="text-white">{needsVerification}</strong>. If you didn't
-          receive it, you can skip ahead — we'll confirm your email automatically.
-        </p>
-        <div className="flex flex-wrap gap-2 mt-5">
-          <Button
-            disabled={busy}
-            onClick={async () => {
-              setError(null); setInfo(null); setBusy(true);
-              try {
-                const ok = await devConfirmEmail(needsVerification);
-                if (!ok) throw new Error("Couldn't auto-confirm — try the resend link.");
-                await login(needsVerification, password);
-                navigate(dest, { replace: true });
-              } catch (e: any) {
-                setError(e?.message || "Couldn't sign you in.");
-              } finally { setBusy(false); }
-            }}
-          >
-            <KeyRound className="w-4 h-4" /> {busy ? "Signing in…" : "Skip — sign me in now"}
-          </Button>
-          <Button
-            variant="outline"
-            disabled={busy}
-            onClick={async () => {
-              setError(null); setInfo(null);
-              try {
-                await resendConfirmation(needsVerification);
-                setInfo("Sent! Check your inbox + spam folder.");
-              } catch (e: any) { setError(e?.message || "Couldn't resend."); }
-            }}
-          >
-            <Mail className="w-4 h-4" /> Resend email
-          </Button>
-          <Button
-            variant="ghost"
-            onClick={() => { setNeedsVerification(null); setTab("login"); }}
-          >
-            Back to login
-          </Button>
-        </div>
-        {info && <div className="text-[var(--color-neon-text)] text-xs mt-4">{info}</div>}
-        {error && <div className="text-[#ff5247] text-xs mt-4">{error}</div>}
-      </div>
-    );
-  }
-
-  // ─── Forgot password sub-state ────────────────────────────────────────
-  if (forgotOpen) {
-    return (
-      <div className={shell}>
-        <div className="mono text-xs uppercase tracking-[0.3em] text-[var(--color-neon)] mb-2">· reset password ·</div>
-        <div className="display text-2xl">Reset your password.</div>
-        {forgotSent ? (
-          <p className="text-white/70 text-sm mt-3">
-            If an account exists for <strong className="text-white">{forgotEmail}</strong> you'll get a reset link
-            in a minute. Check your inbox + spam.
-          </p>
-        ) : (
-          <form
-            className="space-y-4 mt-5"
-            onSubmit={async (e) => {
-              e.preventDefault();
-              setError(null);
-              setForgotBusy(true);
-              try {
-                await requestPasswordReset(forgotEmail);
-                setForgotSent(true);
-              } catch (e: any) { setError(e?.message || "Couldn't send reset email."); }
-              finally { setForgotBusy(false); }
-            }}
-          >
-            <div>
-              <label className={labelCls} htmlFor="forgot-email">Email</label>
-              <input
-                id="forgot-email"
-                className={inputCls}
-                type="email"
-                required
-                value={forgotEmail}
-                onChange={(e) => setForgotEmail(e.target.value)}
-                placeholder="you@example.com"
-                autoComplete="email"
-              />
-            </div>
-            {error && <div className="text-[#ff5247] text-sm">{error}</div>}
-            <Button type="submit" fullWidth disabled={forgotBusy}>
-              {forgotBusy ? "Sending…" : <><Mail className="w-4 h-4" /> Send reset link</>}
-            </Button>
-          </form>
-        )}
-        <button
-          type="button"
-          className="mt-5 text-xs text-white/55 hover:text-white"
-          onClick={() => { setForgotOpen(false); setForgotSent(false); setError(null); }}
-        >
-          ← Back to sign in
-        </button>
-      </div>
-    );
-  }
-
-  const switchTab = (t: Tab) => { setTab(t); setError(null); setInfo(null); };
-
-  const onSubmit = async (e: React.FormEvent) => {
+  // ─── Step 1: enter email ──────────────────────────────────────────────
+  const onSendCode = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null);
-    if (tab === "signup") {
-      if (password.length < 8) return setError("Password must be at least 8 characters");
-      if (password !== confirm) return setError("Passwords do not match");
-      if (!fullName.trim()) return setError("Please enter your name");
-    }
+    setError(null); setInfo(null);
+    const cleaned = email.trim().toLowerCase();
+    if (!cleaned) return setError("Enter your email.");
+
     setBusy(true);
     try {
-      if (tab === "signup") {
-        const u = await signup(email, password, fullName);
-        if (u && !u.id) {
-          // Email confirmation required — show the verify state instead of redirecting
-          setNeedsVerification(email);
-          return;
-        }
-      } else {
-        await login(email, password);
+      // 1) Server-side check (gibberish/disposable/no-MX) — saves rate-limit slots.
+      const v = await validateEmail(cleaned);
+      if (!v.ok) {
+        setError(v.reason || "That email isn't accepted.");
+        return;
       }
-      navigate(dest, { replace: true });
+
+      // 2) Tell Supabase to email a 6-digit code.
+      await sendOtp(cleaned, fullName.trim() || undefined);
+
+      setPhase("enterCode");
+      setInfo("Code sent. Check your inbox + spam folder.");
+      setResendIn(RESEND_COOLDOWN_S);
     } catch (err: any) {
-      const msg = err?.message || "Something went wrong";
-      // Email-not-confirmed → auto-confirm via server, then retry login.
-      if (/email not confirmed|email is not verified|confirm/i.test(msg)) {
-        const ok = await devConfirmEmail(email);
-        if (ok) {
-          try {
-            await login(email, password);
-            navigate(dest, { replace: true });
-            return;
-          } catch (e: any) {
-            setError(e?.message || "Couldn't sign in after confirming.");
-          }
-        } else {
-          setError(
-            "Couldn't confirm your email. Try the 'Resend' button or sign up again."
-          );
-        }
-      } else if (/invalid login credentials/i.test(msg)) {
-        setError("Wrong email or password.");
-      } else if (/user already registered/i.test(msg)) {
-        setError("That email already has an account. Switch to Login.");
-      } else if (/rate limit|too many requests/i.test(msg)) {
-        setError("Too many attempts — wait a minute and try again.");
-      } else setError(msg);
+      setError(err?.message || "Couldn't send code.");
     } finally {
       setBusy(false);
     }
   };
 
-  const onGoogle = async () => {
-    setError(null);
-    setGoogleBusy(true);
-    try { await google(); }
-    catch (err: any) { setError(err?.message || "Google sign-in failed"); setGoogleBusy(false); }
-    // page redirects — no need to clear busy on success
+  // ─── Step 2: enter code ───────────────────────────────────────────────
+  const onVerify = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null); setInfo(null);
+    const cleaned = code.replace(/\s+/g, "");
+    if (!/^\d{6}$/.test(cleaned)) return setError("Enter the 6-digit code.");
+
+    setBusy(true);
+    try {
+      await verifyOtpCode(email.trim().toLowerCase(), cleaned);
+      // The auth state change will trigger navigation via the effect above.
+    } catch (err: any) {
+      setError(err?.message || "Verification failed.");
+    } finally {
+      setBusy(false);
+    }
   };
 
-  // ─── Main sign-up / log-in form ───────────────────────────────────────
+  const onResend = async () => {
+    if (resendIn > 0) return;
+    setError(null); setInfo(null); setBusy(true);
+    try {
+      await sendOtp(email.trim().toLowerCase(), fullName.trim() || undefined);
+      setInfo("New code sent.");
+      setResendIn(RESEND_COOLDOWN_S);
+    } catch (err: any) {
+      setError(err?.message || "Couldn't resend.");
+    } finally { setBusy(false); }
+  };
+
+  const onGoogle = async () => {
+    setError(null); setGoogleBusy(true);
+    try { await loginGoogle(); }
+    catch (err: any) { setError(err?.message || "Google sign-in failed"); setGoogleBusy(false); }
+  };
+
+  // ─── Code-entry view ──────────────────────────────────────────────────
+  if (phase === "enterCode") {
+    return (
+      <div className={shell}>
+        <button
+          type="button"
+          className="text-[10px] uppercase tracking-widest text-white/50 hover:text-white inline-flex items-center gap-1 mb-3"
+          onClick={() => { setPhase("enterEmail"); setCode(""); setError(null); setInfo(null); }}
+        >
+          <ArrowLeft className="w-3 h-3" /> Change email
+        </button>
+        <div className="mono text-xs uppercase tracking-[0.3em] text-[var(--color-neon)] mb-2">· verify ·</div>
+        <div className="display text-2xl">Check your email.</div>
+        <p className="text-white/70 text-sm mt-3">
+          We sent a 6-digit code to <strong className="text-white">{email}</strong>. Enter it below to finish signing in.
+        </p>
+
+        <form onSubmit={onVerify} className="space-y-4 mt-5">
+          <div>
+            <label className={labelCls} htmlFor="otp-code">Verification code</label>
+            <input
+              id="otp-code"
+              ref={codeRef}
+              className={`${inputCls} text-center text-2xl tracking-[0.5em] mono`}
+              inputMode="numeric"
+              maxLength={6}
+              autoComplete="one-time-code"
+              required
+              value={code}
+              onChange={(e) => setCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
+              placeholder="······"
+            />
+          </div>
+
+          {error && <div className="text-[#ff5247] text-sm" role="alert">{error}</div>}
+          {info && <div className="text-[var(--color-neon-text)] text-xs">{info}</div>}
+
+          <Button type="submit" fullWidth disabled={busy || code.length !== 6}>
+            {busy ? "Verifying…" : <><KeyRound className="w-4 h-4" /> Verify & sign in</>}
+          </Button>
+        </form>
+
+        <div className="flex items-center justify-between mt-5">
+          <button
+            type="button"
+            disabled={resendIn > 0 || busy}
+            onClick={onResend}
+            className="text-xs text-white/55 hover:text-white disabled:opacity-50"
+          >
+            {resendIn > 0 ? `Resend in ${resendIn}s` : "Resend code"}
+          </button>
+          <span className="text-[10px] text-white/40 mono">code expires in 60 min</span>
+        </div>
+      </div>
+    );
+  }
+
+  // ─── Email-entry view (default) ───────────────────────────────────────
   return (
     <div className={shell}>
-      <div role="tablist" aria-label="Authentication" className="grid grid-cols-2 gap-1 p-1 rounded-2xl bg-black/30 border border-white/10 mb-6">
-        {([["signup", "Create Account"], ["login", "Login"]] as [Tab, string][]).map(([t, label]) => (
-          <button
-            key={t}
-            role="tab"
-            type="button"
-            aria-selected={tab === t}
-            onClick={() => switchTab(t)}
-            className={`py-2 rounded-xl text-sm font-semibold transition-all ${
-              tab === t
-                ? "bg-[var(--color-neon)] text-black shadow-[0_0_18px_rgba(200,255,61,0.45)]"
-                : "text-white/60 hover:text-white"
-            }`}
-          >
-            {label}
-          </button>
-        ))}
-      </div>
+      <div className="mono text-xs uppercase tracking-[0.3em] text-[var(--color-neon)] mb-2">· sign in ·</div>
+      <div className="display text-2xl">Verify your email.</div>
+      <p className="text-white/60 text-sm mt-1">
+        We'll send you a 6-digit code — no password to remember.
+      </p>
 
-      {/* Google OAuth — primary CTA at the top of either tab */}
+      {/* Google */}
       <button
         type="button"
         onClick={onGoogle}
         disabled={googleBusy}
-        className="w-full inline-flex items-center justify-center gap-3 rounded-xl border border-white/15 bg-white/[0.04] hover:bg-white/[0.08] px-3.5 py-2.5 text-sm font-medium text-white transition-colors disabled:opacity-50"
+        className="mt-5 w-full inline-flex items-center justify-center gap-3 rounded-xl border border-white/15 bg-white/[0.04] hover:bg-white/[0.08] px-3.5 py-2.5 text-sm font-medium text-white transition-colors disabled:opacity-50"
       >
         <GoogleLogo />
-        {googleBusy ? "Redirecting to Google…" : tab === "signup" ? "Continue with Google" : "Sign in with Google"}
+        {googleBusy ? "Redirecting to Google…" : "Continue with Google"}
       </button>
 
       <div className="flex items-center gap-3 my-5">
@@ -271,66 +223,43 @@ export function AuthPanel({ redirectTo, defaultTab = "signup" }: AuthPanelProps 
         <div className="h-px flex-1 bg-white/10" />
       </div>
 
-      <form onSubmit={onSubmit} className="space-y-4">
-        {tab === "signup" && (
-          <div>
-            <label className={labelCls} htmlFor="auth-name">Full Name</label>
-            <input id="auth-name" className={inputCls} value={fullName}
-              onChange={(e) => setFullName(e.target.value)} placeholder="Your name" autoComplete="name" required />
-          </div>
-        )}
+      {/* Email form */}
+      <form onSubmit={onSendCode} className="space-y-4">
+        <div>
+          <label className={labelCls} htmlFor="auth-name">Full Name <span className="text-white/30">(new users)</span></label>
+          <input
+            id="auth-name"
+            className={inputCls}
+            value={fullName}
+            onChange={(e) => setFullName(e.target.value)}
+            placeholder="Optional — your name"
+            autoComplete="name"
+          />
+        </div>
         <div>
           <label className={labelCls} htmlFor="auth-email">Email</label>
-          <input id="auth-email" className={inputCls} type="email" required value={email}
-            onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" autoComplete="email" />
+          <input
+            id="auth-email"
+            className={inputCls}
+            type="email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="you@gmail.com"
+            autoComplete="email"
+          />
         </div>
-        <div>
-          <div className="flex items-center justify-between">
-            <label className={labelCls} htmlFor="auth-password">Password</label>
-            {tab === "login" && (
-              <button type="button" className="text-[10px] uppercase tracking-widest text-white/45 hover:text-[var(--color-neon-text)]"
-                onClick={() => { setForgotOpen(true); setForgotEmail(email); }}>
-                Forgot?
-              </button>
-            )}
-          </div>
-          <input id="auth-password" className={inputCls} type="password" required minLength={8} value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder={tab === "signup" ? "At least 8 characters" : "Your password"}
-            autoComplete={tab === "login" ? "current-password" : "new-password"} />
-        </div>
-        {tab === "signup" && (
-          <div>
-            <label className={labelCls} htmlFor="auth-confirm">Confirm Password</label>
-            <input id="auth-confirm" className={inputCls} type="password" required minLength={8} value={confirm}
-              onChange={(e) => setConfirm(e.target.value)} placeholder="Re-enter password" autoComplete="new-password" />
-          </div>
-        )}
 
         {error && <div className="text-[#ff5247] text-sm" role="alert">{error}</div>}
 
         <Button type="submit" fullWidth disabled={busy}>
-          {busy ? "Please wait…" : tab === "signup" ? (
-            <><UserPlus className="w-4 h-4" /> Create Account</>
-          ) : (
-            <><LogIn className="w-4 h-4" /> Login</>
-          )}
+          {busy ? "Sending…" : <><Mail className="w-4 h-4" /> Send verification code</>}
         </Button>
 
-        {tab === "signup" && (
-          <p className="text-[11px] text-white/40 text-center leading-relaxed">
-            We'll email you a confirmation link before activating your account.
-          </p>
-        )}
+        <p className="text-[11px] text-white/40 text-center leading-relaxed">
+          We use a 6-digit code instead of passwords. New users: your account is created on first verify.
+        </p>
       </form>
-
-      <p className="text-xs text-white/45 mt-5 text-center">
-        {tab === "signup" ? "Already have an account?" : "New to PrepNext?"}{" "}
-        <button type="button" className="text-[var(--color-neon-text)] underline"
-          onClick={() => switchTab(tab === "signup" ? "login" : "signup")}>
-          {tab === "signup" ? "Login" : "Create one"}
-        </button>
-      </p>
     </div>
   );
 }
