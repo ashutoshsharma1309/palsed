@@ -121,7 +121,10 @@ const SUSPICIOUS_LOCAL_PARTS = new Set([
 // Detect "keyboard mash" style local parts — random gibberish typed during
 // signup tests. Catches stuff like `adadadada`, `asdfgh`, `xyxyxyxy`.
 function looksLikeGibberish(local) {
-  if (local.length < 3) return true;
+  if (local.length < 2) return true;
+  // Very short (1-2 chars) is allowed via the length check in validateEmail.
+  // Most "real but short" emails are initials like "ab", "jp", "kp".
+  if (local.length === 2) return false;
 
   // Single LETTER repeated 3+ times anywhere → "aaa", "iiiiiii"
   // (Digits intentionally allowed: years/phones often contain runs like "888".)
@@ -169,12 +172,13 @@ function looksLikeGibberish(local) {
     if (ratio < 0.1) return true;
   }
 
-  // Same character class repeated absurdly (all 1 letter or all 1 digit)
-  if (/^[a-z]+$/.test(local)) {
-    const uniq = new Set(local.split(""));
-    if (uniq.size <= 2 && local.length >= 4) return true; // e.g. "abab", "abba", "aaaa"
-  }
-  if (/^\d+$/.test(local)) return true; // pure digits
+  // All same single letter — "aaaa", "bbbbb"
+  // (Don't reject 2-unique-letter patterns — would kill real names like
+  // anna, mama, papa, yoyo, didi, coco, kiki, etc.)
+  if (/^([a-z])\1+$/i.test(local)) return true;
+
+  // Pure digits — e.g. "12345" (real users always have at least one letter).
+  if (/^\d+$/.test(local)) return true;
 
   return false;
 }
@@ -214,7 +218,7 @@ export async function validateEmail(rawEmail) {
   if (!domain || domain.length < 4) {
     return { ok: false, reason: "Email domain looks invalid." };
   }
-  if (!local || local.length < 3) {
+  if (!local || local.length < 2) {
     return { ok: false, reason: "Use your real email address (the local part is too short)." };
   }
 
