@@ -104,6 +104,80 @@ const DISPOSABLE_DOMAINS = new Set([
   "gnail.com", "gmial.com", "hotnail.com", "yahho.com",
 ]);
 
+// Common test local-parts that nobody uses for real signup.
+const SUSPICIOUS_LOCAL_PARTS = new Set([
+  "test", "tester", "testing", "test1", "test2", "test123",
+  "admin", "administrator", "root", "user", "demo", "sample",
+  "fake", "fake1", "fake2", "noone", "nobody", "anonymous", "anon",
+  "noreply", "no-reply", "donotreply", "do-not-reply",
+  "abc", "abc123", "abcd", "abcde", "abcdef", "abcdefg",
+  "xyz", "xyz123", "qwerty", "qwerty123", "password", "password123",
+  "asdf", "asdfg", "asdfgh", "asdfghjkl",
+  "qwer", "qwertyuiop", "zxcv", "zxcvbn", "zxcvbnm",
+  "aaa", "bbb", "ccc", "ddd",
+  "example", "sample", "dummy", "delete", "deleteme",
+]);
+
+// Detect "keyboard mash" style local parts — random gibberish typed during
+// signup tests. Catches stuff like `adadadada`, `asdfgh`, `xyxyxyxy`.
+function looksLikeGibberish(local) {
+  if (local.length < 3) return true;
+
+  // Single character repeated 3+ times anywhere → "aaa", "iiiiiii"
+  if (/(.)\1{2,}/.test(local)) return true;
+
+  // 2-3 char unit repeated 3+ times → "adadada", "xyxyxy", "abcabcabc"
+  if (/^(.{2,3})\1{2,}$/.test(local)) return true;
+
+  // Whole local part is one half repeated → "asdfasdf", "abcabc", "fooFoo".
+  if (local.length >= 6 && local.length % 2 === 0) {
+    const half = local.length / 2;
+    if (local.slice(0, half).toLowerCase() === local.slice(half).toLowerCase()) return true;
+  }
+
+  // 2-char unit repeated covering ≥80% of length → "adadadab", "xyxyxz"
+  for (let unit = 2; unit <= 3; unit++) {
+    if (local.length >= unit * 3) {
+      const head = local.slice(0, unit);
+      let repeats = 0;
+      for (let i = 0; i + unit <= local.length; i += unit) {
+        if (local.slice(i, i + unit) === head) repeats++;
+        else break;
+      }
+      if (repeats * unit >= local.length * 0.8) return true;
+    }
+  }
+
+  // Known keyboard rows / common mashing
+  const KEYBOARD_PATTERNS = [
+    "qwerty", "qwertyuiop", "asdfgh", "asdfghjkl", "zxcvbn", "zxcvbnm",
+    "qwer", "asdf", "zxcv", "yuio", "hjkl", "bnm",
+    "1234", "12345", "123456", "1234567", "12345678",
+    "abcd", "abcde", "abcdef", "abcdefg", "abcdefgh",
+    "asdasd", "qweqwe", "zxczxc",
+  ];
+  for (const p of KEYBOARD_PATTERNS) {
+    if (local === p || local.startsWith(p) && local.length <= p.length + 3) return true;
+  }
+
+  // Very low vowel ratio for length ≥ 5 → likely mashing
+  // e.g. "kjlsdfhg" has 0 vowels, "asdfgh" has 1/6
+  if (local.length >= 5) {
+    const vowels = (local.match(/[aeiouy]/gi) || []).length;
+    const ratio = vowels / local.length;
+    if (ratio < 0.1) return true;
+  }
+
+  // Same character class repeated absurdly (all 1 letter or all 1 digit)
+  if (/^[a-z]+$/.test(local)) {
+    const uniq = new Set(local.split(""));
+    if (uniq.size <= 2 && local.length >= 4) return true; // e.g. "abab", "abba", "aaaa"
+  }
+  if (/^\d+$/.test(local)) return true; // pure digits
+
+  return false;
+}
+
 // Domains with no working MX records typically. Cache results in-process
 // to avoid hammering DNS for repeat signups.
 const mxCache = new Map(); // domain -> { ok: boolean, at: number }
@@ -135,9 +209,19 @@ export async function validateEmail(rawEmail) {
   if (!EMAIL_RE.test(email)) {
     return { ok: false, reason: "That's not a valid email address." };
   }
-  const [, domain] = email.split("@");
+  const [local, domain] = email.split("@");
   if (!domain || domain.length < 4) {
     return { ok: false, reason: "Email domain looks invalid." };
+  }
+  if (!local || local.length < 3) {
+    return { ok: false, reason: "Use your real email address (the local part is too short)." };
+  }
+
+  if (SUSPICIOUS_LOCAL_PARTS.has(local)) {
+    return { ok: false, reason: "Use your real email address — not a generic placeholder." };
+  }
+  if (looksLikeGibberish(local)) {
+    return { ok: false, reason: "That email looks fake. Please use your real address." };
   }
 
   if (RESERVED_TEST_DOMAINS.has(domain)) {
