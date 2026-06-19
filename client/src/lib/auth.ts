@@ -58,26 +58,39 @@ export async function fetchAppUser(): Promise<AuthUser> {
 }
 
 /**
- * Email + password signup. Supabase sends a verification email automatically
- * when "Confirm email" is on in the dashboard. Until they click the link,
- * login is blocked — fixes the "any email gets in" issue.
+ * Email + password signup via our server (admin API).
+ *
+ * Why server-side instead of supabase.auth.signUp?
+ *   - Bypasses Supabase free-tier email rate limit
+ *     ("over_email_send_rate_limit" error blocks the public endpoint).
+ *   - Pre-confirms the email server-side so the user is instantly usable.
+ *   - Eliminates the "didn't receive email" UX dead-end on free tier.
+ *
+ * After signup we immediately sign in via the public Supabase JS client to
+ * establish a session in the browser.
  */
 export async function signupEmail(
   email: string,
   password: string,
   displayName: string
 ): Promise<{ needsEmailConfirmation: boolean }> {
-  const redirectTo = `${window.location.origin}/auth/callback`;
-  const { data, error } = await supabase.auth.signUp({
-    email,
-    password,
-    options: {
-      emailRedirectTo: redirectTo,
-      data: { display_name: displayName },
-    },
+  const base = await ensureApi();
+  const res = await fetch(`${base}/api/auth/signup`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password, displayName }),
   });
-  if (error) throw new Error(error.message);
-  return { needsEmailConfirmation: data.session === null };
+  if (!res.ok) {
+    const detail = await res.json().catch(() => null);
+    throw new Error(detail?.error || `Signup failed (HTTP ${res.status})`);
+  }
+  // Immediately sign in to establish a Supabase session in the browser.
+  const { error } = await supabase.auth.signInWithPassword({ email, password });
+  if (error) {
+    // Account was created server-side but we couldn't sign in — surface error
+    throw new Error(error.message || "Couldn't sign in after signup");
+  }
+  return { needsEmailConfirmation: false };
 }
 
 export async function loginEmail(email: string, password: string): Promise<void> {
@@ -113,6 +126,31 @@ export async function resendConfirmation(email: string): Promise<void> {
     options: { emailRedirectTo: `${window.location.origin}/auth/callback` },
   });
   if (error) throw new Error(error.message);
+}
+
+/**
+ * Bypass email confirmation server-side using the service_role admin API.
+ * Returns true if the user is now confirmed (newly or already was).
+ *
+ * Why this exists: Supabase's built-in mailer is heavily rate-limited and
+ * Gmail-filtered, so confirmation emails often never arrive on free tier.
+ * This endpoint sidesteps that for demos. In production you should use a
+ * real SMTP provider (Resend, Postmark, SES) instead.
+ */
+export async function devConfirmEmail(email: string): Promise<boolean> {
+  const base = await ensureApi();
+  try {
+    const res = await fetch(`${base}/api/auth/dev-confirm`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    });
+    if (!res.ok) return false;
+    const json = await res.json();
+    return !!json.ok;
+  } catch {
+    return false;
+  }
 }
 
 export async function logout(): Promise<void> {

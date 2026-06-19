@@ -12,6 +12,7 @@ import {
   loginEmail,
   loginGoogle,
   signupEmail,
+  devConfirmEmail,
   logout as apiLogout,
   type AuthUser,
 } from "../lib/auth";
@@ -71,15 +72,40 @@ export function useAuth() {
     return u;
   }, []);
 
-  /** Returns the synced user if instant-login, OR a stub indicating email confirmation is required. */
+  /**
+   * Sign up + immediately bring the user in.
+   * If Supabase requires email confirmation, we bypass it via the server's
+   * dev-confirm endpoint (uses service_role to mark the email confirmed),
+   * then log them in. This avoids the "email never arrives" UX dead-end.
+   * Falls back to returning a stub if everything fails — UI can then show
+   * the "check your email" state with a resend button.
+   */
   const signup = useCallback(async (email: string, password: string, displayName: string) => {
     const { needsEmailConfirmation } = await signupEmail(email, password, displayName);
-    if (needsEmailConfirmation) {
-      return { id: "", email, displayName, emailVerified: false } as AuthUser;
+
+    if (!needsEmailConfirmation) {
+      // Supabase returned a session immediately ("Confirm email" is OFF) — done.
+      const u = await fetchAppUser();
+      setUser(u);
+      return u;
     }
-    const u = await fetchAppUser();
-    setUser(u);
-    return u;
+
+    // Confirm email is ON. Try the server-side bypass.
+    const confirmed = await devConfirmEmail(email);
+    if (confirmed) {
+      // Now log them in — Supabase will issue a session since the email is confirmed.
+      try {
+        await loginEmail(email, password);
+        const u = await fetchAppUser();
+        setUser(u);
+        return u;
+      } catch {
+        // Login failed for some reason — fall through to "check email" state.
+      }
+    }
+
+    // True fallback: show "check your email" UI so they can use the resend button.
+    return { id: "", email, displayName, emailVerified: false } as AuthUser;
   }, []);
 
   const google = useCallback(async () => {

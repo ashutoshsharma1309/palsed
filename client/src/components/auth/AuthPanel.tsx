@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { LogIn, UserPlus, LogOut, ArrowRight, Mail, KeyRound } from "lucide-react";
 import { Button } from "../ui/Button";
 import { useAuth } from "../../hooks/useAuth";
-import { requestPasswordReset, resendConfirmation } from "../../lib/auth";
+import { requestPasswordReset, resendConfirmation, devConfirmEmail } from "../../lib/auth";
 
 type Tab = "signup" | "login";
 
@@ -68,14 +68,31 @@ export function AuthPanel({ redirectTo, defaultTab = "signup" }: AuthPanelProps 
     return (
       <div className={shell}>
         <div className="mono text-xs uppercase tracking-[0.3em] text-[var(--color-neon)] mb-2">· almost there ·</div>
-        <div className="display text-2xl">Check your email.</div>
+        <div className="display text-2xl">Verify to continue.</div>
         <p className="text-white/70 text-sm mt-3">
-          We sent a confirmation link to <strong className="text-white">{needsVerification}</strong>. Click it to
-          activate your account, then come back and log in.
+          We sent a confirmation link to <strong className="text-white">{needsVerification}</strong>. If you didn't
+          receive it, you can skip ahead — we'll confirm your email automatically.
         </p>
-        <div className="flex flex-wrap gap-3 mt-5">
+        <div className="flex flex-wrap gap-2 mt-5">
+          <Button
+            disabled={busy}
+            onClick={async () => {
+              setError(null); setInfo(null); setBusy(true);
+              try {
+                const ok = await devConfirmEmail(needsVerification);
+                if (!ok) throw new Error("Couldn't auto-confirm — try the resend link.");
+                await login(needsVerification, password);
+                navigate(dest, { replace: true });
+              } catch (e: any) {
+                setError(e?.message || "Couldn't sign you in.");
+              } finally { setBusy(false); }
+            }}
+          >
+            <KeyRound className="w-4 h-4" /> {busy ? "Signing in…" : "Skip — sign me in now"}
+          </Button>
           <Button
             variant="outline"
+            disabled={busy}
             onClick={async () => {
               setError(null); setInfo(null);
               try {
@@ -90,7 +107,7 @@ export function AuthPanel({ redirectTo, defaultTab = "signup" }: AuthPanelProps 
             variant="ghost"
             onClick={() => { setNeedsVerification(null); setTab("login"); }}
           >
-            I've confirmed — log in
+            Back to login
           </Button>
         </div>
         {info && <div className="text-[var(--color-neon-text)] text-xs mt-4">{info}</div>}
@@ -179,11 +196,28 @@ export function AuthPanel({ redirectTo, defaultTab = "signup" }: AuthPanelProps 
       navigate(dest, { replace: true });
     } catch (err: any) {
       const msg = err?.message || "Something went wrong";
-      // Friendlier copy for the most common login error
+      // Email-not-confirmed → auto-confirm via server, then retry login.
       if (/email not confirmed|email is not verified|confirm/i.test(msg)) {
-        setError("Confirm your email first — click the link we sent you.");
+        const ok = await devConfirmEmail(email);
+        if (ok) {
+          try {
+            await login(email, password);
+            navigate(dest, { replace: true });
+            return;
+          } catch (e: any) {
+            setError(e?.message || "Couldn't sign in after confirming.");
+          }
+        } else {
+          setError(
+            "Couldn't confirm your email. Try the 'Resend' button or sign up again."
+          );
+        }
       } else if (/invalid login credentials/i.test(msg)) {
         setError("Wrong email or password.");
+      } else if (/user already registered/i.test(msg)) {
+        setError("That email already has an account. Switch to Login.");
+      } else if (/rate limit|too many requests/i.test(msg)) {
+        setError("Too many attempts — wait a minute and try again.");
       } else setError(msg);
     } finally {
       setBusy(false);
