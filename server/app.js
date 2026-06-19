@@ -66,7 +66,15 @@ export function buildApp() {
   app.use("/api/feedback", aiGoneRouter);
 
   app.use((err, req, res, _next) => {
-    console.error("[error]", err);
+    // Structured logging: makes prod 500s diagnosable via Vercel logs.
+    console.error("[error]", {
+      path: req.path,
+      method: req.method,
+      authId: req.auth?.authId,
+      message: err?.message,
+      code: err?.code,
+      stack: err?.stack?.split("\n").slice(0, 4),
+    });
     res.status(err.status || 500).json({
       error: err.message || "Internal error",
       detail: err.detail,

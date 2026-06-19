@@ -62,26 +62,48 @@ export async function requireAuth(req, res, next) {
 
     if (!authId) return res.status(401).json({ error: "Token missing subject" });
 
-    // Find-or-create the local User row.
-    let user = await prisma.user.findUnique({ where: { authId } });
-    if (!user && email) {
-      // Legacy row exists with same email but no authId yet → adopt it.
-      const byEmail = await prisma.user.findUnique({ where: { email } });
-      if (byEmail) {
-        user = await prisma.user.update({
-          where: { id: byEmail.id },
-          data: { authId, displayName: byEmail.displayName || displayName },
-        });
+    // Find-or-create the local User row, race-condition safe.
+    // The browser makes concurrent /api/auth/me calls on first login (one from
+    // useAuth mount + one from onAuthStateChange), so two requests can both
+    // see "no row" and both try to insert. We catch the unique constraint
+    // violation (P2002) and re-fetch in that case.
+    const findOrCreate = async () => {
+      const existing = await prisma.user.findUnique({ where: { authId } });
+      if (existing) return existing;
+
+      if (email) {
+        // Legacy row exists with same email but no authId yet → adopt it.
+        const byEmail = await prisma.user.findUnique({ where: { email } });
+        if (byEmail) {
+          return await prisma.user.update({
+            where: { id: byEmail.id },
+            data: { authId, displayName: byEmail.displayName || displayName },
+          });
+        }
       }
-    }
+
+      try {
+        return await prisma.user.create({
+          data: {
+            authId,
+            email: email || `${authId}@noemail.local`,
+            displayName,
+          },
+        });
+      } catch (e) {
+        // Concurrent request beat us to insert — re-fetch by authId.
+        if (e?.code === "P2002") {
+          const winner = await prisma.user.findUnique({ where: { authId } });
+          if (winner) return winner;
+        }
+        throw e;
+      }
+    };
+
+    const user = await findOrCreate();
     if (!user) {
-      user = await prisma.user.create({
-        data: {
-          authId,
-          email: email || `${authId}@noemail.local`,
-          displayName,
-        },
-      });
+      console.error("[auth] User row missing after find-or-create for", authId);
+      return res.status(500).json({ error: "Couldn't sync user" });
     }
 
     req.auth = {
