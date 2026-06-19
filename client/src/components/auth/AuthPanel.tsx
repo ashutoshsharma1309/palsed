@@ -43,12 +43,16 @@ export function AuthPanel({ redirectTo }: AuthPanelProps = {}) {
     return () => clearTimeout(t);
   }, [resendIn]);
 
-  // Auto-redirect once the session lands (set by Supabase after verifyOtp).
+  // Auto-redirect once the session lands AFTER a successful OTP verify.
+  // Tracked locally so we don't redirect users who land on the landing page
+  // while still authenticated (e.g. clicking the PrepNext logo) — they get
+  // the "Signed in" card with a Log out button instead.
+  const [didVerify, setDidVerify] = useState(false);
   useEffect(() => {
-    if (isAuthenticated) {
+    if (isAuthenticated && didVerify) {
       navigate(dest, { replace: true });
     }
-  }, [isAuthenticated, dest, navigate]);
+  }, [isAuthenticated, didVerify, dest, navigate]);
 
   // Auto-focus the code input when we switch to that phase
   const codeRef = useRef<HTMLInputElement>(null);
@@ -114,6 +118,7 @@ export function AuthPanel({ redirectTo }: AuthPanelProps = {}) {
     setBusy(true);
     try {
       await verifyOtpCode(email.trim().toLowerCase(), cleaned);
+      setDidVerify(true); // arm the auto-redirect for this flow only
       // The auth state change will trigger navigation via the effect above.
     } catch (err: any) {
       setError(err?.message || "Verification failed.");

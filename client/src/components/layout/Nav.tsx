@@ -1,8 +1,10 @@
-import { NavLink, Link } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { NavLink, Link, useNavigate } from "react-router-dom";
+import { Menu, X, LogOut, User } from "lucide-react";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { useSRS } from "../../hooks/useSRS";
 import { useEngagement } from "../adaptive/EngagementProvider";
+import { useAuth } from "../../hooks/useAuth";
 import { ThemeToggle } from "../ui/ThemeToggle";
 
 const LINKS = [
@@ -23,8 +25,23 @@ const LINKS = [
 
 export function Nav() {
   const [open, setOpen] = useState(false);
+  const [menu, setMenu] = useState(false);
   const { dueCount } = useSRS();
   const { streakDays } = useEngagement();
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      setMenu(false);
+      setOpen(false);
+      toast.success("Logged out");
+      navigate("/", { replace: true });
+    } catch (e: any) {
+      toast.error(e?.message || "Couldn't log out");
+    }
+  };
 
   return (
     <nav className="sticky top-0 z-30 backdrop-blur-md bg-black/60 border-b border-white/10">
@@ -59,19 +76,60 @@ export function Nav() {
           ))}
         </div>
 
-        <div className="hidden lg:flex items-center gap-3">
+        <div className="hidden lg:flex items-center gap-3 relative">
           {streakDays > 0 && (
             <div className="mono text-[11px] text-[var(--color-neon)] uppercase tracking-widest">
               🔥 {streakDays}d
             </div>
           )}
           <ThemeToggle />
-          <Link
-            to="/settings"
-            className="text-xs text-white/60 hover:text-white"
-          >
-            Settings
-          </Link>
+          {user ? (
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => setMenu((v) => !v)}
+                className="inline-flex items-center gap-2 px-2.5 py-1.5 rounded-full border border-white/15 hover:border-[var(--color-neon)] text-xs"
+                aria-haspopup="menu"
+                aria-expanded={menu}
+              >
+                <div className="w-5 h-5 rounded-full bg-[var(--color-neon)] text-black flex items-center justify-center text-[10px] font-bold mono shrink-0">
+                  {(user.displayName || user.email || "?").slice(0, 1).toUpperCase()}
+                </div>
+                <span className="hidden xl:inline max-w-[120px] truncate">{user.displayName || user.email}</span>
+              </button>
+              {menu && (
+                <>
+                  <div className="fixed inset-0 z-30" onClick={() => setMenu(false)} />
+                  <div className="absolute right-0 top-full mt-2 w-56 rounded-2xl border border-white/15 bg-[var(--color-card)] shadow-2xl overflow-hidden z-40">
+                    <div className="px-4 py-3 border-b border-white/10">
+                      <div className="text-xs font-bold truncate">{user.displayName}</div>
+                      <div className="text-[10px] text-white/50 mono truncate">{user.email}</div>
+                    </div>
+                    <Link
+                      to="/settings"
+                      onClick={() => setMenu(false)}
+                      className="flex items-center gap-2 px-4 py-2.5 text-xs hover:bg-white/5"
+                    >
+                      <User className="w-3.5 h-3.5" /> Settings
+                    </Link>
+                    <button
+                      onClick={handleLogout}
+                      className="w-full flex items-center gap-2 px-4 py-2.5 text-xs text-left text-red-300 hover:bg-red-500/10 border-t border-white/10"
+                    >
+                      <LogOut className="w-3.5 h-3.5" /> Log out
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
+          ) : (
+            <Link
+              to="/"
+              className="text-xs text-white/60 hover:text-white"
+            >
+              Sign in
+            </Link>
+          )}
         </div>
 
         <div className="lg:hidden flex items-center gap-2">
@@ -109,6 +167,14 @@ export function Nav() {
           >
             Settings
           </NavLink>
+          {user && (
+            <button
+              onClick={handleLogout}
+              className="col-span-2 px-3 py-2 text-sm rounded-lg text-red-300 border border-red-500/30 hover:bg-red-500/10 inline-flex items-center justify-center gap-2"
+            >
+              <LogOut className="w-3.5 h-3.5" /> Log out ({user.email})
+            </button>
+          )}
         </div>
       )}
     </nav>
