@@ -1,23 +1,39 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
   <defs>
     <pattern id="g" x="0" y="0" width="48" height="48" patternUnits="userSpaceOnUse">
-      <path d="M 48 0 L 0 0 0 48" fill="none" stroke="#c8ff3d" stroke-opacity="0.08" stroke-width="1"/>
+      <path d="M 48 0 L 0 0 0 48" fill="none" stroke="#BDFF00" stroke-opacity="0.06" stroke-width="1"/>
     </pattern>
     <radialGradient id="glow" cx="0.5" cy="0.5">
-      <stop offset="0" stop-color="#c8ff3d" stop-opacity="0.25"/>
-      <stop offset="1" stop-color="#c8ff3d" stop-opacity="0"/>
+      <stop offset="0" stop-color="#BDFF00" stop-opacity="0.20"/>
+      <stop offset="1" stop-color="#BDFF00" stop-opacity="0"/>
     </radialGradient>
   </defs>
-  <rect width="1200" height="630" fill="#0a0a0a"/>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#000000"/>
   <rect width="1200" height="630" fill="url(#g)"/>
-  <circle cx="900" cy="200" r="280" fill="url(#glow)"/>
-  <text x="80" y="100" font-family="Share Tech Mono, monospace" font-size="22" fill="#c8ff3d" letter-spacing="6">// ADAPTIVE AI LEARNING UNIVERSE</text>
-  <text x="80" y="260" font-family="Anton, Impact, sans-serif" font-size="180" font-weight="900" fill="#ffffff" letter-spacing="-4">PALSED</text>
-  <text x="80" y="380" font-family="Inter, sans-serif" font-size="36" fill="#c8ff3d" font-weight="800">Your adaptive AI learning universe.</text>
-  <text x="80" y="440" font-family="Inter, sans-serif" font-size="22" fill="#a0a0a0">Multi-style lessons · Adaptive difficulty · Spaced repetition · Pure browser</text>
-  <g transform="translate(80,520)">
-    <rect width="280" height="48" rx="24" fill="#c8ff3d"/>
-    <text x="140" y="32" font-family="Inter, sans-serif" font-size="20" font-weight="700" fill="#000" text-anchor="middle">Start learning →</text>
+  <circle cx="980" cy="180" r="320" fill="url(#glow)"/>
+
+  <!-- Logo mark (forward caret), top-left, large enough to read at thumb size -->
+  <g transform="translate(80,80) scale(2.4)">
+    <path d="M11 12 H24 M11 12 V52 M11 52 H24" stroke="#BDFF00" stroke-width="6" stroke-linecap="square" fill="none"/>
+    <path d="M31 20 L47 32 L31 44" stroke="#BDFF00" stroke-width="6" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="4" fill="none"/>
   </g>
-  <text x="1120" y="600" font-family="Share Tech Mono, monospace" font-size="14" fill="#666" text-anchor="end">localStorage · Free forever</text>
+  <text x="240" y="170" font-family="'Bricolage Grotesque', system-ui, sans-serif" font-size="64" font-weight="800" fill="#FFFFFF" letter-spacing="-2">PREPNEXT</text>
+
+  <!-- Eyebrow -->
+  <text x="80" y="330" font-family="'JetBrains Mono', monospace" font-size="22" fill="#BDFF00" letter-spacing="6">· PLACEMENT SEASON OS ·</text>
+
+  <!-- Headline -->
+  <text x="80" y="420" font-family="'Bricolage Grotesque', system-ui, sans-serif" font-size="92" font-weight="800" fill="#FFFFFF" letter-spacing="-3">Crack campus placements.</text>
+  <text x="80" y="510" font-family="'Bricolage Grotesque', system-ui, sans-serif" font-size="48" font-weight="600" fill="#9CA3AF">75 recruiters · PYQs · DSA · Apps tracker</text>
+
+  <!-- CTA pill -->
+  <g transform="translate(80,560)">
+    <rect width="220" height="44" rx="22" fill="#BDFF00"/>
+    <text x="110" y="30" font-family="'Inter', system-ui, sans-serif" font-size="18" font-weight="700" fill="#000000" text-anchor="middle">prepnext.vercel.app</text>
+  </g>
+
+  <!-- Footer mark -->
+  <text x="1120" y="600" font-family="'JetBrains Mono', monospace" font-size="14" fill="#4A4A4A" text-anchor="end">For Indian engineering students</text>
 </svg>

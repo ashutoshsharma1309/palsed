@@ -10,6 +10,7 @@ import { AuthPanel } from "../components/auth/AuthPanel";
 import { Background } from "../components/layout/Background";
 import { Footer } from "../components/layout/Footer";
 import { usePageMeta } from "../hooks/usePageMeta";
+import { LogoLockup } from "../components/ui/Logo";
 // Landing is first-paint critical. We used to import COMPANIES (96KB) +
 // PYQ_SEED (19KB) just to render two `.length` stats — 115KB of JS shipped to
 // print two numbers. Hardcoded here; bump when seed data grows past the next
@@ -151,7 +152,7 @@ export default function Landing() {
       <Background />
       <div className="relative z-10">
         <header className="mx-auto max-w-7xl px-4 sm:px-6 flex items-center justify-between h-16">
-          <div className="display text-2xl neon-text">PREPNEXT</div>
+          <LogoLockup wordmarkClass="display text-2xl neon-text" markSize={26} />
           <nav className="flex items-center gap-2">
             <ThemeToggle />
             <a href="#auth">

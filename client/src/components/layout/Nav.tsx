@@ -6,6 +6,7 @@ import { useSRS } from "../../hooks/useSRS";
 import { useEngagement } from "../adaptive/EngagementProvider";
 import { useAuth } from "../../hooks/useAuth";
 import { ThemeToggle } from "../ui/ThemeToggle";
+import { LogoLockup } from "../ui/Logo";
 
 const LINKS = [
   { to: "/dashboard", label: "Dashboard" },
@@ -46,11 +47,8 @@ export function Nav() {
   return (
     <nav className="sticky top-0 z-30 backdrop-blur-md bg-black/60 border-b border-white/10">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 flex items-center justify-between h-14">
-        <Link
-          to="/"
-          className="display text-2xl tracking-tight neon-text shrink-0"
-        >
-          PREPNEXT
+        <Link to="/" className="shrink-0 neon-text" aria-label="PrepNext home">
+          <LogoLockup wordmarkClass="display text-2xl tracking-tight" markSize={26} />
         </Link>
 
         <div className="hidden lg:flex items-center gap-1">
