@@ -104,22 +104,22 @@ export default function Pricing() {
       <header className="text-center mb-10">
         <div className="mono text-xs uppercase tracking-[0.3em] text-[var(--color-neon)] mb-2">// pricing</div>
         <h1 className="display text-5xl sm:text-7xl">SIMPLE PRICING.</h1>
-        <p className="text-white/60 mt-3 max-w-xl mx-auto">
+        <p className="text-[var(--color-text-dim)] mt-3 max-w-xl mx-auto">
           Free forever for the basics. Pro for students who want every edge this placement season.
           No hidden charges, no trial-to-card surprises.
         </p>
 
         {/* Billing toggle */}
-        <div className="inline-flex items-center bg-white/[0.04] border border-white/15 rounded-full p-1 mt-6 mono text-[11px] uppercase tracking-widest">
+        <div className="inline-flex items-center bg-[var(--color-card-soft)] border border-[var(--color-line)] rounded-full p-1 mt-6 mono text-[11px] uppercase tracking-widest">
           <button
             onClick={() => setAnnual(false)}
-            className={`px-4 py-1.5 rounded-full transition-colors ${!annual ? "bg-[var(--color-neon)] text-black" : "text-white/60 hover:text-white"}`}
+            className={`px-4 py-1.5 rounded-full transition-colors ${!annual ? "bg-[var(--color-neon)] text-black" : "text-[var(--color-text-dim)] hover:text-[var(--color-text)]"}`}
           >
             Monthly
           </button>
           <button
             onClick={() => setAnnual(true)}
-            className={`px-4 py-1.5 rounded-full transition-colors ${annual ? "bg-[var(--color-neon)] text-black" : "text-white/60 hover:text-white"}`}
+            className={`px-4 py-1.5 rounded-full transition-colors ${annual ? "bg-[var(--color-neon)] text-black" : "text-[var(--color-text-dim)] hover:text-[var(--color-text)]"}`}
           >
             Annual <span className="ml-1 opacity-70">· save 16%</span>
           </button>
@@ -145,7 +145,7 @@ export default function Pricing() {
               )}
 
               <div className="flex items-center gap-2 mb-2">
-                <Icon className={`w-4 h-4 ${t.highlight ? "text-[var(--color-neon)]" : "text-white/60"}`} />
+                <Icon className={`w-4 h-4 ${t.highlight ? "text-[var(--color-neon)]" : "text-[var(--color-text-dim)]"}`} />
                 <div className="display text-2xl">{t.name}</div>
               </div>
 
@@ -154,32 +154,32 @@ export default function Pricing() {
                   {t.name === "Pro" && annual ? "₹83" : t.price}
                 </span>
                 {t.name !== "Free" && (
-                  <span className="text-sm text-white/50">
+                  <span className="text-sm text-[var(--color-text-faint)]">
                     /{t.name === "Team" ? "month" : "month"}
                   </span>
                 )}
               </div>
               {t.yearlyHint && (
-                <div className="text-[11px] text-white/50 mono mb-3">
+                <div className="text-[11px] text-[var(--color-text-faint)] mono mb-3">
                   {t.name === "Pro" && annual ? "billed ₹999/yr" : t.yearlyHint}
                 </div>
               )}
 
-              <p className="text-sm text-white/65 mb-5">{t.blurb}</p>
+              <p className="text-sm text-[var(--color-text-dim)] mb-5">{t.blurb}</p>
 
               <Button onClick={() => handleCta(t)} fullWidth variant={t.highlight ? undefined : "ghost"}>
                 {t.cta}
               </Button>
 
-              <ul className="space-y-2 mt-5 pt-5 border-t border-white/10">
+              <ul className="space-y-2 mt-5 pt-5 border-t border-[var(--color-line)]">
                 {t.features.map((f, i) => (
                   <li key={i} className="flex items-start gap-2 text-sm">
                     <Check
                       className={`w-4 h-4 mt-0.5 shrink-0 ${
-                        f.included ? "text-[var(--color-neon)]" : "text-white/20"
+                        f.included ? "text-[var(--color-neon)]" : "text-[var(--color-text-faint)]"
                       }`}
                     />
-                    <span className={f.included ? "text-white/90" : "text-white/35 line-through"}>
+                    <span className={f.included ? "text-[var(--color-text-dim)]" : "text-[var(--color-text-faint)] line-through"}>
                       {f.text}
                     </span>
                     {f.pro && !f.included && (
@@ -199,25 +199,25 @@ export default function Pricing() {
       <div className="mt-12 grid md:grid-cols-3 gap-5">
         <Card>
           <div className="display text-xl mb-2">Money-back guarantee.</div>
-          <p className="text-sm text-white/60">
+          <p className="text-sm text-[var(--color-text-dim)]">
             7-day no-questions-asked refund. We only want you on Pro if it's saving you time.
           </p>
         </Card>
         <Card>
           <div className="display text-xl mb-2">Built by students, for students.</div>
-          <p className="text-sm text-white/60">
+          <p className="text-sm text-[var(--color-text-dim)]">
             Made by people who interviewed at FAANG + Indian unicorns last placement season.
           </p>
         </Card>
         <Card>
           <div className="display text-xl mb-2">No card up front.</div>
-          <p className="text-sm text-white/60">
+          <p className="text-sm text-[var(--color-text-dim)]">
             Cancel anytime in Settings. We won't auto-charge or hide a cancel flow.
           </p>
         </Card>
       </div>
 
-      <div className="text-center mt-10 text-sm text-white/50">
+      <div className="text-center mt-10 text-sm text-[var(--color-text-faint)]">
         Have a coupon code or college tie-up?{" "}
         <Link to="/settings" className="text-[var(--color-neon)] underline">
           Apply in Settings →

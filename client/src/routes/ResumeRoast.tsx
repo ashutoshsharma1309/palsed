@@ -84,7 +84,7 @@ export default function ResumeRoast() {
       <header className="mb-8">
         <div className="mono text-xs uppercase tracking-[0.3em] text-[var(--color-neon)] mb-2">// resume roast</div>
         <h1 className="display text-5xl sm:text-6xl">ROAST MY RESUME.</h1>
-        <p className="text-white/60 mt-2 max-w-2xl">
+        <p className="text-[var(--color-text-dim)] mt-2 max-w-2xl">
           Paste your resume, optionally pick the company you're targeting, and get a brutal but
           actionable critique — score, fixable issues, bullet rewrites, ATS keywords. Tailored to
           Indian campus placement standards. Runs locally in your browser; nothing is uploaded.
@@ -95,11 +95,11 @@ export default function ResumeRoast() {
         <Card className="mb-6">
           <div className="space-y-4">
             <div>
-              <label className="mono text-[10px] uppercase tracking-widest text-white/50">Target company (optional)</label>
+              <label className="mono text-[10px] uppercase tracking-widest text-[var(--color-text-faint)]">Target company (optional)</label>
               <select
                 value={targetCompany}
                 onChange={(e) => setTargetCompany(e.target.value)}
-                className="w-full mt-1 bg-white/[0.03] border border-white/15 rounded-lg px-3 py-2 text-sm outline-none focus:border-[var(--color-neon)]"
+                className="w-full mt-1 bg-[var(--color-card-soft)] border border-[var(--color-line)] rounded-lg px-3 py-2 text-sm outline-none focus:border-[var(--color-neon)]"
               >
                 <option value="">— Generic (top product/SaaS) —</option>
                 {COMPANIES.map((c) => (
@@ -114,7 +114,7 @@ export default function ResumeRoast() {
             </div>
 
             <div>
-              <label className="mono text-[10px] uppercase tracking-widest text-white/50">
+              <label className="mono text-[10px] uppercase tracking-widest text-[var(--color-text-faint)]">
                 Resume text · {resume.length} / 20,000 chars
               </label>
               <textarea
@@ -122,16 +122,16 @@ export default function ResumeRoast() {
                 onChange={(e) => setResume(e.target.value)}
                 placeholder="Paste your resume as plain text. Don't worry about formatting — sections, bullets, headings… just paste everything. The AI will figure it out."
                 rows={14}
-                className="w-full mt-1 bg-white/[0.03] border border-white/15 rounded-lg px-3.5 py-2.5 text-sm font-mono leading-relaxed outline-none focus:border-[var(--color-neon)] resize-vertical"
+                className="w-full mt-1 bg-[var(--color-card-soft)] border border-[var(--color-line)] rounded-lg px-3.5 py-2.5 text-sm font-mono leading-relaxed outline-none focus:border-[var(--color-neon)] resize-vertical"
                 maxLength={20_000}
               />
-              <p className="text-[11px] text-white/40 mt-1">
+              <p className="text-[11px] text-[var(--color-text-faint)] mt-1">
                 Don't have it as text? Open your PDF, Cmd+A → Cmd+C → paste here.
               </p>
             </div>
 
             {errMsg && (
-              <div className="text-[#ff8a7a] text-sm flex items-center gap-2" role="alert">
+              <div className="text-[var(--severity-crit-text)] text-sm flex items-center gap-2" role="alert">
                 <AlertTriangle className="w-4 h-4" /> {errMsg}
               </div>
             )}
@@ -148,7 +148,7 @@ export default function ResumeRoast() {
               )}
             </Button>
 
-            <div className="text-[11px] text-white/40 text-center">
+            <div className="text-[11px] text-[var(--color-text-faint)] text-center">
               Runs 100% in your browser. Resume text never leaves your device.
             </div>
           </div>
@@ -162,13 +162,13 @@ export default function ResumeRoast() {
             <div className="grid sm:grid-cols-[auto_1fr_auto] items-center gap-5">
               <div className="text-center">
                 <div className="display text-7xl neon-text leading-none">{roast.overallScore}</div>
-                <div className="mono text-[10px] uppercase tracking-widest text-white/40 mt-1">/ 100</div>
+                <div className="mono text-[10px] uppercase tracking-widest text-[var(--color-text-faint)] mt-1">/ 100</div>
               </div>
               <div>
                 <div className="mono text-[10px] uppercase tracking-widest text-[var(--color-neon)] mb-1">· verdict ·</div>
                 <div className="display text-2xl">{roast.headline}</div>
                 {targetCompany && (
-                  <div className="text-xs text-white/50 mt-1">
+                  <div className="text-xs text-[var(--color-text-faint)] mt-1">
                     Tailored for {targetCompany}
                   </div>
                 )}
@@ -193,7 +193,7 @@ export default function ResumeRoast() {
               </h3>
               <ul className="space-y-2">
                 {roast.strengths.map((s, i) => (
-                  <li key={i} className="text-sm text-white/85 flex items-start gap-2">
+                  <li key={i} className="text-sm text-[var(--color-text-dim)] flex items-start gap-2">
                     <span className="text-[var(--color-neon)] shrink-0">→</span> {s}
                   </li>
                 ))}
@@ -204,7 +204,7 @@ export default function ResumeRoast() {
           {/* ISSUES */}
           <Card className="mb-4">
             <h3 className="font-bold text-sm flex items-center gap-2 mb-3">
-              <AlertTriangle className="w-4 h-4 text-[#ff8a7a]" />
+              <AlertTriangle className="w-4 h-4 text-[var(--severity-crit-text)]" />
               Issues ({roast.issues.length})
             </h3>
             <div className="space-y-3">
@@ -225,7 +225,7 @@ export default function ResumeRoast() {
                       </span>
                       <span className="font-bold text-sm">{iss.title}</span>
                     </div>
-                    <p className="text-xs text-white/70 mb-1">{iss.detail}</p>
+                    <p className="text-xs text-[var(--color-text-dim)] mb-1">{iss.detail}</p>
                     <p className="text-xs text-[var(--color-neon)]/85">
                       <strong>Fix:</strong> {iss.fix}
                     </p>
@@ -245,13 +245,13 @@ export default function ResumeRoast() {
               <div className="space-y-4">
                 {roast.rewrites.map((rw, i) => (
                   <div key={i} className="grid sm:grid-cols-2 gap-3 text-xs">
-                    <div className="border border-white/10 rounded-lg p-3">
-                      <div className="mono text-[10px] uppercase tracking-widest text-[#ff8a7a] mb-1">Before</div>
-                      <div className="text-white/70">{rw.before}</div>
+                    <div className="border border-[var(--color-line)] rounded-lg p-3">
+                      <div className="mono text-[10px] uppercase tracking-widest text-[var(--severity-crit-text)] mb-1">Before</div>
+                      <div className="text-[var(--color-text-dim)]">{rw.before}</div>
                     </div>
                     <div className="border border-[var(--color-neon)]/30 rounded-lg p-3 bg-[var(--color-neon)]/[0.04]">
                       <div className="mono text-[10px] uppercase tracking-widest text-[var(--color-neon)] mb-1">After</div>
-                      <div className="text-white">{rw.after}</div>
+                      <div className="text-[var(--color-text)]">{rw.after}</div>
                     </div>
                   </div>
                 ))}

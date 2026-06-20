@@ -23,7 +23,7 @@ export function MobileTabBar() {
   return (
     <nav
       aria-label="Primary navigation"
-      className="lg:hidden fixed bottom-0 inset-x-0 z-40 border-t border-white/12 bg-black/85 backdrop-blur-xl"
+      className="lg:hidden fixed bottom-0 inset-x-0 z-40 border-t border-[var(--color-line)] bg-[var(--color-bg)]/85 backdrop-blur-xl"
       style={{ paddingBottom: "max(env(safe-area-inset-bottom), 0px)" }}
     >
       <div className="grid grid-cols-5 h-14">
@@ -33,7 +33,7 @@ export function MobileTabBar() {
             to={to}
             className={({ isActive }) =>
               `relative flex flex-col items-center justify-center gap-0.5 text-[10px] font-medium transition-colors ${
-                isActive ? "text-[var(--color-neon)]" : "text-white/55 hover:text-white"
+                isActive ? "text-[var(--color-neon)]" : "text-[var(--color-text-faint)] hover:text-[var(--color-text)]"
               }`
             }
           >

@@ -40,7 +40,7 @@ export function UpcomingRounds({ limit = 5 }: { limit?: number }) {
         </div>
         <Link
           to="/applications"
-          className="text-[11px] text-white/55 hover:text-white inline-flex items-center gap-1"
+          className="text-[11px] text-[var(--color-text-faint)] hover:text-[var(--color-text)] inline-flex items-center gap-1"
         >
           Kanban <ChevronRight className="w-3 h-3" />
         </Link>
@@ -48,8 +48,8 @@ export function UpcomingRounds({ limit = 5 }: { limit?: number }) {
 
       {items.length === 0 ? (
         <div className="text-center py-8">
-          <Calendar className="w-8 h-8 text-white/20 mx-auto mb-2" />
-          <div className="text-sm text-white/50 mb-1">No scheduled rounds yet.</div>
+          <Calendar className="w-8 h-8 text-[var(--color-text-faint)] mx-auto mb-2" />
+          <div className="text-sm text-[var(--color-text-faint)] mb-1">No scheduled rounds yet.</div>
           <Link
             to="/applications"
             className="text-xs text-[var(--color-neon)] underline"
@@ -62,7 +62,7 @@ export function UpcomingRounds({ limit = 5 }: { limit?: number }) {
           {items.map(({ app, dayDelta, urgency, company }) => (
             <div
               key={app.id}
-              className="border border-white/10 rounded-xl p-3 flex items-center gap-3 hover:border-[var(--color-neon)]/30 transition-colors"
+              className="border border-[var(--color-line)] rounded-xl p-3 flex items-center gap-3 hover:border-[var(--color-neon)]/30 transition-colors"
             >
               <div
                 className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 display text-base"
@@ -77,9 +77,9 @@ export function UpcomingRounds({ limit = 5 }: { limit?: number }) {
               <div className="flex-1 min-w-0">
                 <div className="text-sm font-semibold truncate">
                   {company?.name || app.companySlug}{" "}
-                  <span className="text-white/40 font-normal">· {app.role}</span>
+                  <span className="text-[var(--color-text-faint)] font-normal">· {app.role}</span>
                 </div>
-                <div className="text-[11px] text-white/55 truncate flex items-center gap-1.5">
+                <div className="text-[11px] text-[var(--color-text-faint)] truncate flex items-center gap-1.5">
                   <Clock className="w-3 h-3" />
                   {app.nextActionLabel || "Next round"} ·{" "}
                   {new Date(app.nextActionAt!).toLocaleDateString("en-IN", {
@@ -115,20 +115,20 @@ function UrgencyPill({
   }
   if (urgency === "critical") {
     return (
-      <span className="text-[10px] mono uppercase tracking-widest px-2.5 py-1 rounded-full bg-[#ff5247]/15 text-[#ff8a7a] border border-[#ff5247]/30 inline-flex items-center gap-1">
+      <span className="text-[10px] mono uppercase tracking-widest px-2.5 py-1 rounded-full bg-[#ff5247]/15 text-[var(--severity-crit-text)] border border-[#ff5247]/30 inline-flex items-center gap-1">
         <AlertTriangle className="w-3 h-3" /> {dayDelta}d
       </span>
     );
   }
   if (urgency === "soon") {
     return (
-      <span className="text-[10px] mono uppercase tracking-widest px-2.5 py-1 rounded-full bg-[#ffe87a]/15 text-[#ffe87a] border border-[#ffe87a]/30">
+      <span className="text-[10px] mono uppercase tracking-widest px-2.5 py-1 rounded-full bg-[#ffe87a]/15 text-[var(--severity-warn-text)] border border-[#ffe87a]/30">
         {dayDelta}d
       </span>
     );
   }
   return (
-    <span className="text-[10px] mono uppercase tracking-widest px-2.5 py-1 rounded-full bg-white/5 text-white/60 border border-white/15 inline-flex items-center gap-1">
+    <span className="text-[10px] mono uppercase tracking-widest px-2.5 py-1 rounded-full bg-[var(--color-card-soft)] text-[var(--color-text-dim)] border border-[var(--color-line)] inline-flex items-center gap-1">
       <CheckCircle2 className="w-3 h-3" /> {dayDelta}d
     </span>
   );

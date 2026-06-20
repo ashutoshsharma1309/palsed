@@ -72,7 +72,7 @@ export default function Compare() {
       <header className="mb-6">
         <div className="mono text-xs uppercase tracking-[0.3em] text-[var(--color-neon)] mb-2">// compare</div>
         <h1 className="display text-5xl sm:text-6xl">SIDE-BY-SIDE.</h1>
-        <p className="text-white/60 mt-2 max-w-2xl">
+        <p className="text-[var(--color-text-dim)] mt-2 max-w-2xl">
           Pick 2-3 recruiters. See deltas at a glance — CTC, eligibility, rounds, difficulty,
           hiring window. Best ones highlighted.
         </p>
@@ -97,7 +97,7 @@ export default function Compare() {
               <select
                 value={picker}
                 onChange={(e) => add(e.target.value)}
-                className="bg-white/[0.05] border border-white/15 rounded-full px-3 py-1.5 text-xs outline-none focus:border-[var(--color-neon)]"
+                className="bg-[var(--color-card-soft)] border border-[var(--color-line)] rounded-full px-3 py-1.5 text-xs outline-none focus:border-[var(--color-neon)]"
               >
                 <option value="">+ Add company</option>
                 {COMPANIES.filter((c) => !slugs.includes(c.slug)).map((c) => (
@@ -106,7 +106,7 @@ export default function Compare() {
               </select>
             )}
           </div>
-          <span className="text-[11px] text-white/40 mono">
+          <span className="text-[11px] text-[var(--color-text-faint)] mono">
             {slugs.length}/{MAX_FREE} on free · <Link to="/pricing" className="text-[var(--color-neon)] underline">Pro for 6+</Link>
           </span>
         </div>
@@ -116,7 +116,7 @@ export default function Compare() {
         <Card className="text-center py-16">
           <Sparkles className="w-10 h-10 text-[var(--color-neon)] mx-auto mb-3" />
           <div className="display text-2xl mb-2">Pick 2 companies to start.</div>
-          <p className="text-white/60 text-sm max-w-md mx-auto">
+          <p className="text-[var(--color-text-dim)] text-sm max-w-md mx-auto">
             Useful when you've got multiple shortlists and need to know which to prioritize for
             prep + which one to negotiate with.
           </p>
@@ -137,7 +137,7 @@ export default function Compare() {
                     <Link to={`/companies/${c!.slug}`} className="font-bold truncate block hover:text-[var(--color-neon)]">
                       {c!.name}
                     </Link>
-                    <div className="mono text-[10px] uppercase tracking-widest text-white/40">{c!.tier}</div>
+                    <div className="mono text-[10px] uppercase tracking-widest text-[var(--color-text-faint)]">{c!.tier}</div>
                   </div>
                 </div>
 
@@ -147,7 +147,7 @@ export default function Compare() {
                 </Row>
                 <Row label="CTC range">₹{c!.ctcBand.min}–{c!.ctcBand.max} LPA</Row>
                 <Row label="Difficulty" highlight={winners.ease === c!.slug}>
-                  {"★".repeat(c!.difficulty)}<span className="text-white/20">{"★".repeat(5 - c!.difficulty)}</span>
+                  {"★".repeat(c!.difficulty)}<span className="text-[var(--color-text-faint)]">{"★".repeat(5 - c!.difficulty)}</span>
                 </Row>
                 <Row label="Min CGPA" highlight={winners.cgpa === c!.slug}>
                   {c!.eligibility.minCgpa ?? "—"}
@@ -188,7 +188,7 @@ export default function Compare() {
                 <span className="mono text-[10px] uppercase tracking-widest text-[var(--color-neon)]">PrepNext Pro</span>
               </div>
               <div className="display text-2xl">Compare 6 offers + 5-year takehome projections.</div>
-              <p className="text-sm text-white/60 mt-1">
+              <p className="text-sm text-[var(--color-text-dim)] mt-1">
                 Pro unlocks side-by-side for up to 6 recruiters, RSU vest schedules, city
                 cost-of-living adjustments, and AI offer-letter clause review.
               </p>
@@ -207,9 +207,9 @@ export default function Compare() {
 
 function Row({ label, children, highlight = false }: { label: string; children: React.ReactNode; highlight?: boolean }) {
   return (
-    <div className={`flex items-center justify-between text-xs py-1.5 border-b border-white/5 ${highlight ? "bg-[var(--color-neon)]/[0.06] -mx-2 px-2 rounded" : ""}`}>
-      <span className="text-white/45 mono uppercase text-[10px] tracking-widest">{label}</span>
-      <span className={`inline-flex items-center gap-1 truncate ml-2 ${highlight ? "text-[var(--color-neon)] font-bold" : "text-white/85"}`}>
+    <div className={`flex items-center justify-between text-xs py-1.5 border-b border-[var(--color-line)] ${highlight ? "bg-[var(--color-neon)]/[0.06] -mx-2 px-2 rounded" : ""}`}>
+      <span className="text-[var(--color-text-faint)] mono uppercase text-[10px] tracking-widest">{label}</span>
+      <span className={`inline-flex items-center gap-1 truncate ml-2 ${highlight ? "text-[var(--color-neon)] font-bold" : "text-[var(--color-text-dim)]"}`}>
         {children}
       </span>
     </div>

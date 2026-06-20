@@ -61,14 +61,14 @@ export function PrepKit({ company: c, pyqs }: PrepKitProps) {
             · 30-day prep plan ·
           </div>
           <h2 className="display text-2xl">YOUR {c.name.toUpperCase()} KIT.</h2>
-          <p className="text-white/60 text-sm mt-1">
+          <p className="text-[var(--color-text-dim)] text-sm mt-1">
             Auto-generated from {totalProblems} tagged DSA problems and {totalPYQs} verified PYQs.
             Follow the 4-week structure or skim sections below.
           </p>
         </div>
-        <div className="flex flex-col items-end gap-1 mono text-[10px] uppercase tracking-widest text-white/40">
+        <div className="flex flex-col items-end gap-1 mono text-[10px] uppercase tracking-widest text-[var(--color-text-faint)]">
           <span>· targeting</span>
-          <span className="text-white">{c.rounds.length} rounds</span>
+          <span className="text-[var(--color-text)]">{c.rounds.length} rounds</span>
           <span>~ {c.rounds.length * 7}d prep</span>
         </div>
       </div>
@@ -140,10 +140,10 @@ export function PrepKit({ company: c, pyqs }: PrepKitProps) {
                 <Link
                   key={p.id}
                   to={`/dsa/${p.slug}`}
-                  className="border border-white/10 rounded-lg px-3 py-2 hover:border-[var(--color-neon)]/40 transition-colors text-sm flex items-center justify-between gap-2"
+                  className="border border-[var(--color-line)] rounded-lg px-3 py-2 hover:border-[var(--color-neon)]/40 transition-colors text-sm flex items-center justify-between gap-2"
                 >
                   <span className="truncate">
-                    <span className="text-white/40 mono text-[10px] mr-2">#{p.leetcodeNumber}</span>
+                    <span className="text-[var(--color-text-faint)] mono text-[10px] mr-2">#{p.leetcodeNumber}</span>
                     {p.title}
                   </span>
                   <span
@@ -179,15 +179,15 @@ export function PrepKit({ company: c, pyqs }: PrepKitProps) {
               <BookOpen className="w-4 h-4 text-[var(--color-neon)]" />
               Top PYQs for {c.name}
             </h3>
-            <span className="text-[10px] text-white/40 mono">sorted by votes</span>
+            <span className="text-[10px] text-[var(--color-text-faint)] mono">sorted by votes</span>
           </div>
           <ol className="space-y-1.5">
             {topPYQs.map((p, i) => (
               <li key={p.id} className="flex items-start gap-3 text-sm border-l-2 border-[var(--color-neon)]/30 pl-3">
                 <span className="display text-xs text-[var(--color-neon)] mt-0.5">{i + 1}.</span>
                 <div className="flex-1 min-w-0">
-                  <div className="text-white/85 truncate">{p.question}</div>
-                  <div className="flex items-center gap-2 mt-0.5 text-[10px] mono text-white/40">
+                  <div className="text-[var(--color-text-dim)] truncate">{p.question}</div>
+                  <div className="flex items-center gap-2 mt-0.5 text-[10px] mono text-[var(--color-text-faint)]">
                     <span>{p.round}</span>
                     <span>·</span>
                     <span>{p.year}</span>
@@ -204,7 +204,7 @@ export function PrepKit({ company: c, pyqs }: PrepKitProps) {
       {/* Topics covered checklist */}
       <div className="grid sm:grid-cols-2 gap-3 mb-4">
         <div>
-          <div className="mono text-[10px] uppercase tracking-widest text-white/40 mb-1">DSA topics in scope</div>
+          <div className="mono text-[10px] uppercase tracking-widest text-[var(--color-text-faint)] mb-1">DSA topics in scope</div>
           <div className="flex flex-wrap gap-1">
             {c.topicsAsked.dsa.map((t) => (
               <Chip tone="neon" key={t}>
@@ -215,7 +215,7 @@ export function PrepKit({ company: c, pyqs }: PrepKitProps) {
         </div>
         {hasSystemDesign && (
           <div>
-            <div className="mono text-[10px] uppercase tracking-widest text-white/40 mb-1">System design</div>
+            <div className="mono text-[10px] uppercase tracking-widest text-[var(--color-text-faint)] mb-1">System design</div>
             <div className="flex flex-wrap gap-1">
               {(c.topicsAsked.systemDesign || []).map((t) => (
                 <Chip key={t}>{t}</Chip>
@@ -225,10 +225,10 @@ export function PrepKit({ company: c, pyqs }: PrepKitProps) {
         )}
       </div>
 
-      <div className="flex items-center gap-2 text-[11px] text-white/50 border-t border-white/10 pt-3">
+      <div className="flex items-center gap-2 text-[11px] text-[var(--color-text-faint)] border-t border-[var(--color-line)] pt-3">
         <Calendar className="w-3 h-3 text-[var(--color-neon)]" />
         <span>
-          Hiring window: <span className="text-white">{c.hiringWindow}</span> · adjust the plan to your OA date.
+          Hiring window: <span className="text-[var(--color-text)]">{c.hiringWindow}</span> · adjust the plan to your OA date.
         </span>
       </div>
     </Card>
@@ -247,16 +247,16 @@ function PlanWeek({
   Icon: typeof Code2;
 }) {
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-3">
+    <div className="rounded-2xl border border-[var(--color-line)] bg-[var(--color-card-soft)] p-3">
       <div className="flex items-center gap-2 mb-2">
         <Icon className="w-3.5 h-3.5 text-[var(--color-neon)]" />
-        <div className="mono text-[10px] uppercase tracking-widest text-white/50">Week {week}</div>
+        <div className="mono text-[10px] uppercase tracking-widest text-[var(--color-text-faint)]">Week {week}</div>
       </div>
       <div className="font-bold text-sm">{title}</div>
       <ul className="mt-2 space-y-1">
         {items.map((it, i) => (
-          <li key={i} className="text-xs text-white/75 flex items-start gap-1.5">
-            <CheckCircle2 className="w-3 h-3 mt-0.5 text-white/30 shrink-0" />
+          <li key={i} className="text-xs text-[var(--color-text-dim)] flex items-start gap-1.5">
+            <CheckCircle2 className="w-3 h-3 mt-0.5 text-[var(--color-text-faint)] shrink-0" />
             <span>{it}</span>
           </li>
         ))}

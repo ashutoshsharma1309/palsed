@@ -75,7 +75,7 @@ export function Nav() {
   };
 
   return (
-    <nav className="sticky top-0 z-30 backdrop-blur-md bg-black/60 border-b border-white/10">
+    <nav className="sticky top-0 z-30 backdrop-blur-md bg-[var(--color-bg)]/85 border-b border-[var(--color-line)]">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 flex items-center justify-between h-14">
         <Link to="/" className="shrink-0 neon-text" aria-label="PrepNext home">
           <LogoLockup wordmarkClass="display text-2xl tracking-tight" markSize={26} />
@@ -91,7 +91,7 @@ export function Nav() {
                 `px-3 py-1.5 text-xs font-semibold rounded-full transition-colors ${
                   isActive
                     ? "text-[var(--color-neon)] bg-[var(--color-neon)]/10"
-                    : "text-white/70 hover:text-white hover:bg-white/5"
+                    : "text-[var(--color-text-dim)] hover:text-[var(--color-text)] hover:bg-[var(--color-card-soft)]"
                 }`
               }
             >
@@ -109,7 +109,7 @@ export function Nav() {
             <button
               onClick={() => setPrepOpen((v) => !v)}
               className={`px-3 py-1.5 text-xs font-semibold rounded-full inline-flex items-center gap-1 transition-colors ${
-                prepOpen ? "bg-white/10 text-white" : "text-white/70 hover:text-white hover:bg-white/5"
+                prepOpen ? "bg-[var(--color-bg-soft)] text-[var(--color-text)]" : "text-[var(--color-text-dim)] hover:text-[var(--color-text)] hover:bg-[var(--color-card-soft)]"
               }`}
               aria-haspopup="menu"
               aria-expanded={prepOpen}
@@ -117,18 +117,18 @@ export function Nav() {
               <BookOpen className="w-3 h-3" /> Prep <ChevronDown className={`w-3 h-3 transition-transform ${prepOpen ? "rotate-180" : ""}`} />
             </button>
             {prepOpen && (
-              <div className="absolute right-0 top-full mt-2 w-72 rounded-2xl border border-white/15 bg-[var(--color-card)] shadow-2xl overflow-hidden z-40 py-1">
+              <div className="absolute right-0 top-full mt-2 w-72 rounded-2xl border border-[var(--color-line)] bg-[var(--color-card)] shadow-2xl overflow-hidden z-40 py-1">
                 {PREP_LINKS.map((p) => (
                   <NavLink
                     key={p.to}
                     to={p.to}
                     onClick={() => setPrepOpen(false)}
                     className={({ isActive }) =>
-                      `block px-4 py-2.5 hover:bg-white/5 ${isActive ? "bg-[var(--color-neon)]/[0.06]" : ""}`
+                      `block px-4 py-2.5 hover:bg-[var(--color-card-soft)] ${isActive ? "bg-[var(--color-neon)]/[0.06]" : ""}`
                     }
                   >
                     <div className="text-sm font-semibold">{p.label}</div>
-                    <div className="text-[11px] text-white/55">{p.desc}</div>
+                    <div className="text-[11px] text-[var(--color-text-faint)]">{p.desc}</div>
                   </NavLink>
                 ))}
               </div>
@@ -149,7 +149,7 @@ export function Nav() {
               <button
                 type="button"
                 onClick={() => setMenu((v) => !v)}
-                className="inline-flex items-center gap-2 px-2.5 py-1.5 rounded-full border border-white/15 hover:border-[var(--color-neon)] text-xs"
+                className="inline-flex items-center gap-2 px-2.5 py-1.5 rounded-full border border-[var(--color-line)] hover:border-[var(--color-neon)] text-xs"
                 aria-haspopup="menu"
                 aria-expanded={menu}
               >
@@ -161,21 +161,21 @@ export function Nav() {
               {menu && (
                 <>
                   <div className="fixed inset-0 z-30" onClick={() => setMenu(false)} />
-                  <div className="absolute right-0 top-full mt-2 w-64 rounded-2xl border border-white/15 bg-[var(--color-card)] shadow-2xl overflow-hidden z-40">
-                    <div className="px-4 py-3 border-b border-white/10">
+                  <div className="absolute right-0 top-full mt-2 w-64 rounded-2xl border border-[var(--color-line)] bg-[var(--color-card)] shadow-2xl overflow-hidden z-40">
+                    <div className="px-4 py-3 border-b border-[var(--color-line)]">
                       <div className="text-xs font-bold truncate">{user.displayName}</div>
-                      <div className="text-[10px] text-white/50 mono truncate">{user.email}</div>
+                      <div className="text-[10px] text-[var(--color-text-faint)] mono truncate">{user.email}</div>
                     </div>
 
                     <Link
                       to="/pricing"
                       onClick={() => setMenu(false)}
-                      className="flex items-center gap-2 px-4 py-2.5 text-xs hover:bg-white/5"
+                      className="flex items-center gap-2 px-4 py-2.5 text-xs hover:bg-[var(--color-card-soft)]"
                     >
                       <Star className="w-3.5 h-3.5 text-[var(--color-neon)]" /> Upgrade to Pro
                     </Link>
 
-                    <div className="px-4 py-1.5 mono text-[9px] uppercase tracking-widest text-white/40 border-t border-white/10">
+                    <div className="px-4 py-1.5 mono text-[9px] uppercase tracking-widest text-[var(--color-text-faint)] border-t border-[var(--color-line)]">
                       Tools
                     </div>
                     {TOOLS.map((t) => (
@@ -183,22 +183,22 @@ export function Nav() {
                         key={t.to}
                         to={t.to}
                         onClick={() => setMenu(false)}
-                        className="flex items-center gap-2 px-4 py-2 text-xs hover:bg-white/5"
+                        className="flex items-center gap-2 px-4 py-2 text-xs hover:bg-[var(--color-card-soft)]"
                       >
-                        <t.Icon className="w-3.5 h-3.5 text-white/60" /> {t.label}
+                        <t.Icon className="w-3.5 h-3.5 text-[var(--color-text-dim)]" /> {t.label}
                       </Link>
                     ))}
 
                     <Link
                       to="/settings"
                       onClick={() => setMenu(false)}
-                      className="flex items-center gap-2 px-4 py-2.5 text-xs hover:bg-white/5 border-t border-white/10"
+                      className="flex items-center gap-2 px-4 py-2.5 text-xs hover:bg-[var(--color-card-soft)] border-t border-[var(--color-line)]"
                     >
                       <SettingsIcon className="w-3.5 h-3.5" /> Settings
                     </Link>
                     <button
                       onClick={handleLogout}
-                      className="w-full flex items-center gap-2 px-4 py-2.5 text-xs text-left text-red-300 hover:bg-red-500/10 border-t border-white/10"
+                      className="w-full flex items-center gap-2 px-4 py-2.5 text-xs text-left text-red-300 hover:bg-red-500/10 border-t border-[var(--color-line)]"
                     >
                       <LogOut className="w-3.5 h-3.5" /> Log out
                     </button>
@@ -207,7 +207,7 @@ export function Nav() {
               )}
             </div>
           ) : (
-            <Link to="/" className="text-xs text-white/60 hover:text-white">Sign in</Link>
+            <Link to="/" className="text-xs text-[var(--color-text-dim)] hover:text-[var(--color-text)]">Sign in</Link>
           )}
         </div>
 
@@ -215,7 +215,7 @@ export function Nav() {
         <div className="lg:hidden flex items-center gap-2">
           <ThemeToggle />
           <button
-            className="text-white"
+            className="text-[var(--color-text)]"
             onClick={() => setOpen((v) => !v)}
             aria-label="Toggle menu"
           >
@@ -226,9 +226,9 @@ export function Nav() {
 
       {/* MOBILE MENU */}
       {open && (
-        <div className="lg:hidden border-t border-white/10 bg-black/95 px-4 py-3 max-h-[calc(100vh-3.5rem)] overflow-y-auto">
+        <div className="lg:hidden border-t border-[var(--color-line)] bg-[var(--color-bg)]/95 px-4 py-3 max-h-[calc(100vh-3.5rem)] overflow-y-auto">
           {/* Primary */}
-          <div className="mono text-[10px] uppercase tracking-widest text-white/40 mb-1.5">Primary</div>
+          <div className="mono text-[10px] uppercase tracking-widest text-[var(--color-text-faint)] mb-1.5">Primary</div>
           <div className="grid grid-cols-2 gap-1.5 mb-4">
             {PRIMARY.map((l) => (
               <NavLink
@@ -237,7 +237,7 @@ export function Nav() {
                 onClick={() => setOpen(false)}
                 className={({ isActive }) =>
                   `px-3 py-2 text-sm rounded-lg ${
-                    isActive ? "text-[var(--color-neon)] bg-[var(--color-neon)]/10" : "text-white/85"
+                    isActive ? "text-[var(--color-neon)] bg-[var(--color-neon)]/10" : "text-[var(--color-text-dim)]"
                   }`
                 }
               >
@@ -250,7 +250,7 @@ export function Nav() {
           </div>
 
           {/* Prep */}
-          <div className="mono text-[10px] uppercase tracking-widest text-white/40 mb-1.5">Prep library</div>
+          <div className="mono text-[10px] uppercase tracking-widest text-[var(--color-text-faint)] mb-1.5">Prep library</div>
           <div className="grid grid-cols-2 gap-1.5 mb-4">
             {PREP_LINKS.map((l) => (
               <NavLink
@@ -259,7 +259,7 @@ export function Nav() {
                 onClick={() => setOpen(false)}
                 className={({ isActive }) =>
                   `px-3 py-2 text-sm rounded-lg ${
-                    isActive ? "text-[var(--color-neon)] bg-[var(--color-neon)]/10" : "text-white/75"
+                    isActive ? "text-[var(--color-neon)] bg-[var(--color-neon)]/10" : "text-[var(--color-text-dim)]"
                   }`
                 }
               >
@@ -269,7 +269,7 @@ export function Nav() {
           </div>
 
           {/* Tools */}
-          <div className="mono text-[10px] uppercase tracking-widest text-white/40 mb-1.5">Tools</div>
+          <div className="mono text-[10px] uppercase tracking-widest text-[var(--color-text-faint)] mb-1.5">Tools</div>
           <div className="grid grid-cols-2 gap-1.5 mb-4">
             {TOOLS.map((t) => (
               <NavLink
@@ -278,7 +278,7 @@ export function Nav() {
                 onClick={() => setOpen(false)}
                 className={({ isActive }) =>
                   `px-3 py-2 text-sm rounded-lg inline-flex items-center gap-1.5 ${
-                    isActive ? "text-[var(--color-neon)] bg-[var(--color-neon)]/10" : "text-white/65"
+                    isActive ? "text-[var(--color-neon)] bg-[var(--color-neon)]/10" : "text-[var(--color-text-dim)]"
                   }`
                 }
               >
@@ -288,8 +288,8 @@ export function Nav() {
           </div>
 
           {/* Account */}
-          <div className="border-t border-white/10 pt-3 grid gap-1.5">
-            <NavLink to="/settings" onClick={() => setOpen(false)} className="px-3 py-2 text-sm rounded-lg text-white/60">
+          <div className="border-t border-[var(--color-line)] pt-3 grid gap-1.5">
+            <NavLink to="/settings" onClick={() => setOpen(false)} className="px-3 py-2 text-sm rounded-lg text-[var(--color-text-dim)]">
               Settings
             </NavLink>
             {user && (

@@ -32,7 +32,7 @@ export default function Salary() {
       <header className="mb-8">
         <div className="mono text-xs uppercase tracking-[0.3em] text-[var(--color-neon)] mb-2">// salary lab</div>
         <h1 className="display text-5xl sm:text-6xl">YOUR REAL TAKEHOME.</h1>
-        <p className="text-white/60 mt-2 max-w-2xl">
+        <p className="text-[var(--color-text-dim)] mt-2 max-w-2xl">
           Indian recruiters quote CTC. You care about monthly in-hand. Set your offer below and see
           the real numbers — basic, HRA, PF, bonus, tax — broken down honestly.
         </p>
@@ -45,8 +45,8 @@ export default function Salary() {
 
           <div className="space-y-4">
             <div>
-              <label className="mono text-[10px] uppercase tracking-widest text-white/50">
-                CTC (LPA) <span className="text-white">· ₹{ctc} LPA</span>
+              <label className="mono text-[10px] uppercase tracking-widest text-[var(--color-text-faint)]">
+                CTC (LPA) <span className="text-[var(--color-text)]">· ₹{ctc} LPA</span>
               </label>
               <input
                 type="range"
@@ -63,12 +63,12 @@ export default function Salary() {
                 onChange={(e) => setCtc(Math.max(0, Number(e.target.value) || 0))}
                 step={0.5}
                 min={0}
-                className="w-full mt-2 bg-white/[0.03] border border-white/15 rounded-lg px-3 py-2 text-sm outline-none focus:border-[var(--color-neon)]"
+                className="w-full mt-2 bg-[var(--color-card-soft)] border border-[var(--color-line)] rounded-lg px-3 py-2 text-sm outline-none focus:border-[var(--color-neon)]"
               />
             </div>
 
             <div>
-              <label className="mono text-[10px] uppercase tracking-widest text-white/50">City</label>
+              <label className="mono text-[10px] uppercase tracking-widest text-[var(--color-text-faint)]">City</label>
               <div className="flex flex-wrap gap-1.5 mt-1.5">
                 {CITY_HRA.map((c) => (
                   <Chip key={c.city} active={city === c.city} onClick={() => setCity(c.city)}>
@@ -90,7 +90,7 @@ export default function Salary() {
 
             {hasJoinBonus && (
               <div>
-                <label className="mono text-[10px] uppercase tracking-widest text-white/50">
+                <label className="mono text-[10px] uppercase tracking-widest text-[var(--color-text-faint)]">
                   Joining bonus (LPA) · ₹{joinBonus} LPA
                 </label>
                 <input
@@ -114,9 +114,9 @@ export default function Salary() {
             <div className="display text-6xl neon-text">
               ₹{formatINR(t.monthlyInhandRupees)}
             </div>
-            <span className="text-sm text-white/50">/ month</span>
+            <span className="text-sm text-[var(--color-text-faint)]">/ month</span>
           </div>
-          <div className="text-sm text-white/60 mb-5">
+          <div className="text-sm text-[var(--color-text-dim)] mb-5">
             ≈ ₹{t.netInhandAnnualLpa.toFixed(2)} LPA net · after tax
           </div>
 
@@ -127,7 +127,7 @@ export default function Salary() {
             <Stat label="Annual bonus" value={`₹${b.bonusLpa.toFixed(2)} L`} />
           </div>
 
-          <div className="text-[10px] mono uppercase tracking-widest text-white/40 mb-2">Employer adds on top (not in your hand)</div>
+          <div className="text-[10px] mono uppercase tracking-widest text-[var(--color-text-faint)] mb-2">Employer adds on top (not in your hand)</div>
           <div className="grid grid-cols-3 gap-3 mb-5">
             <Stat label="PF (employer)" value={`₹${b.pfEmployerLpa.toFixed(2)} L`} hint="12% of basic" />
             <Stat label="Gratuity" value={`₹${b.gratuityLpa.toFixed(2)} L`} hint="4.81% of basic" />
@@ -144,16 +144,16 @@ export default function Salary() {
             </div>
           )}
 
-          <div className="border-t border-white/10 pt-4">
+          <div className="border-t border-[var(--color-line)] pt-4">
             <div className="flex items-center justify-between text-sm">
-              <span className="text-white/60">Gross taxable</span>
+              <span className="text-[var(--color-text-dim)]">Gross taxable</span>
               <span>₹{t.grossInhandAnnualLpa.toFixed(2)} L</span>
             </div>
             <div className="flex items-center justify-between text-sm mt-1">
-              <span className="text-white/60">Income tax (New Regime)</span>
-              <span className="text-[#ff8a7a]">- ₹{t.taxAnnualLpa.toFixed(2)} L</span>
+              <span className="text-[var(--color-text-dim)]">Income tax (New Regime)</span>
+              <span className="text-[var(--severity-crit-text)]">- ₹{t.taxAnnualLpa.toFixed(2)} L</span>
             </div>
-            <div className="flex items-center justify-between mt-2 pt-2 border-t border-white/10">
+            <div className="flex items-center justify-between mt-2 pt-2 border-t border-[var(--color-line)]">
               <span className="font-bold">Net annual</span>
               <span className="display text-xl text-[var(--color-neon)]">₹{t.netInhandAnnualLpa.toFixed(2)} L</span>
             </div>
@@ -170,7 +170,7 @@ export default function Salary() {
               <span className="mono text-[10px] uppercase tracking-widest text-[var(--color-neon)]">PrepNext Pro</span>
             </div>
             <div className="display text-2xl">Compare multiple offers side-by-side.</div>
-            <p className="text-sm text-white/60 mt-1">
+            <p className="text-sm text-[var(--color-text-dim)] mt-1">
               Got offers from 2-3 companies? Compare in-hand, RSU vest schedules, 5-year takehome
               projections, and city cost-of-living adjustments.
             </p>
@@ -197,7 +197,7 @@ export default function Salary() {
               <Link
                 key={c.id}
                 to={`/companies/${c.slug}`}
-                className="border border-white/10 rounded-lg px-3 py-2 hover:border-[var(--color-neon)]/40 transition-colors flex items-center justify-between text-sm"
+                className="border border-[var(--color-line)] rounded-lg px-3 py-2 hover:border-[var(--color-neon)]/40 transition-colors flex items-center justify-between text-sm"
               >
                 <span>{c.name}</span>
                 <span className="text-[var(--color-neon)] mono text-[11px]">₹{c.ctcBand.typical} L</span>
@@ -206,8 +206,8 @@ export default function Salary() {
         </div>
       </Card>
 
-      <div className="mt-6 text-[11px] text-white/40 max-w-2xl">
-        <strong className="text-white/60">Disclaimer:</strong> illustrative numbers using New Tax Regime
+      <div className="mt-6 text-[11px] text-[var(--color-text-faint)] max-w-2xl">
+        <strong className="text-[var(--color-text-dim)]">Disclaimer:</strong> illustrative numbers using New Tax Regime
         FY 2025-26 with ₹75k standard deduction. Actual CTC composition varies (RSU vest schedules,
         retirals %, perks). Verify your payslip with a CA before financial decisions.
       </div>
@@ -218,9 +218,9 @@ export default function Salary() {
 function Stat({ label, value, hint }: { label: string; value: string; hint?: string }) {
   return (
     <div>
-      <div className="mono text-[10px] uppercase tracking-widest text-white/40">{label}</div>
+      <div className="mono text-[10px] uppercase tracking-widest text-[var(--color-text-faint)]">{label}</div>
       <div className="font-bold mt-0.5">{value}</div>
-      {hint && <div className="text-[10px] text-white/40 mt-0.5">{hint}</div>}
+      {hint && <div className="text-[10px] text-[var(--color-text-faint)] mt-0.5">{hint}</div>}
     </div>
   );
 }

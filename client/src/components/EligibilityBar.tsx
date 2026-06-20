@@ -19,7 +19,7 @@ export function EligibilityBar() {
       <div className="flex items-center justify-between gap-3 flex-wrap">
         <div className="flex items-center gap-2 flex-wrap">
           <Filter className="w-4 h-4 text-[var(--color-neon)]" />
-          <span className="mono text-[11px] uppercase tracking-widest text-white/60">Eligibility</span>
+          <span className="mono text-[11px] uppercase tracking-widest text-[var(--color-text-dim)]">Eligibility</span>
 
           {profile.filterEnabled && hasAnyProfile ? (
             <div className="flex items-center gap-2 flex-wrap">
@@ -34,7 +34,7 @@ export function EligibilityBar() {
               )}
               <button
                 onClick={() => update({ filterEnabled: false })}
-                className="text-[11px] text-white/50 hover:text-white inline-flex items-center gap-1"
+                className="text-[11px] text-[var(--color-text-faint)] hover:text-[var(--color-text)] inline-flex items-center gap-1"
               >
                 <X className="w-3 h-3" /> Show all
               </button>
@@ -54,7 +54,7 @@ export function EligibilityBar() {
 
         <button
           onClick={() => setEditing((v) => !v)}
-          className="text-[11px] text-white/50 hover:text-white inline-flex items-center gap-1"
+          className="text-[11px] text-[var(--color-text-faint)] hover:text-[var(--color-text)] inline-flex items-center gap-1"
           aria-label="Edit eligibility profile"
         >
           <Settings2 className="w-3.5 h-3.5" />
@@ -63,9 +63,9 @@ export function EligibilityBar() {
       </div>
 
       {editing && (
-        <div className="mt-4 pt-4 border-t border-white/10 grid sm:grid-cols-4 gap-3">
+        <div className="mt-4 pt-4 border-t border-[var(--color-line)] grid sm:grid-cols-4 gap-3">
           <div>
-            <label className="mono text-[10px] uppercase tracking-widest text-white/50">CGPA (/10)</label>
+            <label className="mono text-[10px] uppercase tracking-widest text-[var(--color-text-faint)]">CGPA (/10)</label>
             <input
               type="number"
               step={0.01}
@@ -76,11 +76,11 @@ export function EligibilityBar() {
                 update({ cgpa: e.target.value === "" ? null : Number(e.target.value) })
               }
               placeholder="8.5"
-              className="w-full mt-1 bg-white/[0.03] border border-white/15 rounded-lg px-3 py-1.5 text-sm outline-none focus:border-[var(--color-neon)]"
+              className="w-full mt-1 bg-[var(--color-card-soft)] border border-[var(--color-line)] rounded-lg px-3 py-1.5 text-sm outline-none focus:border-[var(--color-neon)]"
             />
           </div>
           <div>
-            <label className="mono text-[10px] uppercase tracking-widest text-white/50">10th %</label>
+            <label className="mono text-[10px] uppercase tracking-widest text-[var(--color-text-faint)]">10th %</label>
             <input
               type="number"
               min={0}
@@ -90,11 +90,11 @@ export function EligibilityBar() {
                 update({ tenthPct: e.target.value === "" ? null : Number(e.target.value) })
               }
               placeholder="80"
-              className="w-full mt-1 bg-white/[0.03] border border-white/15 rounded-lg px-3 py-1.5 text-sm outline-none focus:border-[var(--color-neon)]"
+              className="w-full mt-1 bg-[var(--color-card-soft)] border border-[var(--color-line)] rounded-lg px-3 py-1.5 text-sm outline-none focus:border-[var(--color-neon)]"
             />
           </div>
           <div>
-            <label className="mono text-[10px] uppercase tracking-widest text-white/50">12th %</label>
+            <label className="mono text-[10px] uppercase tracking-widest text-[var(--color-text-faint)]">12th %</label>
             <input
               type="number"
               min={0}
@@ -104,15 +104,15 @@ export function EligibilityBar() {
                 update({ twelfthPct: e.target.value === "" ? null : Number(e.target.value) })
               }
               placeholder="75"
-              className="w-full mt-1 bg-white/[0.03] border border-white/15 rounded-lg px-3 py-1.5 text-sm outline-none focus:border-[var(--color-neon)]"
+              className="w-full mt-1 bg-[var(--color-card-soft)] border border-[var(--color-line)] rounded-lg px-3 py-1.5 text-sm outline-none focus:border-[var(--color-neon)]"
             />
           </div>
           <div>
-            <label className="mono text-[10px] uppercase tracking-widest text-white/50">Branch</label>
+            <label className="mono text-[10px] uppercase tracking-widest text-[var(--color-text-faint)]">Branch</label>
             <select
               value={profile.branch ?? ""}
               onChange={(e) => update({ branch: e.target.value || null })}
-              className="w-full mt-1 bg-white/[0.03] border border-white/15 rounded-lg px-3 py-1.5 text-sm outline-none focus:border-[var(--color-neon)]"
+              className="w-full mt-1 bg-[var(--color-card-soft)] border border-[var(--color-line)] rounded-lg px-3 py-1.5 text-sm outline-none focus:border-[var(--color-neon)]"
             >
               <option value="">— Select —</option>
               {BRANCHES.map((b) => (

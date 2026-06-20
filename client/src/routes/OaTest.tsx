@@ -406,7 +406,7 @@ export default function OaTest() {
                         : flagged
                         ? "border border-[var(--color-neon)] text-[var(--color-neon)] bg-[var(--color-neon)]/10"
                         : answered
-                        ? "bg-[var(--color-line)] text-white"
+                        ? "bg-[var(--color-line)] text-[var(--color-text)]"
                         : "bg-[var(--color-card-soft)] text-[var(--color-text-faint)] hover:text-[var(--color-text)] border border-[var(--color-line)]"
                     }`}
                   >

@@ -6,14 +6,21 @@ interface Props extends React.HTMLAttributes<HTMLSpanElement> {
 }
 
 export function Chip({ active, tone = "default", className = "", children, ...rest }: Props) {
+  // Theme-aware tones using CSS vars.
+  // - active "default" → uses the inverted text/bg pair: looks like the brand
+  //   text color filled with the brand bg color. In dark mode = white pill,
+  //   black ink. In light mode = black pill, white ink.
+  // - inactive → semi-bordered with dim text, hover crisps the border.
   const tones: Record<string, string> = {
     default: active
-      ? "bg-white text-black border-white"
-      : "bg-transparent text-white/80 border-white/15 hover:border-white/40",
+      ? "bg-[var(--color-text)] text-[var(--color-bg)] border-[var(--color-text)]"
+      : "bg-transparent text-[var(--color-text-dim)] border-[var(--color-line)] hover:border-[var(--color-text-faint)] hover:text-[var(--color-text)]",
     neon: active
       ? "bg-[var(--color-neon)] text-black border-[var(--color-neon)]"
       : "bg-transparent text-[var(--color-neon)] border-[var(--color-neon)]/40 hover:border-[var(--color-neon)]",
-    warn: "bg-[#ffe87a] text-black border-[#ffe87a]",
+    warn:
+      "border-transparent " +
+      "bg-[var(--severity-warn-bg)] text-[var(--severity-warn-text)] border-[var(--severity-warn-border)]",
     success: "bg-[var(--color-mint)] text-black border-[var(--color-mint)]",
   };
   return (
