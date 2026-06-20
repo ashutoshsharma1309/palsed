@@ -9,8 +9,13 @@ import { ThemeToggle } from "../components/ui/ThemeToggle";
 import { AuthPanel } from "../components/auth/AuthPanel";
 import { Background } from "../components/layout/Background";
 import { Footer } from "../components/layout/Footer";
-import { COMPANIES } from "../data/companies";
-import { PYQ_SEED } from "../data/pyqs-seed";
+import { usePageMeta } from "../hooks/usePageMeta";
+// Landing is first-paint critical. We used to import COMPANIES (96KB) +
+// PYQ_SEED (19KB) just to render two `.length` stats — 115KB of JS shipped to
+// print two numbers. Hardcoded here; bump when seed data grows past the next
+// round number. Source files: client/src/data/{companies,pyqs-seed}.ts.
+const COMPANY_COUNT = 75;
+const PYQ_COUNT = 48;
 
 const FEATURES = [
   {
@@ -59,8 +64,8 @@ const HOW_IT_WORKS = [
 ];
 
 const STATS = [
-  { v: COMPANIES.length.toString(), l: "Curated recruiters" },
-  { v: PYQ_SEED.length.toString() + "+", l: "PYQs (and growing)" },
+  { v: COMPANY_COUNT.toString(), l: "Curated recruiters" },
+  { v: PYQ_COUNT.toString() + "+", l: "PYQs (and growing)" },
   { v: "150", l: "DSA problems" },
   { v: "0", l: "AI calls · zero ops cost" },
 ];
@@ -95,6 +100,13 @@ const FAQ_SCHEMA_ITEMS = [
 export default function Landing() {
   const location = useLocation();
   const navigate = useNavigate();
+
+  usePageMeta({
+    title: "Placement Season OS for Indian campus students",
+    description:
+      "Map 75+ recruiters, crack PYQs, prep DSA + Core CS, track applications kanban-style, and get internship leads — all in one workspace. Free for students.",
+    canonical: "/",
+  });
 
   // Inject FAQPage JSON-LD into <head> for rich Google snippets.
   useEffect(() => {
