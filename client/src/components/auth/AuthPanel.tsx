@@ -95,8 +95,17 @@ export function AuthPanel({ redirectTo }: AuthPanelProps = {}) {
         return;
       }
 
-      // 2) Tell Supabase to email a 6-digit code.
-      await sendOtp(cleaned, fullName.trim() || undefined);
+      // 2) Tell Supabase to email a 6-digit code. If their mailer is down,
+      // sendOtp transparently falls back to a magic-link redirect.
+      const outcome = await sendOtp(cleaned, fullName.trim() || undefined);
+
+      if (outcome.kind === "redirecting") {
+        // Mailer was down — server returned a one-time sign-in URL. Navigate
+        // there; Supabase will verify and bounce us back to /auth/callback.
+        setInfo("Email service slow — signing you in directly…");
+        window.location.href = outcome.url;
+        return;
+      }
 
       setPhase("enterCode");
       setInfo("Code sent. Check your inbox + spam folder.");
@@ -131,7 +140,12 @@ export function AuthPanel({ redirectTo }: AuthPanelProps = {}) {
     if (resendIn > 0) return;
     setError(null); setInfo(null); setBusy(true);
     try {
-      await sendOtp(email.trim().toLowerCase(), fullName.trim() || undefined);
+      const outcome = await sendOtp(email.trim().toLowerCase(), fullName.trim() || undefined);
+      if (outcome.kind === "redirecting") {
+        setInfo("Email service slow — signing you in directly…");
+        window.location.href = outcome.url;
+        return;
+      }
       setInfo("New code sent.");
       setResendIn(RESEND_COOLDOWN_S);
     } catch (err: any) {

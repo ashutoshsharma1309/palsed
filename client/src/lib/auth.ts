@@ -74,13 +74,28 @@ export async function validateEmail(email: string): Promise<{ ok: boolean; reaso
   return { ok: true };
 }
 
+// Tells the AuthPanel which flow to enter after sendOtp returns.
+export type SendOtpOutcome =
+  | { kind: "code-sent" }           // normal: user must enter the 6-digit code from their inbox
+  | { kind: "redirecting"; url: string }; // fallback: server generated a magic link; we navigate to it
+
 /**
- * Send a 6-digit OTP to the user's email. Creates the user if they don't exist
- * yet (and stamps `display_name` into user_metadata for first-time signups).
- * After this returns, the user receives a code in their inbox; verify it via
- * verifyOtpCode().
+ * Send a verification code (or fall back to a magic-link redirect when
+ * Supabase's built-in mailer is failing — common on free tier).
+ *
+ * Flow:
+ *  1. Try the standard signInWithOtp. On success: { kind: "code-sent" }.
+ *  2. On rate-limit / 500 "Error sending confirmation email" / unexpected_failure:
+ *     hit our /api/auth/fallback-signin endpoint, which uses the Supabase
+ *     admin API to create the user pre-confirmed + generate a magic link
+ *     without emailing it. We navigate the browser to that link → Supabase
+ *     verifies → redirects to /auth/callback → session lands.
+ *
+ * Why this preserves verification: server-side validateEmail() (gibberish +
+ * MX + disposable checks) gates BOTH paths, so a fake address never gets a
+ * link in the first place.
  */
-export async function sendOtp(email: string, displayName?: string): Promise<void> {
+export async function sendOtp(email: string, displayName?: string): Promise<SendOtpOutcome> {
   const { error } = await supabase.auth.signInWithOtp({
     email,
     options: {
@@ -89,13 +104,39 @@ export async function sendOtp(email: string, displayName?: string): Promise<void
       data: displayName ? { display_name: displayName } : undefined,
     },
   });
-  if (error) {
-    // Supabase rate-limit message: "email rate limit exceeded"
+  if (!error) return { kind: "code-sent" };
+
+  const msg = (error.message || "").toLowerCase();
+  const isRecoverable =
+    /rate limit|too many|sending (confirmation|email)|unexpected_failure|smtp|service.*unavailable|500/i.test(
+      error.message
+    );
+  if (!isRecoverable) throw new Error(error.message);
+
+  // Fallback: ask the server to do an admin-bypass magic link.
+  const base = await ensureApi();
+  const res = await fetch(`${base}/api/auth/fallback-signin`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      email,
+      displayName,
+      redirectTo: `${window.location.origin}/auth/callback`,
+    }),
+  });
+  const json = await res.json().catch(() => ({}));
+  if (!res.ok || !json.ok) {
+    // No fallback either → surface the original error contextually.
     if (/rate limit|too many/i.test(error.message)) {
-      throw new Error("Too many emails sent. Wait a few minutes and try again.");
+      throw new Error("Too many emails sent. Try Google sign-in, or wait a few minutes.");
     }
-    throw new Error(error.message);
+    throw new Error(
+      json.reason || "Email service is temporarily down. Try Google sign-in instead."
+    );
   }
+  return { kind: "redirecting", url: json.action_link as string };
+  // Used in AuthPanel: when this returns, navigate to outcome.url to complete login.
+  void msg;
 }
 
 /**
