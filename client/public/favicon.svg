@@ -1,6 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="PrepNext">
-  <!-- Favicon: neon-on-black rounded-square so it pops in browser tab bars on either theme -->
-  <rect width="64" height="64" rx="14" fill="#000000"/>
-  <path d="M11 12 H24 M11 12 V52 M11 52 H24" stroke="#BDFF00" stroke-width="6" stroke-linecap="square" fill="none"/>
-  <path d="M31 20 L47 32 L31 44" stroke="#BDFF00" stroke-width="6" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="4" fill="none"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="PrepNext">
+  <!-- Favicon: neon-on-black rounded-square — pops in browser tab bars on either theme -->
+  <rect width="512" height="512" rx="112" fill="#000000"/>
+  <path fill="#BDFF00" fill-rule="evenodd" d="M 128 96 L 320 96 L 384 160 L 384 224 L 320 288 L 208 288 L 208 416 L 128 416 Z M 208 160 L 208 224 L 288 224 L 320 192 L 288 160 Z"/>
 </svg>

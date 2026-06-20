@@ -1,9 +1,12 @@
-// PrepNext brand mark. Inline SVG (not <img src=>) so it picks up currentColor —
-// the parent's text color drives the stroke. Lets us use the same mark in
-// neon, black, white, or invert-on-hover without shipping multiple SVG files.
+// PrepNext brand mark — "Hard P" (Option D). Inline SVG (not <img src=>) so
+// it picks up currentColor — the parent's text color drives the fill. Lets us
+// use the same mark in neon, black, white, or invert-on-hover without shipping
+// multiple SVG files.
 //
-// Composition: a code-bracket `[` enclosing a forward chevron `>`. Reads as
-// "[›" — engineering syntax + forward motion. See DESIGN.md for the rationale.
+// Composition: a geometric capital P with 45° chamfered corners on the bowl.
+// Reads instantly as the letter P (the brand starts with P) with a subtle
+// "engineered/machined" angular character that distinguishes it from a generic
+// P logo. See DESIGN.md for the rationale.
 
 interface LogoMarkProps {
   className?: string;
@@ -19,12 +22,16 @@ export function LogoMark({ className, size = 24, title = "PrepNext" }: LogoMarkP
       width={size}
       height={size}
       className={className}
-      fill="none"
       role="img"
       aria-label={title}
     >
-      <path d="M11 12 H24 M11 12 V52 M11 52 H24" stroke="currentColor" strokeWidth="6" strokeLinecap="square" />
-      <path d="M31 20 L47 32 L31 44" stroke="currentColor" strokeWidth="6" strokeLinecap="square" strokeLinejoin="miter" strokeMiterlimit={4} />
+      {/* "Hard P" — chamfered geometric capital P (Option D). Single path with
+          evenodd fill rule so the bowl reads as cleanly cut negative space. */}
+      <path
+        fill="currentColor"
+        fillRule="evenodd"
+        d="M16 12 L40 12 L48 20 L48 28 L40 36 L26 36 L26 52 L16 52 Z M26 20 L26 28 L36 28 L40 24 L36 20 Z"
+      />
     </svg>
   );
 }

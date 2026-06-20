@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 300">
-  <rect width="1200" height="300" fill="#000000"/>
-  <g transform="translate(80,75) scale(0.47)">
-    <path fill="#BDFF00" fill-rule="evenodd" d="M 128 96 L 384 96 L 384 272 L 208 272 L 208 416 L 128 416 Z M 208 160 L 208 224 L 320 224 L 320 160 Z"/>
-  </g>
-  <text x="320" y="195" font-family="'Bricolage Grotesque','Inter',system-ui,sans-serif" font-size="140" font-weight="800" fill="#FFFFFF" letter-spacing="-4">PREPNEXT</text>
-</svg>
