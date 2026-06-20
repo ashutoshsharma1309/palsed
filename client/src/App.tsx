@@ -43,6 +43,9 @@ const ResumeRoast = lazy(() => import("./routes/ResumeRoast"));
 const Salary = lazy(() => import("./routes/Salary"));
 const Compare = lazy(() => import("./routes/Compare"));
 const Pricing = lazy(() => import("./routes/Pricing"));
+const Oa = lazy(() => import("./routes/Oa"));
+const OaTest = lazy(() => import("./routes/OaTest"));
+const OaResult = lazy(() => import("./routes/OaResult"));
 const NotFound = lazy(() => import("./routes/NotFound"));
 
 function ScrollToTop() {
@@ -55,7 +58,11 @@ function ScrollToTop() {
 
 function HideChromeForLanding({ children }: { children: React.ReactNode }) {
   const { pathname } = useLocation();
-  const hide = pathname === "/" || pathname === "/onboarding" || pathname.startsWith("/verify-certificate");
+  const hide =
+    pathname === "/" ||
+    pathname === "/onboarding" ||
+    pathname.startsWith("/verify-certificate") ||
+    pathname.startsWith("/oa/test/"); // OA test mode is fullscreen
   return (
     <>
       {!hide && <Nav />}
@@ -116,6 +123,9 @@ export default function App() {
                     <Route path="/resume-roast" element={<ResumeRoast />} />
                     <Route path="/salary" element={<Salary />} />
                     <Route path="/compare" element={<Compare />} />
+                    <Route path="/oa" element={<Oa />} />
+                    <Route path="/oa/test/:id" element={<OaTest />} />
+                    <Route path="/oa/result/:id" element={<OaResult />} />
                   </Route>
 
                   {/* Legacy redirects — old AI routes → new homes */}
