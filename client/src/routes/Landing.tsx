@@ -65,9 +65,58 @@ const STATS = [
   { v: "0", l: "AI calls · zero ops cost" },
 ];
 
+const FAQ_SCHEMA_ITEMS = [
+  {
+    q: "What is PrepNext?",
+    a: "PrepNext is an all-in-one placement preparation OS for Indian college students. Track companies, master PYQs, prep DSA, manage applications — all in one workspace.",
+  },
+  {
+    q: "Is PrepNext free?",
+    a: "Yes — the core features are free forever. Pro features unlock unlimited PYQ access, advanced analytics, and mock interview AI.",
+  },
+  {
+    q: "Which companies does PrepNext cover?",
+    a: "100+ top recruiters including Google, Microsoft, Amazon, Goldman Sachs, plus YC startups hiring interns.",
+  },
+  {
+    q: "Does PrepNext help with DSA practice?",
+    a: "Yes — a curated DSA tracker with 450+ problems, company-tagged, with spaced repetition for retention.",
+  },
+  {
+    q: "Can I track placement applications like a kanban board?",
+    a: "Yes — drag-and-drop applications across Applied / OA / Interview / Offer / Rejected stages.",
+  },
+  {
+    q: "Is PrepNext only for engineering students?",
+    a: "PrepNext is optimized for engineering campus placements but works for any college student preparing for tech, finance, or consulting recruiting.",
+  },
+];
+
 export default function Landing() {
   const location = useLocation();
   const navigate = useNavigate();
+
+  // Inject FAQPage JSON-LD into <head> for rich Google snippets.
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.type = "application/ld+json";
+    script.text = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: FAQ_SCHEMA_ITEMS.map((item) => ({
+        "@type": "Question",
+        name: item.q,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: item.a,
+        },
+      })),
+    });
+    document.head.appendChild(script);
+    return () => {
+      document.head.removeChild(script);
+    };
+  }, []);
 
   // If the user landed here via RequireAuth redirect, notify them and
   // bring the AuthPanel into view.
