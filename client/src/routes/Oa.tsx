@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { Play, Clock, Timer, Brain, Trash2, TrendingUp, Building2, Sparkles } from "lucide-react";
+import { Play, Clock, Brain, Trash2, Sparkles } from "lucide-react";
 import { Card } from "../components/ui/Card";
 import { Chip } from "../components/ui/Chip";
 import { Button } from "../components/ui/Button";
@@ -8,6 +8,7 @@ import { COMPANIES, getCompany } from "../data/companies";
 import { useOaSessions, pickQuestionsForConfig } from "../hooks/useOaSessions";
 import { type OADifficulty, defaultOaConfig } from "../types/oa";
 import { usePageMeta } from "../hooks/usePageMeta";
+import { OA_QUESTIONS, OA_TOPICS } from "../data/oa-questions";
 
 // OA Practice Mode — setup + history list.
 
@@ -27,9 +28,10 @@ export default function Oa() {
   const [config, setConfig] = useState(defaultOaConfig());
 
   const matchingPreview = useMemo(
-    () => pickQuestionsForConfig({ ...config, questionCount: 100 }).length,
+    () => pickQuestionsForConfig({ ...config, questionCount: 1000 }).length,
     [config]
   );
+  const curatedCount = OA_QUESTIONS.length;
 
   const start = () => {
     const s = create(config);
@@ -47,8 +49,19 @@ export default function Oa() {
         <h1 className="display text-5xl sm:text-6xl">MOCK OA.</h1>
         <p className="text-white/60 mt-2 max-w-2xl">
           Real interview questions, real time pressure. Pick a company, hit start, simulate the
-          conditions you'll face. Self-graded with our suggested rubric.
+          conditions you'll face. Full solutions + complexity analysis on every problem.
         </p>
+        <div className="flex flex-wrap gap-2 mt-4 mono text-[10px] uppercase tracking-widest">
+          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[var(--color-neon)]/10 text-[var(--color-neon)] border border-[var(--color-neon)]/30">
+            <Sparkles className="w-3 h-3" /> {curatedCount} curated questions
+          </span>
+          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/[0.04] text-white/65 border border-white/15">
+            + 48 crowd-sourced PYQs
+          </span>
+          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/[0.04] text-white/65 border border-white/15">
+            full solutions · LeetCode links
+          </span>
+        </div>
       </header>
 
       {/* IN PROGRESS — resume */}
@@ -163,11 +176,28 @@ export default function Oa() {
             <label className="mono text-[10px] uppercase tracking-widest text-white/50 block mb-1.5">
               Topic filter (optional)
             </label>
+            <div className="flex flex-wrap gap-1.5 mb-2">
+              <Chip
+                active={!config.topicFilter}
+                onClick={() => setConfig({ ...config, topicFilter: undefined })}
+              >
+                Any topic
+              </Chip>
+              {OA_TOPICS.map((t) => (
+                <Chip
+                  key={t}
+                  active={config.topicFilter === t}
+                  onClick={() => setConfig({ ...config, topicFilter: t })}
+                >
+                  {t}
+                </Chip>
+              ))}
+            </div>
             <input
               type="text"
               value={config.topicFilter || ""}
               onChange={(e) => setConfig({ ...config, topicFilter: e.target.value || undefined })}
-              placeholder="e.g. DP, Arrays, Graphs"
+              placeholder="Or type a custom topic..."
               className="w-full bg-white/[0.03] border border-white/15 rounded-lg px-3 py-2 text-sm outline-none focus:border-[var(--color-neon)]"
             />
           </div>

@@ -1,16 +1,17 @@
 import { useMemo } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { CheckCircle2, XCircle, AlertCircle, RotateCw, Share2, Eye, Flag, Trophy } from "lucide-react";
+import { Link, useParams } from "react-router-dom";
+import {
+  CheckCircle2, XCircle, AlertCircle, RotateCw, Share2, Eye, Flag, Trophy,
+  Code2, Clock, HardDrive, ExternalLink, Sparkles, Lightbulb, Zap,
+} from "lucide-react";
 import { Card } from "../components/ui/Card";
 import { Button } from "../components/ui/Button";
 import { Chip } from "../components/ui/Chip";
-import { useOaSessions } from "../hooks/useOaSessions";
+import { useOaSessions, getQuestionById, type EnrichedQuestion } from "../hooks/useOaSessions";
 import { computeStats, type OAGrade } from "../types/oa";
-import { PYQ_SEED } from "../data/pyqs-seed";
 import { getCompany } from "../data/companies";
 
-// Results screen. Students self-grade per question (solved/partial/unsolved)
-// using a suggested rubric. Score updates live.
+// Results screen — students self-grade per question, full solutions shown.
 
 const GRADES: { value: OAGrade; label: string; tone: string }[] = [
   { value: "solved", label: "Solved fully", tone: "#c8ff3d" },
@@ -20,15 +21,13 @@ const GRADES: { value: OAGrade; label: string; tone: string }[] = [
 
 export default function OaResult() {
   const { id } = useParams();
-  const navigate = useNavigate();
   const { get, updateAnswer, finish } = useOaSessions();
   const session = get(id || "");
 
-  const questions = useMemo(() => {
-    if (!session) return [];
-    const map = new Map(PYQ_SEED.map((q) => [q.id, q]));
-    return session.questionIds.map((qid) => map.get(qid)).filter(Boolean) as typeof PYQ_SEED;
-  }, [session]);
+  const questions = useMemo(
+    () => (session?.questionIds || []).map((qid) => getQuestionById(qid)).filter(Boolean) as EnrichedQuestion[],
+    [session?.questionIds]
+  );
 
   if (!session) {
     return (
@@ -41,24 +40,22 @@ export default function OaResult() {
     );
   }
 
-  // Recompute stats live as user grades
   const stats = useMemo(() => computeStats(session)!, [session]);
   const allGraded = questions.every((q) => session.answers[q.id]?.grade !== null);
 
-  // Re-save stats to history whenever grading changes
   const saveStats = () => finish(session.id);
-
   const company = session.config.companySlug ? getCompany(session.config.companySlug) : null;
   const durationActual = stats.durationActualMs;
   const minutes = Math.floor(durationActual / 60_000);
   const seconds = Math.floor((durationActual % 60_000) / 1000);
 
   const handleShare = async () => {
-    const text = `I scored ${stats.score}/100 on a ${session.config.questionCount}Q ${company?.name || "Mixed"} OA mock in PrepNext 🚀\n\nMy real OA prep: https://prepnext.vercel.app/oa`;
+    const text = `I scored ${stats.score}/100 on a ${session.config.questionCount}Q ${
+      company?.name || "Mixed"
+    } OA mock in PrepNext 🚀\n\nTry yours: https://prepnext.vercel.app/oa`;
     try {
-      if (navigator.share) {
-        await navigator.share({ title: "My PrepNext OA score", text });
-      } else {
+      if (navigator.share) await navigator.share({ title: "My PrepNext OA score", text });
+      else {
         await navigator.clipboard.writeText(text);
         alert("Score copied to clipboard!");
       }
@@ -66,7 +63,7 @@ export default function OaResult() {
   };
 
   return (
-    <div className="mx-auto max-w-5xl px-4 sm:px-6 py-10">
+    <div className="mx-auto max-w-6xl px-4 sm:px-6 py-10">
       <header className="mb-6">
         <Link to="/oa" className="text-xs text-white/50 hover:text-white inline-flex items-center gap-1 mb-3">
           ← OA Practice
@@ -92,9 +89,7 @@ export default function OaResult() {
             </div>
             <div className="display text-2xl">
               {stats.solvedCount}/{questions.length} solved
-              {stats.partialCount > 0 && (
-                <span className="text-[#ffe87a]"> · {stats.partialCount} partial</span>
-              )}
+              {stats.partialCount > 0 && <span className="text-[#ffe87a]"> · {stats.partialCount} partial</span>}
             </div>
             <div className="text-sm text-white/60 mt-1">
               {minutes}m {seconds}s spent · {session.config.durationMin}m budget
@@ -131,21 +126,23 @@ export default function OaResult() {
           <div className="flex items-center gap-2">
             <Trophy className="w-4 h-4 text-[#ffe87a]" />
             <div className="text-sm">
-              Grade each question below to lock in your score. Be honest — your future self benefits.
+              Grade each question below to lock in your score. Solutions and complexity analysis are right there.
             </div>
           </div>
         </Card>
       )}
 
       {/* PER-QUESTION REVIEW */}
-      <div className="space-y-4">
+      <div className="space-y-5">
         {questions.map((q, i) => {
           const a = session.answers[q.id];
           return (
             <Card key={q.id} className={a.flagged ? "border-[var(--color-neon)]/30" : ""}>
+              {/* Question header */}
               <div className="flex items-center justify-between gap-3 flex-wrap mb-3">
                 <div className="flex items-center gap-2 flex-wrap">
                   <div className="display text-xl text-[var(--color-neon)]">Q{i + 1}</div>
+                  {q.title && <div className="display text-lg">· {q.title}</div>}
                   <Chip>{q.topic}</Chip>
                   <Chip
                     style={
@@ -178,22 +175,45 @@ export default function OaResult() {
                     </Chip>
                   )}
                 </div>
+                {q.relatedLeetcode && (
+                  <a
+                    href={q.relatedLeetcode.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[11px] text-[var(--color-neon)] underline inline-flex items-center gap-1"
+                  >
+                    LC #{q.relatedLeetcode.number} <ExternalLink className="w-3 h-3" />
+                  </a>
+                )}
               </div>
 
-              <details className="text-sm text-white/85 mb-3">
-                <summary className="cursor-pointer text-[var(--color-neon)] mono text-[10px] uppercase tracking-widest mb-1">
-                  See question
+              {/* Question (collapsible) */}
+              <details className="mb-3">
+                <summary className="cursor-pointer text-[var(--color-neon)] mono text-[10px] uppercase tracking-widest mb-1 inline-flex items-center gap-1">
+                  See problem
                 </summary>
-                <pre className="whitespace-pre-wrap leading-relaxed font-sans mt-2 bg-white/[0.03] rounded-lg p-3 border border-white/10">
-                  {q.question}
-                </pre>
+                <div className="bg-white/[0.03] rounded-lg p-3 border border-white/10 mt-2 text-sm leading-relaxed whitespace-pre-wrap">
+                  {q.problemStatement}
+                </div>
+                {q.examples && q.examples.length > 0 && (
+                  <div className="mt-2 space-y-1.5">
+                    {q.examples.map((ex, ei) => (
+                      <div key={ei} className="text-xs bg-white/[0.02] rounded p-2 border border-white/5">
+                        <div className="mono text-[10px] text-[var(--color-neon)] mb-1">Example {ei + 1}</div>
+                        <div className="font-mono">in: {ex.input}</div>
+                        <div className="font-mono text-[var(--color-neon)]">out: {ex.output}</div>
+                        {ex.explanation && <div className="italic text-white/65 mt-1">{ex.explanation}</div>}
+                      </div>
+                    ))}
+                  </div>
+                )}
               </details>
 
               {/* Your answer */}
               {a.notes && (
-                <details className="text-sm text-white/85 mb-3">
+                <details className="mb-3">
                   <summary className="cursor-pointer text-white/60 mono text-[10px] uppercase tracking-widest mb-1">
-                    Your approach ({a.notes.length} chars)
+                    Your answer ({a.notes.length} chars)
                   </summary>
                   <div className="bg-white/[0.03] rounded-lg p-3 border border-white/10 mt-2 font-mono text-xs whitespace-pre-wrap leading-relaxed">
                     {a.notes}
@@ -201,17 +221,102 @@ export default function OaResult() {
                 </details>
               )}
 
-              {/* Expected approach */}
-              {q.expectedApproach && (
-                <details className="text-sm text-white/85 mb-4">
-                  <summary className="cursor-pointer text-[var(--color-neon)] mono text-[10px] uppercase tracking-widest mb-1">
-                    Expected approach
-                  </summary>
-                  <div className="bg-[var(--color-neon)]/[0.04] rounded-lg p-3 border border-[var(--color-neon)]/20 mt-2 whitespace-pre-wrap leading-relaxed">
+              {/* ─── SOLUTION PANEL ─── */}
+              {q.solution ? (
+                <div className="border border-[var(--color-neon)]/25 rounded-xl bg-[var(--color-neon)]/[0.03] p-4 mb-3">
+                  <div className="mono text-[10px] uppercase tracking-widest text-[var(--color-neon)] mb-3 inline-flex items-center gap-1">
+                    <Sparkles className="w-3 h-3" /> Curated solution
+                  </div>
+
+                  {/* Approach */}
+                  <div className="mb-4">
+                    <div className="mono text-[10px] uppercase tracking-widest text-white/55 mb-1 inline-flex items-center gap-1">
+                      <Lightbulb className="w-3 h-3" /> Approach
+                    </div>
+                    <div className="text-sm leading-relaxed whitespace-pre-wrap text-white/90">
+                      {renderInline(q.solution.approach)}
+                    </div>
+                  </div>
+
+                  {/* Code */}
+                  <div className="mb-4">
+                    <div className="flex items-center justify-between mb-1">
+                      <div className="mono text-[10px] uppercase tracking-widest text-white/55 inline-flex items-center gap-1">
+                        <Code2 className="w-3 h-3" /> {q.solution.language}
+                      </div>
+                      <button
+                        onClick={() => {
+                          navigator.clipboard.writeText(q.solution!.code);
+                        }}
+                        className="text-[10px] text-white/45 hover:text-white"
+                      >
+                        Copy
+                      </button>
+                    </div>
+                    <pre className="font-mono text-xs leading-relaxed bg-[#0a0a0a] border border-white/10 rounded-lg p-3 overflow-x-auto text-white/95">
+                      {q.solution.code}
+                    </pre>
+                  </div>
+
+                  {/* Complexity */}
+                  <div className="grid sm:grid-cols-2 gap-3 mb-4">
+                    <div className="bg-white/[0.03] rounded-lg p-3 border border-white/10">
+                      <div className="mono text-[10px] uppercase tracking-widest text-white/45 mb-1 inline-flex items-center gap-1">
+                        <Clock className="w-3 h-3" /> Time complexity
+                      </div>
+                      <div className="font-mono text-sm text-[var(--color-neon)]">{q.solution.timeComplexity}</div>
+                    </div>
+                    <div className="bg-white/[0.03] rounded-lg p-3 border border-white/10">
+                      <div className="mono text-[10px] uppercase tracking-widest text-white/45 mb-1 inline-flex items-center gap-1">
+                        <HardDrive className="w-3 h-3" /> Space complexity
+                      </div>
+                      <div className="font-mono text-sm text-[var(--color-neon)]">{q.solution.spaceComplexity}</div>
+                    </div>
+                  </div>
+
+                  {/* Edge cases */}
+                  {q.solution.edgeCases.length > 0 && (
+                    <div className="mb-4">
+                      <div className="mono text-[10px] uppercase tracking-widest text-white/55 mb-1.5">
+                        Edge cases that bite
+                      </div>
+                      <ul className="space-y-1">
+                        {q.solution.edgeCases.map((ec, ei) => (
+                          <li key={ei} className="text-xs text-white/85 flex items-start gap-2">
+                            <span className="text-[#ff8a7a] shrink-0">→</span> {ec}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {/* Optimizations */}
+                  {q.solution.optimizations && q.solution.optimizations.length > 0 && (
+                    <div>
+                      <div className="mono text-[10px] uppercase tracking-widest text-white/55 mb-1.5 inline-flex items-center gap-1">
+                        <Zap className="w-3 h-3" /> Further optimizations
+                      </div>
+                      <ul className="space-y-1">
+                        {q.solution.optimizations.map((op, oi) => (
+                          <li key={oi} className="text-xs text-white/75 flex items-start gap-2">
+                            <span className="text-[var(--color-neon)] shrink-0">→</span> {op}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              ) : q.expectedApproach ? (
+                // Fallback: minimal expected-approach (from old PYQs without rich solutions)
+                <div className="border border-white/15 rounded-xl bg-white/[0.02] p-4 mb-3">
+                  <div className="mono text-[10px] uppercase tracking-widest text-[var(--color-neon)] mb-2 inline-flex items-center gap-1">
+                    <Lightbulb className="w-3 h-3" /> Expected approach
+                  </div>
+                  <div className="text-sm leading-relaxed whitespace-pre-wrap text-white/85">
                     {q.expectedApproach}
                   </div>
-                </details>
-              )}
+                </div>
+              ) : null}
 
               {/* Grade buttons */}
               <div className="border-t border-white/10 pt-3">
@@ -224,7 +329,6 @@ export default function OaResult() {
                       key={g.value}
                       onClick={() => {
                         updateAnswer(session.id, q.id, { grade: g.value });
-                        // re-save stats
                         setTimeout(saveStats, 50);
                       }}
                       className={`text-xs px-3 py-1.5 rounded-full border transition-colors ${
@@ -288,4 +392,60 @@ function scoreColor(score: number) {
   if (score >= 75) return "#c8ff3d";
   if (score >= 50) return "#ffe87a";
   return "#ff8a7a";
+}
+
+// Inline bold + inline code rendering for the approach text.
+function renderInline(text: string): React.ReactNode {
+  const lines = text.split("\n");
+  return lines.map((line, i) => {
+    const segs: React.ReactNode[] = [];
+    let buf = "";
+    let inCode = false;
+    let inBold = false;
+    let key = 0;
+    for (let j = 0; j < line.length; j++) {
+      if (line[j] === "`") {
+        if (buf) {
+          segs.push(
+            inCode ? (
+              <code key={key++} className="font-mono bg-white/[0.07] px-1 py-0.5 rounded text-[0.95em] text-[var(--color-neon)]">
+                {buf}
+              </code>
+            ) : (
+              <span key={key++}>{buf}</span>
+            )
+          );
+          buf = "";
+        }
+        inCode = !inCode;
+      } else if (line[j] === "*" && line[j + 1] === "*") {
+        if (buf) {
+          segs.push(inBold ? <strong key={key++}>{buf}</strong> : <span key={key++}>{buf}</span>);
+          buf = "";
+        }
+        inBold = !inBold;
+        j++;
+      } else {
+        buf += line[j];
+      }
+    }
+    if (buf) {
+      segs.push(
+        inCode ? (
+          <code key={key++} className="font-mono bg-white/[0.07] px-1 py-0.5 rounded text-[0.95em] text-[var(--color-neon)]">
+            {buf}
+          </code>
+        ) : inBold ? (
+          <strong key={key++}>{buf}</strong>
+        ) : (
+          <span key={key++}>{buf}</span>
+        )
+      );
+    }
+    return (
+      <div key={i} className={line.trim() === "" ? "h-3" : ""}>
+        {segs}
+      </div>
+    );
+  });
 }

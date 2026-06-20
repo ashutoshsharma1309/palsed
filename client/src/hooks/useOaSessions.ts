@@ -3,39 +3,119 @@ import { useLocalStorageState } from "./useLocalStorageState";
 import type { OASession, OAConfig, OAAnswer } from "../types/oa";
 import { computeStats } from "../types/oa";
 import { PYQ_SEED, type PYQ } from "../data/pyqs-seed";
+import { OA_QUESTIONS, type OAQuestion } from "../data/oa-questions";
 
 const KEY = "prepnext.oaSessions.v1";
 
-// In-session draft of answers (separate from history). Keeps user input
-// resilient to refresh during an active test without polluting the history.
-const DRAFT_KEY_PREFIX = "prepnext.oaDraft.";
+// Common shape that both curated OA questions and seeded PYQs satisfy. The
+// test/result UI consumes this — never the raw types — so we can swap sources
+// without rewriting components.
+export interface EnrichedQuestion {
+  id: string;
+  title?: string;
+  companySlug: string;
+  companies?: string[];
+  round: "OA" | "Tech" | "HR" | "Managerial" | "Group Discussion" | "Case" | "Bar Raiser";
+  topic: string;
+  difficulty: "Easy" | "Medium" | "Hard";
+  problemStatement: string;          // detailed problem (from curated) or `question` (from PYQ)
+  examples?: { input: string; output: string; explanation?: string }[];
+  constraints?: string[];
+  timeAllowedMin?: number;
+  tags?: string[];
+  expectedApproach?: string;         // legacy quick-summary (PYQ)
+  solution?: OAQuestion["solution"];  // rich solution (curated)
+  relatedLeetcode?: OAQuestion["relatedLeetcode"];
+  source: "curated" | "seeded" | "crowd";
+}
+
+export function enrichPYQ(p: PYQ): EnrichedQuestion {
+  return {
+    id: p.id,
+    companySlug: p.companySlug,
+    round: p.round,
+    topic: p.topic,
+    difficulty: p.difficulty,
+    problemStatement: p.question,
+    expectedApproach: p.expectedApproach,
+    source: p.source,
+  };
+}
+
+export function enrichOA(q: OAQuestion): EnrichedQuestion {
+  return {
+    id: q.id,
+    title: q.title,
+    companySlug: q.companySlug,
+    companies: q.companies,
+    round: q.round,
+    topic: q.topic,
+    difficulty: q.difficulty,
+    problemStatement: q.problemStatement,
+    examples: q.examples,
+    constraints: q.constraints,
+    timeAllowedMin: q.timeAllowedMin,
+    tags: q.tags,
+    solution: q.solution,
+    relatedLeetcode: q.relatedLeetcode,
+    source: "curated",
+  };
+}
+
+// Resolve any question ID to an EnrichedQuestion — used by test + result UIs.
+export function getQuestionById(id: string): EnrichedQuestion | undefined {
+  const oa = OA_QUESTIONS.find((q) => q.id === id);
+  if (oa) return enrichOA(oa);
+  const pyq = PYQ_SEED.find((q) => q.id === id);
+  if (pyq) return enrichPYQ(pyq);
+  return undefined;
+}
 
 /**
- * Pick `count` PYQs matching the OA config. Strategy:
- *   1. Filter PYQ_SEED to round === "OA".
- *   2. Narrow by companySlug + difficulty + topic if set.
+ * Pick `count` questions matching the OA config.
+ *
+ * Strategy:
+ *   1. Build the pool, preferring CURATED OA questions (full solutions)
+ *      then padding with seeded PYQs of round === 'OA'.
+ *   2. Narrow by companySlug + difficulty + topic.
  *   3. Shuffle and take `count`.
- *   4. If under-supplied, fall back to "Tech" round; if still short, return what we got.
+ *   4. If under-supplied, fall back to 'Tech' round PYQs; if still short,
+ *      return what we got.
  */
-export function pickQuestionsForConfig(config: OAConfig): PYQ[] {
-  let pool = PYQ_SEED.filter((p) => p.round === "OA");
-  if (config.companySlug) pool = pool.filter((p) => p.companySlug === config.companySlug);
+export function pickQuestionsForConfig(config: OAConfig): EnrichedQuestion[] {
+  let pool: EnrichedQuestion[] = [
+    ...OA_QUESTIONS.map(enrichOA),
+    ...PYQ_SEED.filter((p) => p.round === "OA").map(enrichPYQ),
+  ];
+
+  if (config.companySlug) {
+    pool = pool.filter(
+      (q) => q.companySlug === config.companySlug || (q.companies && q.companies.some((c) => c.toLowerCase().replace(/[^a-z0-9]/g, "") === config.companySlug!.replace(/-/g, "")))
+    );
+  }
   if (config.difficulty && config.difficulty !== "Mixed") {
-    pool = pool.filter((p) => p.difficulty === config.difficulty);
+    pool = pool.filter((q) => q.difficulty === config.difficulty);
   }
   if (config.topicFilter) {
-    pool = pool.filter((p) => p.topic.toLowerCase().includes(config.topicFilter!.toLowerCase()));
+    const needle = config.topicFilter.toLowerCase();
+    pool = pool.filter(
+      (q) =>
+        q.topic.toLowerCase().includes(needle) ||
+        (q.tags || []).some((t) => t.toLowerCase().includes(needle))
+    );
   }
-  // Fallback: if too few OA questions, top up with Tech-round questions of same filters.
+
+  // Fallback: top up from Tech-round PYQs
   if (pool.length < config.questionCount) {
-    let fb = PYQ_SEED.filter((p) => p.round === "Tech");
-    if (config.companySlug) fb = fb.filter((p) => p.companySlug === config.companySlug);
+    let fb = PYQ_SEED.filter((p) => p.round === "Tech").map(enrichPYQ);
+    if (config.companySlug) fb = fb.filter((q) => q.companySlug === config.companySlug);
     if (config.difficulty && config.difficulty !== "Mixed") {
-      fb = fb.filter((p) => p.difficulty === config.difficulty);
+      fb = fb.filter((q) => q.difficulty === config.difficulty);
     }
     pool = [...pool, ...fb];
   }
-  // Fisher-Yates shuffle
+
+  // Shuffle then take
   const shuffled = [...pool];
   for (let i = shuffled.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -109,10 +189,5 @@ export function useOaSessions() {
     [setSessions]
   );
 
-  // Derived list ordered newest-first; sessions persist start order already.
   return { sessions, create, get, update, updateAnswer, finish, remove };
-}
-
-export function draftKey(sessionId: string) {
-  return `${DRAFT_KEY_PREFIX}${sessionId}`;
 }
