@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
-import { ArrowRight, Building2, Calendar, Database, Layers, Search, Target } from "lucide-react";
+import { ArrowRight, Building2, Calendar, Database, Layers, Search, Target, Timer, FileText } from "lucide-react";
 import { Button } from "../components/ui/Button";
 import { Card } from "../components/ui/Card";
 import { ThemeToggle } from "../components/ui/ThemeToggle";
@@ -45,15 +45,15 @@ const FEATURES = [
   },
   {
     tint: "blue" as const,
-    icon: <Calendar className="w-7 h-7" />,
-    title: "Placement Calendar",
-    desc: "Every upcoming round date with company logo, role, and prep status. iCal export soon.",
+    icon: <Timer className="w-7 h-7" />,
+    title: "Mock OA Practice",
+    desc: "Real PYQs, timed test mode, self-graded with rubric. Simulate the platform pressure before it counts.",
   },
   {
     tint: "purple" as const,
-    icon: <Search className="w-7 h-7" />,
-    title: "Spaced-repetition + Mastery",
-    desc: "Missed questions resurface on the right day. Per-topic mastery radar. Cmd+K to jump anywhere.",
+    icon: <FileText className="w-7 h-7" />,
+    title: "Resume Roast",
+    desc: "Brutal but actionable feedback on your CV. ATS keywords, bullet rewrites, fixes ranked by impact. Runs locally.",
   },
 ];
 
@@ -214,7 +214,7 @@ export default function Landing() {
                 <div className="mono text-[10px] uppercase tracking-[0.32em] text-[var(--color-neon)] text-center lg:text-left mb-3">
                   · 30-second signup · no questionnaires ·
                 </div>
-                <AuthPanel defaultTab="signup" />
+                <AuthPanel />
               </div>
             </motion.div>
           </div>
