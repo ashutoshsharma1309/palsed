@@ -39,6 +39,7 @@ const Certificates = lazy(() => import("./routes/Certificates"));
 const VerifyCertificate = lazy(() => import("./routes/VerifyCertificate"));
 const Settings = lazy(() => import("./routes/Settings"));
 const PlacementHub = lazy(() => import("./routes/PlacementHub"));
+const ResumeRoast = lazy(() => import("./routes/ResumeRoast"));
 const NotFound = lazy(() => import("./routes/NotFound"));
 
 function ScrollToTop() {
@@ -108,6 +109,7 @@ export default function App() {
                     <Route path="/certificates" element={<Certificates />} />
                     <Route path="/settings" element={<Settings />} />
                     <Route path="/placement-hub" element={<PlacementHub />} />
+                    <Route path="/resume-roast" element={<ResumeRoast />} />
                   </Route>
 
                   {/* Legacy redirects — old AI routes → new homes */}

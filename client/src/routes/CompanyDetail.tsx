@@ -9,6 +9,7 @@ import { CompanyTile } from "../components/CompanyTile";
 import { getCompany, COMPANIES } from "../data/companies";
 import { usePYQs } from "../hooks/usePYQs";
 import { useApplications } from "../hooks/useApplications";
+import { PrepKit } from "../components/PrepKit";
 
 export default function CompanyDetail() {
   const { slug } = useParams();
@@ -147,6 +148,9 @@ export default function CompanyDetail() {
           </div>
         </Card>
       </div>
+
+      {/* PER-COMPANY PREP KIT — composes DSA + PYQs + topics into a 4-week plan */}
+      <PrepKit company={c} pyqs={pyqs} />
 
       {/* ROUNDS */}
       <Card className="mb-6">

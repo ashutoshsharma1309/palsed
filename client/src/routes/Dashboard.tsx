@@ -15,6 +15,7 @@ import { COMPANIES, getCompany } from "../data/companies";
 import { STATUS_LABELS, STATUS_COLORS } from "../types/application";
 import type { Profile } from "./Onboarding";
 import { Flame, BrainCircuit, Sparkles, AlertTriangle, Rocket, ArrowRight, Bookmark, Calendar, Building2, Database, Plus } from "lucide-react";
+import { UpcomingRounds } from "../components/UpcomingRounds";
 
 const DEFAULT_PROFILE: Profile = {
   displayName: "Learner",
@@ -113,6 +114,11 @@ export default function Dashboard() {
           </div>
         )}
       </Card>
+
+      {/* Upcoming OAs / interviews — drives the daily-open habit */}
+      <div className="mb-6">
+        <UpcomingRounds limit={5} />
+      </div>
 
       <div className="grid lg:grid-cols-3 gap-5 mb-6">
         <Card>

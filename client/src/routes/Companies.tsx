@@ -5,6 +5,8 @@ import { Chip } from "../components/ui/Chip";
 import { CompanyTile } from "../components/CompanyTile";
 import { COMPANIES, COMPANY_TIERS, CompanyTier } from "../data/companies";
 import { usePageMeta } from "../hooks/usePageMeta";
+import { useStudentProfile, checkEligibility } from "../hooks/useStudentProfile";
+import { EligibilityBar } from "../components/EligibilityBar";
 
 const SORT_OPTIONS = ["Default", "CTC ↓", "Difficulty ↓", "Difficulty ↑", "A → Z"] as const;
 type Sort = typeof SORT_OPTIONS[number];
@@ -20,6 +22,7 @@ export default function Companies() {
   const [tier, setTier] = useState<CompanyTier | "All">("All");
   const [location, setLocation] = useState<string | "All">("All");
   const [sort, setSort] = useState<Sort>("Default");
+  const { profile } = useStudentProfile();
 
   const locations = useMemo(() => {
     const s = new Set<string>();
@@ -33,6 +36,7 @@ export default function Companies() {
       if (tier !== "All" && c.tier !== tier) return false;
       if (location !== "All" && !c.indianOffices.includes(location)) return false;
       if (qq && ![c.name, c.sector, c.indianOffices.join(" "), c.rolesOffered.join(" ")].join(" ").toLowerCase().includes(qq)) return false;
+      if (profile.filterEnabled && !checkEligibility(profile, c).ok) return false;
       return true;
     });
     switch (sort) {
@@ -62,6 +66,8 @@ export default function Companies() {
           prep kit + previous-year questions.
         </p>
       </header>
+
+      <EligibilityBar />
 
       <Card className="mb-6">
         <div className="flex items-center gap-2 mb-4">
