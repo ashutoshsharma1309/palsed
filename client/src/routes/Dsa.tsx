@@ -10,6 +10,7 @@ import { Donut } from "../components/ui/Donut";
 import { ProgressBar } from "../components/ui/ProgressBar";
 import { Button } from "../components/ui/Button";
 import { AdaptiveRecommender } from "../components/adaptive/AdaptiveRecommender";
+import { usePageMeta } from "../hooks/usePageMeta";
 
 type Status = "not_started" | "attempted" | "solved";
 
@@ -24,6 +25,12 @@ const DIFF_COLOR: Record<Difficulty, string> = {
 };
 
 export default function Dsa() {
+  usePageMeta({
+    title: "DSA Practice — company-tagged problem sheets",
+    description: "450+ curated DSA problems tagged by company and topic. Track progress, bookmark, get spaced-repetition reviews. Free for students.",
+    canonical: "/dsa",
+  });
+
   const [statuses, setStatuses] = useLocalStorageState<Record<number, Status>>(LS_KEYS.dsaStatuses, {});
   const [bookmarks, setBookmarks] = useLocalStorageState<number[]>(LS_KEYS.dsaBookmarks, []);
 

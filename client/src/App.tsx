@@ -1,8 +1,11 @@
 import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { lazy, Suspense, useEffect } from "react";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 import { Background } from "./components/layout/Background";
 import { Nav } from "./components/layout/Nav";
 import { Footer } from "./components/layout/Footer";
+import { MobileTabBar } from "./components/layout/MobileTabBar";
 import { EngagementProvider } from "./components/adaptive/EngagementProvider";
 import { FocusMode } from "./components/adaptive/FocusMode";
 import { CommandPalette } from "./components/CommandPalette";
@@ -55,6 +58,7 @@ function HideChromeForLanding({ children }: { children: React.ReactNode }) {
       {!hide && <FocusMode />}
       {children}
       {!hide && <Footer />}
+      {!hide && <MobileTabBar />}
     </>
   );
 }
@@ -72,7 +76,7 @@ export default function App() {
         <div className="relative z-10 min-h-screen flex flex-col">
           <ScrollToTop />
           <HideChromeForLanding>
-            <main className="flex-1">
+            <main className="flex-1 pb-[calc(56px+env(safe-area-inset-bottom))] lg:pb-0">
               <Suspense fallback={<div className="py-32"><Loader label="Loading" /></div>}>
                 <Routes>
                   {/* Public — accessible without login */}
@@ -119,6 +123,11 @@ export default function App() {
             </main>
           </HideChromeForLanding>
         </div>
+        {/* Vercel Analytics + Speed Insights — zero-config, free on Hobby tier.
+            Surface page views, geos, devices, and Core Web Vitals (LCP/INP/CLS)
+            in the Vercel dashboard. Both auto no-op in dev. */}
+        <Analytics />
+        <SpeedInsights />
       </EngagementProvider>
     </ErrorBoundary>
   );

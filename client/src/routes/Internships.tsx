@@ -3,6 +3,7 @@ import { ExternalLink, Search } from "lucide-react";
 import { Card } from "../components/ui/Card";
 import { Chip } from "../components/ui/Chip";
 import { INTERNSHIP_BOARDS, BOARD_CATEGORIES, BoardCategory, BoardTier } from "../data/internship-boards";
+import { usePageMeta } from "../hooks/usePageMeta";
 
 const REGIONS = ["India","Global","US","Europe","APAC","Remote-OK"] as const;
 const TIERS: BoardTier[] = ["free","freemium","paid"];
@@ -14,6 +15,12 @@ const TIER_COLOR: Record<BoardTier, string> = {
 };
 
 export default function Internships() {
+  usePageMeta({
+    title: "Internship Feed — student internships across India",
+    description: "Find tech, finance, and consulting internships. Curated job boards, company portals, and off-campus drives for engineering students.",
+    canonical: "/internships",
+  });
+
   const [q, setQ] = useState("");
   const [cat, setCat] = useState<BoardCategory | "All">("All");
   const [region, setRegion] = useState<(typeof REGIONS)[number] | "All">("All");

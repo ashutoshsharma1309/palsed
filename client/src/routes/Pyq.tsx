@@ -7,11 +7,18 @@ import { Button } from "../components/ui/Button";
 import { usePYQs } from "../hooks/usePYQs";
 import { COMPANIES, getCompany } from "../data/companies";
 import { PYQRound } from "../data/pyqs-seed";
+import { usePageMeta } from "../hooks/usePageMeta";
 
 const ROUNDS: PYQRound[] = ["OA","Tech","HR","Managerial","Group Discussion","Case","Bar Raiser"];
 const DIFFS = ["Easy","Medium","Hard"] as const;
 
 export default function Pyq() {
+  usePageMeta({
+    title: "PYQ Vault — previous year placement questions",
+    description: "Crowd-verified previous-year questions by company, round, and year. OA, technical, HR, managerial rounds — all sortable, votable.",
+    canonical: "/pyq",
+  });
+
   const { all, votes, vote } = usePYQs();
   const [params, setParams] = useSearchParams();
   const [q, setQ] = useState("");

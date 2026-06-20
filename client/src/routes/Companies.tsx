@@ -4,11 +4,18 @@ import { Card } from "../components/ui/Card";
 import { Chip } from "../components/ui/Chip";
 import { CompanyTile } from "../components/CompanyTile";
 import { COMPANIES, COMPANY_TIERS, CompanyTier } from "../data/companies";
+import { usePageMeta } from "../hooks/usePageMeta";
 
 const SORT_OPTIONS = ["Default", "CTC ↓", "Difficulty ↓", "Difficulty ↑", "A → Z"] as const;
 type Sort = typeof SORT_OPTIONS[number];
 
 export default function Companies() {
+  usePageMeta({
+    title: "Top recruiters for campus placements",
+    description: "Browse 75+ recruiters with eligibility, CTC, interview rounds, OA platforms, and topics asked. Curated for Indian engineering students.",
+    canonical: "/companies",
+  });
+
   const [q, setQ] = useState("");
   const [tier, setTier] = useState<CompanyTier | "All">("All");
   const [location, setLocation] = useState<string | "All">("All");
