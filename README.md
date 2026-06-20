@@ -1,6 +1,6 @@
 # PrepNext — AI-Powered Adaptive Learning & Placement Prep Platform
 
-**Live:** https://prepnextbeta.vercel.app
+**Live:** https://prepnext.vercel.app
 
 PrepNext is a full-stack, production-deployed learning platform that generates
 personalized study roadmaps and adapts every lesson, hint, and quiz to the
