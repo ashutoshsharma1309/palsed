@@ -66,6 +66,20 @@ model User {
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 
+  // Profile-setup fields — captured after Google sign-in via /onboarding.
+  // profileComplete drives the route gate: false → bounce to /onboarding.
+  profileComplete Boolean  @default(false)
+  fullName        String?
+  collegeName     String?
+  branch          String?  // CSE | IT | ECE | EE | EEE | ME | Civil | Chemical | Biotech | MCA | MBA | Other
+  yearOfStudy     Int?     // 1 | 2 | 3 | 4 | 5
+  graduationYear  Int?
+  cgpa            Float?
+  phoneNumber     String?
+  linkedinUrl     String?
+  githubUrl       String?
+  targetRoles     String[] @default([])  // e.g. ["SDE", "Data", "ML", "Product", "Design"]
+
   courses        Course[]
   lessonProgress LessonProgress[]
   roadmaps       Roadmap[]

@@ -13,7 +13,7 @@ import { Button } from "../components/ui/Button";
 import { Loader } from "../components/ui/Loader";
 import { Background } from "../components/layout/Background";
 import { supabase } from "../lib/supabase";
-import { updatePassword } from "../lib/auth";
+import { updatePassword, fetchAppUser } from "../lib/auth";
 
 export default function AuthCallback() {
   const navigate = useNavigate();
@@ -44,6 +44,17 @@ export default function AuthCallback() {
       const { data } = await supabase.auth.getSession();
       if (!data.session) { setStatus("error"); setError(msg || "No active session — sign-in link may have expired."); return; }
       toast.success("You're in!");
+      // Route based on profile completion: new users go to /onboarding to
+      // fill out college/branch/year; returning users go to /dashboard.
+      try {
+        const u = await fetchAppUser();
+        if (!u?.profileComplete) {
+          navigate("/onboarding", { replace: true });
+          return;
+        }
+      } catch {
+        // /me failure shouldn't block the redirect — assume returning user.
+      }
       navigate("/dashboard", { replace: true });
     };
 

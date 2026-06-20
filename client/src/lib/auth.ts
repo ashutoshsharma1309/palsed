@@ -22,6 +22,31 @@ export interface AuthUser {
   preferredStyle?: "visual" | "code_first" | "analogy" | "step_by_step";
   dailyMinutes?: number;
   joinedAt?: string;
+  // Profile-setup fields — captured at /onboarding after Google sign-in.
+  profileComplete?: boolean;
+  fullName?: string | null;
+  collegeName?: string | null;
+  branch?: string | null;
+  yearOfStudy?: number | null;
+  graduationYear?: number | null;
+  cgpa?: number | null;
+  phoneNumber?: string | null;
+  linkedinUrl?: string | null;
+  githubUrl?: string | null;
+  targetRoles?: string[];
+}
+
+export interface ProfileSetupPayload {
+  fullName: string;
+  collegeName: string;
+  branch: string;
+  yearOfStudy: number;
+  graduationYear: number;
+  cgpa: number | null;
+  phoneNumber?: string;
+  linkedinUrl?: string;
+  githubUrl?: string;
+  targetRoles?: string[];
 }
 
 // Storage keys kept so legacy useLocalStorageState calls keep finding their data.
@@ -196,6 +221,25 @@ export async function signupEmail(
 export async function loginEmail(email: string, password: string): Promise<void> {
   const { error } = await supabase.auth.signInWithPassword({ email, password });
   if (error) throw new Error(error.message);
+}
+
+/**
+ * Save the post-signup profile (full name, college, branch, year, CGPA, etc.)
+ * Flips `profileComplete: true` on the server so the user stops getting
+ * bounced to /onboarding.
+ */
+export async function saveProfile(payload: ProfileSetupPayload): Promise<AuthUser> {
+  const token = await getAccessToken();
+  if (!token) throw new Error("Not signed in");
+  const base = await ensureApi();
+  const res = await fetch(`${base}/api/auth/profile`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+    body: JSON.stringify(payload),
+  });
+  const json = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(json.error || `HTTP ${res.status}`);
+  return json.user as AuthUser;
 }
 
 /** Kick off Google OAuth. Redirects to Google's consent screen. */

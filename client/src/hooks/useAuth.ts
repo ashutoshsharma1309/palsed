@@ -161,16 +161,31 @@ export function useAuth() {
     setUser(null);
   }, []);
 
+  // Re-pulls /api/auth/me — used after profile-setup so the UI immediately
+  // reflects the new profileComplete + fullName + etc. without forcing a
+  // hard reload.
+  const refetch = useCallback(async () => {
+    if (!token) return null;
+    try {
+      const u = await fetchAppUser();
+      setUser(u);
+      try { window.localStorage.setItem(AUTH_USER_KEY, JSON.stringify(u)); } catch {}
+      return u;
+    } catch (e) {
+      console.warn("[useAuth] refetch failed:", (e as Error)?.message);
+      return null;
+    }
+  }, [token]);
+
   return {
     token,
     user,
-    // Auth is "in" as soon as we have a Supabase token. user-row sync is
-    // a profile detail, not a gate.
     isAuthenticated: Boolean(token),
     loading,
     login,
     signup,
     google,
     logout,
+    refetch,
   };
 }

@@ -45,6 +45,93 @@ r.patch("/me", requireAuth, async (req, res, next) => {
 });
 
 /**
+ * PUT /api/auth/profile  { fullName, collegeName, branch, yearOfStudy,
+ *                          graduationYear, cgpa, phoneNumber?, linkedinUrl?,
+ *                          githubUrl?, targetRoles? }
+ *
+ * Saves the profile-setup form filled in after Google sign-in. Flips
+ * `profileComplete` so AuthCallback stops bouncing the user back to /onboarding.
+ *
+ * All fields are validated server-side (the client sends a typed object, but
+ * we never trust it). Strings are trimmed + length-capped; numbers are
+ * range-clamped.
+ */
+const VALID_BRANCHES = new Set([
+  "CSE", "IT", "ECE", "EE", "EEE", "ME", "Civil", "Chemical", "Biotech",
+  "MCA", "MBA", "Other",
+]);
+const VALID_ROLES = new Set([
+  "SDE", "Data", "ML", "Product", "Design", "DevOps", "Security",
+  "Consulting", "Finance", "Quant",
+]);
+
+r.put("/profile", requireAuth, async (req, res, next) => {
+  try {
+    const b = req.body || {};
+
+    const fullName = (b.fullName || "").trim().slice(0, 120);
+    const collegeName = (b.collegeName || "").trim().slice(0, 200);
+    const branch = (b.branch || "").trim();
+    const yearOfStudy = Number(b.yearOfStudy);
+    const graduationYear = Number(b.graduationYear);
+    const cgpa = b.cgpa === null || b.cgpa === undefined || b.cgpa === "" ? null : Number(b.cgpa);
+    const phoneNumber = (b.phoneNumber || "").trim().slice(0, 32) || null;
+    const linkedinUrl = (b.linkedinUrl || "").trim().slice(0, 300) || null;
+    const githubUrl = (b.githubUrl || "").trim().slice(0, 300) || null;
+    const targetRoles = Array.isArray(b.targetRoles)
+      ? b.targetRoles.filter((r) => typeof r === "string" && VALID_ROLES.has(r)).slice(0, 5)
+      : [];
+
+    // Hard-required fields
+    if (!fullName || fullName.length < 2) {
+      return res.status(400).json({ error: "Full name is required." });
+    }
+    if (!collegeName || collegeName.length < 2) {
+      return res.status(400).json({ error: "College name is required." });
+    }
+    if (!VALID_BRANCHES.has(branch)) {
+      return res.status(400).json({ error: "Pick a valid branch." });
+    }
+    if (![1, 2, 3, 4, 5].includes(yearOfStudy)) {
+      return res.status(400).json({ error: "Year of study must be 1-5." });
+    }
+    const thisYear = new Date().getFullYear();
+    if (
+      !Number.isInteger(graduationYear) ||
+      graduationYear < thisYear - 1 ||
+      graduationYear > thisYear + 7
+    ) {
+      return res.status(400).json({ error: "Graduation year is out of range." });
+    }
+    if (cgpa !== null && (Number.isNaN(cgpa) || cgpa < 0 || cgpa > 10)) {
+      return res.status(400).json({ error: "CGPA must be 0-10." });
+    }
+
+    const user = await prisma.user.update({
+      where: { id: req.auth.id },
+      data: {
+        fullName,
+        collegeName,
+        branch,
+        yearOfStudy,
+        graduationYear,
+        cgpa,
+        phoneNumber,
+        linkedinUrl,
+        githubUrl,
+        targetRoles,
+        // Mirror displayName for use across the site (Nav avatar, etc.).
+        displayName: fullName,
+        profileComplete: true,
+      },
+    });
+    res.json({ user: publicUser(user) });
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
  * POST /api/auth/validate-email  { email }
  *
  * Cheap pre-check before the client triggers an OTP send via Supabase. Catches

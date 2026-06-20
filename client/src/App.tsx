@@ -95,12 +95,10 @@ export default function App() {
                   <Route path="/verify-certificate" element={<VerifyCertificate />} />
                   <Route path="/auth/callback" element={<AuthCallback />} />
                   <Route path="/pricing" element={<Pricing />} />
-                  {/* Onboarding is a profile-setup form, not the gate — keep it public.
-                      The real signup/login lives on Landing via <AuthPanel />. */}
-                  <Route path="/onboarding" element={<Onboarding />} />
 
                   {/* Protected — login required for every feature */}
                   <Route element={<RequireAuth />}>
+                    <Route path="/onboarding" element={<Onboarding />} />
                     <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="/companies" element={<Companies />} />
                     <Route path="/companies/:slug" element={<CompanyDetail />} />

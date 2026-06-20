@@ -1,13 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { LogOut, ArrowRight, Mail, KeyRound, ArrowLeft } from "lucide-react";
+import { LogOut, ArrowRight, Loader2 } from "lucide-react";
 import { Button } from "../ui/Button";
 import { useAuth } from "../../hooks/useAuth";
-import { validateEmail, sendOtp, verifyOtpCode, loginGoogle } from "../../lib/auth";
-
-const inputCls =
-  "w-full mt-1 bg-[var(--color-input)] border border-[var(--color-line)] rounded-xl px-3.5 py-2.5 text-sm text-[var(--color-text)] placeholder:text-[var(--color-text-faint)] outline-none focus:border-[var(--color-neon)] focus:bg-[var(--color-input-strong)] transition-colors";
-const labelCls = "text-[11px] uppercase tracking-widest text-[var(--color-text-faint)] mono";
+import { loginGoogle } from "../../lib/auth";
 
 const shell =
   "w-full max-w-md rounded-3xl border border-[var(--color-line)] bg-[var(--color-card-soft)] backdrop-blur-2xl p-6 sm:p-7 shadow-[0_8px_50px_rgba(0,0,0,0.45)] ring-1 ring-[var(--color-neon)]/10";
@@ -16,51 +12,33 @@ interface AuthPanelProps {
   redirectTo?: string;
 }
 
-type Phase = "enterEmail" | "enterCode";
-
-const RESEND_COOLDOWN_S = 45;
-
+// Auth surface — Google OAuth only.
+//
+// We dropped the email-OTP flow entirely: Supabase's free-tier mailer is
+// unreliable (intermittent 500 "Error sending confirmation email"), and even
+// with a server-side magic-link fallback the UX was messier than a one-tap
+// Google sign-in. Cuts a class of bugs + no email infra to maintain.
+//
+// After Google sign-in lands, AuthCallback bounces:
+//   - profileComplete === false  → /onboarding (collect college/branch/year)
+//   - profileComplete === true   → /dashboard (intended destination)
 export function AuthPanel({ redirectTo }: AuthPanelProps = {}) {
   const { isAuthenticated, user, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const dest = redirectTo || (location.state as { from?: string } | null)?.from || "/dashboard";
 
-  const [phase, setPhase] = useState<Phase>("enterEmail");
-  const [email, setEmail] = useState("");
-  const [fullName, setFullName] = useState("");
-  const [code, setCode] = useState("");
   const [busy, setBusy] = useState(false);
-  const [googleBusy, setGoogleBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [info, setInfo] = useState<string | null>(null);
-  const [resendIn, setResendIn] = useState(0);
 
-  // Resend cooldown ticker
+  const [didAuth, setDidAuth] = useState(false);
   useEffect(() => {
-    if (resendIn <= 0) return;
-    const t = setTimeout(() => setResendIn((s) => Math.max(0, s - 1)), 1000);
-    return () => clearTimeout(t);
-  }, [resendIn]);
-
-  // Auto-redirect once the session lands AFTER a successful OTP verify.
-  // Tracked locally so we don't redirect users who land on the landing page
-  // while still authenticated (e.g. clicking the PrepNext logo) — they get
-  // the "Signed in" card with a Log out button instead.
-  const [didVerify, setDidVerify] = useState(false);
-  useEffect(() => {
-    if (isAuthenticated && didVerify) {
+    if (isAuthenticated && didAuth) {
       navigate(dest, { replace: true });
     }
-  }, [isAuthenticated, didVerify, dest, navigate]);
+  }, [isAuthenticated, didAuth, dest, navigate]);
 
-  // Auto-focus the code input when we switch to that phase
-  const codeRef = useRef<HTMLInputElement>(null);
-  useEffect(() => {
-    if (phase === "enterCode") setTimeout(() => codeRef.current?.focus(), 80);
-  }, [phase]);
-
-  // ─── Signed-in state ──────────────────────────────────────────────────
+  // Signed-in state: show a welcome-back card with log-out.
   if (isAuthenticated && user) {
     return (
       <div className={shell}>
@@ -79,206 +57,68 @@ export function AuthPanel({ redirectTo }: AuthPanelProps = {}) {
     );
   }
 
-  // ─── Step 1: enter email ──────────────────────────────────────────────
-  const onSendCode = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null); setInfo(null);
-    const cleaned = email.trim().toLowerCase();
-    if (!cleaned) return setError("Enter your email.");
-
-    setBusy(true);
-    try {
-      // 1) Server-side check (gibberish/disposable/no-MX) — saves rate-limit slots.
-      const v = await validateEmail(cleaned);
-      if (!v.ok) {
-        setError(v.reason || "That email isn't accepted.");
-        return;
-      }
-
-      // 2) Tell Supabase to email a 6-digit code. If their mailer is down,
-      // sendOtp transparently falls back to a magic-link redirect.
-      const outcome = await sendOtp(cleaned, fullName.trim() || undefined);
-
-      if (outcome.kind === "redirecting") {
-        // Mailer was down — server returned a one-time sign-in URL. Navigate
-        // there; Supabase will verify and bounce us back to /auth/callback.
-        setInfo("Email service slow — signing you in directly…");
-        window.location.href = outcome.url;
-        return;
-      }
-
-      setPhase("enterCode");
-      setInfo("Code sent. Check your inbox + spam folder.");
-      setResendIn(RESEND_COOLDOWN_S);
-    } catch (err: any) {
-      setError(err?.message || "Couldn't send code.");
-    } finally {
-      setBusy(false);
-    }
-  };
-
-  // ─── Step 2: enter code ───────────────────────────────────────────────
-  const onVerify = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null); setInfo(null);
-    const cleaned = code.replace(/\s+/g, "");
-    if (!/^\d{6}$/.test(cleaned)) return setError("Enter the 6-digit code.");
-
-    setBusy(true);
-    try {
-      await verifyOtpCode(email.trim().toLowerCase(), cleaned);
-      setDidVerify(true); // arm the auto-redirect for this flow only
-      // The auth state change will trigger navigation via the effect above.
-    } catch (err: any) {
-      setError(err?.message || "Verification failed.");
-    } finally {
-      setBusy(false);
-    }
-  };
-
-  const onResend = async () => {
-    if (resendIn > 0) return;
-    setError(null); setInfo(null); setBusy(true);
-    try {
-      const outcome = await sendOtp(email.trim().toLowerCase(), fullName.trim() || undefined);
-      if (outcome.kind === "redirecting") {
-        setInfo("Email service slow — signing you in directly…");
-        window.location.href = outcome.url;
-        return;
-      }
-      setInfo("New code sent.");
-      setResendIn(RESEND_COOLDOWN_S);
-    } catch (err: any) {
-      setError(err?.message || "Couldn't resend.");
-    } finally { setBusy(false); }
-  };
-
   const onGoogle = async () => {
-    setError(null); setGoogleBusy(true);
-    try { await loginGoogle(); }
-    catch (err: any) { setError(err?.message || "Google sign-in failed"); setGoogleBusy(false); }
+    setError(null);
+    setBusy(true);
+    setDidAuth(true);
+    try {
+      await loginGoogle();
+      // Redirect is handled by Supabase's OAuth flow → /auth/callback
+    } catch (err: any) {
+      setError(err?.message || "Google sign-in failed");
+      setBusy(false);
+      setDidAuth(false);
+    }
   };
 
-  // ─── Code-entry view ──────────────────────────────────────────────────
-  if (phase === "enterCode") {
-    return (
-      <div className={shell}>
-        <button
-          type="button"
-          className="text-[10px] uppercase tracking-widest text-[var(--color-text-faint)] hover:text-[var(--color-text)] inline-flex items-center gap-1 mb-3"
-          onClick={() => { setPhase("enterEmail"); setCode(""); setError(null); setInfo(null); }}
-        >
-          <ArrowLeft className="w-3 h-3" /> Change email
-        </button>
-        <div className="mono text-xs uppercase tracking-[0.3em] text-[var(--color-neon)] mb-2">· verify ·</div>
-        <div className="display text-2xl">Check your email.</div>
-        <p className="text-[var(--color-text-dim)] text-sm mt-3">
-          We sent a 6-digit code to <strong className="text-[var(--color-text)]">{email}</strong>. Enter it below to finish signing in.
-        </p>
-
-        <form onSubmit={onVerify} className="space-y-4 mt-5">
-          <div>
-            <label className={labelCls} htmlFor="otp-code">Verification code</label>
-            <input
-              id="otp-code"
-              ref={codeRef}
-              className={`${inputCls} text-center text-2xl tracking-[0.5em] mono`}
-              inputMode="numeric"
-              maxLength={6}
-              autoComplete="one-time-code"
-              required
-              value={code}
-              onChange={(e) => setCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
-              placeholder="······"
-            />
-          </div>
-
-          {error && <div className="text-[#ff5247] text-sm" role="alert">{error}</div>}
-          {info && <div className="text-[var(--color-neon-text)] text-xs">{info}</div>}
-
-          <Button type="submit" fullWidth disabled={busy || code.length !== 6}>
-            {busy ? "Verifying…" : <><KeyRound className="w-4 h-4" /> Verify & sign in</>}
-          </Button>
-        </form>
-
-        <div className="flex items-center justify-between mt-5">
-          <button
-            type="button"
-            disabled={resendIn > 0 || busy}
-            onClick={onResend}
-            className="text-xs text-[var(--color-text-faint)] hover:text-[var(--color-text)] disabled:opacity-50"
-          >
-            {resendIn > 0 ? `Resend in ${resendIn}s` : "Resend code"}
-          </button>
-          <span className="text-[10px] text-[var(--color-text-faint)] mono">code expires in 60 min</span>
-        </div>
-      </div>
-    );
-  }
-
-  // ─── Email-entry view (default) ───────────────────────────────────────
   return (
     <div className={shell}>
       <div className="mono text-xs uppercase tracking-[0.3em] text-[var(--color-neon)] mb-2">· sign in ·</div>
-      <div className="display text-2xl">Verify your email.</div>
-      <p className="text-[var(--color-text-dim)] text-sm mt-1">
-        We'll send you a 6-digit code — no password to remember.
+      <div className="display text-2xl">One tap.</div>
+      <p className="text-[var(--color-text-dim)] text-sm mt-2">
+        We sign you in with your Google account so you don't manage another password. New users
+        finish a short profile after sign-in.
       </p>
 
-      {/* Google */}
       <button
         type="button"
         onClick={onGoogle}
-        disabled={googleBusy}
-        className="mt-5 w-full inline-flex items-center justify-center gap-3 rounded-xl border border-[var(--color-line)] bg-[var(--color-card-soft)] hover:bg-[var(--color-bg-soft)] px-3.5 py-2.5 text-sm font-medium text-[var(--color-text)] transition-colors disabled:opacity-50"
+        disabled={busy}
+        className="mt-6 w-full inline-flex items-center justify-center gap-3 rounded-xl border border-[var(--color-line)] bg-[var(--color-input)] hover:bg-[var(--color-input-strong)] px-3.5 py-3 text-sm font-medium text-[var(--color-text)] transition-colors disabled:opacity-50"
       >
-        <GoogleLogo />
-        {googleBusy ? "Redirecting to Google…" : "Continue with Google"}
+        {busy ? (
+          <>
+            <Loader2 className="w-4 h-4 animate-spin" />
+            Redirecting to Google…
+          </>
+        ) : (
+          <>
+            <GoogleLogo />
+            Continue with Google
+          </>
+        )}
       </button>
 
-      <div className="flex items-center gap-3 my-5">
-        <div className="h-px flex-1 bg-[var(--color-bg-soft)]" />
-        <div className="mono text-[10px] uppercase tracking-widest text-[var(--color-text-faint)]">or with email</div>
-        <div className="h-px flex-1 bg-[var(--color-bg-soft)]" />
+      {error && (
+        <div className="mt-3 text-[#ff5247] text-sm" role="alert">
+          {error}
+        </div>
+      )}
+
+      <div className="mt-6 grid gap-2 text-[11px] text-[var(--color-text-faint)] leading-relaxed">
+        <div className="flex items-start gap-2">
+          <span className="text-[var(--color-neon)]">·</span>
+          <span>30-second setup. No card, no questionnaire.</span>
+        </div>
+        <div className="flex items-start gap-2">
+          <span className="text-[var(--color-neon)]">·</span>
+          <span>We only read your name + email from Google. Never your contacts or Drive.</span>
+        </div>
+        <div className="flex items-start gap-2">
+          <span className="text-[var(--color-neon)]">·</span>
+          <span>Free forever for the basics. Upgrade anytime.</span>
+        </div>
       </div>
-
-      {/* Email form */}
-      <form onSubmit={onSendCode} className="space-y-4">
-        <div>
-          <label className={labelCls} htmlFor="auth-name">Full Name <span className="text-[var(--color-text-faint)]">(new users)</span></label>
-          <input
-            id="auth-name"
-            className={inputCls}
-            value={fullName}
-            onChange={(e) => setFullName(e.target.value)}
-            placeholder="Optional — your name"
-            autoComplete="name"
-          />
-        </div>
-        <div>
-          <label className={labelCls} htmlFor="auth-email">Email</label>
-          <input
-            id="auth-email"
-            className={inputCls}
-            type="email"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="you@gmail.com"
-            autoComplete="email"
-          />
-        </div>
-
-        {error && <div className="text-[#ff5247] text-sm" role="alert">{error}</div>}
-
-        <Button type="submit" fullWidth disabled={busy}>
-          {busy ? "Sending…" : <><Mail className="w-4 h-4" /> Send verification code</>}
-        </Button>
-
-        <p className="text-[11px] text-[var(--color-text-faint)] text-center leading-relaxed">
-          We use a 6-digit code instead of passwords. New users: your account is created on first verify.
-        </p>
-      </form>
     </div>
   );
 }
