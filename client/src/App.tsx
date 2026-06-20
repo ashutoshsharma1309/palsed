@@ -40,6 +40,9 @@ const VerifyCertificate = lazy(() => import("./routes/VerifyCertificate"));
 const Settings = lazy(() => import("./routes/Settings"));
 const PlacementHub = lazy(() => import("./routes/PlacementHub"));
 const ResumeRoast = lazy(() => import("./routes/ResumeRoast"));
+const Salary = lazy(() => import("./routes/Salary"));
+const Compare = lazy(() => import("./routes/Compare"));
+const Pricing = lazy(() => import("./routes/Pricing"));
 const NotFound = lazy(() => import("./routes/NotFound"));
 
 function ScrollToTop() {
@@ -84,6 +87,7 @@ export default function App() {
                   <Route path="/" element={<Landing />} />
                   <Route path="/verify-certificate" element={<VerifyCertificate />} />
                   <Route path="/auth/callback" element={<AuthCallback />} />
+                  <Route path="/pricing" element={<Pricing />} />
                   {/* Onboarding is a profile-setup form, not the gate — keep it public.
                       The real signup/login lives on Landing via <AuthPanel />. */}
                   <Route path="/onboarding" element={<Onboarding />} />
@@ -110,6 +114,8 @@ export default function App() {
                     <Route path="/settings" element={<Settings />} />
                     <Route path="/placement-hub" element={<PlacementHub />} />
                     <Route path="/resume-roast" element={<ResumeRoast />} />
+                    <Route path="/salary" element={<Salary />} />
+                    <Route path="/compare" element={<Compare />} />
                   </Route>
 
                   {/* Legacy redirects — old AI routes → new homes */}

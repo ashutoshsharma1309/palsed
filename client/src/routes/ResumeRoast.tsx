@@ -4,9 +4,8 @@ import { Card } from "../components/ui/Card";
 import { Button } from "../components/ui/Button";
 import { Chip } from "../components/ui/Chip";
 import { COMPANIES } from "../data/companies";
-import { getApiUrl, refreshApiUrl } from "../lib/api";
-import { getAccessToken } from "../lib/auth";
 import { usePageMeta } from "../hooks/usePageMeta";
+import { scoreResume, type ResumeScore } from "../lib/resumeScorer";
 
 // Resume Roast — paste resume → AI critique (Groq via server proxy).
 // Server enforces auth + length limits; client UI handles state machine:
@@ -16,25 +15,9 @@ import { usePageMeta } from "../hooks/usePageMeta";
 // canned brag line ("I scored 73/100 on PrepNext Resume Roast — try yours")
 // that can virally pull in friends.
 
-interface Issue {
-  severity: "blocker" | "major" | "minor";
-  title: string;
-  detail: string;
-  fix: string;
-}
-interface Rewrite {
-  before: string;
-  after: string;
-}
-interface Roast {
-  overallScore: number;
-  headline: string;
-  strengths: string[];
-  issues: Issue[];
-  rewrites: Rewrite[];
-  skillsToHighlight: string[];
-  atsKeywords: string[];
-}
+// Reuse the ResumeScore shape from the scorer.
+type Issue = ResumeScore["issues"][number];
+type Roast = ResumeScore;
 
 const SEVERITY_TONE: Record<Issue["severity"], { bg: string; fg: string; border: string; label: string }> = {
   blocker: { bg: "#ff5247", fg: "#ff8a7a", border: "#ff5247", label: "BLOCKER" },
@@ -44,8 +27,8 @@ const SEVERITY_TONE: Record<Issue["severity"], { bg: string; fg: string; border:
 
 export default function ResumeRoast() {
   usePageMeta({
-    title: "Resume Roast — AI feedback for placement-ready CVs",
-    description: "Paste your resume, get a brutal but actionable AI critique. Tailored to the company you're targeting. Free, instant.",
+    title: "Resume Roast — instant feedback for placement-ready CVs",
+    description: "Paste your resume, get a brutal but actionable critique using FAANG recruiter heuristics. Tailored to the company you're targeting. Free, instant, runs in your browser.",
     canonical: "/resume-roast",
   });
 
@@ -55,36 +38,26 @@ export default function ResumeRoast() {
   const [roast, setRoast] = useState<Roast | null>(null);
   const [errMsg, setErrMsg] = useState<string | null>(null);
 
-  const handleRoast = async () => {
+  const handleRoast = () => {
     setErrMsg(null);
     if (resume.trim().length < 100) {
-      setErrMsg("Paste at least 100 characters of your resume — the AI needs something to work with.");
+      setErrMsg("Paste at least 100 characters of your resume — we need something to work with.");
       return;
     }
     setState("loading");
-    try {
-      await refreshApiUrl();
-      const base = getApiUrl();
-      const token = await getAccessToken();
-      const res = await fetch(`${base}/api/resume/roast`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          ...(token ? { Authorization: `Bearer ${token}` } : {}),
-        },
-        body: JSON.stringify({ resume: resume.trim(), targetCompany: targetCompany || undefined }),
-      });
-      const json = await res.json();
-      if (!res.ok || !json.ok) {
-        throw new Error(json.error || `HTTP ${res.status}`);
+    // Run the scorer locally (no API). Defer with setTimeout so the "loading"
+    // state actually paints — gives users a sense the analysis happened.
+    setTimeout(() => {
+      try {
+        const result = scoreResume(resume.trim(), targetCompany || undefined);
+        setRoast(result);
+        setState("result");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } catch (e: any) {
+        setErrMsg(e?.message || "Couldn't score resume.");
+        setState("error");
       }
-      setRoast(json.roast as Roast);
-      setState("result");
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    } catch (e: any) {
-      setErrMsg(e?.message || "Couldn't generate roast.");
-      setState("error");
-    }
+    }, 600);
   };
 
   const reset = () => {
@@ -112,8 +85,9 @@ export default function ResumeRoast() {
         <div className="mono text-xs uppercase tracking-[0.3em] text-[var(--color-neon)] mb-2">// resume roast</div>
         <h1 className="display text-5xl sm:text-6xl">ROAST MY RESUME.</h1>
         <p className="text-white/60 mt-2 max-w-2xl">
-          Paste your resume, optionally tell us the company you're targeting, and get a brutal but
-          actionable AI critique in 10 seconds. Tailored to Indian campus placement standards.
+          Paste your resume, optionally pick the company you're targeting, and get a brutal but
+          actionable critique — score, fixable issues, bullet rewrites, ATS keywords. Tailored to
+          Indian campus placement standards. Runs locally in your browser; nothing is uploaded.
         </p>
       </header>
 
@@ -165,7 +139,7 @@ export default function ResumeRoast() {
             <Button onClick={handleRoast} disabled={state === "loading"} fullWidth>
               {state === "loading" ? (
                 <>
-                  <Loader2 className="w-4 h-4 animate-spin" /> Roasting your resume…
+                  <Loader2 className="w-4 h-4 animate-spin" /> Analyzing…
                 </>
               ) : (
                 <>
@@ -175,7 +149,7 @@ export default function ResumeRoast() {
             </Button>
 
             <div className="text-[11px] text-white/40 text-center">
-              Your resume text is sent to the AI but not stored on our servers.
+              Runs 100% in your browser. Resume text never leaves your device.
             </div>
           </div>
         </Card>

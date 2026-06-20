@@ -8,7 +8,6 @@ import { securityHeaders, validateRequestBody } from "./security.js";
 
 import healthRouter from "./routes/health.js";
 import authRouter from "./routes/auth.js";
-import resumeRouter from "./routes/resume.js";
 import { prisma } from "./db.js";
 import { Router } from "express";
 
@@ -74,7 +73,6 @@ export function buildApp() {
   app.use("/api/", validateRequestBody);
 
   app.use("/api/auth", authRouter);
-  app.use("/api/resume", resumeRouter);
   app.use("/api/health", healthRouter);
 
   // Retired AI endpoints — return 410 Gone

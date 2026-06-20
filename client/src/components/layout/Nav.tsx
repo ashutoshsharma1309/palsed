@@ -13,6 +13,8 @@ const LINKS = [
   { to: "/companies", label: "Companies" },
   { to: "/pyq", label: "PYQ Vault" },
   { to: "/applications", label: "My Apps" },
+  { to: "/compare", label: "Compare" },
+  { to: "/salary", label: "Salary" },
   { to: "/resume-roast", label: "Resume Roast" },
   { to: "/internships", label: "Internships" },
   { to: "/dsa", label: "DSA" },
@@ -105,9 +107,16 @@ export function Nav() {
                       <div className="text-[10px] text-white/50 mono truncate">{user.email}</div>
                     </div>
                     <Link
-                      to="/settings"
+                      to="/pricing"
                       onClick={() => setMenu(false)}
                       className="flex items-center gap-2 px-4 py-2.5 text-xs hover:bg-white/5"
+                    >
+                      <span className="display text-base leading-none text-[var(--color-neon)]">★</span> Upgrade to Pro
+                    </Link>
+                    <Link
+                      to="/settings"
+                      onClick={() => setMenu(false)}
+                      className="flex items-center gap-2 px-4 py-2.5 text-xs hover:bg-white/5 border-t border-white/10"
                     >
                       <User className="w-3.5 h-3.5" /> Settings
                     </Link>
