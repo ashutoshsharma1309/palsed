@@ -187,17 +187,12 @@ export default function Landing() {
                 Every recruiter visiting your campus. Every previous-year question. Every application
                 you've submitted. One platform. No more scattered WhatsApp groups or rotting Google Docs.
               </p>
-              <div className="flex flex-wrap gap-3 mt-8">
-                <a href="#auth" className="lg:hidden">
+              <div className="flex flex-wrap gap-3 mt-8 lg:hidden">
+                <a href="#auth">
                   <Button size="lg">
                     Start tracking <ArrowRight className="w-4 h-4" />
                   </Button>
                 </a>
-                <Link to="/companies">
-                  <Button size="lg" variant="outline">
-                    Browse 50 recruiters
-                  </Button>
-                </Link>
               </div>
             </motion.div>
 

@@ -6,11 +6,11 @@ import { useAuth } from "../../hooks/useAuth";
 import { validateEmail, sendOtp, verifyOtpCode, loginGoogle } from "../../lib/auth";
 
 const inputCls =
-  "w-full mt-1 bg-white/[0.03] border border-white/15 rounded-xl px-3.5 py-2.5 text-sm text-white placeholder-white/30 outline-none focus:border-[var(--color-neon)] focus:bg-white/[0.06] transition-colors";
-const labelCls = "text-[11px] uppercase tracking-widest text-white/50 mono";
+  "w-full mt-1 bg-[var(--color-input)] border border-[var(--color-line)] rounded-xl px-3.5 py-2.5 text-sm text-[var(--color-text)] placeholder:text-[var(--color-text-faint)] outline-none focus:border-[var(--color-neon)] focus:bg-[var(--color-input-strong)] transition-colors";
+const labelCls = "text-[11px] uppercase tracking-widest text-[var(--color-text-faint)] mono";
 
 const shell =
-  "w-full max-w-md rounded-3xl border border-white/12 bg-white/[0.05] backdrop-blur-2xl p-6 sm:p-7 shadow-[0_8px_50px_rgba(0,0,0,0.45)] ring-1 ring-[var(--color-neon)]/10";
+  "w-full max-w-md rounded-3xl border border-[var(--color-line)] bg-[var(--color-card-soft)] backdrop-blur-2xl p-6 sm:p-7 shadow-[0_8px_50px_rgba(0,0,0,0.45)] ring-1 ring-[var(--color-neon)]/10";
 
 interface AuthPanelProps {
   redirectTo?: string;
@@ -66,7 +66,7 @@ export function AuthPanel({ redirectTo }: AuthPanelProps = {}) {
       <div className={shell}>
         <div className="mono text-xs uppercase tracking-[0.3em] text-[var(--color-neon)] mb-2">· signed in ·</div>
         <div className="display text-2xl">Welcome back, {user.displayName}.</div>
-        <div className="text-white/50 text-sm mt-1">{user.email}</div>
+        <div className="text-[var(--color-text-faint)] text-sm mt-1">{user.email}</div>
         <div className="flex flex-wrap gap-3 mt-6">
           <Button onClick={() => navigate(dest, { replace: true })}>
             Go to dashboard <ArrowRight className="w-4 h-4" />
@@ -165,15 +165,15 @@ export function AuthPanel({ redirectTo }: AuthPanelProps = {}) {
       <div className={shell}>
         <button
           type="button"
-          className="text-[10px] uppercase tracking-widest text-white/50 hover:text-white inline-flex items-center gap-1 mb-3"
+          className="text-[10px] uppercase tracking-widest text-[var(--color-text-faint)] hover:text-[var(--color-text)] inline-flex items-center gap-1 mb-3"
           onClick={() => { setPhase("enterEmail"); setCode(""); setError(null); setInfo(null); }}
         >
           <ArrowLeft className="w-3 h-3" /> Change email
         </button>
         <div className="mono text-xs uppercase tracking-[0.3em] text-[var(--color-neon)] mb-2">· verify ·</div>
         <div className="display text-2xl">Check your email.</div>
-        <p className="text-white/70 text-sm mt-3">
-          We sent a 6-digit code to <strong className="text-white">{email}</strong>. Enter it below to finish signing in.
+        <p className="text-[var(--color-text-dim)] text-sm mt-3">
+          We sent a 6-digit code to <strong className="text-[var(--color-text)]">{email}</strong>. Enter it below to finish signing in.
         </p>
 
         <form onSubmit={onVerify} className="space-y-4 mt-5">
@@ -206,11 +206,11 @@ export function AuthPanel({ redirectTo }: AuthPanelProps = {}) {
             type="button"
             disabled={resendIn > 0 || busy}
             onClick={onResend}
-            className="text-xs text-white/55 hover:text-white disabled:opacity-50"
+            className="text-xs text-[var(--color-text-faint)] hover:text-[var(--color-text)] disabled:opacity-50"
           >
             {resendIn > 0 ? `Resend in ${resendIn}s` : "Resend code"}
           </button>
-          <span className="text-[10px] text-white/40 mono">code expires in 60 min</span>
+          <span className="text-[10px] text-[var(--color-text-faint)] mono">code expires in 60 min</span>
         </div>
       </div>
     );
@@ -221,7 +221,7 @@ export function AuthPanel({ redirectTo }: AuthPanelProps = {}) {
     <div className={shell}>
       <div className="mono text-xs uppercase tracking-[0.3em] text-[var(--color-neon)] mb-2">· sign in ·</div>
       <div className="display text-2xl">Verify your email.</div>
-      <p className="text-white/60 text-sm mt-1">
+      <p className="text-[var(--color-text-dim)] text-sm mt-1">
         We'll send you a 6-digit code — no password to remember.
       </p>
 
@@ -230,22 +230,22 @@ export function AuthPanel({ redirectTo }: AuthPanelProps = {}) {
         type="button"
         onClick={onGoogle}
         disabled={googleBusy}
-        className="mt-5 w-full inline-flex items-center justify-center gap-3 rounded-xl border border-white/15 bg-white/[0.04] hover:bg-white/[0.08] px-3.5 py-2.5 text-sm font-medium text-white transition-colors disabled:opacity-50"
+        className="mt-5 w-full inline-flex items-center justify-center gap-3 rounded-xl border border-[var(--color-line)] bg-[var(--color-card-soft)] hover:bg-[var(--color-bg-soft)] px-3.5 py-2.5 text-sm font-medium text-[var(--color-text)] transition-colors disabled:opacity-50"
       >
         <GoogleLogo />
         {googleBusy ? "Redirecting to Google…" : "Continue with Google"}
       </button>
 
       <div className="flex items-center gap-3 my-5">
-        <div className="h-px flex-1 bg-white/10" />
-        <div className="mono text-[10px] uppercase tracking-widest text-white/40">or with email</div>
-        <div className="h-px flex-1 bg-white/10" />
+        <div className="h-px flex-1 bg-[var(--color-bg-soft)]" />
+        <div className="mono text-[10px] uppercase tracking-widest text-[var(--color-text-faint)]">or with email</div>
+        <div className="h-px flex-1 bg-[var(--color-bg-soft)]" />
       </div>
 
       {/* Email form */}
       <form onSubmit={onSendCode} className="space-y-4">
         <div>
-          <label className={labelCls} htmlFor="auth-name">Full Name <span className="text-white/30">(new users)</span></label>
+          <label className={labelCls} htmlFor="auth-name">Full Name <span className="text-[var(--color-text-faint)]">(new users)</span></label>
           <input
             id="auth-name"
             className={inputCls}
@@ -275,7 +275,7 @@ export function AuthPanel({ redirectTo }: AuthPanelProps = {}) {
           {busy ? "Sending…" : <><Mail className="w-4 h-4" /> Send verification code</>}
         </Button>
 
-        <p className="text-[11px] text-white/40 text-center leading-relaxed">
+        <p className="text-[11px] text-[var(--color-text-faint)] text-center leading-relaxed">
           We use a 6-digit code instead of passwords. New users: your account is created on first verify.
         </p>
       </form>
