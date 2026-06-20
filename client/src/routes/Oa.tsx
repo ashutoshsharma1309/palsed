@@ -47,7 +47,7 @@ export default function Oa() {
       <header className="mb-8">
         <div className="mono text-xs uppercase tracking-[0.3em] text-[var(--color-neon)] mb-2">// oa practice</div>
         <h1 className="display text-5xl sm:text-6xl">MOCK OA.</h1>
-        <p className="text-white/60 mt-2 max-w-2xl">
+        <p className="text-[var(--color-text-dim)] mt-2 max-w-2xl">
           Real interview questions, real time pressure. Pick a company, hit start, simulate the
           conditions you'll face. Full solutions + complexity analysis on every problem.
         </p>
@@ -55,10 +55,10 @@ export default function Oa() {
           <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[var(--color-neon)]/10 text-[var(--color-neon)] border border-[var(--color-neon)]/30">
             <Sparkles className="w-3 h-3" /> {curatedCount} curated questions
           </span>
-          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/[0.04] text-white/65 border border-white/15">
+          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[var(--color-card-soft)] text-[var(--color-text-dim)] border border-[var(--color-line)]">
             + 48 crowd-sourced PYQs
           </span>
-          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/[0.04] text-white/65 border border-white/15">
+          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[var(--color-card-soft)] text-[var(--color-text-dim)] border border-[var(--color-line)]">
             full solutions · LeetCode links
           </span>
         </div>
@@ -73,7 +73,7 @@ export default function Oa() {
               <div className="display text-xl">
                 Active test {inProgress[0].config.companySlug ? `· ${getCompany(inProgress[0].config.companySlug)?.name}` : ""}
               </div>
-              <div className="text-xs text-white/55 mt-0.5">
+              <div className="text-xs text-[var(--color-text-faint)] mt-0.5">
                 Started {new Date(inProgress[0].startedAt).toLocaleString()}
               </div>
             </div>
@@ -89,14 +89,14 @@ export default function Oa() {
       {/* SETUP */}
       <Card className="mb-6">
         <h2 className="display text-2xl mb-1">NEW TEST.</h2>
-        <p className="text-white/55 text-sm mb-5">
+        <p className="text-[var(--color-text-faint)] text-sm mb-5">
           Tune the simulation to match your real OA.
         </p>
 
         <div className="space-y-5">
           {/* Company */}
           <div>
-            <label className="mono text-[10px] uppercase tracking-widest text-white/50 block mb-1.5">Company</label>
+            <label className="mono text-[10px] uppercase tracking-widest text-[var(--color-text-faint)] block mb-1.5">Company</label>
             <div className="flex flex-wrap gap-1.5">
               <Chip active={!config.companySlug} onClick={() => setConfig({ ...config, companySlug: undefined })}>
                 All companies (random)
@@ -112,13 +112,13 @@ export default function Oa() {
               ))}
             </div>
             {COMPANIES.length > 30 && (
-              <p className="text-[10px] text-white/40 mt-1.5">Showing top 30 — full list in /companies.</p>
+              <p className="text-[10px] text-[var(--color-text-faint)] mt-1.5">Showing top 30 — full list in /companies.</p>
             )}
           </div>
 
           {/* Difficulty */}
           <div>
-            <label className="mono text-[10px] uppercase tracking-widest text-white/50 block mb-1.5">Difficulty</label>
+            <label className="mono text-[10px] uppercase tracking-widest text-[var(--color-text-faint)] block mb-1.5">Difficulty</label>
             <div className="flex flex-wrap gap-1.5">
               {DIFFICULTIES.map((d) => (
                 <Chip
@@ -136,7 +136,7 @@ export default function Oa() {
           {/* Duration + Count side by side */}
           <div className="grid sm:grid-cols-2 gap-5">
             <div>
-              <label className="mono text-[10px] uppercase tracking-widest text-white/50 block mb-1.5">
+              <label className="mono text-[10px] uppercase tracking-widest text-[var(--color-text-faint)] block mb-1.5">
                 <Clock className="w-3 h-3 inline -mt-0.5" /> Duration · {config.durationMin} min
               </label>
               <div className="flex flex-wrap gap-1.5">
@@ -153,7 +153,7 @@ export default function Oa() {
               </div>
             </div>
             <div>
-              <label className="mono text-[10px] uppercase tracking-widest text-white/50 block mb-1.5">
+              <label className="mono text-[10px] uppercase tracking-widest text-[var(--color-text-faint)] block mb-1.5">
                 <Brain className="w-3 h-3 inline -mt-0.5" /> Questions · {config.questionCount}
               </label>
               <div className="flex flex-wrap gap-1.5">
@@ -173,7 +173,7 @@ export default function Oa() {
 
           {/* Topic filter (optional) */}
           <div>
-            <label className="mono text-[10px] uppercase tracking-widest text-white/50 block mb-1.5">
+            <label className="mono text-[10px] uppercase tracking-widest text-[var(--color-text-faint)] block mb-1.5">
               Topic filter (optional)
             </label>
             <div className="flex flex-wrap gap-1.5 mb-2">
@@ -198,12 +198,12 @@ export default function Oa() {
               value={config.topicFilter || ""}
               onChange={(e) => setConfig({ ...config, topicFilter: e.target.value || undefined })}
               placeholder="Or type a custom topic..."
-              className="w-full bg-white/[0.03] border border-white/15 rounded-lg px-3 py-2 text-sm outline-none focus:border-[var(--color-neon)]"
+              className="w-full bg-[var(--color-card-soft)] border border-[var(--color-line)] rounded-lg px-3 py-2 text-sm outline-none focus:border-[var(--color-neon)]"
             />
           </div>
 
-          <div className="flex items-center justify-between gap-3 pt-3 border-t border-white/10">
-            <div className="text-xs text-white/60">
+          <div className="flex items-center justify-between gap-3 pt-3 border-t border-[var(--color-line)]">
+            <div className="text-xs text-[var(--color-text-dim)]">
               <span className="text-[var(--color-neon)] font-bold">{matchingPreview}</span> matching question{matchingPreview === 1 ? "" : "s"} in the pool
               {matchingPreview < config.questionCount && (
                 <span className="text-[#ffe87a] ml-2">
@@ -226,7 +226,7 @@ export default function Oa() {
         <div>
           <div className="flex items-baseline justify-between mb-3">
             <h2 className="display text-2xl">HISTORY.</h2>
-            <span className="mono text-[10px] uppercase tracking-widest text-white/40">
+            <span className="mono text-[10px] uppercase tracking-widest text-[var(--color-text-faint)]">
               {finishedHistory.length} tests
             </span>
           </div>
@@ -238,7 +238,7 @@ export default function Oa() {
                 <Link
                   key={s.id}
                   to={`/oa/result/${s.id}`}
-                  className="block border border-white/10 rounded-xl p-3 hover:border-[var(--color-neon)]/30 transition-colors"
+                  className="block border border-[var(--color-line)] rounded-xl p-3 hover:border-[var(--color-neon)]/30 transition-colors"
                 >
                   <div className="flex items-center gap-3">
                     <div
@@ -254,7 +254,7 @@ export default function Oa() {
                       <div className="text-sm font-semibold truncate">
                         {c?.name || "Mixed Companies"} · {s.config.difficulty}
                       </div>
-                      <div className="text-[11px] text-white/50 mono">
+                      <div className="text-[11px] text-[var(--color-text-faint)] mono">
                         {new Date(s.startedAt).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })} ·
                         {" "}{s.config.questionCount} Q · {s.config.durationMin} min
                       </div>
@@ -266,14 +266,14 @@ export default function Oa() {
                       >
                         {stats?.score ?? 0}
                       </div>
-                      <div className="text-[10px] mono uppercase tracking-widest text-white/40">/ 100</div>
+                      <div className="text-[10px] mono uppercase tracking-widest text-[var(--color-text-faint)]">/ 100</div>
                     </div>
                     <button
                       onClick={(e) => {
                         e.preventDefault();
                         if (confirm("Delete this test?")) remove(s.id);
                       }}
-                      className="text-white/30 hover:text-red-300 ml-1"
+                      className="text-[var(--color-text-faint)] hover:text-red-300 ml-1"
                       aria-label="Delete test"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
@@ -285,10 +285,10 @@ export default function Oa() {
           </div>
         </div>
       ) : (
-        <Card className="text-center py-10 bg-white/[0.02]">
+        <Card className="text-center py-10 bg-[var(--color-card-soft)]">
           <Sparkles className="w-8 h-8 text-[var(--color-neon)] mx-auto mb-2" />
           <div className="display text-xl mb-1">No tests yet.</div>
-          <p className="text-white/55 text-sm">
+          <p className="text-[var(--color-text-faint)] text-sm">
             Run your first mock OA above. We'll track scores + suggest topics to focus.
           </p>
         </Card>

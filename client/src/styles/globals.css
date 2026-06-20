@@ -44,6 +44,22 @@
   --color-blue: #b5d4ff;
   --color-purple: #d6c1ff;
 
+  /* semantic difficulty + severity colors. Defined per theme so OA chips
+     stay readable in both. */
+  --diff-easy-bg: rgba(185, 245, 200, 0.13);
+  --diff-easy-text: #b9f5c8;
+  --diff-medium-bg: rgba(255, 232, 122, 0.13);
+  --diff-medium-text: #ffe87a;
+  --diff-hard-bg: rgba(255, 138, 122, 0.13);
+  --diff-hard-text: #ff8a7a;
+
+  --severity-warn-bg: rgba(255, 232, 122, 0.1);
+  --severity-warn-text: #ffe87a;
+  --severity-warn-border: rgba(255, 232, 122, 0.3);
+  --severity-crit-bg: rgba(255, 82, 71, 0.15);
+  --severity-crit-text: #ff8a7a;
+  --severity-crit-border: rgba(255, 82, 71, 0.4);
+
   /* surface tints — used in CSS overrides for opacity utilities */
   --tint-text-rgb: 255, 255, 255; /* "white-with-opacity" → muted text */
   --tint-surface-rgb: 255, 255, 255; /* white/N → subtle highlight */
@@ -92,6 +108,21 @@
   --color-yellow: #ffe87a;
   --color-blue: #b5d4ff;
   --color-purple: #d6c1ff;
+
+  /* semantic difficulty + severity for light mode — darker, opaque inks */
+  --diff-easy-bg: #e6f7e9;
+  --diff-easy-text: #1b5e20;
+  --diff-medium-bg: #fff4d6;
+  --diff-medium-text: #8a5a00;
+  --diff-hard-bg: #fde7e4;
+  --diff-hard-text: #b71c1c;
+
+  --severity-warn-bg: #fff8e1;
+  --severity-warn-text: #8a5a00;
+  --severity-warn-border: rgba(138, 90, 0, 0.25);
+  --severity-crit-bg: #fde7e4;
+  --severity-crit-text: #b71c1c;
+  --severity-crit-border: rgba(183, 28, 28, 0.30);
 
   /* invert tint origins so opacity utilities work on a light surface */
   --tint-text-rgb: 10, 10, 10;
@@ -160,6 +191,39 @@ body {
   border: 1px solid var(--color-line);
   border-radius: 18px;
 }
+
+/* Reusable difficulty pills — theme-aware via CSS vars. Used by OA test/result
+   pages to replace hardcoded hex inline styles that broke in light mode. */
+.diff-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.125rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.6875rem; /* 11px */
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  border: 1px solid transparent;
+}
+.diff-easy   { background: var(--diff-easy-bg);   color: var(--diff-easy-text); }
+.diff-medium { background: var(--diff-medium-bg); color: var(--diff-medium-text); }
+.diff-hard   { background: var(--diff-hard-bg);   color: var(--diff-hard-text); }
+
+/* Severity pills (used by ResumeRoast + OA urgency contexts) */
+.severity-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.125rem 0.625rem;
+  border-radius: 9999px;
+  font-size: 0.625rem;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border: 1px solid;
+}
+.severity-warn { background: var(--severity-warn-bg); color: var(--severity-warn-text); border-color: var(--severity-warn-border); }
+.severity-crit { background: var(--severity-crit-bg); color: var(--severity-crit-text); border-color: var(--severity-crit-border); }
 
 .grid-bg {
   background-image:
