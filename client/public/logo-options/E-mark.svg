@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Mark variant: neon P on transparent (no enclosing square) -->
+  <path fill="#BDFF00" fill-rule="evenodd" d="M 144 112 L 304 112 L 368 176 L 368 240 L 304 304 L 224 304 L 224 400 L 144 400 Z M 224 184 L 224 232 L 288 232 L 312 208 L 288 184 Z"/>
+</svg>
