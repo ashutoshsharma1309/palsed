@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { Loader2, GraduationCap, School, BookOpen, Briefcase, Hash, Phone, Linkedin, Github, ArrowRight, AlertTriangle } from "lucide-react";
+import { Loader2, GraduationCap, School, BookOpen, Briefcase, Linkedin, Github, ArrowRight, AlertTriangle } from "lucide-react";
 import { Background } from "../components/layout/Background";
 import { Button } from "../components/ui/Button";
 import { Card } from "../components/ui/Card";
@@ -18,8 +18,26 @@ import { usePageMeta } from "../hooks/usePageMeta";
 // Soft (optional but encouraged): CGPA, phone, LinkedIn, GitHub, target roles.
 
 const BRANCHES = ["CSE", "IT", "ECE", "EE", "EEE", "ME", "Civil", "Chemical", "Biotech", "MCA", "MBA", "Other"] as const;
-const YEARS = [1, 2, 3, 4, 5] as const;
-const ROLES = ["SDE", "Data", "ML", "Product", "Design", "DevOps", "Security", "Consulting", "Finance", "Quant"] as const;
+
+// Year question is now phrased as a position ("currently in") — chip labels
+// reflect what a student would naturally pick.
+const YEAR_OPTIONS: { value: number; label: string }[] = [
+  { value: 1, label: "1st Year" },
+  { value: 2, label: "2nd Year" },
+  { value: 3, label: "3rd Year" },
+  { value: 4, label: "4th Year" },
+  { value: 5, label: "5th Year / MTech" },
+];
+
+// Expanded set of technical roles students target in campus + off-campus.
+const ROLES = [
+  "SDE", "Backend", "Frontend", "Full Stack",
+  "Mobile (iOS/Android)", "Data Engineer", "Data Scientist", "ML Engineer",
+  "DevOps / SRE", "Cloud Engineer", "Platform Engineer", "Security",
+  "QA / SDET", "Embedded / Firmware", "Systems / Low-level",
+  "Game Dev", "Blockchain / Web3", "AI Research",
+  "Solutions Engineer", "Product Manager",
+] as const;
 
 const inputCls =
   "w-full mt-1 bg-[var(--color-input)] border border-[var(--color-line)] rounded-xl px-3.5 py-2.5 text-sm text-[var(--color-text)] placeholder:text-[var(--color-text-faint)] outline-none focus:border-[var(--color-neon)] focus:bg-[var(--color-input-strong)] transition-colors";
@@ -42,20 +60,11 @@ export default function Onboarding() {
     }
   }, [loading, user, navigate]);
 
-  const thisYear = new Date().getFullYear();
-  const gradYears = useMemo(
-    () => Array.from({ length: 6 }, (_, i) => thisYear - 1 + i),
-    [thisYear]
-  );
-
   // Pre-fill with anything we already know about the user.
   const [fullName, setFullName] = useState(user?.fullName || user?.displayName || "");
   const [collegeName, setCollegeName] = useState(user?.collegeName || "");
   const [branch, setBranch] = useState<string>(user?.branch || "");
   const [yearOfStudy, setYearOfStudy] = useState<number | null>(user?.yearOfStudy ?? null);
-  const [graduationYear, setGraduationYear] = useState<number | null>(user?.graduationYear ?? null);
-  const [cgpa, setCgpa] = useState<string>(user?.cgpa != null ? String(user.cgpa) : "");
-  const [phoneNumber, setPhoneNumber] = useState(user?.phoneNumber || "");
   const [linkedinUrl, setLinkedinUrl] = useState(user?.linkedinUrl || "");
   const [githubUrl, setGithubUrl] = useState(user?.githubUrl || "");
   const [targetRoles, setTargetRoles] = useState<string[]>(user?.targetRoles || []);
@@ -67,7 +76,6 @@ export default function Onboarding() {
     if (!collegeName && user.collegeName) setCollegeName(user.collegeName);
     if (!branch && user.branch) setBranch(user.branch);
     if (yearOfStudy === null && user.yearOfStudy) setYearOfStudy(user.yearOfStudy);
-    if (graduationYear === null && user.graduationYear) setGraduationYear(user.graduationYear);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.id]);
 
@@ -86,16 +94,11 @@ export default function Onboarding() {
 
     const trimmedName = fullName.trim();
     const trimmedCollege = collegeName.trim();
-    const parsedCgpa = cgpa.trim() === "" ? null : Number(cgpa);
 
     if (trimmedName.length < 2) return setError("Enter your full name.");
     if (trimmedCollege.length < 2) return setError("Enter your college name.");
     if (!branch) return setError("Pick your branch.");
-    if (!yearOfStudy) return setError("Pick your year of study.");
-    if (!graduationYear) return setError("Pick your expected graduation year.");
-    if (parsedCgpa !== null && (Number.isNaN(parsedCgpa) || parsedCgpa < 0 || parsedCgpa > 10)) {
-      return setError("CGPA must be a number between 0 and 10.");
-    }
+    if (!yearOfStudy) return setError("Tell us which year you're in.");
 
     setBusy(true);
     try {
@@ -104,9 +107,6 @@ export default function Onboarding() {
         collegeName: trimmedCollege,
         branch,
         yearOfStudy,
-        graduationYear,
-        cgpa: parsedCgpa,
-        phoneNumber: phoneNumber.trim() || undefined,
         linkedinUrl: linkedinUrl.trim() || undefined,
         githubUrl: githubUrl.trim() || undefined,
         targetRoles,
@@ -214,51 +214,21 @@ export default function Onboarding() {
                 </div>
               </div>
 
-              <div className="grid sm:grid-cols-3 gap-4">
-                <div>
-                  <label className={labelCls}>
-                    <GraduationCap className="w-3 h-3" /> Year of Study <span className="text-[var(--color-neon)]">*</span>
-                  </label>
-                  <div className="flex flex-wrap gap-1.5 mt-2">
-                    {YEARS.map((y) => (
-                      <Chip tone="neon" key={y} active={yearOfStudy === y} onClick={() => setYearOfStudy(y)}>
-                        {y}
-                      </Chip>
-                    ))}
-                  </div>
-                </div>
-                <div>
-                  <label className={labelCls} htmlFor="gradYear">
-                    Grad Year <span className="text-[var(--color-neon)]">*</span>
-                  </label>
-                  <select
-                    id="gradYear"
-                    className={inputCls}
-                    value={graduationYear ?? ""}
-                    onChange={(e) => setGraduationYear(e.target.value ? Number(e.target.value) : null)}
-                    required
-                  >
-                    <option value="">— Select —</option>
-                    {gradYears.map((y) => (
-                      <option key={y} value={y}>{y}</option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <label className={labelCls} htmlFor="cgpa">
-                    <Hash className="w-3 h-3" /> CGPA <span className="text-[var(--color-text-faint)]">(/10)</span>
-                  </label>
-                  <input
-                    id="cgpa"
-                    type="number"
-                    step={0.01}
-                    min={0}
-                    max={10}
-                    className={inputCls}
-                    value={cgpa}
-                    onChange={(e) => setCgpa(e.target.value)}
-                    placeholder="8.5"
-                  />
+              <div>
+                <label className={labelCls}>
+                  <GraduationCap className="w-3 h-3" /> Currently in <span className="text-[var(--color-neon)]">*</span>
+                </label>
+                <div className="flex flex-wrap gap-1.5 mt-2">
+                  {YEAR_OPTIONS.map((y) => (
+                    <Chip
+                      tone="neon"
+                      key={y.value}
+                      active={yearOfStudy === y.value}
+                      onClick={() => setYearOfStudy(y.value)}
+                    >
+                      {y.label}
+                    </Chip>
+                  ))}
                 </div>
               </div>
             </div>
@@ -289,26 +259,13 @@ export default function Onboarding() {
             )}
           </Card>
 
-          {/* CONTACT (optional) */}
+          {/* SOCIAL — optional links recruiters actually look at */}
           <Card>
-            <h2 className="display text-xl mb-1">Links <span className="text-[var(--color-text-faint)] text-xs">(optional)</span></h2>
+            <h2 className="display text-xl mb-1">Socials <span className="text-[var(--color-text-faint)] text-xs">(optional)</span></h2>
             <p className="text-[var(--color-text-faint)] text-xs mb-4">
-              Add these now so recruiters scanning your profile see proof of work.
+              Helps recruiters scanning your profile see proof of work. You can fill these later in Settings.
             </p>
             <div className="grid sm:grid-cols-2 gap-4">
-              <div>
-                <label className={labelCls} htmlFor="phone">
-                  <Phone className="w-3 h-3" /> Phone
-                </label>
-                <input
-                  id="phone"
-                  className={inputCls}
-                  value={phoneNumber}
-                  onChange={(e) => setPhoneNumber(e.target.value)}
-                  placeholder="+91-9XXXXXXXXX"
-                  autoComplete="tel"
-                />
-              </div>
               <div>
                 <label className={labelCls} htmlFor="linkedin">
                   <Linkedin className="w-3 h-3" /> LinkedIn
@@ -321,7 +278,7 @@ export default function Onboarding() {
                   placeholder="linkedin.com/in/yourhandle"
                 />
               </div>
-              <div className="sm:col-span-2">
+              <div>
                 <label className={labelCls} htmlFor="github">
                   <Github className="w-3 h-3" /> GitHub
                 </label>

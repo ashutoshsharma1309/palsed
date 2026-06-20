@@ -54,7 +54,12 @@ export default function Compare() {
   // Compute the "winner" per metric for highlighting
   const winners = useMemo(() => {
     if (companies.length < 2) return { ctc: null, ease: null, cgpa: null } as any;
-    const bestCtc = companies.reduce((acc, c) => (c!.ctcBand.typical > (acc?.ctcBand.typical ?? -1) ? c : acc), companies[0]);
+    // Only consider verified CTCs when picking the "best" — refuse to crown
+    // unverified numbers.
+    const verifiedCompanies = companies.filter((c) => c!.verified);
+    const bestCtc = verifiedCompanies.length > 0
+      ? verifiedCompanies.reduce((acc, c) => (c!.ctcBand.typical > (acc?.ctcBand.typical ?? -1) ? c : acc), verifiedCompanies[0])
+      : null;
     const easiest = companies.reduce((acc, c) => (c!.difficulty < (acc?.difficulty ?? 999) ? c : acc), companies[0]);
     const lowestCgpa = companies.reduce(
       (acc, c) => ((c!.eligibility.minCgpa ?? 99) < (acc?.eligibility.minCgpa ?? 99) ? c : acc),
@@ -142,10 +147,20 @@ export default function Compare() {
                 </div>
 
                 <Row label="CTC (typical)" highlight={winners.ctc === c!.slug}>
-                  <IndianRupee className="w-3 h-3" />
-                  {c!.ctcBand.typical} LPA
+                  {c!.verified ? (
+                    <>
+                      <IndianRupee className="w-3 h-3" />
+                      {c!.ctcBand.typical} LPA
+                    </>
+                  ) : (
+                    <span className="text-[var(--color-text-faint)]">unverified</span>
+                  )}
                 </Row>
-                <Row label="CTC range">₹{c!.ctcBand.min}–{c!.ctcBand.max} LPA</Row>
+                <Row label="CTC range">
+                  {c!.verified
+                    ? `₹${c!.ctcBand.min}–${c!.ctcBand.max} LPA`
+                    : "—"}
+                </Row>
                 <Row label="Difficulty" highlight={winners.ease === c!.slug}>
                   {"★".repeat(c!.difficulty)}<span className="text-[var(--color-text-faint)]">{"★".repeat(5 - c!.difficulty)}</span>
                 </Row>

@@ -61,8 +61,12 @@ const VALID_BRANCHES = new Set([
   "MCA", "MBA", "Other",
 ]);
 const VALID_ROLES = new Set([
-  "SDE", "Data", "ML", "Product", "Design", "DevOps", "Security",
-  "Consulting", "Finance", "Quant",
+  "SDE", "Backend", "Frontend", "Full Stack",
+  "Mobile (iOS/Android)", "Data Engineer", "Data Scientist", "ML Engineer",
+  "DevOps / SRE", "Cloud Engineer", "Platform Engineer", "Security",
+  "QA / SDET", "Embedded / Firmware", "Systems / Low-level",
+  "Game Dev", "Blockchain / Web3", "AI Research",
+  "Solutions Engineer", "Product Manager",
 ]);
 
 r.put("/profile", requireAuth, async (req, res, next) => {
@@ -73,9 +77,6 @@ r.put("/profile", requireAuth, async (req, res, next) => {
     const collegeName = (b.collegeName || "").trim().slice(0, 200);
     const branch = (b.branch || "").trim();
     const yearOfStudy = Number(b.yearOfStudy);
-    const graduationYear = Number(b.graduationYear);
-    const cgpa = b.cgpa === null || b.cgpa === undefined || b.cgpa === "" ? null : Number(b.cgpa);
-    const phoneNumber = (b.phoneNumber || "").trim().slice(0, 32) || null;
     const linkedinUrl = (b.linkedinUrl || "").trim().slice(0, 300) || null;
     const githubUrl = (b.githubUrl || "").trim().slice(0, 300) || null;
     const targetRoles = Array.isArray(b.targetRoles)
@@ -95,17 +96,6 @@ r.put("/profile", requireAuth, async (req, res, next) => {
     if (![1, 2, 3, 4, 5].includes(yearOfStudy)) {
       return res.status(400).json({ error: "Year of study must be 1-5." });
     }
-    const thisYear = new Date().getFullYear();
-    if (
-      !Number.isInteger(graduationYear) ||
-      graduationYear < thisYear - 1 ||
-      graduationYear > thisYear + 7
-    ) {
-      return res.status(400).json({ error: "Graduation year is out of range." });
-    }
-    if (cgpa !== null && (Number.isNaN(cgpa) || cgpa < 0 || cgpa > 10)) {
-      return res.status(400).json({ error: "CGPA must be 0-10." });
-    }
 
     const user = await prisma.user.update({
       where: { id: req.auth.id },
@@ -114,9 +104,11 @@ r.put("/profile", requireAuth, async (req, res, next) => {
         collegeName,
         branch,
         yearOfStudy,
-        graduationYear,
-        cgpa,
-        phoneNumber,
+        // Explicitly clear the deprecated fields if a stale client sends them
+        // (or if a previous save populated them).
+        graduationYear: null,
+        cgpa: null,
+        phoneNumber: null,
         linkedinUrl,
         githubUrl,
         targetRoles,

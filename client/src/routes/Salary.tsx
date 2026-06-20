@@ -191,7 +191,7 @@ export default function Salary() {
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-2">
           {COMPANIES
-            .filter((c) => Math.abs(c.ctcBand.typical - ctc) <= Math.max(3, ctc * 0.2))
+            .filter((c) => c.verified && Math.abs(c.ctcBand.typical - ctc) <= Math.max(3, ctc * 0.2))
             .slice(0, 8)
             .map((c) => (
               <Link

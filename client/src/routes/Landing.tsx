@@ -15,8 +15,8 @@ import { LogoLockup } from "../components/ui/Logo";
 // PYQ_SEED (19KB) just to render two `.length` stats — 115KB of JS shipped to
 // print two numbers. Hardcoded here; bump when seed data grows past the next
 // round number. Source files: client/src/data/{companies,pyqs-seed}.ts.
-const COMPANY_COUNT = 75;
-const PYQ_COUNT = 48;
+const COMPANY_COUNT = 85;
+const PYQ_COUNT = 82;
 
 const FEATURES = [
   {

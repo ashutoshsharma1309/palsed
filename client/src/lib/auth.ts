@@ -41,9 +41,6 @@ export interface ProfileSetupPayload {
   collegeName: string;
   branch: string;
   yearOfStudy: number;
-  graduationYear: number;
-  cgpa: number | null;
-  phoneNumber?: string;
   linkedinUrl?: string;
   githubUrl?: string;
   targetRoles?: string[];

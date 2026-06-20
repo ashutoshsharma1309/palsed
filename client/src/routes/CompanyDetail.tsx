@@ -85,15 +85,24 @@ export default function CompanyDetail() {
         </div>
 
         <Card className="lg:min-w-[260px]">
-          <div className="mono text-[10px] uppercase tracking-widest text-white/40">Typical CTC</div>
-          <div className="display text-4xl flex items-baseline gap-1 neon-text">
-            <IndianRupee className="w-6 h-6" /> {c.ctcBand.typical}
-            <span className="text-base text-white/60 ml-1">LPA</span>
-          </div>
-          <div className="mono text-xs text-white/40 mt-1">range ₹{c.ctcBand.min}–{c.ctcBand.max} LPA</div>
-          <div className="mt-3 text-[10px] mono uppercase tracking-widest text-white/40">Difficulty</div>
+          <div className="mono text-[10px] uppercase tracking-widest text-[var(--color-text-faint)]">Typical CTC</div>
+          {c.verified ? (
+            <>
+              <div className="display text-4xl flex items-baseline gap-1 neon-text">
+                <IndianRupee className="w-6 h-6" /> {c.ctcBand.typical}
+                <span className="text-base text-[var(--color-text-dim)] ml-1">LPA</span>
+              </div>
+              <div className="mono text-xs text-[var(--color-text-faint)] mt-1">range ₹{c.ctcBand.min}–{c.ctcBand.max} LPA</div>
+            </>
+          ) : (
+            <>
+              <div className="display text-2xl text-[var(--color-text-faint)] mt-1">CTC not verified</div>
+              <div className="mono text-xs text-[var(--color-text-faint)] mt-1">We won't show numbers we haven't confirmed with an offer holder.</div>
+            </>
+          )}
+          <div className="mt-3 text-[10px] mono uppercase tracking-widest text-[var(--color-text-faint)]">Difficulty</div>
           <div className="text-2xl mt-0.5">
-            {"★".repeat(c.difficulty)}<span className="text-white/20">{"★".repeat(5 - c.difficulty)}</span>
+            {"★".repeat(c.difficulty)}<span className="text-[var(--color-text-faint)]">{"★".repeat(5 - c.difficulty)}</span>
           </div>
         </Card>
       </div>

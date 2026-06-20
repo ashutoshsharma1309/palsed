@@ -18,19 +18,29 @@ export function CompanyTile({ c }: { c: Company }) {
         </div>
         <div className="flex-1 min-w-0">
           <div className="font-bold text-base group-hover:text-[var(--color-neon)] truncate">{c.name}</div>
-          <div className="text-xs text-white/50 mono truncate">{c.sector}</div>
+          <div className="text-xs text-[var(--color-text-faint)] mono truncate">{c.sector}</div>
         </div>
       </div>
       <div className="flex flex-wrap gap-1.5 text-[10px] mono uppercase tracking-wider">
-        <span className="px-2 py-0.5 rounded bg-white/5 text-white/70">{c.tier}</span>
-        <span className="px-2 py-0.5 rounded bg-[var(--color-neon)]/15 text-[var(--color-neon)]">
-          ₹{c.ctcBand.typical} LPA
-        </span>
+        <span className="px-2 py-0.5 rounded bg-[var(--color-card-soft)] text-[var(--color-text-dim)]">{c.tier}</span>
+        {/* Only show CTC if we've actually verified it. Unverified CTC is misleading. */}
+        {c.verified ? (
+          <span className="px-2 py-0.5 rounded bg-[var(--color-neon)]/15 text-[var(--color-neon)]">
+            ₹{c.ctcBand.typical} LPA
+          </span>
+        ) : (
+          <span
+            className="px-2 py-0.5 rounded bg-[var(--color-card-soft)] text-[var(--color-text-faint)]"
+            title="CTC not verified yet"
+          >
+            CTC unverified
+          </span>
+        )}
         <span className="px-2 py-0.5 rounded" style={{ background: `${DIFF_COLORS[c.difficulty]}22`, color: DIFF_COLORS[c.difficulty] }}>
           {"★".repeat(c.difficulty)}
         </span>
       </div>
-      <div className="text-xs text-white/40">
+      <div className="text-xs text-[var(--color-text-faint)]">
         {c.indianOffices.slice(0, 3).join(" · ")}
       </div>
     </Link>
