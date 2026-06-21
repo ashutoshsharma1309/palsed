@@ -2,15 +2,15 @@
 
 ## 1. Executive Summary
 
-- **The product's positioning is fighting itself in three places at once.** `index.html` sells "Adaptive AI Learning Universe," `Landing.tsx` sells "Placement Season Operating System" + "0 AI calls," and `Nav.tsx` shows 13 top-level links that span both stories. A student arriving from Google has no idea whether this is a course platform, a tracker, or a vault. Linear, Notion, Stripe — none of them ever have to ask "what am I actually looking at?" PrepNxt does, every time.
+- **The product's positioning is fighting itself in three places at once.** `index.html` sells "Adaptive AI Learning Universe," `Landing.tsx` sells "Placement Season Operating System" + "0 AI calls," and `Nav.tsx` shows 13 top-level links that span both stories. A student arriving from Google has no idea whether this is a course platform, a tracker, or a vault. Linear, Notion, Stripe — none of them ever have to ask "what am I actually looking at?" PrepPlace does, every time.
 - **Information architecture is the single biggest blocker to retention.** A 13-item flat nav (Dashboard, Companies, PYQ Vault, My Apps, Internships, DSA, Placement Hub, Review, Mastery, System Design, Core CS, Aptitude, Interview) with overlapping concepts (Dashboard vs. Placement Hub vs. Applications; Mastery vs. Review) violates Miller's 7±2 and makes the product feel like a hackathon. There is no primary action, no progressive disclosure, no grouping.
 - **The Landing page promises a job-search workflow and the Dashboard delivers a learning analytics console.** `Dashboard.tsx` opens with a Donut, Radar, mastery EWMA, streaks and "preferred style" copy. That's a course-app dashboard, not a placement OS. The user's first authenticated screen should be "the company visiting your campus on Friday and what to do today" — instead it's a chart.
-- **The typography system has personality but no rhythm.** Five display fonts (`Anton`, `Bebas Neue`, `Inter`, `Share Tech Mono`, plus a "display" class with `[13vw]` headlines) on Landing, neon color tokens everywhere, mono-tracked uppercase labels on every page — it reads as one note played at full volume. Linear and Stripe earn loud moments by surrounding them with calm. PrepNxt has no calm.
+- **The typography system has personality but no rhythm.** Five display fonts (`Anton`, `Bebas Neue`, `Inter`, `Share Tech Mono`, plus a "display" class with `[13vw]` headlines) on Landing, neon color tokens everywhere, mono-tracked uppercase labels on every page — it reads as one note played at full volume. Linear and Stripe earn loud moments by surrounding them with calm. PrepPlace has no calm.
 - **Mobile is an afterthought in a market where >85% of Indian undergrads access prep tools on a phone first.** The Landing hero uses `text-[13vw]` (clips on narrow screens), Nav collapses 13 links into a two-column dump, Applications kanban has 8 columns side-by-side, and there is no bottom-tab pattern. Competitors (Unstop, PrepInsta) ship a mobile-first feed. This will quietly cap signup → activation at ~20%.
 
 ## 2. Current State
 
-PrepNxt looks and feels like a strong design-systems prototype built by an engineer with taste, surfaced before a product designer had a chance to do an audit. The good news: the visual language (neon-on-black, mono labels, oversized display headlines, the chip + card system in `components/ui/`) is distinctive and immediately recognizable. That is rare and worth protecting.
+PrepPlace looks and feels like a strong design-systems prototype built by an engineer with taste, surfaced before a product designer had a chance to do an audit. The good news: the visual language (neon-on-black, mono labels, oversized display headlines, the chip + card system in `components/ui/`) is distinctive and immediately recognizable. That is rare and worth protecting.
 
 The bad news: there is no information hierarchy, no clear primary user, and the experience contradicts itself between the marketing surface and the app shell. Concretely:
 
@@ -43,7 +43,7 @@ The bad news: there is no information hierarchy, no clear primary user, and the 
 
 ### 4.1 Pick one story. Ship it everywhere.
 
-Rip the "AI Learning Universe" copy out of `index.html`, `<meta name="description">`, OG, Twitter card, and any Tutor/Courses references. The product is **"The placement-season OS for Indian engineering students."** That's the headline. That's the OG. That's the Nav. Every surface — `Landing.tsx` hero, sub-head, footer, `Dashboard.tsx` H1, README — uses the same nine-word definition. This is what Linear does relentlessly ("the issue tracking tool you'll enjoy using") and what PrepNxt currently does not.
+Rip the "AI Learning Universe" copy out of `index.html`, `<meta name="description">`, OG, Twitter card, and any Tutor/Courses references. The product is **"The placement-season OS for Indian engineering students."** That's the headline. That's the OG. That's the Nav. Every surface — `Landing.tsx` hero, sub-head, footer, `Dashboard.tsx` H1, README — uses the same nine-word definition. This is what Linear does relentlessly ("the issue tracking tool you'll enjoy using") and what PrepPlace currently does not.
 
 ### 4.2 Collapse the 13-item nav into 5.
 
@@ -85,11 +85,11 @@ Codify this. Create `client/src/styles/tokens.css` with: 4 type sizes (display-x
 
 ### 4.6 Empty states are screens, not afterthoughts.
 
-PYQ Vault, Internships, Mastery, Engagement, Applications, and Review all render numerical zeros on first run. Design real empty states with: an illustration or a glyph, one sentence of context, one CTA. Notion's empty states are the gold standard — every database starts with "Drag a template here or create your first row." PrepNxt should do this for: "Track your first application," "Bookmark a company to start your prep kit," "Submit a PYQ and earn a verified badge."
+PYQ Vault, Internships, Mastery, Engagement, Applications, and Review all render numerical zeros on first run. Design real empty states with: an illustration or a glyph, one sentence of context, one CTA. Notion's empty states are the gold standard — every database starts with "Drag a template here or create your first row." PrepPlace should do this for: "Track your first application," "Bookmark a company to start your prep kit," "Submit a PYQ and earn a verified badge."
 
 ### 4.7 Per-route SEO + prerender.
 
-Vite SPA + no SSR is killing discoverability. Add `react-helmet-async` and emit a unique `<title>` and `<meta description>` per route. For `/companies/:slug`, the title should be "Google placement process at Indian colleges — eligibility, package, rounds | PrepNxt" — exactly the long-tail query a 3rd-year would Google. Pair this with `vite-ssg` or `@vitejs/plugin-react` + a prerender pass for the top 50 company pages + Landing. This is the single highest-ROI SEO move and it's a 2-day job.
+Vite SPA + no SSR is killing discoverability. Add `react-helmet-async` and emit a unique `<title>` and `<meta description>` per route. For `/companies/:slug`, the title should be "Google placement process at Indian colleges — eligibility, package, rounds | PrepPlace" — exactly the long-tail query a 3rd-year would Google. Pair this with `vite-ssg` or `@vitejs/plugin-react` + a prerender pass for the top 50 company pages + Landing. This is the single highest-ROI SEO move and it's a 2-day job.
 
 ### 4.8 Onboarding: cut everything that isn't placement-shaped.
 
@@ -143,4 +143,4 @@ Remove `Courses.tsx`, `CourseDetail.tsx`, `CourseLesson.tsx`, `CourseQuiz.tsx`, 
 
 Track these in `EngagementDay` (already exists) — extend `routes` JSON to include the activation events. Build a single `/admin/metrics` page (gated to `tarinagarwal@gmail.com`) that reads them. Without instrumentation, every recommendation above is a guess; with it, the next 90 days become a science experiment instead of a vibes-driven rebuild.
 
-The single highest-leverage thing PrepNxt can do this quarter is **stop being three products in one URL**. Pick the placement-OS story, name it everywhere, and design the first 90 seconds of the experience to deliver on that promise. Everything else in this report is a consequence of that one decision.
+The single highest-leverage thing PrepPlace can do this quarter is **stop being three products in one URL**. Pick the placement-OS story, name it everywhere, and design the first 90 seconds of the experience to deliver on that promise. Everything else in this report is a consequence of that one decision.

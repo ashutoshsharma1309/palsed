@@ -1,5 +1,5 @@
 -- ──────────────────────────────────────────────────────────────────────────
---  PrepNxt — Postgres baseline schema for Supabase
+--  PrepPlace — Postgres baseline schema for Supabase
 --  Equivalent to what `prisma migrate dev --name init_postgres` will create.
 --  Safe to paste into Supabase SQL Editor (Project → SQL → New query).
 -- ──────────────────────────────────────────────────────────────────────────

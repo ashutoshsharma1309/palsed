@@ -2,15 +2,15 @@
 
 ## 1. Executive Summary
 
-- **PrepNxt is invisible to Google.** SPA-only Vite build with zero SSR/prerender means crawlers see an empty `<div id="root">` for every route except `/`. The `<head>` in `index.html` still pitches "Adaptive AI Learning Universe" while the Landing copy markets "zero AI calls placement-OS" — search engines, when they eventually index, will rank for the wrong intent. Fix the head + add a prerender layer (vite-plugin-prerender or migrate to Next.js) before any content investment.
+- **PrepPlace is invisible to Google.** SPA-only Vite build with zero SSR/prerender means crawlers see an empty `<div id="root">` for every route except `/`. The `<head>` in `index.html` still pitches "Adaptive AI Learning Universe" while the Landing copy markets "zero AI calls placement-OS" — search engines, when they eventually index, will rank for the wrong intent. Fix the head + add a prerender layer (vite-plugin-prerender or migrate to Next.js) before any content investment.
 - **The codebase already contains the highest-value SEO assets in the country — and is wasting them.** 50 company prep pages (`/companies/:slug`), ~150 DSA problems (`/dsa/:slug`), a crowd-sourced PYQ vault, and a public certificate verifier are all programmatic-SEO goldmines that currently render no metadata, no JSON-LD, and no static HTML. Indian placement queries like "TCS NQT previous year questions", "Infosys SP eligibility 2026", "Goldman Sachs OA pattern" have 1k-40k MSV each and weak SERP incumbents (PrepInsta, IndiaBix) running 2015-era UX.
-- **Content moat is "PYQ Vault + Companies Vault + Application Tracker" — not blog posts.** PrepInsta and GFG already own generic "how to crack TCS" listicles. PrepNxt wins by publishing structured, dated, verified data (this year's OA pattern, this week's drive dates, this batch's eligibility) — programmatic pages that update from the DB, not 1500-word evergreen articles. Blog is supporting cast, not the lead.
+- **Content moat is "PYQ Vault + Companies Vault + Application Tracker" — not blog posts.** PrepInsta and GFG already own generic "how to crack TCS" listicles. PrepPlace wins by publishing structured, dated, verified data (this year's OA pattern, this week's drive dates, this batch's eligibility) — programmatic pages that update from the DB, not 1500-word evergreen articles. Blog is supporting cast, not the lead.
 - **A 100-title editorial calendar is included below**, segmented into 4 topic clusters: (a) Company-specific drive intel (40), (b) DSA + System Design + Core CS tactical (30), (c) Off-campus + internship strategy (15), (d) Resume / HR / aptitude (15). Mix is intentionally 70% bottom-funnel BOFU (transactional placement-season queries) and 30% top-funnel TOFU brand building.
 - **30-day target: ship prerendering + 50 programmatic company pages + 10 PYQ cluster pages + correct OG/title.** This is achievable inside the existing Vite+Express+Prisma stack without a Next.js rewrite — and should produce the first 500 organic sessions/month inside 60 days given the low difficulty of Indian placement long-tails.
 
 ## 2. Current State
 
-Brutal version: **PrepNxt currently has zero content engine.** There is no `/blog` route in `App.tsx`, no MDX pipeline, no CMS, no `sitemap.xml`, no `robots.txt`, no canonical tags, no per-route `<title>` updates (no `react-helmet-async` in the dependency tree based on the stack recon), and no structured data anywhere despite shipping a real FAQ on the Landing page. The static `index.html` head is the *only* metadata Google ever sees, and that head describes a different product than what Landing actually sells.
+Brutal version: **PrepPlace currently has zero content engine.** There is no `/blog` route in `App.tsx`, no MDX pipeline, no CMS, no `sitemap.xml`, no `robots.txt`, no canonical tags, no per-route `<title>` updates (no `react-helmet-async` in the dependency tree based on the stack recon), and no structured data anywhere despite shipping a real FAQ on the Landing page. The static `index.html` head is the *only* metadata Google ever sees, and that head describes a different product than what Landing actually sells.
 
 Worse, the head describes the product that *used to exist* — the legacy Tutor/Courses/Roadmaps stack that `App.tsx` now redirects via `<Navigate>` while the Prisma schema still carries `Course`, `Chapter`, `Lesson`, `Roadmap`, `TutorThread`, `TutorMessage` models. Anyone landing from search expects an "AI tutor" and finds a placement-prep kanban. Bounce city.
 
@@ -21,13 +21,13 @@ The good news buried under all this: **the product itself is a content engine in
 Competitor reality check:
 - **PrepInsta** ranks #1-3 for almost every "{company} previous year questions" query. Domain is 10 years old, UX is hostile, content is unverified. Beatable on structured data + freshness signals.
 - **GeeksforGeeks** dominates "{topic} interview questions" generic queries. Unbeatable on TOFU listicles; ignore that lane.
-- **InterviewBit** owns "{company} interview experience". They publish dated experiences. PrepNxt's PYQ vault is the same shape, more granular.
+- **InterviewBit** owns "{company} interview experience". They publish dated experiences. PrepPlace's PYQ vault is the same shape, more granular.
 - **LeetCode** owns DSA. Don't fight there. Use DSA as utility, not as SEO target.
 - **Unstop** owns "campus hiring events" and runs the actual drives. Partner-or-perish; not a content competitor.
 - **Naukri Campus** is invisible in organic. Ignore.
 - **AlmaBetter / Scaler / Coding Ninjas** are paid-bootcamp SEO; they bid on commercial terms, weak on informational. Steal their long-tail.
 
-The competitive whitespace is unambiguous: **dated, structured, verified, India-specific placement intel** — and PrepNxt already has the DB schema to publish it.
+The competitive whitespace is unambiguous: **dated, structured, verified, India-specific placement intel** — and PrepPlace already has the DB schema to publish it.
 
 ## 3. Critical Issues
 
@@ -55,7 +55,7 @@ The competitive whitespace is unambiguous: **dated, structured, verified, India-
 Open `client/index.html`. Replace the title and all meta descriptions to match Landing's actual pitch. The current copy ("Adaptive AI Learning Universe") is from the deprecated Tutor product. Suggested:
 
 ```html
-<title>PrepNxt — Placement Season OS for Indian Engineering Students</title>
+<title>PrepPlace — Placement Season OS for Indian Engineering Students</title>
 <meta name="description" content="Track campus placements, previous-year questions for TCS, Infosys, Goldman Sachs and 47 more, DSA practice, and applications — built for 2nd/3rd/4th-year engineering students in India." />
 <meta name="keywords" content="campus placement, TCS NQT, Infosys SP, previous year questions, off-campus drives, internship 2026, DSA practice India" />
 ```
@@ -73,7 +73,7 @@ The stack is Vite + Express + Prisma on Vercel. A full Next.js migration is a 2-
 ### 4.3 Ship programmatic SEO for the three goldmine surfaces
 
 **Companies (50 pages).** Each `/companies/:slug` should render server-side with:
-- `<title>{Company} Placement 2026 — Eligibility, Package, OA Pattern, PYQs | PrepNxt</title>`
+- `<title>{Company} Placement 2026 — Eligibility, Package, OA Pattern, PYQs | PrepPlace</title>`
 - `<meta description>` interpolated from the `Companies` row.
 - JSON-LD: `Organization` for the company, `FAQPage` for the rounds Q&A, `BreadcrumbList`.
 - Internal links to the company's PYQs, DSA problems tagged with that company, and the Application Tracker CTA.
@@ -92,11 +92,11 @@ Each PYQ detail page should render the question text in the SSR HTML (not lazy-l
 
 Add `/blog` and `/blog/:slug` routes. Use `@mdx-js/rollup` + `gray-matter` to read `content/blog/*.mdx` at build time. No CMS, no admin UI. Editorial team commits markdown via PR. This is what Vercel, Linear, and Resend do. Total infra cost: zero. Total maintenance: ~30 lines in `vite.config.ts`.
 
-The 100-title calendar below feeds this directly. Aim for **2 posts/week for the first 12 weeks** (24 posts), then evaluate. Quality threshold: every post must include a screenshot of the actual PrepNxt feature it's promoting + an internal link to the relevant `/companies/:slug` or `/pyq/...` page. No generic listicles.
+The 100-title calendar below feeds this directly. Aim for **2 posts/week for the first 12 weeks** (24 posts), then evaluate. Quality threshold: every post must include a screenshot of the actual PrepPlace feature it's promoting + an internal link to the relevant `/companies/:slug` or `/pyq/...` page. No generic listicles.
 
 ### 4.5 Domain and GSC — do this Monday
 
-Buy `prepnxt.in` or `prepnxt.app` ($12). Point Vercel apex. Verify in Google Search Console + Bing Webmaster Tools + Naver (yes, Naver — Indian students from Korean partnerships are a thing). Submit `sitemap.xml`. Without a custom domain, none of the above content work compounds — Google explicitly deprioritizes `vercel.app` subdomains.
+Buy `prepplace.in` or `prepplace.app` ($12). Point Vercel apex. Verify in Google Search Console + Bing Webmaster Tools + Naver (yes, Naver — Indian students from Korean partnerships are a thing). Submit `sitemap.xml`. Without a custom domain, none of the above content work compounds — Google explicitly deprioritizes `vercel.app` subdomains.
 
 ### 4.6 Topic Cluster Architecture
 
@@ -224,15 +224,15 @@ MSV estimates are rough — Indian placement queries spike Aug-Feb and crash Mar
 97. Service Bond Legality in India — What Students Should Know | service bond legality india | 3,600 | 28
 98. How to Decline a Job Offer Politely After Accepting | decline job offer fresher | 2,800 | 30
 99. Backup Plan if You Don't Get Placed in Final Year | not placed final year | 4,200 | 26
-100. PrepNxt vs PrepInsta vs GeeksforGeeks — Honest Comparison | prepnxt vs prepinsta | 200 | 12
+100. PrepPlace vs PrepInsta vs GeeksforGeeks — Honest Comparison | prepplace vs prepinsta | 200 | 12
 
-The last article is intentionally a low-volume brand-defense piece. It needs to exist so that when student WhatsApp groups ask "is PrepNxt like PrepInsta?", a real, honest, ranking page answers them.
+The last article is intentionally a low-volume brand-defense piece. It needs to exist so that when student WhatsApp groups ask "is PrepPlace like PrepInsta?", a real, honest, ranking page answers them.
 
 ## 5. 30-Day Priorities
 
-1. **Week 1 — Buy `prepnxt.in`, fix `index.html` head copy, replace `og-image.svg` with a 1200×630 PNG, add `robots.txt` + `sitemap.xml` (statically generated for the 50 company slugs from Prisma).** Deliverable: live custom domain, GSC verified, correct OG unfurl tested on WhatsApp/LinkedIn/Slack.
+1. **Week 1 — Buy `prepplace.in`, fix `index.html` head copy, replace `og-image.svg` with a 1200×630 PNG, add `robots.txt` + `sitemap.xml` (statically generated for the 50 company slugs from Prisma).** Deliverable: live custom domain, GSC verified, correct OG unfurl tested on WhatsApp/LinkedIn/Slack.
 2. **Week 1-2 — Add `react-helmet-async` and wire per-route `<Helmet>` to all 18 public routes in `App.tsx`.** Deliverable: every route has unique `<title>`, `<meta description>`, `<link rel="canonical">`.
-3. **Week 2 — Implement an Express UA-sniffing prerender middleware that renders Companies/PYQ/DSA/Internships pages with full HTML for crawler bots.** Deliverable: Googlebot sees rendered content; `curl -A Googlebot https://prepnxt.in/companies/tcs` returns full HTML.
+3. **Week 2 — Implement an Express UA-sniffing prerender middleware that renders Companies/PYQ/DSA/Internships pages with full HTML for crawler bots.** Deliverable: Googlebot sees rendered content; `curl -A Googlebot https://prepplace.in/companies/tcs` returns full HTML.
 4. **Week 2-3 — Programmatic SEO ship: rebuild `/companies/:slug` template with H1, FAQ JSON-LD, Organization JSON-LD, BreadcrumbList JSON-LD, and internal links to PYQs + DSA + Application Tracker.** Deliverable: 50 indexable, structured company pages.
 5. **Week 3 — Build `/pyq/company/:slug` and `/pyq/company/:slug/:year` listing pages with SSR.** Deliverable: 50+ new PYQ cluster pages indexed.
 6. **Week 3-4 — Set up `/blog` with MDX + `gray-matter` + `vite-plugin-mdx`. Publish first 8 articles from Cluster A (TCS NQT, Infosys SP, Wipro Elite, Accenture, Cognizant, Capgemini, Goldman Sachs, Google STEP).** Deliverable: 8 live posts, each ≥1800 words, each linking to relevant `/companies/:slug` and `/pyq/...` pages.
@@ -240,12 +240,12 @@ The last article is intentionally a low-volume brand-defense piece. It needs to 
 
 ## 6. 90-Day Priorities
 
-1. **Publish 24 blog posts (2/week cadence) covering all of Cluster A's top 16 and 8 from Cluster B.** Each post must screenshot a real PrepNxt feature and CTA to signup. Deliverable: 24 indexed posts averaging 2000+ words each.
+1. **Publish 24 blog posts (2/week cadence) covering all of Cluster A's top 16 and 8 from Cluster B.** Each post must screenshot a real PrepPlace feature and CTA to signup. Deliverable: 24 indexed posts averaging 2000+ words each.
 2. **Launch `/placement-guide` and `/off-campus` hub pages with internal-linking architecture across all 50 company spokes.** Deliverable: two new pillar pages targeting "campus placement guide india 2026" and "off campus drive 2026" head terms.
 3. **Build a public PYQ contributor leaderboard with author profile pages (`/u/:displayName`).** Solves E-E-A-T problem — each PYQ has a real attributed author. Deliverable: 100+ author profile pages indexed, badge system for "Verified Contributor".
 4. **Add OG card generation per certificate (`@vercel/og` or `satori`) so every `/verify-certificate?code=XXX` share unfurls with the student's name + course + score.** Drives viral LinkedIn loop. Deliverable: dynamic OG endpoint live; track shares with UTM.
 5. **Launch a weekly "Placement Pulse" email newsletter — companies hiring this week, new PYQs added, application deadlines.** Use the existing `Companies` + `Notification` tables. Deliverable: 1000+ subscribers via in-app prompt + Landing capture.
-6. **Backlink campaign: target 30 college TPO (Training & Placement Office) pages for backlinks by offering free college-branded PrepNxt dashboards.** Tier 2/3 college TPO pages have surprisingly strong DA. Deliverable: 30 do-follow backlinks from `.edu.in` or `.ac.in` domains.
+6. **Backlink campaign: target 30 college TPO (Training & Placement Office) pages for backlinks by offering free college-branded PrepPlace dashboards.** Tier 2/3 college TPO pages have surprisingly strong DA. Deliverable: 30 do-follow backlinks from `.edu.in` or `.ac.in` domains.
 7. **Migration decision point at Day 90: review GSC data — if organic is >2000 sessions/month and growing, commit to Next.js migration in Q2 for proper SSR. If <500 sessions/month, keep prerender middleware and double down on content velocity instead of infra.** Deliverable: written go/no-go memo with data.
 
 ## 7. Metrics to Track
@@ -254,7 +254,7 @@ The last article is intentionally a low-volume brand-defense piece. It needs to 
 |---|---|---|---|
 | Indexed pages (GSC) | 80+ | 250+ | Google Search Console |
 | Organic sessions / month | 150 | 2,000 | GA4 + GSC |
-| Branded "prepnxt" queries / month | 50 | 500 | GSC Performance |
+| Branded "prepplace" queries / month | 50 | 500 | GSC Performance |
 | Non-branded clicks / month | 100 | 1,500 | GSC Performance |
 | Avg position for top-20 BOFU keywords | 35 | 18 | GSC + Ahrefs free |
 | Referring domains | 5 | 35 | Ahrefs / Ubersuggest |

@@ -1,4 +1,4 @@
-// PrepNxt brand mark — "Hard P" (Option D). Inline SVG (not <img src=>) so
+// PrepPlace brand mark — "Hard P" (Option D). Inline SVG (not <img src=>) so
 // it picks up currentColor — the parent's text color drives the fill. Lets us
 // use the same mark in neon, black, white, or invert-on-hover without shipping
 // multiple SVG files.
@@ -14,7 +14,7 @@ interface LogoMarkProps {
   title?: string;
 }
 
-export function LogoMark({ className, size = 24, title = "PrepNxt" }: LogoMarkProps) {
+export function LogoMark({ className, size = 24, title = "PrepPlace" }: LogoMarkProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -40,7 +40,7 @@ interface LogoLockupProps {
   className?: string;
   /** "horizontal" places mark left of wordmark; "stacked" puts wordmark below. */
   variant?: "horizontal" | "stacked";
-  /** Wordmark size class — controls font-size of "PREPNXT". */
+  /** Wordmark size class — controls font-size of "PREPPLACE". */
   wordmarkClass?: string;
   /** Mark pixel size. */
   markSize?: number;
@@ -56,14 +56,14 @@ export function LogoLockup({
     return (
       <span className={`inline-flex flex-col items-center gap-2 ${className}`}>
         <LogoMark size={markSize} className="text-[var(--color-neon)]" />
-        <span className={wordmarkClass}>PREPNXT</span>
+        <span className={wordmarkClass}>PREPPLACE</span>
       </span>
     );
   }
   return (
     <span className={`inline-flex items-center gap-2.5 ${className}`}>
       <LogoMark size={markSize} className="text-[var(--color-neon)]" />
-      <span className={wordmarkClass}>PREPNXT</span>
+      <span className={wordmarkClass}>PREPPLACE</span>
     </span>
   );
 }

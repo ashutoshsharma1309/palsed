@@ -4,7 +4,7 @@ const r = Router();
 r.get("/", (_req, res) => {
   res.json({
     ok: true,
-    service: "prepnxt",
+    service: "prepplace",
     version: "2.0.0",
     features: ["companies", "pyq-vault", "applications", "dsa", "placement-hub"],
   });

@@ -1,6 +1,6 @@
 # STARTUP_PLAN.md
 
-*PrepNxt — Master Execution Document*
+*PrepPlace — Master Execution Document*
 *Author posture: COO synthesizing 12 specialist reports into one accountable plan.*
 *Last updated: 2026-06-20*
 
@@ -10,7 +10,7 @@
 
 ### The 5 highest-impact priorities (across all 12 reports)
 
-1. **Fix the identity crisis at the HTML layer + ship a real domain.** `index.html` still markets "Adaptive AI Learning Universe" while Landing pitches "Placement Season OS." Every CTO/UX/PM/CRO/Marketing/SEO/Growth/Investor report flagged this as the #1 unforced error. Cost: 1 hour of code + ₹800/yr for `prepnxt.in`. Impact: every share preview, every Google result, every WhatsApp unfurl currently sells the wrong product.
+1. **Fix the identity crisis at the HTML layer + ship a real domain.** `index.html` still markets "Adaptive AI Learning Universe" while Landing pitches "Placement Season OS." Every CTO/UX/PM/CRO/Marketing/SEO/Growth/Investor report flagged this as the #1 unforced error. Cost: 1 hour of code + ₹800/yr for `prepplace.in`. Impact: every share preview, every Google result, every WhatsApp unfurl currently sells the wrong product.
 
 2. **Migrate all UGC features from `localStorage` to Postgres + prerender the SEO surface.** Applications kanban, PYQ vault, SRS, Mastery, Placement Hub all live in `localStorage` today — that means cross-device usage, demos, and analytics are impossible. Simultaneously, `/companies/:slug` and PYQ pages are SPA-only — invisible to Google. These two fixes unlock both retention and acquisition.
 
@@ -32,7 +32,7 @@
 
 **Ship a public, prerendered, programmatically-SEO-optimized `/companies/:slug` template (×50 companies) tied to a crowd-sourced PYQ flywheel that auto-publishes new pages and pings IndexNow on every verified submission.**
 
-Concretely: by Sep 1, 2026, `view-source: prepnxt.in/companies/razorpay` must return a fully rendered HTML page with unique `<title>`, JSON-LD (Organization + FAQPage + BreadcrumbList), 10+ verified PYQs visible, "Track this company" CTA wired to the Applications kanban, and dynamic `@vercel/og` image. Plus a verified PYQ submission must trigger a sitemap rebuild + IndexNow ping within 60 seconds. **This is the only loop that compounds — every PYQ submitted creates a new long-tail SEO asset AND a new share-able artefact AND a new reason to come back tomorrow.** Without this, no marketing spend will work.
+Concretely: by Sep 1, 2026, `view-source: prepplace.in/companies/razorpay` must return a fully rendered HTML page with unique `<title>`, JSON-LD (Organization + FAQPage + BreadcrumbList), 10+ verified PYQs visible, "Track this company" CTA wired to the Applications kanban, and dynamic `@vercel/og` image. Plus a verified PYQ submission must trigger a sitemap rebuild + IndexNow ping within 60 seconds. **This is the only loop that compounds — every PYQ submitted creates a new long-tail SEO asset AND a new share-able artefact AND a new reason to come back tomorrow.** Without this, no marketing spend will work.
 
 ---
 
@@ -49,7 +49,7 @@ Concretely: by Sep 1, 2026, `view-source: prepnxt.in/companies/razorpay` must re
 
 ### Feature comparison
 
-| Feature | Who has it | PrepNxt status |
+| Feature | Who has it | PrepPlace status |
 |---|---|---|
 | DSA practice (3000+ problems) | LeetCode, GFG, Coding Ninjas, InterviewBit | Has ~150 problems — losing this fight |
 | Per-company prep pages (eligibility, rounds) | PrepInsta (ad-laden, 2015 UX), GFG, InterviewBit | Has data for 50, not prerendered — invisible to Google |
@@ -73,7 +73,7 @@ Concretely: by Sep 1, 2026, `view-source: prepnxt.in/companies/razorpay` must re
 | Public student profile (LeetCode-style) | LeetCode, Codeforces | Not built |
 | Ambassador / campus rep program | Unstop (light), AlmaBetter, Scaler | Not built |
 
-### 10 unique features PrepNxt could build (ranked by Impact ÷ Effort)
+### 10 unique features PrepPlace could build (ranked by Impact ÷ Effort)
 
 | # | Feature | Moat potential | Impact ÷ Effort |
 |---|---|---|---|
@@ -84,7 +84,7 @@ Concretely: by Sep 1, 2026, `view-source: prepnxt.in/companies/razorpay` must re
 | 5 | **Resume Roast tool (public, no signup, watermarked)** | Top-of-funnel viral tool | High — Levels.fyi playbook |
 | 6 | **Per-company "Asked at" DSA tagging sourced from PYQ submissions** | Real differentiator vs. LeetCode | High — join existing tables |
 | 7 | **Verified senior / ambassador profile with cohort admin** | Distribution moat per campus | Medium-High — requires recruiting |
-| 8 | **Chrome extension: one-click "Add to PrepNxt" from LinkedIn/Naukri/Unstop** | Workflow stickiness | Medium-High — new repo |
+| 8 | **Chrome extension: one-click "Add to PrepPlace" from LinkedIn/Naukri/Unstop** | Workflow stickiness | Medium-High — new repo |
 | 9 | **Weekly placement-pulse digest email (per cohort)** | Retention loop | Medium — Resend + cron |
 | 10 | **Public mastery radar profile (`/u/:handle`) for LinkedIn share** | LeetCode-profile-style brand impressions | Medium — opt-in flag + OG |
 
@@ -110,7 +110,7 @@ Sorted by overall priority. Revenue ranges assume 10k users, blended 3% Pro conv
 | 12 | **Telegram channel auto-post on verified PYQ** | Meet audience where they live | High | Low | ₹10k indirect | Distribution unlock |
 | 13 | **Status-transition surfacing (move "Razorpay → OA" → see PYQs)** | Magic moment, contextual | Med | Low | ₹15k | Cross-feature glue |
 | 14 | **Email digest "5 PYQs from your batch this week"** | Retention loop, replaces WhatsApp leak culture | Med | Low | ₹20k | Solves D7 retention |
-| 15 | **Chrome extension: "Add to PrepNxt" from LinkedIn/Naukri** | Workflow becomes daily-open habit | High | High | ₹30k | Unique workflow moat |
+| 15 | **Chrome extension: "Add to PrepPlace" from LinkedIn/Naukri** | Workflow becomes daily-open habit | High | High | ₹30k | Unique workflow moat |
 | 16 | **Mock interview report card PDF (LinkedIn-ready)** | Brag artefact + virality loop | Med | Med | ₹20k | Uses existing jspdf |
 | 17 | **Off-campus drives feed (Vercel Cron scraping)** | Daily content — solves "what's hiring this week" | High | Med | ₹25k | Search-heavy intent |
 | 18 | **Public mastery radar profile `/u/:handle`** | LeetCode-profile-style brand surface | Med | Low | ₹10k indirect | Opt-in flag |
@@ -202,11 +202,11 @@ Assumptions: ₹99/mo Pro at 3% conversion is conservative for Indian campus mar
 
 **Marketing priorities (top 3)**
 1. Founder-led content: daily X post + 2 LinkedIn posts/wk + 1 long-form Reddit post/wk in r/developersIndia.
-2. WhatsApp/Telegram seeding via existing 18 users' college groups; launch Telegram channel `t.me/prepnxt_pyq` with auto-post on verified PYQ.
-3. Build PrepNxt Certificate LinkedIn share flow (per-cert OG via `@vercel/og`).
+2. WhatsApp/Telegram seeding via existing 18 users' college groups; launch Telegram channel `t.me/prepplace_pyq` with auto-post on verified PYQ.
+3. Build PrepPlace Certificate LinkedIn share flow (per-cert OG via `@vercel/og`).
 
 **SEO priorities (top 3)**
-1. Rewrite `index.html` head + buy `prepnxt.in` + add `sitemap.xml`/`robots.txt`/JSON-LD (Organization, WebSite, FAQPage).
+1. Rewrite `index.html` head + buy `prepplace.in` + add `sitemap.xml`/`robots.txt`/JSON-LD (Organization, WebSite, FAQPage).
 2. Submit GSC + Bing Webmaster; verify domain; trigger IndexNow on every PYQ verification.
 3. 12 long-form blog posts (Cluster A from CONTENT_ENGINE.md): TCS NQT, Infosys SP, Wipro Elite, Accenture, Cognizant, Capgemini, Goldman Sachs, Google STEP, Razorpay, Zomato, Flipkart GRiD, Microsoft Engage.
 
@@ -237,7 +237,7 @@ Assumptions: ₹99/mo Pro at 3% conversion is conservative for Indian campus mar
 
 **SEO priorities (top 3)**
 1. Ship 200 programmatic pages (`/companies/:slug/{pyq,process,prep-kit}` ×50).
-2. Backlink campaign: outreach to 30 college TPO pages + coding-club blogs offering free PrepNxt-branded dashboards in exchange for footer links.
+2. Backlink campaign: outreach to 30 college TPO pages + coding-club blogs offering free PrepPlace-branded dashboards in exchange for footer links.
 3. 24 more blog posts (Cluster A+B mix); cumulative 36 posts averaging 2,000 words.
 
 **Hiring priorities**
@@ -257,7 +257,7 @@ Assumptions: ₹99/mo Pro at 3% conversion is conservative for Indian campus mar
 
 **Product priorities (top 3)**
 1. Migrate to Next.js 15 App Router for SSR + ISR + edge OG; PWA + offline DSA shell.
-2. Chrome extension v1: one-click "Add to PrepNxt" from LinkedIn/Naukri/Unstop.
+2. Chrome extension v1: one-click "Add to PrepPlace" from LinkedIn/Naukri/Unstop.
 3. Team tier rollout + College TPO admin dashboard (B2B2C); per-college branded pages.
 
 **Marketing priorities (top 3)**
@@ -293,13 +293,13 @@ Assumptions: ₹99/mo Pro at 3% conversion is conservative for Indian campus mar
 
 **Marketing priorities (top 3)**
 1. National brand campaign: TV + OTT (Hotstar, Jio) around July placement-season launch (₹50L–₹1Cr).
-2. Annual flagship event: "PrepNxt Placement Summit" — 10k attendees, recruiter sponsors, free for students.
+2. Annual flagship event: "PrepPlace Placement Summit" — 10k attendees, recruiter sponsors, free for students.
 3. Partnerships: AICTE/UGC formal partnership for the National Placement Readiness Index.
 
 **SEO priorities (top 3)**
 1. Maintain top-3 for 500+ long-tail keywords; build moat against Unstop SEO ramp.
 2. International expansion (Pakistan, Bangladesh, Nigeria — similar campus placement dynamics).
-3. Brand search dominance: "prepnxt" branded queries > 100k/mo per GSC.
+3. Brand search dominance: "prepplace" branded queries > 100k/mo per GSC.
 
 **Hiring priorities**
 - VP Engineering, VP Marketing, VP Sales, Head of Content, Head of College Partnerships.
@@ -312,7 +312,7 @@ Assumptions: ₹99/mo Pro at 3% conversion is conservative for Indian campus mar
 
 ---
 
-## 7. Market Gap Analysis — White Space PrepNxt Can Own
+## 7. Market Gap Analysis — White Space PrepPlace Can Own
 
 1. **The Applications kanban + per-company prep workflow.** Every competitor is a content library (LeetCode = problems, GFG = tutorials, PrepInsta = company pages, Unstop = events). Nobody owns "your placement season, organized." A daily-open kanban tied to PYQs, DSA filters, and calendar reminders is genuinely empty white space.
 
@@ -350,7 +350,7 @@ The 670 KB index chunk is a lie that's also wrong — Landing eagerly imports `c
 
 **What to fix first (in strict order):**
 
-1. **Week 1 (P0 hard blockers):** Rewrite `index.html` head to match Landing positioning; buy `prepnxt.in`; gate or delete `/api/db/*`; rip `localStorage` source-of-truth out of Applications/PYQ/SRS/Mastery (move to Postgres). Without these, every other investment is wasted spend.
+1. **Week 1 (P0 hard blockers):** Rewrite `index.html` head to match Landing positioning; buy `prepplace.in`; gate or delete `/api/db/*`; rip `localStorage` source-of-truth out of Applications/PYQ/SRS/Mastery (move to Postgres). Without these, every other investment is wasted spend.
 
 2. **Week 2–3 (foundation for acquisition):** Ship `sitemap.xml`, `robots.txt`, JSON-LD; add `react-helmet-async` for per-route metadata; deploy `vite-plugin-prerender` for top 50 company pages + Landing; replace `og-image.svg` with `@vercel/og` dynamic PNG per route; install PostHog + Sentry + Vercel Speed Insights.
 
@@ -366,21 +366,21 @@ Only after these are in production should marketing dollars be deployed. Until t
 
 **Ship**
 - Rewrite `client/index.html` head: title, description, OG, Twitter, canonical, `lang="en-IN"`. Strip every "Adaptive AI Learning" reference.
-- Buy `prepnxt.in` (Cloudflare Registrar / GoDaddy). Point DNS to Vercel. Update Supabase Auth redirect URLs + CORS allow-list.
+- Buy `prepplace.in` (Cloudflare Registrar / GoDaddy). Point DNS to Vercel. Update Supabase Auth redirect URLs + CORS allow-list.
 - Gate `/api/db/*` with `requireAuth` + per-row `userId` scoping (or delete the generic router entirely — preferred).
 - Delete 9 dead route files (`Courses*`, `Roadmaps*`, `Tutor.tsx`) and drop 7 dead Prisma models in a single migration.
 - Switch `DATABASE_URL` to Supavisor transaction pooler (port 6543, `?pgbouncer=true&connection_limit=1`).
 
 **Publish**
-- 3 founder X posts: "we pivoted, here's what we're building," "PrepNxt positioning manifesto," screenshot of new domain.
+- 3 founder X posts: "we pivoted, here's what we're building," "PrepPlace positioning manifesto," screenshot of new domain.
 - 1 LinkedIn long-form post: "Why we deleted 60% of our hackathon code."
 - Submit homepage to Google Search Console + Bing Webmaster (even pre-prerender — to register domain).
 
 **Track**
 - Bundle-size delta after dead-code purge (target ≥15% Landing JS shrink).
-- `view-source: prepnxt.in` shows correct positioning.
+- `view-source: prepplace.in` shows correct positioning.
 - `curl /api/db/users` returns 401, not user list.
-- Domain is live with valid HTTPS; magic-link emails delivering from `noreply@prepnxt.in`.
+- Domain is live with valid HTTPS; magic-link emails delivering from `noreply@prepplace.in`.
 
 ---
 
@@ -418,12 +418,12 @@ Only after these are in production should marketing dollars be deployed. Until t
 
 **Publish**
 - 5 X posts + 2 LinkedIn posts (founder content cadence).
-- Reddit long-form post in r/developersIndia: "I scraped 50 company hiring patterns from 2024 — here's what I found" with PrepNxt screenshots.
-- Launch Telegram channel `t.me/prepnxt_pyq`; auto-post bot when a PYQ is verified.
+- Reddit long-form post in r/developersIndia: "I scraped 50 company hiring patterns from 2024 — here's what I found" with PrepPlace screenshots.
+- Launch Telegram channel `t.me/prepplace_pyq`; auto-post bot when a PYQ is verified.
 - 2 more blog posts: "Infosys SP Eligibility 2026" + "Wipro Elite NTH Syllabus."
 
 **Track**
-- `view-source: prepnxt.in/companies/razorpay` returns full rendered HTML (not `<div id="root">`).
+- `view-source: prepplace.in/companies/razorpay` returns full rendered HTML (not `<div id="root">`).
 - 50+ company pages indexed by Google (check GSC daily).
 - First paid transaction completes (even if it's the founder).
 - 100+ verified PYQs in the public corpus.

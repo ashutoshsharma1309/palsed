@@ -1,8 +1,8 @@
-# PrepNxt — AI-Powered Adaptive Learning & Placement Prep Platform
+# PrepPlace — AI-Powered Adaptive Learning & Placement Prep Platform
 
 **Live:** https://prepnext.vercel.app
 
-PrepNxt is a full-stack, production-deployed learning platform that generates
+PrepPlace is a full-stack, production-deployed learning platform that generates
 personalized study roadmaps and adapts every lesson, hint, and quiz to the
 individual learner. It combines an AI adaptive-learning engine with a centralized
 **Placement Training Hub** (DSA, web, ML/AI, core CS, aptitude, interviews) and

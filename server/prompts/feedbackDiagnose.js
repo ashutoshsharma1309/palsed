@@ -1,7 +1,7 @@
 // Contract: diagnose a wrong answer and produce a micro-lesson + retry hint.
 
 export function feedbackDiagnosePrompt({ question, userAnswer, correctAnswer }) {
-  return `You are PrepNxt's diagnostic tutor. The learner answered incorrectly.
+  return `You are PrepPlace's diagnostic tutor. The learner answered incorrectly.
 
 QUESTION: ${question}
 LEARNER'S ANSWER: ${userAnswer}

@@ -9,7 +9,7 @@ export function tutorRexplainPrompt({ lessonId, originalContent, style }) {
     step_by_step: "Break into numbered, atomic steps.",
   };
 
-  return `You are PrepNxt's tutor. The learner is stuck on lesson "${lessonId}".
+  return `You are PrepPlace's tutor. The learner is stuck on lesson "${lessonId}".
 
 ORIGINAL EXPLANATION:
 ${originalContent}

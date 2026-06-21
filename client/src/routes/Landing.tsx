@@ -73,19 +73,19 @@ const STATS = [
 
 const FAQ_SCHEMA_ITEMS = [
   {
-    q: "What is PrepNxt?",
-    a: "PrepNxt is an all-in-one placement preparation OS for Indian college students. Track companies, master PYQs, prep DSA, manage applications — all in one workspace.",
+    q: "What is PrepPlace?",
+    a: "PrepPlace is an all-in-one placement preparation OS for Indian college students. Track companies, master PYQs, prep DSA, manage applications — all in one workspace.",
   },
   {
-    q: "Is PrepNxt free?",
+    q: "Is PrepPlace free?",
     a: "Yes — the core features are free forever. Pro features unlock unlimited PYQ access, advanced analytics, and mock interview AI.",
   },
   {
-    q: "Which companies does PrepNxt cover?",
+    q: "Which companies does PrepPlace cover?",
     a: "100+ top recruiters including Google, Microsoft, Amazon, Goldman Sachs, plus YC startups hiring interns.",
   },
   {
-    q: "Does PrepNxt help with DSA practice?",
+    q: "Does PrepPlace help with DSA practice?",
     a: "Yes — a curated DSA tracker with 450+ problems, company-tagged, with spaced repetition for retention.",
   },
   {
@@ -93,8 +93,8 @@ const FAQ_SCHEMA_ITEMS = [
     a: "Yes — drag-and-drop applications across Applied / OA / Interview / Offer / Rejected stages.",
   },
   {
-    q: "Is PrepNxt only for engineering students?",
-    a: "PrepNxt is optimized for engineering campus placements but works for any college student preparing for tech, finance, or consulting recruiting.",
+    q: "Is PrepPlace only for engineering students?",
+    a: "PrepPlace is optimized for engineering campus placements but works for any college student preparing for tech, finance, or consulting recruiting.",
   },
 ];
 
@@ -289,7 +289,7 @@ export default function Landing() {
             {[
               {
                 q: "Is this another AI-powered edtech?",
-                a: "No. PrepNxt does zero AI calls at runtime. We don't analyze you, predict you, or grade you. The platform is pure workflow — recruiter data + your data + tracking. Faster, cheaper, more trustworthy.",
+                a: "No. PrepPlace does zero AI calls at runtime. We don't analyze you, predict you, or grade you. The platform is pure workflow — recruiter data + your data + tracking. Faster, cheaper, more trustworthy.",
               },
               {
                 q: "Where do the questions come from?",

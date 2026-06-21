@@ -28,7 +28,7 @@ export default function Settings() {
     const url = URL.createObjectURL(data);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `prepnxt-${new Date().toISOString().slice(0, 10)}.json`;
+    a.download = `prepplace-${new Date().toISOString().slice(0, 10)}.json`;
     a.click();
     URL.revokeObjectURL(url);
     toast.success("Exported your data");
@@ -121,7 +121,7 @@ export default function Settings() {
       <Card>
         <h2 className="display text-2xl mb-4">WIPE EVERYTHING.</h2>
         <p className="text-sm text-white/60 mb-4">
-          Removes your profile, courses, mastery, SRS — everything PrepNxt has saved on this browser.
+          Removes your profile, courses, mastery, SRS — everything PrepPlace has saved on this browser.
           No undo.
         </p>
         {confirming ? (

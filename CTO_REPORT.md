@@ -10,7 +10,7 @@
 
 ## 2. Current State
 
-PrepNxt is a well-scoped hackathon build that has cleanly identified a real wedge — Indian campus placement-season workflow vs. generic interview prep — but the codebase still carries the skin of its previous identity ("adaptive AI learning") in three places that matter: the HTML head, the Prisma schema (`Course`/`Lesson`/`Roadmap`/`Tutor*` models), and the `/courses`, `/roadmaps`, `/tutor` route stubs in `App.tsx`. The pivot has happened in the marketing copy on Landing but not in the artifacts crawlers, contributors, and the database see.
+PrepPlace is a well-scoped hackathon build that has cleanly identified a real wedge — Indian campus placement-season workflow vs. generic interview prep — but the codebase still carries the skin of its previous identity ("adaptive AI learning") in three places that matter: the HTML head, the Prisma schema (`Course`/`Lesson`/`Roadmap`/`Tutor*` models), and the `/courses`, `/roadmaps`, `/tutor` route stubs in `App.tsx`. The pivot has happened in the marketing copy on Landing but not in the artifacts crawlers, contributors, and the database see.
 
 The architecture itself is sound for the current stage. Vite + React 19 + TS, Express ESM, Prisma 7 on Supabase Postgres, deployed to Vercel — this is a defensible 2026 stack and there is no need to rewrite anything. The dev ergonomics (random-port server writing `.ports.json` + `runtime-config.json`) are clever for local but brittle for Vercel — there is no reason runtime config should be a file fetch in production, it should be a build-time `import.meta.env` constant. This is a latent footgun: if the file 404s, the whole client white-screens before auth even loads.
 
@@ -47,7 +47,7 @@ SEO is effectively zero. No canonical URLs, no `robots.txt`/`sitemap.xml`, no JS
 Rewrite `index.html` `<title>`, meta description, OG, and Twitter card to match the Landing pitch. Suggested copy:
 
 ```
-<title>PrepNxt — Placement Season OS for Indian Engineering Students</title>
+<title>PrepPlace — Placement Season OS for Indian Engineering Students</title>
 <meta name="description" content="Track 50+ recruiters, crack PYQs, manage your application kanban, and ship 150+ DSA problems. The placement workflow tool campus students actually use." />
 ```
 
@@ -68,14 +68,14 @@ Do this *before* you have 100 paying users. With 18, the migration email goes to
 Do not migrate the whole app to Next.js — that's a 6-week distraction. Instead:
 
 - Add `vite-plugin-prerender` or `react-snap` for **build-time prerender** of the 50 `/companies/:slug` pages and the top ~50 DSA problem pages. These are read-mostly, low-cardinality, high-search-intent.
-- Per-route metadata via `react-helmet-async` or `@unhead/react`. Each company page should have a unique `<title>` like "Goldman Sachs Campus Placement Guide 2026 — Eligibility, Rounds, PYQs | PrepNxt".
+- Per-route metadata via `react-helmet-async` or `@unhead/react`. Each company page should have a unique `<title>` like "Goldman Sachs Campus Placement Guide 2026 — Eligibility, Rounds, PYQs | PrepPlace".
 - For dynamic PYQ pages, defer to phase 2 — but ensure the prerendered company page links *down* into the PYQs so crawlers can discover them via the SPA after JS executes.
 
 This is how PrepInsta and GFG own these SERPs. There is no other way in.
 
 ### 4.4 Buy the domain this week
 
-`prepnxt.in` or `prepnxt.co.in` if available, `prepnxt.app` as fallback. Three concrete reasons beyond "looks better":
+`prepplace.in` or `prepplace.co.in` if available, `prepplace.app` as fallback. Three concrete reasons beyond "looks better":
 1. Supabase magic-link emails from `*.vercel.app` get junked far more aggressively. Your auth conversion is literally lower today because of this.
 2. SEO authority compounds against the root domain; every day on `vercel.app` you are building Vercel's authority, not yours.
 3. Indian campus users equate `.vercel.app` URLs with "side project" — kills trust at the first impression.
@@ -118,7 +118,7 @@ Use `@upstash/ratelimit` with Upstash Redis (Vercel-native, free tier covers cur
 ## 5. 30-Day Priorities
 
 1. **HTML metadata + JSON-LD rewrite** — `index.html` reflects placement-OS positioning, FAQPage JSON-LD ships, `robots.txt` and `sitemap.xml` added. Deliverable: PR merged, Google Search Console reindex requested.
-2. **Custom domain live** — `prepnxt.in` (or chosen) purchased, Vercel + Supabase configured, magic-link emails sending from `noreply@prepnxt.in`. Deliverable: `prepnext.vercel.app` permanently 301s to the custom domain.
+2. **Custom domain live** — `prepplace.in` (or chosen) purchased, Vercel + Supabase configured, magic-link emails sending from `noreply@prepplace.in`. Deliverable: `prepnext.vercel.app` permanently 301s to the custom domain.
 3. **Legacy auth fully decommissioned** — `routes/auth.js` deleted, `passwordHash` column dropped via Prisma migration, bcryptjs + jsonwebtoken removed from dependencies. Deliverable: single auth path through Supabase.
 4. **Dead code purge** — Courses/Roadmaps/Tutor routes + Prisma models removed. Deliverable: PR with measurable bundle size delta (target ≥15% Landing JS shrink).
 5. **Sentry + structured logging live** — frontend + server SDKs configured, Pino in `server/index.js`, source maps uploading. Deliverable: dashboard with 7 days of clean traffic, alerting set up for >1% error rate.
@@ -127,7 +127,7 @@ Use `@upstash/ratelimit` with Upstash Redis (Vercel-native, free tier covers cur
 
 ## 6. 90-Day Priorities
 
-1. **SSG/prerender for `/companies/:slug` (×50) and top DSA problems (×50)** — vite-plugin-prerender configured, per-route `<title>`/meta/canonical via `@unhead/react`, internal linking from prerendered pages to PYQs and related companies. Deliverable: Google indexing >80 distinct PrepNxt URLs, measurable organic impressions in GSC.
+1. **SSG/prerender for `/companies/:slug` (×50) and top DSA problems (×50)** — vite-plugin-prerender configured, per-route `<title>`/meta/canonical via `@unhead/react`, internal linking from prerendered pages to PYQs and related companies. Deliverable: Google indexing >80 distinct PrepPlace URLs, measurable organic impressions in GSC.
 2. **RLS on every user-scoped table** — policies written, tested against service-role bypass, dual-client (service-role for Express, anon for future client-direct) pattern documented. Deliverable: `supabase/migrations/*_enable_rls.sql` merged, automated test suite asserting unauthorized reads fail.
 3. **Background job system** — pick one: Vercel Cron + Upstash QStash *or* a tiny `pg-boss` worker on a Render/Fly service. Move SRS due-date recalc, mastery EWMA batch jobs, and certificate PDF generation off the request path. Deliverable: p95 latency on `/review` and `/mastery` drops by ≥30%.
 4. **CSP, HSTS, Permissions-Policy in `vercel.json`** — strict CSP with nonce, HSTS preload-eligible, Permissions-Policy denying camera/mic/geolocation. Deliverable: A+ on securityheaders.com, Mozilla Observatory ≥A.
@@ -170,6 +170,6 @@ Use `@upstash/ratelimit` with Upstash Redis (Vercel-native, free tier covers cur
 - **1k DAU**: dual-stack auth and SPA-only rendering are the bottleneck. Fix in 30-day plan.
 - **10k DAU**: Prisma/Supavisor connection storm + lack of background jobs = visible latency. Fix in 90-day plan.
 - **100k DAU**: `DsaAttempt` table size, lack of read replicas, single-region Vercel + Supabase = international latency. Plan for it; do not build for it now.
-- **1M DAU**: at this point PrepNxt is acquisition-bait or a serious infra rewrite into multi-region Postgres with proper CDC. This is not a 2026 problem.
+- **1M DAU**: at this point PrepPlace is acquisition-bait or a serious infra rewrite into multi-region Postgres with proper CDC. This is not a 2026 problem.
 
 The fastest path from 18 users to 10k is not infra — it is **identity + SEO + trust**: fix the HTML, buy the domain, prerender the company pages. That is where the next 90 days of CTO attention belong.

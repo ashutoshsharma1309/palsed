@@ -11,7 +11,7 @@ export function coursePrompt({
   const weak = weakTopics.length ? weakTopics.join(", ") : "none recorded";
   const strong = strongTopics.length ? strongTopics.join(", ") : "none recorded";
 
-  return `You are PrepNxt, designing a fully adaptive multi-style course on "${topic}".
+  return `You are PrepPlace, designing a fully adaptive multi-style course on "${topic}".
 Learner profile: level=${level}, daily focus ~${sessionMinutes} min, preferred explanation style=${style}.
 Weak topics: ${weak}. Strong topics: ${strong}.
 

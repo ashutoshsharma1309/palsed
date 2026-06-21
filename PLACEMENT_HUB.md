@@ -1,6 +1,6 @@
 # Placement Training Hub — Architecture
 
-A centralized placement-prep ecosystem added to PrepNxt: 10 sections of curated
+A centralized placement-prep ecosystem added to PrepPlace: 10 sections of curated
 roadmaps/resources with progress tracking, global search, a homepage promo, a
 redesigned hero auth card, and dashboard analytics — all data-driven and
 preserving existing functionality.

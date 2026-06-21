@@ -65,7 +65,7 @@ if (IS_PROD && fs.existsSync(CLIENT_DIST)) {
 const { port } = await bindPort(app);
 writeLocalConfig(port);
 console.log("\n" + "═".repeat(56));
-console.log(`  🟢 PrepNxt server on http://localhost:${port}`);
+console.log(`  🟢 PrepPlace server on http://localhost:${port}`);
 console.log(`     mode: ${IS_PROD ? "production (serving client too)" : "development"}`);
 console.log("═".repeat(56) + "\n");
 process.on("SIGINT", cleanup);

@@ -23,7 +23,7 @@
   <g font-family="'Helvetica Neue', Arial, sans-serif">
     <circle cx="142" cy="150" r="20" fill="#c8ff3d"/>
     <text x="136" y="159" font-size="24" font-weight="800" fill="#0c0c0c" text-anchor="middle">P</text>
-    <text x="174" y="159" font-size="32" font-weight="800" fill="#ffffff" letter-spacing="-0.5">PrepNxt</text>
+    <text x="174" y="159" font-size="32" font-weight="800" fill="#ffffff" letter-spacing="-0.5">PrepPlace</text>
   </g>
 
   <!-- browser window -->

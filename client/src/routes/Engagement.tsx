@@ -107,7 +107,7 @@ export default function Engagement() {
       <Card>
         <div className="mono text-xs uppercase tracking-widest text-white/50 mb-3">Recent interventions</div>
         {log.interventions.length === 0 ? (
-          <div className="text-white/40 text-sm">None yet — PrepNxt hasn't needed to nudge you.</div>
+          <div className="text-white/40 text-sm">None yet — PrepPlace hasn't needed to nudge you.</div>
         ) : (
           <ul className="space-y-1 text-xs">
             {log.interventions.slice(-20).reverse().map((iv, i) => (
