@@ -1,0 +1,66 @@
+<svg width="1584" height="396" viewBox="0 0 1584 396" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#121611"/>
+      <stop offset="55%" stop-color="#0b0b0b"/>
+      <stop offset="100%" stop-color="#080808"/>
+    </linearGradient>
+    <linearGradient id="neon" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#d8ff5c"/>
+      <stop offset="100%" stop-color="#b4e62a"/>
+    </linearGradient>
+    <filter id="soft" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="60"/>
+    </filter>
+  </defs>
+
+  <rect width="1584" height="396" fill="url(#bg)"/>
+
+  <!-- neon glow accents -->
+  <circle cx="1340" cy="90" r="230" fill="#c8ff3d" opacity="0.13" filter="url(#soft)"/>
+  <circle cx="120" cy="340" r="180" fill="#c8ff3d" opacity="0.07" filter="url(#soft)"/>
+
+  <!-- faint grid -->
+  <g stroke="#ffffff" stroke-opacity="0.035" stroke-width="1">
+    <line x1="0" y1="132" x2="1584" y2="132"/>
+    <line x1="0" y1="264" x2="1584" y2="264"/>
+    <line x1="396" y1="0" x2="396" y2="396"/>
+    <line x1="792" y1="0" x2="792" y2="396"/>
+    <line x1="1188" y1="0" x2="1188" y2="396"/>
+  </g>
+
+  <!-- LEFT: logo lockup + tagline -->
+  <g font-family="'Helvetica Neue', Arial, sans-serif">
+    <!-- P mark -->
+    <circle cx="118" cy="118" r="30" fill="url(#neon)"/>
+    <text x="111" y="131" font-size="38" font-weight="800" fill="#0c0c0c" text-anchor="middle">P</text>
+    <!-- wordmark -->
+    <text x="166" y="132" font-size="52" font-weight="800" fill="#ffffff" letter-spacing="-1">PrepPlace</text>
+
+    <!-- eyebrow -->
+    <text x="120" y="208" font-family="'Courier New', monospace" font-size="20" fill="#c8ff3d" letter-spacing="6">PLACEMENT SEASON · OPERATING SYSTEM</text>
+
+    <!-- tagline -->
+    <text x="118" y="270" font-size="46" font-weight="800" fill="#ffffff" letter-spacing="-1">Your placement season, organized.</text>
+
+    <!-- sub line -->
+    <text x="120" y="312" font-size="24" fill="#aaaaaa">85+ recruiters · 150 DSA problems · real PYQs · application tracker</text>
+  </g>
+
+  <!-- RIGHT: punch line + stats card -->
+  <g font-family="'Helvetica Neue', Arial, sans-serif">
+    <text x="1464" y="120" font-size="34" font-weight="800" fill="url(#neon)" text-anchor="end" letter-spacing="1">Prep. Place. Placed.</text>
+
+    <!-- stat chips -->
+    <g>
+      <rect x="1126" y="170" width="150" height="92" rx="16" fill="#151515" stroke="#2a2a2a"/>
+      <rect x="1288" y="170" width="150" height="92" rx="16" fill="#151515" stroke="#2a2a2a"/>
+    </g>
+    <text x="1201" y="218" font-size="38" font-weight="800" fill="#c8ff3d" text-anchor="middle">85+</text>
+    <text x="1201" y="244" font-size="16" fill="#9a9a9a" text-anchor="middle">recruiters</text>
+    <text x="1363" y="218" font-size="38" font-weight="800" fill="#c8ff3d" text-anchor="middle">150</text>
+    <text x="1363" y="244" font-size="16" fill="#9a9a9a" text-anchor="middle">DSA problems</text>
+
+    <text x="1464" y="312" font-family="'Courier New', monospace" font-size="20" fill="#ffffff" text-anchor="end" font-weight="700">Free for students</text>
+  </g>
+</svg>
