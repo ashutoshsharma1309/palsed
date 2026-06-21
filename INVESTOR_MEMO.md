@@ -115,7 +115,7 @@ The Indian student funnel is 90% Google. Concretely:
 
 ### 4.4 Get a domain. This week.
 
-`prepnext.in` or `prepnext.co.in`. Indian students do not trust subdomains. T&P cell coordinators do not link to subdomains. Cost: ₹800/yr. There is no defensible reason this is deferred.
+`prepnxt.in` or `prepnxt.co.in`. Indian students do not trust subdomains. T&P cell coordinators do not link to subdomains. Cost: ₹800/yr. There is no defensible reason this is deferred.
 
 ### 4.5 Test monetization with one specific wedge: paid Certificates
 
@@ -148,7 +148,7 @@ You already have a `Certificate` model with `verifyCode` and a public verificati
 
 Each item has a concrete, measurable deliverable. No "explore" or "consider."
 
-1. **Day 1–3: Buy `prepnext.in`, point DNS to Vercel, update Supabase Auth redirect URLs and OAuth callback domains.** Deliverable: production live on `prepnext.in` with green padlock.
+1. **Day 1–3: Buy `prepnxt.in`, point DNS to Vercel, update Supabase Auth redirect URLs and OAuth callback domains.** Deliverable: production live on `prepnxt.in` with green padlock.
 2. **Day 3–5: Rewrite `index.html` head, OG image, all marketing copy to "Placement Season OS." Delete every reference to "Adaptive AI Learning Universe" across `Landing.tsx`, `<title>`, OG/Twitter tags.** Deliverable: single coherent positioning visible in `view-source:`.
 3. **Day 5–10: Delete dead code.** Remove `Courses*`, `Roadmaps*`, `Tutor*` routes, components, Prisma models (`Course`, `Chapter`, `Lesson`, `LessonProgress`, `Roadmap`, `TutorThread`, `TutorMessage`), `groq-sdk` dependency, legacy `routes/auth.js`, `bcryptjs`, `jsonwebtoken`. Run `prisma migrate`. Deliverable: bundle size reduced by ≥30%, schema reduced by ≥6 models.
 4. **Day 10–20: Migrate `/`, `/companies`, `/companies/:slug`, `/pyq` to SSR.** Easiest path: introduce Vike on the existing Vite setup, or fork to Next.js 15 App Router if the founder is willing. Ship `sitemap.xml`, `robots.txt`, JSON-LD on Companies pages. Deliverable: Google Search Console shows ≥50 pages indexed.
@@ -190,7 +190,7 @@ Specific numbers. If the founder can't hit these in 90 days, the thesis is wrong
 | Bundle size (gzipped, Landing) | unknown, likely 400KB+ | <250KB | <200KB | Indian mobile users on Jio 4G |
 | Time-to-first-PYQ-view (new user) | unknown | <60s | <30s | Activation |
 | % users with ≥1 application in kanban | unknown | 20% | 40% | The kanban is the moat — this metric IS the thesis |
-| Domain | vercel.app | prepnext.in | prepnext.in | Credibility floor |
+| Domain | vercel.app | prepnxt.in | prepnxt.in | Credibility floor |
 
 ---
 

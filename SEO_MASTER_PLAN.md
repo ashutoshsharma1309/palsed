@@ -52,7 +52,7 @@ Net: the site is technically online, occasionally shared, has 18 signups, and is
 - `<meta name="description">`: `PrepNxt is the placement season OS for Indian engineering students. 50-company recruiter vault (TCS, Infosys, Razorpay, Zomato, Swiggy), verified PYQs, DSA tracker, application kanban, and mock interviews. Free during beta.`
 - Remove `<meta name="keywords">` entirely — it is a 2008 signal.
 - Add `<meta name="robots" content="index,follow,max-image-preview:large">`.
-- Add `<link rel="canonical" href="https://prepnext.com/">` (post-domain purchase).
+- Add `<link rel="canonical" href="https://prepnxt.com/">` (post-domain purchase).
 - Add `<meta http-equiv="content-language" content="en-IN">` + `<html lang="en-IN">`.
 - Replace `og:image` and `twitter:image` with a real 1200x630 PNG. Generate via a Vercel OG function (`@vercel/og`) so every route can have a dynamic card — `/companies/razorpay` should unfurl with "Razorpay Placement Prep — PrepNxt".
 
@@ -71,7 +71,7 @@ Disallow: /engagement
 Disallow: /onboarding
 Disallow: /auth/
 
-Sitemap: https://prepnext.com/sitemap.xml
+Sitemap: https://prepnxt.com/sitemap.xml
 ```
 
 Generate `sitemap.xml` server-side via an Express route at `server/routes/sitemap.js`. It must read `Company`, `PYQ` (verified only), and the static DSA problem list from Prisma. Index split: `sitemap-index.xml` -> `sitemap-companies.xml`, `sitemap-pyq.xml`, `sitemap-dsa.xml`, `sitemap-static.xml`. Re-ping Google + IndexNow on new PYQ verification (hook into the existing PYQ submit flow).
@@ -88,7 +88,7 @@ Pick (2) for the next 30 days, plan (1) for Q1.
 
 ### 4.4 Buy a real domain immediately
 
-`prepnext.com` if available, otherwise `prepnext.in` or `getprepnext.com`. `.vercel.app` will never outrank `prepinsta.com`. Configure 301 from the Vercel preview domain to the canonical, and update `supabase.auth.redirectTo`, the `AuthCallback` allow-list, and CORS in the Express server.
+`prepnxt.com` if available, otherwise `prepnxt.in` or `getprepnxt.com`. `.vercel.app` will never outrank `prepinsta.com`. Configure 301 from the Vercel preview domain to the canonical, and update `supabase.auth.redirectTo`, the `AuthCallback` allow-list, and CORS in the Express server.
 
 ### 4.5 Programmatic SEO: the only winnable wedge
 
@@ -154,7 +154,7 @@ PrepNxt cannot beat GeeksforGeeks on `binary search`. It can beat them on `Razor
 | 47 | off campus internship drive | `/internships` |
 | 48 | mock interview platform for placements | `/interview-resources` |
 | 49 | placement application tracker kanban | `/applications` (logged-out marketing variant) |
-| 50 | verify placement certificate prepnext | `/verify-certificate` |
+| 50 | verify placement certificate prepnxt | `/verify-certificate` |
 
 ### 4.7 Structured data plan
 
@@ -185,8 +185,8 @@ Build a `@vercel/og` route at `api/og/route.ts` that accepts `?title=&subtitle=`
 ## 5. 30-Day Priorities
 
 1. **Day 1–2: Rewrite `client/index.html` head.** Title, description, OG, Twitter, canonical, robots, lang=en-IN. Export `og-image.png` (1200x630) and drop the SVG. Deliverable: PR merged, validated in [Open Graph debugger](https://www.opengraph.xyz/) and Twitter card validator.
-2. **Day 3–5: Buy `prepnext.com` (or `.in`), point at Vercel, update Supabase redirect URLs, update CORS, 301 the `.vercel.app` host.** Deliverable: HTTPS canonical domain live, all Supabase OAuth flows green.
-3. **Day 6–10: Ship `robots.txt` + dynamic `sitemap.xml` via Express route reading Prisma `Company` + verified `PYQ`.** Deliverable: `prepnext.com/sitemap.xml` returns valid XML with 200+ URLs; submit to Google Search Console + Bing.
+2. **Day 3–5: Buy `prepnxt.com` (or `.in`), point at Vercel, update Supabase redirect URLs, update CORS, 301 the `.vercel.app` host.** Deliverable: HTTPS canonical domain live, all Supabase OAuth flows green.
+3. **Day 6–10: Ship `robots.txt` + dynamic `sitemap.xml` via Express route reading Prisma `Company` + verified `PYQ`.** Deliverable: `prepnxt.com/sitemap.xml` returns valid XML with 200+ URLs; submit to Google Search Console + Bing.
 4. **Day 11–18: Add `react-helmet-async`, set per-route `<Helmet>` titles/descriptions for `/companies/:slug`, `/dsa/:slug`, `/pyq`.** Deliverable: 50 unique titles indexed within 4 weeks.
 5. **Day 19–24: Add JSON-LD: `Organization` + `WebSite` site-wide, `FAQPage` on Landing, `ItemList` on `/companies`, `BreadcrumbList` everywhere.** Deliverable: zero errors in [Rich Results Test](https://search.google.com/test/rich-results) for all four templates.
 6. **Day 25–28: Build `@vercel/og` dynamic OG image route; wire per-route `og:image` URLs.** Deliverable: every public route produces a unique unfurl card.
@@ -196,7 +196,7 @@ Build a `@vercel/og` route at `api/og/route.ts` that accepts `?title=&subtitle=`
 
 1. **Prerender (or migrate) the public surface.** Either `vite-plugin-prerender` for `/`, `/companies`, all `/companies/:slug`, `/pyq`, `/dsa`, `/dsa/:slug`, or a clean Next.js App Router migration of the public marketing/SEO routes while keeping the authed product as Vite. Deliverable: 200+ statically-served HTML routes with unique content.
 2. **Ship 200 programmatic company pages** (`/companies/:slug/{pyq,process,prep-kit}`). Deliverable: 4 templates x 50 companies indexed; track impressions per template in GSC.
-3. **Publish 12 high-intent long-form articles** on `prepnext.com/blog`: "TCS NQT 2026 Pattern", "How Razorpay Hires SDE Interns", "Off-Campus Placement Roadmap for 2026 Batch", etc. Internal-link aggressively to `/companies/:slug` and `/pyq`. Deliverable: 12 posts, each 1500+ words, each targeting one keyword from section 4.6.
+3. **Publish 12 high-intent long-form articles** on `prepnxt.com/blog`: "TCS NQT 2026 Pattern", "How Razorpay Hires SDE Interns", "Off-Campus Placement Roadmap for 2026 Batch", etc. Internal-link aggressively to `/companies/:slug` and `/pyq`. Deliverable: 12 posts, each 1500+ words, each targeting one keyword from section 4.6.
 4. **Open the PYQ vault to logged-out reading** (gate only submission/voting behind auth). Deliverable: `/pyq` and `/companies/:slug/pyq` return HTML content, not an auth wall. This is currently the single biggest indexable-content unlock.
 5. **Core Web Vitals pass.** Self-host the Google Fonts subset (`Inter` only on Landing; `Anton`/`Bebas`/`Share Tech Mono` async loaded), drop the highlight.js stylesheet from Landing (move to DSA route only), preload the hero image. Deliverable: Landing LCP <2.0s on Moto G Power, INP <200ms, CLS <0.05.
 6. **Backlink campaign for E-E-A-T.** Partner with 10 college placement cells + 10 coding clubs (IIIT, NIT, BITS, IIIT-H, IIITH, IIT campus tech societies); offer free PrepNxt access in exchange for a footer link on their placement portal. Deliverable: 20 referring root domains from `.ac.in` / `.edu.in` — these are extremely high-quality signals for Indian education SEO.
@@ -209,7 +209,7 @@ Build a `@vercel/og` route at `api/og/route.ts` that accepts `?title=&subtitle=`
 | Indexed URLs (GSC) | <5 | 250 | 600 |
 | Organic impressions / month | ~0 | 5,000 | 50,000 |
 | Organic clicks / month | ~0 | 200 | 3,000 |
-| Branded "prepnext" search impressions | 0 | 500 | 5,000 |
+| Branded "prepnxt" search impressions | 0 | 500 | 5,000 |
 | Referring root domains (Ahrefs/GSC links) | <5 | 15 | 40 |
 | `.ac.in` / `.edu.in` referring domains | 0 | 3 | 15 |
 | Landing LCP (mobile, p75) | unknown — likely >3s | <2.5s | <2.0s |

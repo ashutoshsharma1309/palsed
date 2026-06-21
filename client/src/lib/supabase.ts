@@ -21,10 +21,10 @@ if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
   );
 }
 
-const globalForSupabase = globalThis as unknown as { __prepnextSupabase?: SupabaseClient };
+const globalForSupabase = globalThis as unknown as { __prepnxtSupabase?: SupabaseClient };
 
 export const supabase: SupabaseClient =
-  globalForSupabase.__prepnextSupabase ??
+  globalForSupabase.__prepnxtSupabase ??
   createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
     auth: {
       autoRefreshToken: true,
@@ -34,4 +34,4 @@ export const supabase: SupabaseClient =
     },
   });
 
-if (import.meta.env.DEV) globalForSupabase.__prepnextSupabase = supabase;
+if (import.meta.env.DEV) globalForSupabase.__prepnxtSupabase = supabase;

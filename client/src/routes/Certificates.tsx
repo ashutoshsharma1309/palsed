@@ -88,7 +88,7 @@ function CertificateView({ cert }: { cert: Certificate }) {
         </div>
       </div>
       <div className="flex gap-3 mt-4 flex-wrap">
-        <Button onClick={() => ref.current && downloadCertificatePdf(ref.current, `prepnext-${cert.verifyCode}.pdf`)}>
+        <Button onClick={() => ref.current && downloadCertificatePdf(ref.current, `prepnxt-${cert.verifyCode}.pdf`)}>
           Download PDF
         </Button>
         <Button variant="outline" onClick={() => { navigator.clipboard.writeText(url); alert("Verify URL copied"); }}>

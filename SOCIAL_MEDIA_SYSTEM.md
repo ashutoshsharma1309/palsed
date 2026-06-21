@@ -56,7 +56,7 @@ Nothing else matters if shared links unfurl wrong. Add `@vercel/og` edge functio
 - `/api/og/streak?user=aditya&days=47` → "47-day DSA streak on PrepNxt"
 - `/api/og/pyq?id=123` → "Google OA 2024 Q3 · DP · Submitted by Aditya"
 
-Then, for SEO/unfurl, prerender the top 50 company pages and top 200 PYQ pages at build time. With Vite SPA you'll need either (a) migrate to Next.js (big lift, but solves this permanently and unblocks `/blog`), or (b) a `prerender.config.js` step using `@prerender/prerenderer` writing per-route `index.html` with proper `<head>`. **Recommendation: migrate `/companies/*`, `/pyq/*`, `/c/:certCode`, and `/blog/*` to Next.js App Router** in a separate Vercel project (subdomain `www.prepnext.in`) keeping the Vite SPA for the authed app at `app.prepnext.in`. This is the standard split for SaaS products with heavy marketing surface.
+Then, for SEO/unfurl, prerender the top 50 company pages and top 200 PYQ pages at build time. With Vite SPA you'll need either (a) migrate to Next.js (big lift, but solves this permanently and unblocks `/blog`), or (b) a `prerender.config.js` step using `@prerender/prerenderer` writing per-route `index.html` with proper `<head>`. **Recommendation: migrate `/companies/*`, `/pyq/*`, `/c/:certCode`, and `/blog/*` to Next.js App Router** in a separate Vercel project (subdomain `www.prepnxt.in`) keeping the Vite SPA for the authed app at `app.prepnxt.in`. This is the standard split for SaaS products with heavy marketing surface.
 
 ### 4.2 Ship the certificate share flow THIS WEEK (P0)
 
@@ -107,7 +107,7 @@ This converts "I joined PrepNxt" into "my college is winning on PrepNxt" — a t
 
 Wire the Applications kanban (`Applications.tsx`): when a card moves to "Offer" column, fire a modal — "Congrats! Share your win?" with a pre-generated card via `/api/og/offer`. Make the share copy template Indian-student-native:
 
-> "Just got placed at Atlassian (32 LPA) — using PrepNxt's Applications kanban + DSA tracker + Google PYQs. Built by a 4th-year for 4th-years. Try free: prepnext.in/r/aditya"
+> "Just got placed at Atlassian (32 LPA) — using PrepNxt's Applications kanban + DSA tracker + Google PYQs. Built by a 4th-year for 4th-years. Try free: prepnxt.in/r/aditya"
 
 Every offer share = inbound traffic from the most credible source possible (a placed senior).
 
@@ -160,7 +160,7 @@ Twitter/LinkedIn: 1 build-in-public post per day from founder, 3 product-tip thr
 2. **Week 1 — Certificate share flow.** Public `/c/:verifyCode`, share modal on `/certificates`, LinkedIn "Add to Profile" deep link, PNG export. Deliverable: 5 cert shares posted by your existing 18 users.
 3. **Week 1 — Referral primitive.** Prisma migration adding `referralCode`, `referredByUserId`, `college`, `graduationYear` to `User` + `Referral` model + `/invite` page with personal link + capture `?ref=` in `AuthCallback.tsx`. Deliverable: first referred signup attributed in DB.
 4. **Week 2 — Placement Offer share card.** Modal triggered on kanban "Offer" stage in `Applications.tsx` + `/api/og/offer` + share copy template. Deliverable: 3 offer shares from real placements.
-5. **Week 2 — Domain + Landing v2.** Buy `prepnext.in`. Ship Landing with live counter, college logo wall, 5 testimonials, WhatsApp/Telegram CTA. Deliverable: prepnext.in live with new positioning.
+5. **Week 2 — Domain + Landing v2.** Buy `prepnxt.in`. Ship Landing with live counter, college logo wall, 5 testimonials, WhatsApp/Telegram CTA. Deliverable: prepnxt.in live with new positioning.
 6. **Weeks 3-4 — Public `/companies/:slug`.** Split read/write auth so company pages are crawlable. Add JSON-LD, FAQPage, prerender top 50 at build time. Deliverable: 50 indexable company pages, sitemap.xml submitted to Google Search Console.
 7. **Weeks 3-4 — Founder content cadence kickoff.** 30 LinkedIn posts + 30 Twitter posts in the month. Daily DSA tip, weekly "behind PrepNxt", 4 per-company "how to crack [X]" threads. Deliverable: 100 followers across LinkedIn + Twitter, 3 posts >10k impressions.
 
@@ -170,7 +170,7 @@ Twitter/LinkedIn: 1 build-in-public post per day from founder, 3 product-tip thr
 2. **Weeks 5-8 — PYQ public pages.** Split read/write auth on `/pyq`, prerender top 200 PYQs, structured data, "submitted by" attribution. Deliverable: 200 indexable PYQ pages, 5 ranking in Google top 10.
 3. **Weeks 7-9 — `/blog` launch with 20 articles.** "Google Campus Placement 2026 Complete Guide", "Atlassian OA Pattern Analysis", "How [Real Student] Cracked [Company]". Use Next.js subdomain split if not done yet. Deliverable: 20 articles, 5 ranking on page 1 for target queries.
 4. **Weeks 8-10 — Weekly recap email + share card.** Vercel Cron → user's weekly stats → `/api/og/recap` PNG → email + in-app modal "Share your week." Deliverable: 30% open rate, 5% share rate.
-5. **Weeks 9-12 — College ambassador program.** Recruit 1 student per top 20 colleges, give them `prepnext.in/college/iit-roorkee` landing pages they control + WhatsApp Community admin + monthly stipend (or premium access). Deliverable: 20 ambassadors, 10 active WhatsApp communities.
+5. **Weeks 9-12 — College ambassador program.** Recruit 1 student per top 20 colleges, give them `prepnxt.in/college/iit-roorkee` landing pages they control + WhatsApp Community admin + monthly stipend (or premium access). Deliverable: 20 ambassadors, 10 active WhatsApp communities.
 6. **Weeks 10-12 — DSA streak + Mastery radar share.** Visual streak heatmap, radar PNG export, both with OG cards. Deliverable: 200 streak shares, 50 radar shares.
 7. **Weeks 11-13 — Off-campus drive feed virality.** Real-time `/internships` Telegram channel + "Drive opening: Atlassian SDE intern (24 LPA)" share cards. Deliverable: 5k Telegram subscribers.
 
@@ -220,7 +220,7 @@ Twitter/LinkedIn: 1 build-in-public post per day from founder, 3 product-tip thr
 | LinkedIn certificate "Add to profile" clicks | 0 → 30 | 500 | LinkedIn deep-link tracking |
 | Founder-content engagement rate | 3% | 5% | Platform native |
 | Share-link unfurl correctness | 0% → 100% | 100% | Manual QA on WhatsApp/LinkedIn/X |
-| Sitemap submission + robots.txt | not present → live | live | `prepnext.in/sitemap.xml`, `/robots.txt` |
+| Sitemap submission + robots.txt | not present → live | live | `prepnxt.in/sitemap.xml`, `/robots.txt` |
 | OG image generation latency (p95) | n/a → <500ms | <300ms | Vercel edge metrics |
 | Cost per referred signup | n/a | < ₹20 | Spend / Referral count |
 | 7-day retention | unknown → 35% | 50% | `EngagementDay` distinct days within 7 days of signup |

@@ -53,8 +53,8 @@ function createClient() {
   });
 }
 
-export const prisma = globalForPrisma.__prepnextPrisma ?? createClient();
+export const prisma = globalForPrisma.__prepnxtPrisma ?? createClient();
 
 if (process.env.NODE_ENV !== "production") {
-  globalForPrisma.__prepnextPrisma = prisma;
+  globalForPrisma.__prepnxtPrisma = prisma;
 }

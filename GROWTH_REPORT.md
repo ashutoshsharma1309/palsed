@@ -53,7 +53,7 @@ Mechanic: A student submits one verified PYQ via `/pyq/submit` → unlocks 7 day
 Implementation: extend `PYQ` (assumed model) with `submitterId`, `verifiedAt`, `slug`, `voteScore`. Add public route. Add `og:image` generated server-side from the question text + company logo. Estimated CAC: **INR 0–8 per signup** at scale (purely organic after first 200 PYQs).
 
 **Loop 2 — Certificate LinkedIn Loop (K ≈ 0.4–0.7)**
-Mechanic: Finish a Prep Kit / DSA milestone → auto-issued cert with `verifyCode` → one-tap "Share on LinkedIn" pre-fills post copy ("Just finished PrepNxt's Razorpay Prep Kit — 47 PYQs, 23 DSA problems, 3 system design rounds. Verify: prepnext.com/v/ABC123") → public verify page has a "Get your own kit" CTA → recruiter eyeballs + classmate eyeballs both convert.
+Mechanic: Finish a Prep Kit / DSA milestone → auto-issued cert with `verifyCode` → one-tap "Share on LinkedIn" pre-fills post copy ("Just finished PrepNxt's Razorpay Prep Kit — 47 PYQs, 23 DSA problems, 3 system design rounds. Verify: prepnxt.com/v/ABC123") → public verify page has a "Get your own kit" CTA → recruiter eyeballs + classmate eyeballs both convert.
 The `Certificate` model already has `verifyCode`. You need: per-cert OG image (use `og-image-as-a-service` pattern, server-render PNG with student name, kit, score), `?ref=verifyCode` attribution on the verify page CTA. CAC: **INR 5–20 per signup**.
 
 **Loop 3 — Campus Leaderboard Loop (K ≈ 0.5–0.9)**
@@ -92,7 +92,7 @@ Run via Unstop-style outreach. The senior posts in their campus WhatsApp/Discord
 
 **Fix the message-match in `client/index.html` today.** The `<title>`, `og:title`, `og:description`, `twitter:title`, `twitter:description`, `meta name="description"`, and `meta name="keywords"` all need to be rewritten to match the Landing's "Placement Season Operating System" positioning. Target keywords: "campus placement prep", "previous year OA questions", "Indian company recruitment", "internship tracker". This is a 15-minute change with outsized impact on every share preview going forward.
 
-**Buy `prepnext.in` or `prepnext.co` today.** `vercel.app` subdomains tank Google rankings, get flagged by Indian campus mail filters (gmail.com → @nitt.edu, @iiit.ac.in often reject unknown senders), and look unfundable. INR 700/yr investment.
+**Buy `prepnxt.in` or `prepnxt.co` today.** `vercel.app` subdomains tank Google rankings, get flagged by Indian campus mail filters (gmail.com → @nitt.edu, @iiit.ac.in often reject unknown senders), and look unfundable. INR 700/yr investment.
 
 **Ship an Express route `/sitemap.xml` and `/robots.txt`** that enumerates the 50 companies, all verified PYQs, all public certificates, all campus pages. This is a 50-line Express handler reading from Prisma. Submit to Google Search Console and Bing Webmaster. Expect indexation within 2 weeks.
 
@@ -108,7 +108,7 @@ Run via Unstop-style outreach. The senior posts in their campus WhatsApp/Discord
 
 ## 5. 30-Day Priorities
 
-1. **Day 1 — Fix `client/index.html` head + buy `prepnext.in`.** Rewrite all meta to "Placement Season Operating System". Point DNS. Update Supabase Auth redirect URLs. Update Google OAuth callback. Deliverable: live on a real `.in` domain with consistent messaging.
+1. **Day 1 — Fix `client/index.html` head + buy `prepnxt.in`.** Rewrite all meta to "Placement Season Operating System". Point DNS. Update Supabase Auth redirect URLs. Update Google OAuth callback. Deliverable: live on a real `.in` domain with consistent messaging.
 2. **Days 2–4 — Add `referralCode`, `referredBy`, and `Campus` to Prisma schema.** Migration, backfill, expose in `/settings`. Add `?ref=` parsing on Landing → localStorage → attach on Supabase signup via `data` user metadata. Deliverable: every signup has a referrer attributed.
 3. **Days 5–10 — Ship public PYQ pages with per-page OG images.** New route `/pyq/:company/:round/:slug` (public), rendered server-side via Express + a simple HBS/JSX template. Per-page `og:image` generated via `@vercel/og` or `satori`. Add submitter credit + vote count + "Got more PYQs? Contribute" CTA. Deliverable: at least 100 PYQ public pages indexable by Google.
 4. **Days 11–14 — Ship `sitemap.xml`, `robots.txt`, canonical tags, JSON-LD (Organization, WebSite, FAQPage on `/`, ItemList on `/companies`).** Submit to GSC + Bing. Deliverable: 200+ URLs submitted, first impressions visible in GSC.
@@ -124,7 +124,7 @@ Run via Unstop-style outreach. The senior posts in their campus WhatsApp/Discord
 4. **Days 66–75 — Campus Ambassador program v1.** Recruit one verified senior per campus (top 50). Verified badge, lifetime paid, INR 1000/50-signup bounty. Slack/Discord cohort for ambassadors. Deliverable: 30 ambassadors signed, 10 active (defined as > 20 signups attributed).
 5. **Days 76–85 — Application "Offer Card" public pages.** Hook into kanban → Offer column transition. Generate `/offers/:slug` with anonymized option. LinkedIn-ready OG card. Deliverable: 20+ offer cards published, at least 5 shared on LinkedIn.
 6. **Days 86–90 — WhatsApp Drop Kit on every win surface.** Calibrated 4-line copy + link + OG card, one-tap copy. Deliverable: live on Prep Kit completion, DSA milestones, mock interview completion.
-7. **Days 86–90 (parallel) — Email infra hardening on `prepnext.in`.** SPF, DKIM, DMARC. Move transactional to Resend, marketing to Loops. Warm up sending domain. Deliverable: > 95% inbox placement on Gmail (largest target since most `.edu.in` are Google Workspace).
+7. **Days 86–90 (parallel) — Email infra hardening on `prepnxt.in`.** SPF, DKIM, DMARC. Move transactional to Resend, marketing to Loops. Warm up sending domain. Deliverable: > 95% inbox placement on Gmail (largest target since most `.edu.in` are Google Workspace).
 
 ## 7. Metrics to Track
 
@@ -163,7 +163,7 @@ Run via Unstop-style outreach. The senior posts in their campus WhatsApp/Discord
 **Brand / Distribution**
 - Domain Rating (Ahrefs/free alt). **Target D90: 15.**
 - Referring domains. **Target D90: 50** (campus blogs, college subreddits, Unstop articles, GFG forum threads).
-- Branded search volume for "prepnext". **Target D90: 200/mo** (per GSC).
+- Branded search volume for "prepnxt". **Target D90: 200/mo** (per GSC).
 
 **Anti-metrics (watch for trouble)**
 - Bounce rate on `/companies/:slug` from Google. Must drop below 60% within 60 days of SSR ship — otherwise the long-tail pages are not satisfying intent and need richer content (more PYQs per company, salary ranges, interviewer notes).

@@ -5,7 +5,7 @@
 - **The landing page is selling the wrong product.** `index.html` markets "Adaptive AI Learning Universe" while the Landing component pitches a "zero AI calls" Placement Season OS. This contradiction is the single biggest conversion blocker — visitors arriving from organic, Twitter, or LinkedIn unfurls land on copy that doesn't match the meta promise. Fix the positioning to "Placement Season OS for Indian engineering students" everywhere, or stop confusing visitors with two products.
 - **You have no pricing page and no monetization surface.** With 18 signups and zero paying users, the absence of `/pricing` isn't a feature — it's the reason no one converts. Even a Notion-style "Free / Pro ₹199/mo / Campus ₹99/mo (.edu.in)" page with no working Stripe yet would force you to make hard positioning decisions and create a CTA destination.
 - **CTAs are ambiguous and route to a dead-end.** "Get Started" → `/onboarding` (public) is the standard pattern, but there's no segmentation by year (2nd/3rd/4th), no college targeting, and no "I have a placement next month" urgency hook. PrepInsta and Unstop both segment by year-of-study within 1 click.
-- **The vercel.app subdomain is killing trust and SEO simultaneously.** Indian students in placement season do not paste vercel.app URLs into the campus WhatsApp group. Cost to fix: ₹800/year for prepnext.in. ROI: incalculable. Do this within 48 hours.
+- **The vercel.app subdomain is killing trust and SEO simultaneously.** Indian students in placement season do not paste vercel.app URLs into the campus WhatsApp group. Cost to fix: ₹800/year for prepnxt.in. ROI: incalculable. Do this within 48 hours.
 - **You're a SPA with no SSR, so every per-company, per-PYQ, per-DSA-problem page is invisible to Google.** This means your single biggest organic acquisition channel (long-tail "Razorpay OA questions 2024", "Goldman Sachs SDE intern PYQ") is literally rendering as an empty `<div id="root">` to Googlebot. This is a months-long fix but it's the #1 growth lever.
 
 ## 2. Current State
@@ -86,7 +86,7 @@ Three-tier pattern (Notion-style):
 
 The CTA on Free should be "Start free" → Supabase signup. The CTA on Pro should be "Start 14-day trial" → signup, then `/billing` (stub). Even a non-functional Stripe is better than no pricing page — it forces you to commit to a positioning. Stripe's own pricing page is the gold standard here: anchor the middle tier visually, list 5-7 features per tier max, never more.
 
-### 4.3 Buy `prepnext.in` today
+### 4.3 Buy `prepnxt.in` today
 
 ₹600-900 on GoDaddy/Hostinger. Configure as Vercel domain in 10 minutes. Update Supabase Auth redirect URLs (`/auth/callback` host). Update CORS in server config. The vercel.app subdomain is currently:
 - Triggering "is this a scam?" reactions in WhatsApp groups
@@ -126,7 +126,7 @@ Also: the `/auth/callback` 6-second timeout is too long for slow connections. Ad
 
 The `Certificate` model has `verifyCode` and there's a public `/verify-certificate` route. Today this is a passive viral loop. Make it active:
 
-- Auto-generate a sharable LinkedIn post template when a certificate is issued ("I just completed PrepNxt's Razorpay Prep Kit — verify: prepnext.in/v/abc123")
+- Auto-generate a sharable LinkedIn post template when a certificate is issued ("I just completed PrepNxt's Razorpay Prep Kit — verify: prepnxt.in/v/abc123")
 - Verification page must have its own OG image with the student's name + course (use `@vercel/og` or generate at issue time with `html2canvas`/`jspdf` which you already have)
 - Verification page must have a "Get your own placement-ready certificate" CTA → `/pricing`
 - Add "Powered by PrepNxt" badge to the PDF
@@ -170,7 +170,7 @@ You have a perfect graph for virality: students study in groups. Add `/refer` �
 
 1. **Day 1-2: Fix positioning** — Update `index.html` title/description/OG/Twitter to match Landing copy. Deliverable: PR merged, link unfurls tested on WhatsApp/LinkedIn/Twitter.
 
-2. **Day 1-3: Buy prepnext.in and ship it** — Domain purchased, Vercel configured, Supabase Auth redirect URLs updated, CORS updated, certificate verification tested on new domain. Deliverable: prepnext.in live, vercel.app 301s.
+2. **Day 1-3: Buy prepnxt.in and ship it** — Domain purchased, Vercel configured, Supabase Auth redirect URLs updated, CORS updated, certificate verification tested on new domain. Deliverable: prepnxt.in live, vercel.app 301s.
 
 3. **Day 3-7: Ship `/pricing`** — Three-tier page (Free / Pro ₹199 / Campus ₹99), even with stub Stripe. Deliverable: `/pricing` route live, CTA tracked, Stripe checkout returns "Coming soon — join waitlist" form that captures emails.
 

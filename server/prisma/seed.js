@@ -4,10 +4,10 @@ import { prisma } from "../db.js";
 
 async function main() {
   const user = await prisma.user.upsert({
-    where: { email: "demo@prepnext.local" },
+    where: { email: "demo@prepnxt.local" },
     update: {},
     create: {
-      email: "demo@prepnext.local",
+      email: "demo@prepnxt.local",
       displayName: "Demo Learner",
       avatarSeed: "demo123",
       learningGoal: "Crack MAANG SDE",

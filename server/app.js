@@ -30,7 +30,7 @@ dbGoneRouter.get("/health", async (_req, res, next) => {
   try {
     await prisma.$queryRaw`SELECT 1`;
     const userCount = await prisma.user.count();
-    res.json({ ok: true, db: "prepnext", users: userCount });
+    res.json({ ok: true, db: "prepnxt", users: userCount });
   } catch (e) {
     next(e);
   }

@@ -10,7 +10,7 @@
 
 ### The 5 highest-impact priorities (across all 12 reports)
 
-1. **Fix the identity crisis at the HTML layer + ship a real domain.** `index.html` still markets "Adaptive AI Learning Universe" while Landing pitches "Placement Season OS." Every CTO/UX/PM/CRO/Marketing/SEO/Growth/Investor report flagged this as the #1 unforced error. Cost: 1 hour of code + ₹800/yr for `prepnext.in`. Impact: every share preview, every Google result, every WhatsApp unfurl currently sells the wrong product.
+1. **Fix the identity crisis at the HTML layer + ship a real domain.** `index.html` still markets "Adaptive AI Learning Universe" while Landing pitches "Placement Season OS." Every CTO/UX/PM/CRO/Marketing/SEO/Growth/Investor report flagged this as the #1 unforced error. Cost: 1 hour of code + ₹800/yr for `prepnxt.in`. Impact: every share preview, every Google result, every WhatsApp unfurl currently sells the wrong product.
 
 2. **Migrate all UGC features from `localStorage` to Postgres + prerender the SEO surface.** Applications kanban, PYQ vault, SRS, Mastery, Placement Hub all live in `localStorage` today — that means cross-device usage, demos, and analytics are impossible. Simultaneously, `/companies/:slug` and PYQ pages are SPA-only — invisible to Google. These two fixes unlock both retention and acquisition.
 
@@ -32,7 +32,7 @@
 
 **Ship a public, prerendered, programmatically-SEO-optimized `/companies/:slug` template (×50 companies) tied to a crowd-sourced PYQ flywheel that auto-publishes new pages and pings IndexNow on every verified submission.**
 
-Concretely: by Sep 1, 2026, `view-source: prepnext.in/companies/razorpay` must return a fully rendered HTML page with unique `<title>`, JSON-LD (Organization + FAQPage + BreadcrumbList), 10+ verified PYQs visible, "Track this company" CTA wired to the Applications kanban, and dynamic `@vercel/og` image. Plus a verified PYQ submission must trigger a sitemap rebuild + IndexNow ping within 60 seconds. **This is the only loop that compounds — every PYQ submitted creates a new long-tail SEO asset AND a new share-able artefact AND a new reason to come back tomorrow.** Without this, no marketing spend will work.
+Concretely: by Sep 1, 2026, `view-source: prepnxt.in/companies/razorpay` must return a fully rendered HTML page with unique `<title>`, JSON-LD (Organization + FAQPage + BreadcrumbList), 10+ verified PYQs visible, "Track this company" CTA wired to the Applications kanban, and dynamic `@vercel/og` image. Plus a verified PYQ submission must trigger a sitemap rebuild + IndexNow ping within 60 seconds. **This is the only loop that compounds — every PYQ submitted creates a new long-tail SEO asset AND a new share-able artefact AND a new reason to come back tomorrow.** Without this, no marketing spend will work.
 
 ---
 
@@ -202,11 +202,11 @@ Assumptions: ₹99/mo Pro at 3% conversion is conservative for Indian campus mar
 
 **Marketing priorities (top 3)**
 1. Founder-led content: daily X post + 2 LinkedIn posts/wk + 1 long-form Reddit post/wk in r/developersIndia.
-2. WhatsApp/Telegram seeding via existing 18 users' college groups; launch Telegram channel `t.me/prepnext_pyq` with auto-post on verified PYQ.
+2. WhatsApp/Telegram seeding via existing 18 users' college groups; launch Telegram channel `t.me/prepnxt_pyq` with auto-post on verified PYQ.
 3. Build PrepNxt Certificate LinkedIn share flow (per-cert OG via `@vercel/og`).
 
 **SEO priorities (top 3)**
-1. Rewrite `index.html` head + buy `prepnext.in` + add `sitemap.xml`/`robots.txt`/JSON-LD (Organization, WebSite, FAQPage).
+1. Rewrite `index.html` head + buy `prepnxt.in` + add `sitemap.xml`/`robots.txt`/JSON-LD (Organization, WebSite, FAQPage).
 2. Submit GSC + Bing Webmaster; verify domain; trigger IndexNow on every PYQ verification.
 3. 12 long-form blog posts (Cluster A from CONTENT_ENGINE.md): TCS NQT, Infosys SP, Wipro Elite, Accenture, Cognizant, Capgemini, Goldman Sachs, Google STEP, Razorpay, Zomato, Flipkart GRiD, Microsoft Engage.
 
@@ -299,7 +299,7 @@ Assumptions: ₹99/mo Pro at 3% conversion is conservative for Indian campus mar
 **SEO priorities (top 3)**
 1. Maintain top-3 for 500+ long-tail keywords; build moat against Unstop SEO ramp.
 2. International expansion (Pakistan, Bangladesh, Nigeria — similar campus placement dynamics).
-3. Brand search dominance: "prepnext" branded queries > 100k/mo per GSC.
+3. Brand search dominance: "prepnxt" branded queries > 100k/mo per GSC.
 
 **Hiring priorities**
 - VP Engineering, VP Marketing, VP Sales, Head of Content, Head of College Partnerships.
@@ -350,7 +350,7 @@ The 670 KB index chunk is a lie that's also wrong — Landing eagerly imports `c
 
 **What to fix first (in strict order):**
 
-1. **Week 1 (P0 hard blockers):** Rewrite `index.html` head to match Landing positioning; buy `prepnext.in`; gate or delete `/api/db/*`; rip `localStorage` source-of-truth out of Applications/PYQ/SRS/Mastery (move to Postgres). Without these, every other investment is wasted spend.
+1. **Week 1 (P0 hard blockers):** Rewrite `index.html` head to match Landing positioning; buy `prepnxt.in`; gate or delete `/api/db/*`; rip `localStorage` source-of-truth out of Applications/PYQ/SRS/Mastery (move to Postgres). Without these, every other investment is wasted spend.
 
 2. **Week 2–3 (foundation for acquisition):** Ship `sitemap.xml`, `robots.txt`, JSON-LD; add `react-helmet-async` for per-route metadata; deploy `vite-plugin-prerender` for top 50 company pages + Landing; replace `og-image.svg` with `@vercel/og` dynamic PNG per route; install PostHog + Sentry + Vercel Speed Insights.
 
@@ -366,7 +366,7 @@ Only after these are in production should marketing dollars be deployed. Until t
 
 **Ship**
 - Rewrite `client/index.html` head: title, description, OG, Twitter, canonical, `lang="en-IN"`. Strip every "Adaptive AI Learning" reference.
-- Buy `prepnext.in` (Cloudflare Registrar / GoDaddy). Point DNS to Vercel. Update Supabase Auth redirect URLs + CORS allow-list.
+- Buy `prepnxt.in` (Cloudflare Registrar / GoDaddy). Point DNS to Vercel. Update Supabase Auth redirect URLs + CORS allow-list.
 - Gate `/api/db/*` with `requireAuth` + per-row `userId` scoping (or delete the generic router entirely — preferred).
 - Delete 9 dead route files (`Courses*`, `Roadmaps*`, `Tutor.tsx`) and drop 7 dead Prisma models in a single migration.
 - Switch `DATABASE_URL` to Supavisor transaction pooler (port 6543, `?pgbouncer=true&connection_limit=1`).
@@ -378,9 +378,9 @@ Only after these are in production should marketing dollars be deployed. Until t
 
 **Track**
 - Bundle-size delta after dead-code purge (target ≥15% Landing JS shrink).
-- `view-source: prepnext.in` shows correct positioning.
+- `view-source: prepnxt.in` shows correct positioning.
 - `curl /api/db/users` returns 401, not user list.
-- Domain is live with valid HTTPS; magic-link emails delivering from `noreply@prepnext.in`.
+- Domain is live with valid HTTPS; magic-link emails delivering from `noreply@prepnxt.in`.
 
 ---
 
@@ -419,11 +419,11 @@ Only after these are in production should marketing dollars be deployed. Until t
 **Publish**
 - 5 X posts + 2 LinkedIn posts (founder content cadence).
 - Reddit long-form post in r/developersIndia: "I scraped 50 company hiring patterns from 2024 — here's what I found" with PrepNxt screenshots.
-- Launch Telegram channel `t.me/prepnext_pyq`; auto-post bot when a PYQ is verified.
+- Launch Telegram channel `t.me/prepnxt_pyq`; auto-post bot when a PYQ is verified.
 - 2 more blog posts: "Infosys SP Eligibility 2026" + "Wipro Elite NTH Syllabus."
 
 **Track**
-- `view-source: prepnext.in/companies/razorpay` returns full rendered HTML (not `<div id="root">`).
+- `view-source: prepnxt.in/companies/razorpay` returns full rendered HTML (not `<div id="root">`).
 - 50+ company pages indexed by Google (check GSC daily).
 - First paid transaction completes (even if it's the founder).
 - 100+ verified PYQs in the public corpus.

@@ -37,7 +37,7 @@ router.get("/health", async (_req, res, next) => {
     for (const [seg, delegate] of Object.entries(RESOURCES)) {
       counts[seg] = await prisma[delegate].count();
     }
-    res.json({ ok: true, db: "prepnext", tables: Object.keys(RESOURCES).length, counts });
+    res.json({ ok: true, db: "prepnxt", tables: Object.keys(RESOURCES).length, counts });
   } catch (e) {
     next(e);
   }

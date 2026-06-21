@@ -75,7 +75,7 @@ This is how PrepInsta and GFG own these SERPs. There is no other way in.
 
 ### 4.4 Buy the domain this week
 
-`prepnext.in` or `prepnext.co.in` if available, `prepnext.app` as fallback. Three concrete reasons beyond "looks better":
+`prepnxt.in` or `prepnxt.co.in` if available, `prepnxt.app` as fallback. Three concrete reasons beyond "looks better":
 1. Supabase magic-link emails from `*.vercel.app` get junked far more aggressively. Your auth conversion is literally lower today because of this.
 2. SEO authority compounds against the root domain; every day on `vercel.app` you are building Vercel's authority, not yours.
 3. Indian campus users equate `.vercel.app` URLs with "side project" — kills trust at the first impression.
@@ -118,7 +118,7 @@ Use `@upstash/ratelimit` with Upstash Redis (Vercel-native, free tier covers cur
 ## 5. 30-Day Priorities
 
 1. **HTML metadata + JSON-LD rewrite** — `index.html` reflects placement-OS positioning, FAQPage JSON-LD ships, `robots.txt` and `sitemap.xml` added. Deliverable: PR merged, Google Search Console reindex requested.
-2. **Custom domain live** — `prepnext.in` (or chosen) purchased, Vercel + Supabase configured, magic-link emails sending from `noreply@prepnext.in`. Deliverable: `prepnext.vercel.app` permanently 301s to the custom domain.
+2. **Custom domain live** — `prepnxt.in` (or chosen) purchased, Vercel + Supabase configured, magic-link emails sending from `noreply@prepnxt.in`. Deliverable: `prepnext.vercel.app` permanently 301s to the custom domain.
 3. **Legacy auth fully decommissioned** — `routes/auth.js` deleted, `passwordHash` column dropped via Prisma migration, bcryptjs + jsonwebtoken removed from dependencies. Deliverable: single auth path through Supabase.
 4. **Dead code purge** — Courses/Roadmaps/Tutor routes + Prisma models removed. Deliverable: PR with measurable bundle size delta (target ≥15% Landing JS shrink).
 5. **Sentry + structured logging live** — frontend + server SDKs configured, Pino in `server/index.js`, source maps uploading. Deliverable: dashboard with 7 days of clean traffic, alerting set up for >1% error rate.

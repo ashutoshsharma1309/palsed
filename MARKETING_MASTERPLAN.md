@@ -75,11 +75,11 @@ Target keywords: "[company] previous year questions," "[company] OA pattern," "[
 
 Generate 500-2000 of these pages from your existing data. Add FAQPage JSON-LD per page (you already have an FAQ on Landing — extend that schema).
 
-### 4.4 Buy `prepnext.in` or `prepnext.app` THIS WEEK
+### 4.4 Buy `prepnxt.in` or `prepnxt.app` THIS WEEK
 
 `.in` is ₹800/year on GoDaddy/Namecheap and signals "Indian product" to your ICP. Set it up with Vercel custom domain (5 minutes), point email via Google Workspace (₹125/user/month) or Zoho Mail (free for one user). Without this, you cannot:
 - Run Google Ads with brand trust
-- Send cold outreach to TPOs (`founder@prepnext.in` not `prepnext@gmail.com`)
+- Send cold outreach to TPOs (`founder@prepnxt.in` not `prepnxt@gmail.com`)
 - Apply to Product Hunt / YC / Sequoia Surge / Antler
 
 ### 4.5 Ship analytics on day 1 of paid spend
@@ -121,7 +121,7 @@ Total: ~₹5L. Reserve 20% for creative production (video editor on retainer, de
 
 ## 5. 30-Day Priorities
 
-1. **Day 1-2: Fix `index.html` head + buy `prepnext.in` + point Vercel custom domain + set up `founder@prepnext.in` on Google Workspace.** Deliverable: live custom domain, corrected meta tags, working corporate email.
+1. **Day 1-2: Fix `index.html` head + buy `prepnxt.in` + point Vercel custom domain + set up `founder@prepnxt.in` on Google Workspace.** Deliverable: live custom domain, corrected meta tags, working corporate email.
 2. **Day 3-5: Install PostHog + GA4 + Meta Pixel + Google Tag Manager. Instrument 5 core events.** Deliverable: PostHog dashboard with signup funnel from landing → auth → onboarding → first-action.
 3. **Day 6-10: Generate `sitemap.xml`, `robots.txt`, add JSON-LD (Organization, WebSite with SearchAction, FAQPage on Landing). Add canonical tags via a `<Helmet>` provider (`react-helmet-async`) per route.** Deliverable: Google Search Console verified, sitemap submitted, 0 indexing errors.
 4. **Day 11-20: Decide SSR strategy (Next.js migration vs. prerender plugin) and ship public-route prerendering for `/`, `/companies`, `/companies/:slug`, `/pyq`, `/verify-certificate`.** Deliverable: View-source on `/companies/razorpay` shows rendered HTML, not empty `<div id="root">`.
@@ -136,7 +136,7 @@ Total: ~₹5L. Reserve 20% for creative production (video editor on retainer, de
 3. **Ship the "Placement Season 2026" campaign landing page + ads** (only if funded). Google Search Ads on top-50 company brand+prep keywords, YouTube pre-roll on top-10 placement-prep creators. Target: 5,000 paid signups at <₹100 CPS.
 4. **Build retention email lifecycle** using your `Placement Calendar` + `SRSItem` + `Notification` models — welcome series (3 emails), weekly digest of new PYQs, 24h-before-OA reminder, dormant-user reactivation at day 14. Target: 35% D7 retention, 20% D30 retention.
 5. **Founder-led YouTube channel — 12 long-form videos in 90 days.** Format: "How I'd crack [Company] in 2026," "Placement season teardown — [Year]," "Indian startup hiring decoded." Target: 5,000 subscribers, 100k watch hours (qualifies for monetization but more importantly drives qualified signups).
-6. **TPO outbound to 200 colleges** via LinkedIn Sales Navigator + Lemlist sequences from `founder@prepnext.in`. Pitch: free placement-cell dashboard in exchange for student rollout. Target: 10 paid college contracts at ₹50k-2L/year (this is your real revenue path).
+6. **TPO outbound to 200 colleges** via LinkedIn Sales Navigator + Lemlist sequences from `founder@prepnxt.in`. Pitch: free placement-cell dashboard in exchange for student rollout. Target: 10 paid college contracts at ₹50k-2L/year (this is your real revenue path).
 7. **Clean up dead routes and Prisma models** (`/courses`, `/roadmaps`, `/tutor`, Course/Roadmap/Tutor schema). This isn't marketing per se — but every kilobyte of bundle bloat hurts LCP, which hurts SEO, which hurts paid ad Quality Score. Delete it.
 
 ## 7. Metrics to Track

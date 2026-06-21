@@ -96,7 +96,7 @@ The 100-title calendar below feeds this directly. Aim for **2 posts/week for the
 
 ### 4.5 Domain and GSC — do this Monday
 
-Buy `prepnext.in` or `prepnext.app` ($12). Point Vercel apex. Verify in Google Search Console + Bing Webmaster Tools + Naver (yes, Naver — Indian students from Korean partnerships are a thing). Submit `sitemap.xml`. Without a custom domain, none of the above content work compounds — Google explicitly deprioritizes `vercel.app` subdomains.
+Buy `prepnxt.in` or `prepnxt.app` ($12). Point Vercel apex. Verify in Google Search Console + Bing Webmaster Tools + Naver (yes, Naver — Indian students from Korean partnerships are a thing). Submit `sitemap.xml`. Without a custom domain, none of the above content work compounds — Google explicitly deprioritizes `vercel.app` subdomains.
 
 ### 4.6 Topic Cluster Architecture
 
@@ -224,15 +224,15 @@ MSV estimates are rough — Indian placement queries spike Aug-Feb and crash Mar
 97. Service Bond Legality in India — What Students Should Know | service bond legality india | 3,600 | 28
 98. How to Decline a Job Offer Politely After Accepting | decline job offer fresher | 2,800 | 30
 99. Backup Plan if You Don't Get Placed in Final Year | not placed final year | 4,200 | 26
-100. PrepNxt vs PrepInsta vs GeeksforGeeks — Honest Comparison | prepnext vs prepinsta | 200 | 12
+100. PrepNxt vs PrepInsta vs GeeksforGeeks — Honest Comparison | prepnxt vs prepinsta | 200 | 12
 
 The last article is intentionally a low-volume brand-defense piece. It needs to exist so that when student WhatsApp groups ask "is PrepNxt like PrepInsta?", a real, honest, ranking page answers them.
 
 ## 5. 30-Day Priorities
 
-1. **Week 1 — Buy `prepnext.in`, fix `index.html` head copy, replace `og-image.svg` with a 1200×630 PNG, add `robots.txt` + `sitemap.xml` (statically generated for the 50 company slugs from Prisma).** Deliverable: live custom domain, GSC verified, correct OG unfurl tested on WhatsApp/LinkedIn/Slack.
+1. **Week 1 — Buy `prepnxt.in`, fix `index.html` head copy, replace `og-image.svg` with a 1200×630 PNG, add `robots.txt` + `sitemap.xml` (statically generated for the 50 company slugs from Prisma).** Deliverable: live custom domain, GSC verified, correct OG unfurl tested on WhatsApp/LinkedIn/Slack.
 2. **Week 1-2 — Add `react-helmet-async` and wire per-route `<Helmet>` to all 18 public routes in `App.tsx`.** Deliverable: every route has unique `<title>`, `<meta description>`, `<link rel="canonical">`.
-3. **Week 2 — Implement an Express UA-sniffing prerender middleware that renders Companies/PYQ/DSA/Internships pages with full HTML for crawler bots.** Deliverable: Googlebot sees rendered content; `curl -A Googlebot https://prepnext.in/companies/tcs` returns full HTML.
+3. **Week 2 — Implement an Express UA-sniffing prerender middleware that renders Companies/PYQ/DSA/Internships pages with full HTML for crawler bots.** Deliverable: Googlebot sees rendered content; `curl -A Googlebot https://prepnxt.in/companies/tcs` returns full HTML.
 4. **Week 2-3 — Programmatic SEO ship: rebuild `/companies/:slug` template with H1, FAQ JSON-LD, Organization JSON-LD, BreadcrumbList JSON-LD, and internal links to PYQs + DSA + Application Tracker.** Deliverable: 50 indexable, structured company pages.
 5. **Week 3 — Build `/pyq/company/:slug` and `/pyq/company/:slug/:year` listing pages with SSR.** Deliverable: 50+ new PYQ cluster pages indexed.
 6. **Week 3-4 — Set up `/blog` with MDX + `gray-matter` + `vite-plugin-mdx`. Publish first 8 articles from Cluster A (TCS NQT, Infosys SP, Wipro Elite, Accenture, Cognizant, Capgemini, Goldman Sachs, Google STEP).** Deliverable: 8 live posts, each ≥1800 words, each linking to relevant `/companies/:slug` and `/pyq/...` pages.
@@ -254,7 +254,7 @@ The last article is intentionally a low-volume brand-defense piece. It needs to 
 |---|---|---|---|
 | Indexed pages (GSC) | 80+ | 250+ | Google Search Console |
 | Organic sessions / month | 150 | 2,000 | GA4 + GSC |
-| Branded "prepnext" queries / month | 50 | 500 | GSC Performance |
+| Branded "prepnxt" queries / month | 50 | 500 | GSC Performance |
 | Non-branded clicks / month | 100 | 1,500 | GSC Performance |
 | Avg position for top-20 BOFU keywords | 35 | 18 | GSC + Ahrefs free |
 | Referring domains | 5 | 35 | Ahrefs / Ubersuggest |

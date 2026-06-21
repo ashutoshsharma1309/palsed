@@ -60,7 +60,7 @@ The `<head>` in `index.html` is contradicting the product. Replace the title and
 <meta name="keywords" content="campus placement prep, PYQ previous year questions, placement tracker, Indian engineering placement, OA questions, off-campus drives" />
 ```
 
-Buy `prepnext.in` (₹800/yr on GoDaddy or Cloudflare Registrar). The `.vercel.app` URL is killing every share. Update Supabase Auth redirect URLs accordingly.
+Buy `prepnxt.in` (₹800/yr on GoDaddy or Cloudflare Registrar). The `.vercel.app` URL is killing every share. Update Supabase Auth redirect URLs accordingly.
 
 Add `react-helmet-async` and set per-route `<title>` and `<meta>` on:
 - `/companies/:slug` → "Goldman Sachs Placement Prep | Eligibility, PYQs, OA Pattern — PrepNxt"
@@ -153,10 +153,10 @@ Indian students will pay ₹199–₹499/yr for a placement tool that visibly im
 
 ## 5. 30-Day Priorities
 
-1. **Day 1–2**: Buy `prepnext.in`, update Supabase Auth redirect URLs, deploy with new domain. Concrete deliverable: live at `prepnext.in` with valid HTTPS.
+1. **Day 1–2**: Buy `prepnxt.in`, update Supabase Auth redirect URLs, deploy with new domain. Concrete deliverable: live at `prepnxt.in` with valid HTTPS.
 2. **Day 3–5**: Rewrite `index.html` `<head>` to match placement-OS positioning. Add `react-helmet-async`. Set per-route `<title>`+`<meta>`+canonical on `/`, `/companies`, `/companies/:slug`, `/pyq`, `/dsa`. Deliverable: PR merged, Lighthouse SEO score > 95.
 3. **Day 6–10**: Add `vite-plugin-prerender` or `react-snap` to statically prerender all 50 `/companies/:slug` pages + `/`. Generate `sitemap.xml` and `robots.txt` at build. Submit to Google Search Console. Deliverable: 50+ pages indexed within 7 days of submission.
-4. **Day 11–17**: PYQ contributor credit + Telegram cross-post bot. Schema migration for `PyqContribution`. Create `t.me/prepnext_pyq` channel. Deliverable: every verified PYQ shows submitter name and is auto-posted to Telegram.
+4. **Day 11–17**: PYQ contributor credit + Telegram cross-post bot. Schema migration for `PyqContribution`. Create `t.me/prepnxt_pyq` channel. Deliverable: every verified PYQ shows submitter name and is auto-posted to Telegram.
 5. **Day 18–22**: Application Tracker reminders. Vercel Cron Job at `/api/cron/round-reminders` that emails users with rounds in the next 24h. Use Supabase + existing `Notification` model. Deliverable: 100% of upcoming rounds trigger a reminder.
 6. **Day 23–27**: Deprecate dead routes + schema. Delete 9 stale `routes/*.tsx` files, run Prisma migration dropping Course/Roadmap/Tutor models. Deliverable: bundle size reduction (target -15%), zero `<Navigate>` redirects.
 7. **Day 28–30**: Razorpay integration spike. `Subscription` model, pricing page at `/pricing`, gated checkout flow. Deliverable: one paid test transaction end-to-end with a real ₹1 payment.
@@ -176,7 +176,7 @@ Indian students will pay ₹199–₹499/yr for a placement tool that visibly im
 **Acquisition**
 - Organic search impressions (Google Search Console): **0 → 10,000/month by Day 90**
 - Indexed pages: **~5 (current homepage shell) → 200+ by Day 60**
-- Direct traffic from `prepnext.in` (post-domain): **track from Day 7**
+- Direct traffic from `prepnxt.in` (post-domain): **track from Day 7**
 - Referral signups from ambassador codes: **0 → 500 by Day 90**
 
 **Activation**

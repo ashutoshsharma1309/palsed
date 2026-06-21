@@ -28,7 +28,7 @@ export default function Settings() {
     const url = URL.createObjectURL(data);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `prepnext-${new Date().toISOString().slice(0, 10)}.json`;
+    a.download = `prepnxt-${new Date().toISOString().slice(0, 10)}.json`;
     a.click();
     URL.revokeObjectURL(url);
     toast.success("Exported your data");
