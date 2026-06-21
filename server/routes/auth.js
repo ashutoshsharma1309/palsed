@@ -46,8 +46,10 @@ r.patch("/me", requireAuth, async (req, res, next) => {
 
 /**
  * PUT /api/auth/profile  { fullName, collegeName, branch, yearOfStudy,
- *                          graduationYear, cgpa, phoneNumber?, linkedinUrl?,
- *                          githubUrl?, targetRoles? }
+ *                          targetRoles, linkedinUrl?, githubUrl? }
+ *
+ * Required: fullName, collegeName, branch, yearOfStudy, targetRoles (>=1).
+ * Optional: linkedinUrl, githubUrl.
  *
  * Saves the profile-setup form filled in after Google sign-in. Flips
  * `profileComplete` so AuthCallback stops bouncing the user back to /onboarding.
@@ -95,6 +97,9 @@ r.put("/profile", requireAuth, async (req, res, next) => {
     }
     if (![1, 2, 3, 4, 5].includes(yearOfStudy)) {
       return res.status(400).json({ error: "Year of study must be 1-5." });
+    }
+    if (targetRoles.length === 0) {
+      return res.status(400).json({ error: "Pick at least one target role." });
     }
 
     const user = await prisma.user.update({

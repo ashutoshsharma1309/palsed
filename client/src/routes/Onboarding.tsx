@@ -14,8 +14,8 @@ import { usePageMeta } from "../hooks/usePageMeta";
 // profileComplete=false. Until they submit a valid form, AuthCallback bounces
 // them back here.
 //
-// Hard-required: full name, college, branch, year of study, graduation year.
-// Soft (optional but encouraged): CGPA, phone, LinkedIn, GitHub, target roles.
+// Hard-required: full name, college, branch, year of study, target roles.
+// Optional: LinkedIn, GitHub.
 
 const BRANCHES = ["CSE", "IT", "ECE", "EE", "EEE", "ME", "Civil", "Chemical", "Biotech", "MCA", "MBA", "Other"] as const;
 
@@ -99,6 +99,7 @@ export default function Onboarding() {
     if (trimmedCollege.length < 2) return setError("Enter your college name.");
     if (!branch) return setError("Pick your branch.");
     if (!yearOfStudy) return setError("Tell us which year you're in.");
+    if (targetRoles.length === 0) return setError("Pick at least one target role.");
 
     setBusy(true);
     try {
@@ -236,9 +237,11 @@ export default function Onboarding() {
 
           {/* TARGET ROLES */}
           <Card>
-            <h2 className="display text-xl mb-1">Target roles.</h2>
+            <h2 className="display text-xl mb-1">
+              Target roles. <span className="text-[var(--color-neon)] text-base align-middle">*</span>
+            </h2>
             <p className="text-[var(--color-text-faint)] text-xs mb-4">
-              Pick up to 5. Helps us prioritise the right companies + DSA topics.
+              Pick 1–5 (required). Helps us prioritise the right companies + DSA topics.
             </p>
             <div className="flex flex-wrap gap-1.5">
               {ROLES.map((r) => (
