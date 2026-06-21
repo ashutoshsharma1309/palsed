@@ -44,12 +44,12 @@ export function InterventionToast() {
       <div className="flex items-start justify-between gap-3">
         <div>
           <div className="display text-xl neon-text mb-1">STUCK?</div>
-          <div className="text-sm text-white/80">
+          <div className="text-sm text-[var(--color-text-dim)]">
             Your focus looks low. Want me to re-explain this differently?
           </div>
         </div>
         <button
-          className="text-white/40 hover:text-white"
+          className="text-[var(--color-text-faint)] hover:text-[var(--color-text)]"
           onClick={() => setShow(false)}
         >
           ✕

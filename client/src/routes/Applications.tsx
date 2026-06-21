@@ -49,7 +49,7 @@ export default function Applications() {
       <header className="mb-8">
         <div className="mono text-xs uppercase tracking-[0.3em] text-[var(--color-neon)] mb-2">// my placement season</div>
         <h1 className="display text-5xl sm:text-7xl">APPLICATIONS.</h1>
-        <p className="text-white/60 mt-2 max-w-2xl">
+        <p className="text-[var(--color-text-faint)] mt-2 max-w-2xl">
           Every company you applied to. Every round date. Every offer. Drag through the pipeline
           as you progress.
         </p>
@@ -58,20 +58,20 @@ export default function Applications() {
       {/* QUICK STATS */}
       <div className="grid sm:grid-cols-4 gap-4 mb-6">
         <Card>
-          <div className="mono text-[10px] uppercase tracking-widest text-white/40">Total tracked</div>
+          <div className="mono text-[10px] uppercase tracking-widest text-[var(--color-text-faint)]">Total tracked</div>
           <div className="display text-4xl">{apps.length}</div>
         </Card>
         <Card>
-          <div className="mono text-[10px] uppercase tracking-widest text-white/40">Active</div>
+          <div className="mono text-[10px] uppercase tracking-widest text-[var(--color-text-faint)]">Active</div>
           <div className="display text-4xl">{apps.filter((a) => ACTIVE_STATUSES.includes(a.status)).length}</div>
         </Card>
         <Card>
-          <div className="mono text-[10px] uppercase tracking-widest text-white/40">Offers</div>
+          <div className="mono text-[10px] uppercase tracking-widest text-[var(--color-text-faint)]">Offers</div>
           <div className="display text-4xl neon-text">{offers.length}</div>
         </Card>
         <Card>
-          <div className="mono text-[10px] uppercase tracking-widest text-white/40">Conversion</div>
-          <div className="display text-4xl">{conversionRate}<span className="text-lg text-white/40">%</span></div>
+          <div className="mono text-[10px] uppercase tracking-widest text-[var(--color-text-faint)]">Conversion</div>
+          <div className="display text-4xl">{conversionRate}<span className="text-lg text-[var(--color-text-faint)]">%</span></div>
         </Card>
       </div>
 
@@ -90,7 +90,7 @@ export default function Applications() {
                 <div key={a.id} className="flex items-center gap-3 text-sm">
                   <span className="display text-2xl text-[var(--color-neon)] w-12 text-right">{days >= 0 ? `+${days}d` : `${days}d`}</span>
                   <span className="font-semibold flex-1">{c?.name} · {a.role}</span>
-                  <span className="text-xs text-white/60">{a.nextActionLabel || STATUS_LABELS[a.status]}</span>
+                  <span className="text-xs text-[var(--color-text-faint)]">{a.nextActionLabel || STATUS_LABELS[a.status]}</span>
                 </div>
               );
             })}
@@ -103,7 +103,7 @@ export default function Applications() {
         <h3 className="font-bold mb-3 flex items-center gap-2"><Plus className="w-4 h-4 text-[var(--color-neon)]" /> Add an application</h3>
         <div className="grid sm:grid-cols-[1fr_1fr_auto] gap-3">
           <select
-            className="bg-[#1a1a1a] border border-white/10 rounded-lg p-3"
+            className="bg-[#1a1a1a] border border-[var(--color-line)] rounded-lg p-3"
             value={companySlug}
             onChange={(e) => setCompanySlug(e.target.value)}
           >
@@ -111,7 +111,7 @@ export default function Applications() {
             {COMPANIES.map((c) => <option key={c.slug} value={c.slug}>{c.name}</option>)}
           </select>
           <input
-            className="bg-[#1a1a1a] border border-white/10 rounded-lg p-3"
+            className="bg-[#1a1a1a] border border-[var(--color-line)] rounded-lg p-3"
             placeholder="Role (e.g. SDE-1)"
             value={role}
             onChange={(e) => setRole(e.target.value)}
@@ -124,7 +124,7 @@ export default function Applications() {
       <div className="flex items-center justify-between mb-4">
         <h2 className="display text-3xl">PIPELINE.</h2>
         <button
-          className="text-xs text-white/60 hover:text-white"
+          className="text-xs text-[var(--color-text-faint)] hover:text-[var(--color-text)]"
           onClick={() => setShowAll((v) => !v)}
         >
           {showAll ? "Hide finished" : "Show all (incl. rejected)"}
@@ -140,9 +140,9 @@ export default function Applications() {
                 <div className="mono text-[10px] uppercase tracking-widest" style={{ color: STATUS_COLORS[col] }}>
                   {STATUS_LABELS[col]}
                 </div>
-                <div className="mono text-[10px] text-white/40">{grouped[col].length}</div>
+                <div className="mono text-[10px] text-[var(--color-text-faint)]">{grouped[col].length}</div>
               </div>
-              <div className="space-y-2 min-h-[120px] p-2 rounded-xl bg-white/[0.02]">
+              <div className="space-y-2 min-h-[120px] p-2 rounded-xl bg-[var(--color-card-soft)]">
                 {grouped[col].map((a) => (
                   <AppCard
                     key={a.id}
@@ -155,7 +155,7 @@ export default function Applications() {
                   />
                 ))}
                 {grouped[col].length === 0 && (
-                  <div className="text-[10px] text-white/30 mono uppercase tracking-widest text-center py-6">empty</div>
+                  <div className="text-[10px] text-[var(--color-text-faint)] mono uppercase tracking-widest text-center py-6">empty</div>
                 )}
               </div>
             </div>
@@ -170,10 +170,10 @@ export default function Applications() {
             {apps.filter((a) => ["rejected","joined","withdrawn"].includes(a.status)).map((a) => {
               const c = getCompany(a.companySlug);
               return (
-                <div key={a.id} className="flex items-center justify-between gap-2 border border-white/5 rounded-lg p-3">
+                <div key={a.id} className="flex items-center justify-between gap-2 border border-[var(--color-line)] rounded-lg p-3">
                   <div className="text-sm">
                     <span className="font-semibold">{c?.name}</span>
-                    <span className="text-white/50 ml-2">{a.role}</span>
+                    <span className="text-[var(--color-text-faint)] ml-2">{a.role}</span>
                   </div>
                   <Chip tone={a.status === "joined" ? "success" : "warn"}>{STATUS_LABELS[a.status]}</Chip>
                 </div>
@@ -202,7 +202,7 @@ function AppCard({ app, onMove, onEdit, onDelete }: { app: Application; onMove: 
         </div>
         <div className="flex-1 min-w-0">
           <Link to={`/companies/${c?.slug}`} className="font-semibold text-sm hover:text-[var(--color-neon)] truncate block">{c?.name}</Link>
-          <div className="text-[10px] mono text-white/40 truncate">{app.role}</div>
+          <div className="text-[10px] mono text-[var(--color-text-faint)] truncate">{app.role}</div>
         </div>
       </div>
       {app.nextActionAt && (
@@ -210,9 +210,9 @@ function AppCard({ app, onMove, onEdit, onDelete }: { app: Application; onMove: 
           <Calendar className="w-3 h-3" /> {new Date(app.nextActionAt).toLocaleDateString()}
         </div>
       )}
-      {app.notes && <div className="text-[11px] text-white/60 mt-1 line-clamp-2">{app.notes}</div>}
+      {app.notes && <div className="text-[11px] text-[var(--color-text-faint)] mt-1 line-clamp-2">{app.notes}</div>}
       <div className="flex items-center justify-between mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
-        <button onClick={onEdit} className="text-[10px] text-white/50 hover:text-white">edit</button>
+        <button onClick={onEdit} className="text-[10px] text-[var(--color-text-faint)] hover:text-[var(--color-text)]">edit</button>
         <div className="flex gap-1">
           {nextStatus && (
             <button onClick={() => onMove(nextStatus)} className="text-[10px] px-1.5 py-0.5 rounded bg-[var(--color-neon)]/20 text-[var(--color-neon)]" title={`Move → ${STATUS_LABELS[nextStatus]}`}>
@@ -222,7 +222,7 @@ function AppCard({ app, onMove, onEdit, onDelete }: { app: Application; onMove: 
           {app.status !== "rejected" && (
             <button onClick={() => onMove("rejected")} className="text-[10px] text-red-300/70 hover:text-red-300" title="Reject">✕</button>
           )}
-          <button onClick={onDelete} className="text-[10px] text-white/30 hover:text-red-300" title="Delete"><Trash2 className="w-3 h-3" /></button>
+          <button onClick={onDelete} className="text-[10px] text-[var(--color-text-faint)] hover:text-red-300" title="Delete"><Trash2 className="w-3 h-3" /></button>
         </div>
       </div>
     </div>
@@ -249,20 +249,20 @@ function EditDrawer({ app, onClose, onSave }: { app: Application; onClose: () =>
           </div>
         </div>
         <div className="space-y-4">
-          <Field label="Role"><input className="w-full bg-[#1a1a1a] border border-white/10 rounded p-2" value={role} onChange={(e) => setRole(e.target.value)} /></Field>
+          <Field label="Role"><input className="w-full bg-[#1a1a1a] border border-[var(--color-line)] rounded p-2" value={role} onChange={(e) => setRole(e.target.value)} /></Field>
           <Field label="Status">
-            <select className="w-full bg-[#1a1a1a] border border-white/10 rounded p-2" value={status} onChange={(e) => setStatus(e.target.value as ApplicationStatus)}>
+            <select className="w-full bg-[#1a1a1a] border border-[var(--color-line)] rounded p-2" value={status} onChange={(e) => setStatus(e.target.value as ApplicationStatus)}>
               {STATUS_ORDER.map((s) => <option key={s} value={s}>{STATUS_LABELS[s]}</option>)}
             </select>
           </Field>
           <div className="grid grid-cols-2 gap-2">
-            <Field label="Next action date"><input type="date" className="w-full bg-[#1a1a1a] border border-white/10 rounded p-2" value={nextActionAt} onChange={(e) => setNextActionAt(e.target.value)} /></Field>
-            <Field label="Next action"><input className="w-full bg-[#1a1a1a] border border-white/10 rounded p-2" placeholder="OA / Tech 2 / HR" value={nextActionLabel} onChange={(e) => setNextActionLabel(e.target.value)} /></Field>
+            <Field label="Next action date"><input type="date" className="w-full bg-[#1a1a1a] border border-[var(--color-line)] rounded p-2" value={nextActionAt} onChange={(e) => setNextActionAt(e.target.value)} /></Field>
+            <Field label="Next action"><input className="w-full bg-[#1a1a1a] border border-[var(--color-line)] rounded p-2" placeholder="OA / Tech 2 / HR" value={nextActionLabel} onChange={(e) => setNextActionLabel(e.target.value)} /></Field>
           </div>
           {(status === "offered" || status === "joined") && (
-            <Field label="CTC Offered (LPA)"><input type="number" className="w-full bg-[#1a1a1a] border border-white/10 rounded p-2" value={ctcOffered} onChange={(e) => setCtcOffered(e.target.value)} /></Field>
+            <Field label="CTC Offered (LPA)"><input type="number" className="w-full bg-[#1a1a1a] border border-[var(--color-line)] rounded p-2" value={ctcOffered} onChange={(e) => setCtcOffered(e.target.value)} /></Field>
           )}
-          <Field label="Notes"><textarea rows={3} className="w-full bg-[#1a1a1a] border border-white/10 rounded p-2 resize-y" value={notes} onChange={(e) => setNotes(e.target.value)} /></Field>
+          <Field label="Notes"><textarea rows={3} className="w-full bg-[#1a1a1a] border border-[var(--color-line)] rounded p-2 resize-y" value={notes} onChange={(e) => setNotes(e.target.value)} /></Field>
         </div>
         <div className="flex justify-end gap-2 mt-5">
           <Button variant="ghost" onClick={onClose}>Cancel</Button>
@@ -283,7 +283,7 @@ function EditDrawer({ app, onClose, onSave }: { app: Application; onClose: () =>
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label className="block">
-      <div className="text-[10px] uppercase tracking-widest text-white/50 mono mb-1">{label}</div>
+      <div className="text-[10px] uppercase tracking-widest text-[var(--color-text-faint)] mono mb-1">{label}</div>
       {children}
     </label>
   );

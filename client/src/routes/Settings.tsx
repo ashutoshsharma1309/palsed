@@ -67,21 +67,21 @@ export default function Settings() {
         <div className="grid sm:grid-cols-2 gap-4">
           <Field label="Display name">
             <input
-              className="w-full bg-transparent border-b border-white/20 focus:border-[var(--color-neon)] outline-none py-2"
+              className="w-full bg-transparent border-b border-[var(--color-line)] focus:border-[var(--color-neon)] outline-none py-2"
               value={profile.displayName}
               onChange={(e) => setProfile({ ...profile, displayName: e.target.value })}
             />
           </Field>
           <Field label="Learning goal">
             <input
-              className="w-full bg-transparent border-b border-white/20 focus:border-[var(--color-neon)] outline-none py-2"
+              className="w-full bg-transparent border-b border-[var(--color-line)] focus:border-[var(--color-neon)] outline-none py-2"
               value={profile.learningGoal}
               onChange={(e) => setProfile({ ...profile, learningGoal: e.target.value })}
             />
           </Field>
           <Field label="Preferred style">
             <select
-              className="w-full bg-[#1a1a1a] border border-white/10 rounded p-2"
+              className="w-full bg-[#1a1a1a] border border-[var(--color-line)] rounded p-2"
               value={profile.preferredStyle}
               onChange={(e) => setProfile({ ...profile, preferredStyle: e.target.value as any })}
             >
@@ -96,7 +96,7 @@ export default function Settings() {
               type="number"
               min={5}
               max={240}
-              className="w-full bg-[#1a1a1a] border border-white/10 rounded p-2"
+              className="w-full bg-[#1a1a1a] border border-[var(--color-line)] rounded p-2"
               value={profile.dailyMinutes}
               onChange={(e) => setProfile({ ...profile, dailyMinutes: +e.target.value })}
             />
@@ -106,7 +106,7 @@ export default function Settings() {
 
       <Card className="mb-6">
         <h2 className="display text-2xl mb-4">EXPORT / IMPORT.</h2>
-        <p className="text-sm text-white/60 mb-4">
+        <p className="text-sm text-[var(--color-text-faint)] mb-4">
           Export your learning data as a backup, or import it on another device.
         </p>
         <div className="flex flex-wrap gap-3">
@@ -120,7 +120,7 @@ export default function Settings() {
 
       <Card>
         <h2 className="display text-2xl mb-4">WIPE EVERYTHING.</h2>
-        <p className="text-sm text-white/60 mb-4">
+        <p className="text-sm text-[var(--color-text-faint)] mb-4">
           Removes your profile, courses, mastery, SRS — everything PrepPlace has saved on this browser.
           No undo.
         </p>
@@ -140,7 +140,7 @@ export default function Settings() {
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label className="block">
-      <div className="text-[10px] uppercase tracking-widest text-white/50 mono mb-1">{label}</div>
+      <div className="text-[10px] uppercase tracking-widest text-[var(--color-text-faint)] mono mb-1">{label}</div>
       {children}
     </label>
   );

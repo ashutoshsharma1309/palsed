@@ -13,7 +13,7 @@ const DIFF_STYLE: Record<string, string> = {
 };
 
 function diffClass(d?: Difficulty) {
-  return d ? DIFF_STYLE[d] ?? "text-white/50 border-white/20" : "";
+  return d ? DIFF_STYLE[d] ?? "text-[var(--color-text-faint)] border-[var(--color-line)]" : "";
 }
 
 interface Props {
@@ -36,12 +36,12 @@ export const TopicCard = memo(function TopicCard({
       className={`group flex flex-col rounded-2xl border backdrop-blur-xl p-5 transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_8px_40px_rgba(200,255,61,0.12)] ${
         completed
           ? "bg-[var(--color-neon)]/[0.06] border-[var(--color-neon)]/40"
-          : "bg-white/[0.04] border-white/10 hover:border-[var(--color-neon)]/40"
+          : "bg-[var(--color-card-soft)] border-[var(--color-line)] hover:border-[var(--color-neon)]/40"
       }`}
     >
       <div className="flex items-start justify-between gap-3 mb-2">
         <div className="min-w-0">
-          <h3 className="font-semibold text-white truncate">{topic.title}</h3>
+          <h3 className="font-semibold text-[var(--color-text)] truncate">{topic.title}</h3>
           {topic.difficulty && (
             <span
               className={`inline-block mt-1.5 text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full border ${diffClass(
@@ -60,14 +60,14 @@ export const TopicCard = memo(function TopicCard({
           className={`shrink-0 w-7 h-7 rounded-full border flex items-center justify-center transition-all ${
             completed
               ? "bg-[var(--color-neon)] border-[var(--color-neon)] text-black"
-              : "border-white/25 text-transparent hover:border-[var(--color-neon)]"
+              : "border-[var(--color-line)] text-transparent hover:border-[var(--color-neon)]"
           }`}
         >
           <Check className="w-4 h-4" aria-hidden="true" />
         </button>
       </div>
 
-      {topic.blurb && <p className="text-xs text-white/50 mb-3">{topic.blurb}</p>}
+      {topic.blurb && <p className="text-xs text-[var(--color-text-faint)] mb-3">{topic.blurb}</p>}
 
       {typeof topic.recommended === "number" && (
         <div className="mono text-[11px] text-[var(--color-neon)] mb-3">

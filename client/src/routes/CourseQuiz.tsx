@@ -167,12 +167,12 @@ export default function CourseQuiz() {
         <h1 className="display text-5xl mb-3">QUIZ COMPLETE.</h1>
         <Card>
           <div className="display text-7xl neon-text mb-2">{Math.round(score * 100)}%</div>
-          <div className="text-white/60 mb-6">
+          <div className="text-[var(--color-text-faint)] mb-6">
             {outcomes.filter((o) => o.correct).length}/{outcomes.length} correct ·
             difficulty closed at {diff.toFixed(1)}/5
           </div>
           {issued ? (
-            <div className="border-t border-white/10 pt-6">
+            <div className="border-t border-[var(--color-line)] pt-6">
               <div className="flex items-center gap-2 mb-3">
                 <Award className="w-5 h-5 text-[var(--color-neon)]" />
                 <div className="display text-2xl">Certificate issued.</div>
@@ -180,8 +180,8 @@ export default function CourseQuiz() {
               <Link to="/certificates"><Button fullWidth>View certificate</Button></Link>
             </div>
           ) : (
-            <div className="border-t border-white/10 pt-6">
-              <div className="text-white/70 mb-3">
+            <div className="border-t border-[var(--color-line)] pt-6">
+              <div className="text-[var(--color-text-dim)] mb-3">
                 Almost there. PrepPlace added your missed questions to your spaced-repetition queue —
                 come back tomorrow for review and re-take.
               </div>
@@ -195,7 +195,7 @@ export default function CourseQuiz() {
 
   return (
     <div className="mx-auto max-w-3xl px-4 sm:px-6 py-8">
-      <Link to={`/courses/${course.id}`} className="text-xs text-white/40 hover:text-white inline-flex items-center gap-1 mb-3">
+      <Link to={`/courses/${course.id}`} className="text-xs text-[var(--color-text-faint)] hover:text-[var(--color-text)] inline-flex items-center gap-1 mb-3">
         <ChevronLeft className="w-3 h-3" /> {course.title}
       </Link>
       <div className="mono text-xs text-[var(--color-neon)] uppercase tracking-widest mb-2">
@@ -210,7 +210,7 @@ export default function CourseQuiz() {
           <Loader label="Generating question" />
         ) : (
           <>
-            <div className="mono text-[10px] uppercase tracking-widest text-white/40 mb-2">
+            <div className="mono text-[10px] uppercase tracking-widest text-[var(--color-text-faint)] mb-2">
               difficulty {current.difficulty}/5
             </div>
             <div className="text-lg font-semibold mb-4">{current.question}</div>
@@ -228,7 +228,7 @@ export default function CourseQuiz() {
                         ? "border-[var(--color-neon)] bg-[var(--color-neon)]/10"
                         : isPicked
                         ? "border-red-400 bg-red-400/10"
-                        : "border-white/10 hover:border-white/30"
+                        : "border-[var(--color-line)] hover:border-[var(--color-line)]"
                     } disabled:cursor-default`}
                   >
                     {opt}
@@ -241,7 +241,7 @@ export default function CourseQuiz() {
                 <div className="font-semibold mb-2">
                   {picked === current.answerIndex ? "✓ Correct" : "✗ Incorrect"}
                 </div>
-                <div className="text-sm text-white/70">{current.explanation}</div>
+                <div className="text-sm text-[var(--color-text-dim)]">{current.explanation}</div>
               </div>
             )}
             {microLesson && (
@@ -249,10 +249,10 @@ export default function CourseQuiz() {
                 <summary className="cursor-pointer font-semibold text-sm text-[var(--color-neon)]">
                   Micro-lesson · why this is tricky
                 </summary>
-                <div className="mt-3 space-y-2 text-sm text-white/80">
+                <div className="mt-3 space-y-2 text-sm text-[var(--color-text-dim)]">
                   <div><strong>Root cause:</strong> {microLesson.rootCause}</div>
                   <div className="markdown-body">{microLesson.microLesson}</div>
-                  <div className="text-xs text-white/50 italic">Retry hint: {microLesson.retryHint}</div>
+                  <div className="text-xs text-[var(--color-text-faint)] italic">Retry hint: {microLesson.retryHint}</div>
                 </div>
               </details>
             )}

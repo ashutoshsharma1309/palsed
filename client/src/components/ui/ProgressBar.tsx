@@ -10,7 +10,7 @@ export function ProgressBar({ value, height = 8, color = "#c8ff3d", label }: Pro
   return (
     <div className="w-full">
       {label && (
-        <div className="flex justify-between text-[11px] uppercase tracking-wider text-white/50 mb-1">
+        <div className="flex justify-between text-[11px] uppercase tracking-wider text-[var(--color-text-faint)] mb-1">
           <span>{label}</span>
           <span className="mono">{Math.round(pct * 100)}%</span>
         </div>

@@ -58,7 +58,7 @@ export default function Internships() {
       <header className="mb-10">
         <div className="mono text-xs uppercase tracking-[0.3em] text-[var(--color-neon)] mb-2">// internships hub</div>
         <h1 className="display text-5xl sm:text-7xl">WHERE TO APPLY.</h1>
-        <p className="text-white/60 mt-3 max-w-2xl">
+        <p className="text-[var(--color-text-faint)] mt-3 max-w-2xl">
           {totalCount} curated platforms for finding internships and entry-level jobs —
           India boards, global startups, research programs, AI labs, remote-first, hackathons,
           and salary benchmarks. {freeCount} are free.
@@ -67,10 +67,10 @@ export default function Internships() {
           <span className="px-3 py-1 rounded-full bg-[var(--color-neon)]/15 text-[var(--color-neon)] mono">
             {totalCount} platforms
           </span>
-          <span className="px-3 py-1 rounded-full bg-white/5 text-white/70 mono">
+          <span className="px-3 py-1 rounded-full bg-white/5 text-[var(--color-text-dim)] mono">
             {indiaCount} India-focused
           </span>
-          <span className="px-3 py-1 rounded-full bg-white/5 text-white/70 mono">
+          <span className="px-3 py-1 rounded-full bg-white/5 text-[var(--color-text-dim)] mono">
             {BOARD_CATEGORIES.length} categories
           </span>
         </div>
@@ -78,9 +78,9 @@ export default function Internships() {
 
       <Card className="mb-6">
         <div className="flex items-center gap-2 mb-4">
-          <Search className="w-4 h-4 text-white/40" />
+          <Search className="w-4 h-4 text-[var(--color-text-faint)]" />
           <input
-            className="flex-1 bg-transparent outline-none placeholder-white/30"
+            className="flex-1 bg-transparent outline-none placeholder:text-[var(--color-text-faint)]"
             placeholder="Search platforms, tags, descriptions…"
             value={q}
             onChange={(e) => setQ(e.target.value)}
@@ -109,18 +109,18 @@ export default function Internships() {
         </div>
       </Card>
 
-      <div className="text-xs text-white/40 mono mb-4">
+      <div className="text-xs text-[var(--color-text-faint)] mono mb-4">
         Showing {filtered.length} / {totalCount}
       </div>
 
       {filtered.length === 0 ? (
-        <div className="py-16 text-center text-white/40">No platforms match. Try clearing filters.</div>
+        <div className="py-16 text-center text-[var(--color-text-faint)]">No platforms match. Try clearing filters.</div>
       ) : (
         <div className="space-y-10">
           {grouped.map(([category, items]) => (
             <section key={category}>
               <h2 className="display text-3xl mb-1">{category}</h2>
-              <div className="mono text-xs text-white/40 mb-4">{items!.length} platform{items!.length === 1 ? "" : "s"}</div>
+              <div className="mono text-xs text-[var(--color-text-faint)] mb-4">{items!.length} platform{items!.length === 1 ? "" : "s"}</div>
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {items!.map((b, i) => (
                   <a
@@ -132,23 +132,23 @@ export default function Internships() {
                   >
                     <div className="flex items-start justify-between gap-2 mb-2">
                       <div className="font-bold text-base group-hover:text-[var(--color-neon)]">{b.name}</div>
-                      <ExternalLink className="w-3 h-3 text-white/30 group-hover:text-[var(--color-neon)] shrink-0 mt-1" />
+                      <ExternalLink className="w-3 h-3 text-[var(--color-text-faint)] group-hover:text-[var(--color-neon)] shrink-0 mt-1" />
                     </div>
-                    <div className="text-xs text-white/70 mb-3 flex-1">{b.description}</div>
+                    <div className="text-xs text-[var(--color-text-dim)] mb-3 flex-1">{b.description}</div>
                     {b.tip && (
-                      <div className="text-xs border-l-2 border-[var(--color-neon)]/40 pl-2 mb-3 italic text-white/60">
+                      <div className="text-xs border-l-2 border-[var(--color-neon)]/40 pl-2 mb-3 italic text-[var(--color-text-faint)]">
                         💡 {b.tip}
                       </div>
                     )}
                     <div className="flex flex-wrap gap-1.5 mb-2">
                       {b.focus.slice(0, 4).map((f) => (
-                        <span key={f} className="text-[10px] mono px-1.5 py-0.5 rounded bg-white/5 text-white/60">#{f}</span>
+                        <span key={f} className="text-[10px] mono px-1.5 py-0.5 rounded bg-white/5 text-[var(--color-text-faint)]">#{f}</span>
                       ))}
                     </div>
                     <div className="flex items-center gap-2 text-[10px] mono uppercase tracking-widest">
                       <span style={{ color: TIER_COLOR[b.tier] }}>{b.tier}</span>
-                      <span className="text-white/40">·</span>
-                      <span className="text-white/60">{b.region.join(" · ")}</span>
+                      <span className="text-[var(--color-text-faint)]">·</span>
+                      <span className="text-[var(--color-text-faint)]">{b.region.join(" · ")}</span>
                     </div>
                   </a>
                 ))}
@@ -164,7 +164,7 @@ export default function Internships() {
 function Row({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div>
-      <div className="mono text-[10px] uppercase tracking-widest text-white/40 mb-1.5">{label}</div>
+      <div className="mono text-[10px] uppercase tracking-widest text-[var(--color-text-faint)] mb-1.5">{label}</div>
       <div className="flex flex-wrap gap-1.5">{children}</div>
     </div>
   );

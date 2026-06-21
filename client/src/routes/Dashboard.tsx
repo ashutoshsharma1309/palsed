@@ -58,9 +58,9 @@ export default function Dashboard() {
             // welcome back, {profile.displayName}
           </div>
           <h1 className="display text-5xl sm:text-7xl">DASHBOARD.</h1>
-          <p className="text-white/60 max-w-xl mt-2">
-            Goal: <span className="text-white">{profile.learningGoal}</span> · Style:{" "}
-            <span className="text-white">{profile.preferredStyle.replace("_", " ")}</span>
+          <p className="text-[var(--color-text-faint)] max-w-xl mt-2">
+            Goal: <span className="text-[var(--color-text)]">{profile.learningGoal}</span> · Style:{" "}
+            <span className="text-[var(--color-text)]">{profile.preferredStyle.replace("_", " ")}</span>
           </p>
         </div>
         <div className="flex flex-wrap gap-3">
@@ -88,8 +88,8 @@ export default function Dashboard() {
           <Stat2 label="Companies seeded" value={COMPANIES.length} sub="recruiter map" />
         </div>
         {upcoming.length > 0 && (
-          <div className="mt-5 border-t border-white/10 pt-4">
-            <div className="mono text-xs uppercase tracking-widest text-white/40 mb-3 flex items-center gap-1.5">
+          <div className="mt-5 border-t border-[var(--color-line)] pt-4">
+            <div className="mono text-xs uppercase tracking-widest text-[var(--color-text-faint)] mb-3 flex items-center gap-1.5">
               <Calendar className="w-3 h-3" /> Upcoming
             </div>
             <div className="space-y-2">
@@ -99,7 +99,7 @@ export default function Dashboard() {
                 return (
                   <div key={a.id} className="flex items-center gap-3 text-sm">
                     <span className="display text-2xl text-[var(--color-neon)] w-12 text-right">{days >= 0 ? `+${days}d` : `${days}d`}</span>
-                    <Link to={`/companies/${a.companySlug}`} className="font-semibold flex-1 hover:text-[var(--color-neon)] truncate">{c?.name} · <span className="font-normal text-white/60">{a.role}</span></Link>
+                    <Link to={`/companies/${a.companySlug}`} className="font-semibold flex-1 hover:text-[var(--color-neon)] truncate">{c?.name} · <span className="font-normal text-[var(--color-text-faint)]">{a.role}</span></Link>
                     <span className="text-xs px-2 py-0.5 rounded" style={{ background: `${STATUS_COLORS[a.status]}22`, color: STATUS_COLORS[a.status] }}>{STATUS_LABELS[a.status]}</span>
                   </div>
                 );
@@ -108,8 +108,8 @@ export default function Dashboard() {
           </div>
         )}
         {apps.length === 0 && (
-          <div className="mt-5 border-t border-white/10 pt-4 text-center py-3">
-            <div className="text-sm text-white/60 mb-3">No applications yet. Pick a company and start tracking.</div>
+          <div className="mt-5 border-t border-[var(--color-line)] pt-4 text-center py-3">
+            <div className="text-sm text-[var(--color-text-faint)] mb-3">No applications yet. Pick a company and start tracking.</div>
             <Link to="/companies"><Button size="sm" variant="outline">Browse 50 recruiters →</Button></Link>
           </div>
         )}
@@ -124,15 +124,15 @@ export default function Dashboard() {
         <Card>
           <div className="flex items-center gap-3 mb-3">
             <Flame className="w-5 h-5 text-[var(--color-neon)]" />
-            <div className="mono text-xs uppercase tracking-widest text-white/50">Streak</div>
+            <div className="mono text-xs uppercase tracking-widest text-[var(--color-text-faint)]">Streak</div>
           </div>
           <div className="display text-6xl neon-text">{streakDays}<span className="text-2xl ml-2">d</span></div>
-          <div className="text-xs text-white/40 mt-2">consecutive days of focus &gt; 1 min</div>
+          <div className="text-xs text-[var(--color-text-faint)] mt-2">consecutive days of focus &gt; 1 min</div>
         </Card>
         <Card>
           <div className="flex items-center gap-3 mb-3">
             <Sparkles className="w-5 h-5 text-[var(--color-neon)]" />
-            <div className="mono text-xs uppercase tracking-widest text-white/50">Today's focus</div>
+            <div className="mono text-xs uppercase tracking-widest text-[var(--color-text-faint)]">Today's focus</div>
           </div>
           <div className="display text-6xl">{Math.floor(todayActiveMs / 60000)}<span className="text-2xl ml-2">min</span></div>
           <div className="mt-4">
@@ -142,17 +142,17 @@ export default function Dashboard() {
         <Card>
           <div className="flex items-center gap-3 mb-3">
             <BrainCircuit className="w-5 h-5 text-[var(--color-neon)]" />
-            <div className="mono text-xs uppercase tracking-widest text-white/50">DSA progress</div>
+            <div className="mono text-xs uppercase tracking-widest text-[var(--color-text-faint)]">DSA progress</div>
           </div>
           <div className="display text-6xl">
-            {solved}<span className="text-white/30 text-3xl">/150</span>
+            {solved}<span className="text-[var(--color-text-faint)] text-3xl">/150</span>
           </div>
-          <div className="text-xs text-white/40 mt-2">{attempted} attempted but unsolved</div>
+          <div className="text-xs text-[var(--color-text-faint)] mt-2">{attempted} attempted but unsolved</div>
         </Card>
       </div>
 
       {/* Placement Hub analytics */}
-      <Card className="mb-6 bg-white/[0.04] backdrop-blur-xl">
+      <Card className="mb-6 bg-[var(--color-card-soft)] backdrop-blur-xl">
         <div className="flex items-center justify-between mb-5 flex-wrap gap-3">
           <div className="flex items-center gap-3">
             <Rocket className="w-5 h-5 text-[var(--color-neon)]" />
@@ -177,25 +177,25 @@ export default function Dashboard() {
               ]}
             />
             <div>
-              <div className="mono text-[11px] uppercase tracking-widest text-white/50">Readiness</div>
-              <div className="text-xs text-white/40 mt-1">placement score</div>
+              <div className="mono text-[11px] uppercase tracking-widest text-[var(--color-text-faint)]">Readiness</div>
+              <div className="text-xs text-[var(--color-text-faint)] mt-1">placement score</div>
             </div>
           </div>
           <div>
-            <div className="mono text-[11px] uppercase tracking-widest text-white/50 mb-2">Topics completed</div>
+            <div className="mono text-[11px] uppercase tracking-widest text-[var(--color-text-faint)] mb-2">Topics completed</div>
             <div className="display text-4xl">
-              {placement.completedCount}<span className="text-white/30 text-xl">/{placement.totalTopics}</span>
+              {placement.completedCount}<span className="text-[var(--color-text-faint)] text-xl">/{placement.totalTopics}</span>
             </div>
             <div className="mt-2"><ProgressBar value={placement.completionPct} /></div>
           </div>
           <div>
-            <div className="mono text-[11px] uppercase tracking-widest text-white/50 mb-2">Recommended next</div>
+            <div className="mono text-[11px] uppercase tracking-widest text-[var(--color-text-faint)] mb-2">Recommended next</div>
             <ul className="space-y-1">
               {placement.recommended.slice(0, 3).map((r) => (
-                <li key={r.topicId} className="text-sm text-white/75 truncate">
+                <li key={r.topicId} className="text-sm text-[var(--color-text-faint)] truncate">
                   <Link to="/placement-hub" className="hover:text-[var(--color-neon)]">
                     {r.topicTitle}
-                    <span className="text-white/30 text-xs"> · {r.sectionTitle}</span>
+                    <span className="text-[var(--color-text-faint)] text-xs"> · {r.sectionTitle}</span>
                   </Link>
                 </li>
               ))}
@@ -205,11 +205,11 @@ export default function Dashboard() {
             </ul>
           </div>
           <div>
-            <div className="mono text-[11px] uppercase tracking-widest text-white/50 mb-2 flex items-center gap-1.5">
+            <div className="mono text-[11px] uppercase tracking-widest text-[var(--color-text-faint)] mb-2 flex items-center gap-1.5">
               <Bookmark className="w-3.5 h-3.5" /> Saved resources
             </div>
             <div className="display text-4xl">{placement.bookmarks.length}</div>
-            <div className="text-xs text-white/40 mt-1">bookmarked across the hub</div>
+            <div className="text-xs text-[var(--color-text-faint)] mt-1">bookmarked across the hub</div>
           </div>
         </div>
       </Card>
@@ -225,23 +225,23 @@ export default function Dashboard() {
               <Link
                 key={c.slug}
                 to={`/companies/${c.slug}`}
-                className="border border-white/10 rounded-xl p-3 hover:border-[var(--color-neon)]/40 flex items-center gap-3"
+                className="border border-[var(--color-line)] rounded-xl p-3 hover:border-[var(--color-neon)]/40 flex items-center gap-3"
               >
                 <div className="w-10 h-10 rounded-lg flex items-center justify-center display text-xl shrink-0" style={{ background: c.brandColor || "#1a1a1a", color: c.brandColor ? "#fff" : "#c8ff3d" }}>{c.logoLetter}</div>
                 <div className="min-w-0">
                   <div className="font-semibold text-sm truncate">{c.name}</div>
-                  <div className="text-[10px] mono text-white/40 truncate">₹{c.ctcBand.typical} LPA · {c.indianOffices[0]}</div>
+                  <div className="text-[10px] mono text-[var(--color-text-faint)] truncate">₹{c.ctcBand.typical} LPA · {c.indianOffices[0]}</div>
                 </div>
               </Link>
             ))}
           </div>
         </Card>
         <Card>
-          <div className="mono text-xs uppercase tracking-widest text-white/50 mb-3">Mastery snapshot</div>
+          <div className="mono text-xs uppercase tracking-widest text-[var(--color-text-faint)] mb-3">Mastery snapshot</div>
           {radarPoints.length >= 3 ? (
             <Radar points={radarPoints} size={280} />
           ) : (
-            <div className="text-white/50 text-sm py-12 text-center">
+            <div className="text-[var(--color-text-faint)] text-sm py-12 text-center">
               Solve some DSA problems to populate your mastery radar.
             </div>
           )}
@@ -257,7 +257,7 @@ export default function Dashboard() {
             <AlertTriangle className="w-5 h-5 text-[var(--color-neon)] shrink-0 mt-0.5" />
             <div className="flex-1">
               <div className="font-bold mb-1">Weak topic alert</div>
-              <div className="text-sm text-white/70 mb-3">
+              <div className="text-sm text-[var(--color-text-dim)] mb-3">
                 Your lowest-mastery topics: <strong>{weak.join(", ")}</strong>. Practice these on the DSA hub or browse PYQs on these topics.
               </div>
               <div className="flex gap-2 flex-wrap">
@@ -282,10 +282,10 @@ export default function Dashboard() {
 
 function Stat2({ label, value, sub }: { label: string; value: number; sub?: string }) {
   return (
-    <div className="border border-white/10 rounded-xl p-4">
-      <div className="mono text-[10px] uppercase tracking-widest text-white/40">{label}</div>
+    <div className="border border-[var(--color-line)] rounded-xl p-4">
+      <div className="mono text-[10px] uppercase tracking-widest text-[var(--color-text-faint)]">{label}</div>
       <div className="display text-4xl neon-text mt-1">{value}</div>
-      {sub && <div className="mono text-[10px] text-white/40 mt-1">{sub}</div>}
+      {sub && <div className="mono text-[10px] text-[var(--color-text-faint)] mt-1">{sub}</div>}
     </div>
   );
 }

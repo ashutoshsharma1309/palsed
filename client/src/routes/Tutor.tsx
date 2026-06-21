@@ -88,17 +88,17 @@ export default function Tutor() {
         <Card className="!p-3 h-fit">
           <Button fullWidth size="sm" onClick={newThread}>+ New thread</Button>
           <div className="mt-3 space-y-1">
-            {threads.length === 0 && <div className="text-xs text-white/40 p-3">No threads yet.</div>}
+            {threads.length === 0 && <div className="text-xs text-[var(--color-text-faint)] p-3">No threads yet.</div>}
             {threads.map((t) => (
               <button
                 key={t.id}
                 onClick={() => setActiveId(t.id)}
                 className={`block w-full text-left p-2 rounded-lg text-xs ${
-                  activeId === t.id ? "bg-[var(--color-neon)]/10 text-[var(--color-neon)]" : "text-white/70 hover:bg-white/5"
+                  activeId === t.id ? "bg-[var(--color-neon)]/10 text-[var(--color-neon)]" : "text-[var(--color-text-dim)] hover:bg-[var(--color-text)]/5"
                 }`}
               >
                 <div className="font-semibold truncate">{t.title}</div>
-                <div className="mono text-[10px] text-white/40">{new Date(t.updatedAt).toLocaleString()}</div>
+                <div className="mono text-[10px] text-[var(--color-text-faint)]">{new Date(t.updatedAt).toLocaleString()}</div>
               </button>
             ))}
           </div>
@@ -107,7 +107,7 @@ export default function Tutor() {
         <Card className="flex flex-col min-h-[500px]">
           <div className="flex-1 overflow-y-auto space-y-4 mb-4 max-h-[600px]">
             {!active || active.messages.length === 0 ? (
-              <div className="text-white/40 text-center py-20">
+              <div className="text-[var(--color-text-faint)] text-center py-20">
                 Ask anything. The tutor uses your weak topics ({top(3).weak.join(", ") || "—"}) for context.
               </div>
             ) : (
@@ -123,7 +123,7 @@ export default function Tutor() {
                 </div>
               ))
             )}
-            {loading && <div className="text-xs text-white/40 mono">tutor is thinking…</div>}
+            {loading && <div className="text-xs text-[var(--color-text-faint)] mono">tutor is thinking…</div>}
           </div>
 
           {followups.length > 0 && (
@@ -136,7 +136,7 @@ export default function Tutor() {
 
           <div className="flex gap-2">
             <input
-              className="flex-1 bg-[#1a1a1a] border border-white/10 rounded-full px-4 py-2.5 outline-none focus:border-[var(--color-neon)]"
+              className="flex-1 bg-[#1a1a1a] border border-[var(--color-line)] rounded-full px-4 py-2.5 outline-none focus:border-[var(--color-neon)]"
               placeholder={voice.listening ? "Listening…" : "Ask the tutor…"}
               value={draft}
               onChange={(e) => setDraft(e.target.value)}

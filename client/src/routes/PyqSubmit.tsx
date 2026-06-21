@@ -48,12 +48,12 @@ export default function PyqSubmit() {
 
   return (
     <div className="mx-auto max-w-3xl px-4 sm:px-6 py-12">
-      <Link to="/pyq" className="text-xs text-white/40 hover:text-white inline-flex items-center gap-1 mb-3">
+      <Link to="/pyq" className="text-xs text-[var(--color-text-faint)] hover:text-[var(--color-text)] inline-flex items-center gap-1 mb-3">
         <ArrowLeft className="w-3 h-3" /> PYQ vault
       </Link>
       <div className="mono text-xs uppercase tracking-[0.3em] text-[var(--color-neon)] mb-2">// submit a PYQ</div>
       <h1 className="display text-5xl mb-2">CONTRIBUTE.</h1>
-      <p className="text-white/60 mb-8">
+      <p className="text-[var(--color-text-faint)] mb-8">
         Help other students prep. Your submission goes into a verification queue — once 3 people
         confirm, it gets a ✓ verified badge.
       </p>
@@ -61,14 +61,14 @@ export default function PyqSubmit() {
       <Card className="space-y-6">
         <Field label="Company">
           <select
-            className="w-full bg-[#1a1a1a] border border-white/10 rounded-lg p-3"
+            className="w-full bg-[#1a1a1a] border border-[var(--color-line)] rounded-lg p-3"
             value={companySlug}
             onChange={(e) => setCompanySlug(e.target.value)}
           >
             <option value="">— pick —</option>
             {COMPANIES.map((c) => <option key={c.slug} value={c.slug}>{c.name}</option>)}
           </select>
-          {company && <div className="text-xs text-white/40 mt-1 mono">{company.sector} · {company.tier}</div>}
+          {company && <div className="text-xs text-[var(--color-text-faint)] mt-1 mono">{company.sector} · {company.tier}</div>}
         </Field>
 
         <Field label="Round">
@@ -85,7 +85,7 @@ export default function PyqSubmit() {
               type="number"
               min="2015"
               max={new Date().getFullYear() + 1}
-              className="w-full bg-[#1a1a1a] border border-white/10 rounded-lg p-3"
+              className="w-full bg-[#1a1a1a] border border-[var(--color-line)] rounded-lg p-3"
               value={year}
               onChange={(e) => setYear(+e.target.value)}
             />
@@ -101,7 +101,7 @@ export default function PyqSubmit() {
 
         <Field label="Topic" hint="e.g. Arrays & Hashing, OS, DBMS, OOPs, System Design, HR">
           <input
-            className="w-full bg-[#1a1a1a] border border-white/10 rounded-lg p-3"
+            className="w-full bg-[#1a1a1a] border border-[var(--color-line)] rounded-lg p-3"
             value={topic}
             onChange={(e) => setTopic(e.target.value)}
           />
@@ -110,7 +110,7 @@ export default function PyqSubmit() {
         <Field label="Question" hint="The exact phrasing you remember (or paraphrase). Be precise about constraints.">
           <textarea
             rows={5}
-            className="w-full bg-[#1a1a1a] border border-white/10 rounded-lg p-3 resize-y"
+            className="w-full bg-[#1a1a1a] border border-[var(--color-line)] rounded-lg p-3 resize-y"
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
             placeholder="e.g. Given an array of N integers, find the longest subarray with sum divisible by K."
@@ -120,7 +120,7 @@ export default function PyqSubmit() {
         <Field label="Expected approach" hint="(optional) A 1-2 line hint at the intended solution. Don't post the full code.">
           <textarea
             rows={3}
-            className="w-full bg-[#1a1a1a] border border-white/10 rounded-lg p-3 resize-y"
+            className="w-full bg-[#1a1a1a] border border-[var(--color-line)] rounded-lg p-3 resize-y"
             value={expectedApproach}
             onChange={(e) => setExpectedApproach(e.target.value)}
             placeholder="e.g. Prefix sum mod K + hashmap of first-seen index."
@@ -128,7 +128,7 @@ export default function PyqSubmit() {
         </Field>
 
         <Button fullWidth onClick={onSubmit}>Submit for verification</Button>
-        <div className="text-[10px] text-white/40 mono uppercase tracking-widest text-center">
+        <div className="text-[10px] text-[var(--color-text-faint)] mono uppercase tracking-widest text-center">
           By submitting, you confirm this question is not under NDA and is being asked publicly.
         </div>
       </Card>
@@ -139,9 +139,9 @@ export default function PyqSubmit() {
 function Field({ label, hint, children }: { label: string; hint?: string; children: React.ReactNode }) {
   return (
     <label className="block">
-      <div className="text-[10px] uppercase tracking-widest text-white/50 mono mb-1">{label}</div>
+      <div className="text-[10px] uppercase tracking-widest text-[var(--color-text-faint)] mono mb-1">{label}</div>
       {children}
-      {hint && <div className="text-xs text-white/40 mt-1">{hint}</div>}
+      {hint && <div className="text-xs text-[var(--color-text-faint)] mt-1">{hint}</div>}
     </label>
   );
 }

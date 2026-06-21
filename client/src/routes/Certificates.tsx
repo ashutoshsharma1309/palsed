@@ -16,7 +16,7 @@ export default function Certificates() {
       {certs.length === 0 ? (
         <Card className="text-center py-20">
           <div className="display text-3xl mb-3">NO CERTIFICATES YET.</div>
-          <div className="text-white/60">Pass a course quiz at or above its passing score to earn one.</div>
+          <div className="text-[var(--color-text-faint)]">Pass a course quiz at or above its passing score to earn one.</div>
         </Card>
       ) : (
         <div className="grid lg:grid-cols-[300px_1fr] gap-5">
@@ -26,11 +26,11 @@ export default function Certificates() {
                 key={c.id}
                 onClick={() => setSelected(c)}
                 className={`w-full text-left p-4 rounded-xl border ${
-                  selected?.id === c.id ? "border-[var(--color-neon)] bg-[var(--color-neon)]/10" : "border-white/10"
+                  selected?.id === c.id ? "border-[var(--color-neon)] bg-[var(--color-neon)]/10" : "border-[var(--color-line)]"
                 }`}
               >
                 <div className="font-semibold text-sm">{c.courseTitle}</div>
-                <div className="mono text-xs text-white/40 mt-1">
+                <div className="mono text-xs text-[var(--color-text-faint)] mt-1">
                   {Math.round(c.score * 100)}% · {new Date(c.issuedAt).toLocaleDateString()}
                 </div>
               </button>
@@ -65,23 +65,23 @@ function CertificateView({ cert }: { cert: Certificate }) {
             // certificate of completion
           </div>
           <div className="display text-3xl sm:text-5xl mb-8 leading-tight">PREPPLACE</div>
-          <div className="text-sm text-white/60 mb-2">This is to certify that</div>
+          <div className="text-sm text-[var(--color-text-faint)] mb-2">This is to certify that</div>
           <div className="display text-4xl mb-8">{cert.displayName}</div>
-          <div className="text-sm text-white/60 mb-2">has successfully completed</div>
+          <div className="text-sm text-[var(--color-text-faint)] mb-2">has successfully completed</div>
           <div className="display text-3xl mb-8 text-[var(--color-neon)]">{cert.courseTitle}</div>
           <div className="flex justify-between items-end gap-6 flex-wrap">
             <div>
-              <div className="mono text-xs text-white/40">issued</div>
+              <div className="mono text-xs text-[var(--color-text-faint)]">issued</div>
               <div className="text-sm">{new Date(cert.issuedAt).toLocaleDateString()}</div>
-              <div className="mono text-xs text-white/40 mt-3">score</div>
+              <div className="mono text-xs text-[var(--color-text-faint)] mt-3">score</div>
               <div className="display text-2xl">{Math.round(cert.score * 100)}%</div>
-              <div className="mono text-xs text-white/40 mt-3">verify code</div>
+              <div className="mono text-xs text-[var(--color-text-faint)] mt-3">verify code</div>
               <div className="mono text-sm text-[var(--color-neon)]">{cert.verifyCode}</div>
             </div>
             {qr && (
               <div className="text-right">
-                <img src={qr} alt="verify" className="w-32 h-32 rounded-lg border border-white/10" />
-                <div className="mono text-[10px] text-white/40 mt-2">scan to verify</div>
+                <img src={qr} alt="verify" className="w-32 h-32 rounded-lg border border-[var(--color-line)]" />
+                <div className="mono text-[10px] text-[var(--color-text-faint)] mt-2">scan to verify</div>
               </div>
             )}
           </div>

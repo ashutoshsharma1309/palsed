@@ -100,21 +100,21 @@ export function CommandPalette() {
   return (
     <div className="fixed inset-0 z-[60] bg-black/70 backdrop-blur-sm flex items-start justify-center pt-[12vh] px-4" onClick={() => setOpen(false)}>
       <div className="card-base !p-0 max-w-xl w-full overflow-hidden" onClick={(e) => e.stopPropagation()}>
-        <div className="flex items-center gap-3 p-4 border-b border-white/10">
-          <Search className="w-4 h-4 text-white/40" />
+        <div className="flex items-center gap-3 p-4 border-b border-[var(--color-line)]">
+          <Search className="w-4 h-4 text-[var(--color-text-faint)]" />
           <input
             ref={inputRef}
-            className="flex-1 bg-transparent outline-none text-base placeholder-white/30"
+            className="flex-1 bg-transparent outline-none text-base placeholder:text-[var(--color-text-faint)]"
             placeholder="Jump to anywhere…"
             value={q}
             onChange={(e) => { setQ(e.target.value); setFocusedIdx(0); }}
             onKeyDown={onInputKey}
           />
-          <kbd className="mono text-[10px] px-2 py-0.5 rounded border border-white/20 text-white/40">ESC</kbd>
+          <kbd className="mono text-[10px] px-2 py-0.5 rounded border border-[var(--color-line)] text-[var(--color-text-faint)]">ESC</kbd>
         </div>
         <div className="max-h-[55vh] overflow-y-auto">
           {filtered.length === 0 ? (
-            <div className="text-white/40 text-sm text-center py-8">No matches.</div>
+            <div className="text-[var(--color-text-faint)] text-sm text-center py-8">No matches.</div>
           ) : (
             filtered.map((c, i) => (
               <button
@@ -122,20 +122,20 @@ export function CommandPalette() {
                 onClick={() => { c.run(); setOpen(false); }}
                 onMouseEnter={() => setFocusedIdx(i)}
                 className={`w-full flex items-center gap-3 px-4 py-3 text-left ${
-                  i === focusedIdx ? "bg-[var(--color-neon)]/10" : "hover:bg-white/5"
+                  i === focusedIdx ? "bg-[var(--color-neon)]/10" : "hover:bg-[var(--color-text)]/5"
                 }`}
               >
-                <div className={i === focusedIdx ? "text-[var(--color-neon)]" : "text-white/50"}>{c.icon}</div>
+                <div className={i === focusedIdx ? "text-[var(--color-neon)]" : "text-[var(--color-text-faint)]"}>{c.icon}</div>
                 <div className="flex-1">
-                  <div className={`text-sm ${i === focusedIdx ? "text-white" : "text-white/80"}`}>{c.label}</div>
-                  <div className="mono text-[10px] text-white/40">{c.hint}</div>
+                  <div className={`text-sm ${i === focusedIdx ? "text-[var(--color-text)]" : "text-[var(--color-text-dim)]"}`}>{c.label}</div>
+                  <div className="mono text-[10px] text-[var(--color-text-faint)]">{c.hint}</div>
                 </div>
                 {i === focusedIdx && <ArrowRight className="w-3 h-3 text-[var(--color-neon)]" />}
               </button>
             ))
           )}
         </div>
-        <div className="px-4 py-2 border-t border-white/10 mono text-[10px] text-white/40 flex justify-between">
+        <div className="px-4 py-2 border-t border-[var(--color-line)] mono text-[10px] text-[var(--color-text-faint)] flex justify-between">
           <span>↑↓ navigate · ↵ select</span>
           <span>⌘K toggle</span>
         </div>

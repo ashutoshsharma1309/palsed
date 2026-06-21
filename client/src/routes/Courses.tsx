@@ -23,7 +23,7 @@ export default function Courses() {
         <div>
           <div className="mono text-xs uppercase tracking-[0.3em] text-[var(--color-neon)] mb-2">// ai-generated courses</div>
           <h1 className="display text-5xl sm:text-7xl">COURSES.</h1>
-          <p className="text-white/60 mt-2">Multi-style, adaptive courses. Each lesson has 4 explanation angles.</p>
+          <p className="text-[var(--color-text-faint)] mt-2">Multi-style, adaptive courses. Each lesson has 4 explanation angles.</p>
         </div>
         <Link to="/courses/create">
           <Button size="lg"><Plus className="w-4 h-4" /> Generate a new course</Button>
@@ -33,7 +33,7 @@ export default function Courses() {
       {courses.length === 0 ? (
         <Card className="text-center py-20">
           <div className="display text-4xl mb-3">NO COURSES YET.</div>
-          <p className="text-white/60 mb-5">Generate one tailored to your weak topics.</p>
+          <p className="text-[var(--color-text-faint)] mb-5">Generate one tailored to your weak topics.</p>
           <Link to="/courses/create"><Button>Generate first course</Button></Link>
         </Card>
       ) : (
@@ -48,7 +48,7 @@ export default function Courses() {
             return (
               <Card key={c.id} className="relative group">
                 <button
-                  className="absolute top-4 right-4 text-white/30 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity"
+                  className="absolute top-4 right-4 text-[var(--color-text-faint)] hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity"
                   onClick={() => remove(c.id)}
                 >
                   <Trash2 className="w-4 h-4" />
@@ -57,7 +57,7 @@ export default function Courses() {
                   {c.level} · {c.estimated_hours}h
                 </div>
                 <h3 className="display text-2xl mb-2 leading-tight">{c.title}</h3>
-                <p className="text-sm text-white/60 mb-4 line-clamp-3">{c.description}</p>
+                <p className="text-sm text-[var(--color-text-faint)] mb-4 line-clamp-3">{c.description}</p>
                 <ProgressBar value={frac} label={`${completed}/${totalLessons} lessons`} />
                 <Link to={`/courses/${c.id}`} className="block mt-4">
                   <Button fullWidth size="sm">Open</Button>

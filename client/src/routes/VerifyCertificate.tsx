@@ -37,7 +37,7 @@ export default function VerifyCertificate() {
         {!cert ? (
           <Card>
             <div className="display text-2xl text-red-300 mb-2">INVALID OR MISSING PAYLOAD.</div>
-            <div className="text-sm text-white/60">
+            <div className="text-sm text-[var(--color-text-faint)]">
               This verification link doesn't include a valid signed payload. Ask the holder for a fresh link.
             </div>
           </Card>
@@ -45,15 +45,15 @@ export default function VerifyCertificate() {
           <Card>
             <div className="mono text-xs uppercase tracking-widest text-[var(--color-neon)] mb-2">verified payload</div>
             <div className="display text-2xl mb-1">{cert.courseTitle}</div>
-            <div className="text-white/70 mb-4">issued to <strong>{cert.displayName}</strong></div>
+            <div className="text-[var(--color-text-dim)] mb-4">issued to <strong>{cert.displayName}</strong></div>
             <div className="grid grid-cols-2 gap-4 text-sm">
               <Field label="Score" value={`${Math.round(cert.score * 100)}%`} />
               <Field label="Issued" value={new Date(cert.issuedAt).toLocaleString()} />
               <Field label="Code" value={cert.verifyCode} />
               <Field label="URL ID" value={id ?? "—"} />
             </div>
-            <div className="mt-6 border-t border-white/10 pt-4">
-              <div className="mono text-xs uppercase tracking-widest text-white/40 mb-2">checks</div>
+            <div className="mt-6 border-t border-[var(--color-line)] pt-4">
+              <div className="mono text-xs uppercase tracking-widest text-[var(--color-text-faint)] mb-2">checks</div>
               <ul className="text-sm space-y-1">
                 <li>✓ Payload signature valid (base64url parse)</li>
                 <li>{id === cert.verifyCode ? "✓" : "✗"} URL id matches payload verify code</li>
@@ -76,8 +76,8 @@ export default function VerifyCertificate() {
 function Field({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <div className="mono text-[10px] uppercase tracking-widest text-white/40">{label}</div>
-      <div className="mt-0.5 text-white/90">{value}</div>
+      <div className="mono text-[10px] uppercase tracking-widest text-[var(--color-text-faint)]">{label}</div>
+      <div className="mt-0.5 text-[var(--color-text-dim)]">{value}</div>
     </div>
   );
 }

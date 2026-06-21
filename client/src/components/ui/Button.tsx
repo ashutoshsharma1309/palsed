@@ -23,7 +23,7 @@ export function Button({
     primary:
       "bg-[var(--color-neon)] text-black hover:translate-y-[-1px] hover:shadow-[0_0_28px_rgba(200,255,61,0.55)]",
     ghost:
-      "bg-transparent text-white hover:bg-white/5 border border-transparent",
+      "bg-transparent text-[var(--color-text)] hover:bg-[var(--color-text)]/5 border border-transparent",
     outline:
       "bg-transparent text-[var(--color-neon)] border border-[var(--color-neon)]/60 hover:bg-[var(--color-neon)]/10",
     danger:

@@ -33,7 +33,7 @@ export default function PlacementHub() {
           · centralized placement prep ·
         </div>
         <h1 className="display text-5xl sm:text-7xl">PLACEMENT TRAINING HUB.</h1>
-        <p className="text-white/60 max-w-2xl mt-3 text-lg">
+        <p className="text-[var(--color-text-faint)] max-w-2xl mt-3 text-lg">
           Everything to crack placements in one place — languages, DSA, LeetCode, web, ML, AI,
           app dev, aptitude, core CS, and interviews. Track progress as you go.
         </p>
@@ -41,7 +41,7 @@ export default function PlacementHub() {
 
       {/* Progress summary */}
       <div className="grid lg:grid-cols-3 gap-5 mb-8">
-        <Card className="flex items-center gap-5 bg-white/[0.04] backdrop-blur-xl">
+        <Card className="flex items-center gap-5 bg-[var(--color-card-soft)] backdrop-blur-xl">
           <Donut
             size={92}
             thickness={12}
@@ -53,38 +53,38 @@ export default function PlacementHub() {
             ]}
           />
           <div>
-            <div className="mono text-xs uppercase tracking-widest text-white/50">Placement readiness</div>
-            <div className="text-white/70 text-sm mt-1">Breadth + depth across all tracks</div>
+            <div className="mono text-xs uppercase tracking-widest text-[var(--color-text-faint)]">Placement readiness</div>
+            <div className="text-[var(--color-text-dim)] text-sm mt-1">Breadth + depth across all tracks</div>
           </div>
         </Card>
-        <Card className="bg-white/[0.04] backdrop-blur-xl">
+        <Card className="bg-[var(--color-card-soft)] backdrop-blur-xl">
           <div className="flex items-center gap-3 mb-3">
             <Target className="w-5 h-5 text-[var(--color-neon)]" aria-hidden="true" />
-            <div className="mono text-xs uppercase tracking-widest text-white/50">Topics completed</div>
+            <div className="mono text-xs uppercase tracking-widest text-[var(--color-text-faint)]">Topics completed</div>
           </div>
           <div className="display text-5xl">
-            {completedCount}<span className="text-white/30 text-2xl">/{totalTopics}</span>
+            {completedCount}<span className="text-[var(--color-text-faint)] text-2xl">/{totalTopics}</span>
           </div>
           <div className="mt-3"><ProgressBar value={completionPct} /></div>
         </Card>
-        <Card className="bg-white/[0.04] backdrop-blur-xl">
+        <Card className="bg-[var(--color-card-soft)] backdrop-blur-xl">
           <div className="flex items-center gap-3 mb-3">
             <Bookmark className="w-5 h-5 text-[var(--color-neon)]" aria-hidden="true" />
-            <div className="mono text-xs uppercase tracking-widest text-white/50">Saved resources</div>
+            <div className="mono text-xs uppercase tracking-widest text-[var(--color-text-faint)]">Saved resources</div>
           </div>
           <div className="display text-5xl">{bookmarks.length}</div>
-          <div className="text-xs text-white/40 mt-2">Bookmark any resource to find it fast</div>
+          <div className="text-xs text-[var(--color-text-faint)] mt-2">Bookmark any resource to find it fast</div>
         </Card>
       </div>
 
       {/* Global search */}
       <div className="sticky top-2 z-20 mb-8">
         <label className="sr-only" htmlFor="hub-search">Search topics and resources</label>
-        <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-black/60 backdrop-blur-xl px-4 py-3">
-          <Search className="w-5 h-5 text-white/40" aria-hidden="true" />
+        <div className="flex items-center gap-3 rounded-2xl border border-[var(--color-line)] bg-black/60 backdrop-blur-xl px-4 py-3">
+          <Search className="w-5 h-5 text-[var(--color-text-faint)]" aria-hidden="true" />
           <input
             id="hub-search"
-            className="flex-1 bg-transparent outline-none text-white placeholder-white/30"
+            className="flex-1 bg-transparent outline-none text-[var(--color-text)] placeholder:text-[var(--color-text-faint)]"
             placeholder="Search topics, languages, DSA, interview prep…"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
@@ -94,7 +94,7 @@ export default function PlacementHub() {
             <button
               type="button"
               onClick={() => setQuery("")}
-              className="text-xs text-white/40 hover:text-white"
+              className="text-xs text-[var(--color-text-faint)] hover:text-[var(--color-text)]"
             >
               Clear
             </button>
@@ -109,7 +109,7 @@ export default function PlacementHub() {
             <a
               key={s.id}
               href={`#${s.id}`}
-              className="text-xs px-3 py-1.5 rounded-full border border-white/15 text-white/70 hover:border-[var(--color-neon)] hover:text-[var(--color-neon)] transition-colors"
+              className="text-xs px-3 py-1.5 rounded-full border border-[var(--color-line)] text-[var(--color-text-dim)] hover:border-[var(--color-neon)] hover:text-[var(--color-neon)] transition-colors"
             >
               {s.title}
             </a>
@@ -120,11 +120,11 @@ export default function PlacementHub() {
       {/* Search results OR all sections */}
       {searching ? (
         <section>
-          <div className="mono text-xs uppercase tracking-widest text-white/50 mb-4">
+          <div className="mono text-xs uppercase tracking-widest text-[var(--color-text-faint)] mb-4">
             {results.length} {results.length === 1 ? "result" : "results"} for “{query}”
           </div>
           {results.length === 0 ? (
-            <div className="text-white/40 text-center py-20">No topics match your search.</div>
+            <div className="text-[var(--color-text-faint)] text-center py-20">No topics match your search.</div>
           ) : (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {results.map(({ topic }) => (
@@ -159,8 +159,8 @@ export default function PlacementHub() {
         <Link to="/dashboard" className="text-sm text-[var(--color-neon)] underline">
           ← Back to dashboard
         </Link>
-        <span className="text-white/20">·</span>
-        <Link to="/dsa" className="text-sm text-white/60 hover:text-white">
+        <span className="text-[var(--color-text-faint)]">·</span>
+        <Link to="/dsa" className="text-sm text-[var(--color-text-faint)] hover:text-[var(--color-text)]">
           Open the DSA practice tracker
         </Link>
       </div>

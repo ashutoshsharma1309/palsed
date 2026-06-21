@@ -61,8 +61,8 @@ export function ResourceLibraryPage({ title, tagline, mdPath, extras, accent = "
         <h1 className="display text-5xl sm:text-7xl mb-3" style={{ color: accent, textShadow: `0 0 30px ${accent}55` }}>
           {title}
         </h1>
-        <p className="text-white/60 max-w-2xl text-lg">{tagline}</p>
-        <div className="mt-4 mono text-xs text-white/40 uppercase tracking-widest">
+        <p className="text-[var(--color-text-faint)] max-w-2xl text-lg">{tagline}</p>
+        <div className="mt-4 mono text-xs text-[var(--color-text-faint)] uppercase tracking-widest">
           {data.links.length} curated resources
         </div>
       </header>
@@ -71,9 +71,9 @@ export function ResourceLibraryPage({ title, tagline, mdPath, extras, accent = "
 
       <Card className="my-8">
         <div className="flex items-center gap-2 mb-4">
-          <Search className="w-4 h-4 text-white/40" />
+          <Search className="w-4 h-4 text-[var(--color-text-faint)]" />
           <input
-            className="flex-1 bg-transparent outline-none text-white placeholder-white/30"
+            className="flex-1 bg-transparent outline-none text-[var(--color-text)] placeholder:text-[var(--color-text-faint)]"
             placeholder="Search resources…"
             value={q}
             onChange={(e) => setQ(e.target.value)}
@@ -111,7 +111,7 @@ export function ResourceLibraryPage({ title, tagline, mdPath, extras, accent = "
       {loading ? (
         <Loader label="Loading resources" />
       ) : grouped.length === 0 ? (
-        <div className="text-white/40 text-center py-20">No resources match these filters.</div>
+        <div className="text-[var(--color-text-faint)] text-center py-20">No resources match these filters.</div>
       ) : (
         <div className="space-y-10">
           {grouped.map(([category, links]) => (
@@ -127,16 +127,16 @@ export function ResourceLibraryPage({ title, tagline, mdPath, extras, accent = "
                     className="card-base p-5 hover:border-[var(--color-neon)] transition-colors group"
                   >
                     <div className="flex items-start justify-between gap-3 mb-3">
-                      <span className="text-sm font-semibold text-white group-hover:text-[var(--color-neon)] line-clamp-2">
+                      <span className="text-sm font-semibold text-[var(--color-text)] group-hover:text-[var(--color-neon)] line-clamp-2">
                         {l.title}
                       </span>
-                      <ExternalLink className="w-4 h-4 text-white/30 group-hover:text-[var(--color-neon)] shrink-0" />
+                      <ExternalLink className="w-4 h-4 text-[var(--color-text-faint)] group-hover:text-[var(--color-neon)] shrink-0" />
                     </div>
                     <div className="flex flex-wrap gap-1.5">
                       <span className="text-[10px] uppercase tracking-wider bg-[var(--color-neon)]/10 text-[var(--color-neon)] px-2 py-0.5 rounded">
                         {l.type}
                       </span>
-                      <span className="text-[10px] uppercase tracking-wider bg-white/5 text-white/60 px-2 py-0.5 rounded">
+                      <span className="text-[10px] uppercase tracking-wider bg-white/5 text-[var(--color-text-faint)] px-2 py-0.5 rounded">
                         {l.difficulty}
                       </span>
                     </div>
@@ -154,7 +154,7 @@ export function ResourceLibraryPage({ title, tagline, mdPath, extras, accent = "
 function FilterRow({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div>
-      <div className="text-[10px] uppercase tracking-widest text-white/40 mb-1.5 mono">{label}</div>
+      <div className="text-[10px] uppercase tracking-widest text-[var(--color-text-faint)] mb-1.5 mono">{label}</div>
       <div className="flex flex-wrap gap-2">{children}</div>
     </div>
   );

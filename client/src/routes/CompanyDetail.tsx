@@ -52,7 +52,7 @@ export default function CompanyDetail() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 sm:px-6 py-8">
-      <Link to="/companies" className="text-xs text-white/40 hover:text-white inline-flex items-center gap-1 mb-3">
+      <Link to="/companies" className="text-xs text-[var(--color-text-faint)] hover:text-[var(--color-text)] inline-flex items-center gap-1 mb-3">
         <ArrowLeft className="w-3 h-3" /> Recruiter map
       </Link>
 
@@ -68,8 +68,8 @@ export default function CompanyDetail() {
           <div>
             <div className="mono text-xs uppercase tracking-[0.3em] text-[var(--color-neon)] mb-1">{c.tier}</div>
             <h1 className="display text-4xl sm:text-5xl">{c.name}</h1>
-            <div className="text-white/60 mt-1">{c.sector}</div>
-            <div className="flex flex-wrap gap-3 text-xs text-white/50 mt-3">
+            <div className="text-[var(--color-text-faint)] mt-1">{c.sector}</div>
+            <div className="flex flex-wrap gap-3 text-xs text-[var(--color-text-faint)] mt-3">
               <span className="flex items-center gap-1"><Building2 className="w-3 h-3" /> {c.hq}</span>
               <span className="flex items-center gap-1"><MapPin className="w-3 h-3" /> {c.indianOffices.join(" · ")}</span>
               <a href={c.websiteUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-[var(--color-neon)] hover:underline">
@@ -114,12 +114,12 @@ export default function CompanyDetail() {
             <Sparkles className="w-4 h-4 text-[var(--color-neon)]" />
             {isTracking ? "Already in your tracker" : "Track this company in your placement season"}
           </div>
-          <div className="text-xs text-white/50 mt-0.5">
+          <div className="text-xs text-[var(--color-text-faint)] mt-0.5">
             Adds to your application kanban with status, deadlines, and notes.
           </div>
         </div>
         <input
-          className="flex-1 bg-[#1a1a1a] border border-white/10 rounded-lg px-3 py-2 text-sm"
+          className="flex-1 bg-[#1a1a1a] border border-[var(--color-line)] rounded-lg px-3 py-2 text-sm"
           placeholder={`Role (e.g. ${c.rolesOffered[0]})`}
           value={appliedRole}
           onChange={(e) => setAppliedRole(e.target.value)}
@@ -130,20 +130,20 @@ export default function CompanyDetail() {
       {/* QUICK STATS */}
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <Card>
-          <div className="mono text-[10px] uppercase tracking-widest text-white/40 mb-1">Hiring window</div>
+          <div className="mono text-[10px] uppercase tracking-widest text-[var(--color-text-faint)] mb-1">Hiring window</div>
           <div className="text-sm font-semibold flex items-center gap-1">
             <Calendar className="w-3 h-3 text-[var(--color-neon)]" /> {c.hiringWindow}
           </div>
         </Card>
         <Card>
-          <div className="mono text-[10px] uppercase tracking-widest text-white/40 mb-1">Roles offered</div>
+          <div className="mono text-[10px] uppercase tracking-widest text-[var(--color-text-faint)] mb-1">Roles offered</div>
           <div className="flex flex-wrap gap-1 mt-1">
             {c.rolesOffered.map((r) => (<Chip key={r}>{r}</Chip>))}
           </div>
         </Card>
         <Card>
-          <div className="mono text-[10px] uppercase tracking-widest text-white/40 mb-1">Eligibility</div>
-          <div className="text-xs space-y-0.5 text-white/80">
+          <div className="mono text-[10px] uppercase tracking-widest text-[var(--color-text-faint)] mb-1">Eligibility</div>
+          <div className="text-xs space-y-0.5 text-[var(--color-text-dim)]">
             {c.eligibility.minCgpa && <div>CGPA ≥ {c.eligibility.minCgpa}</div>}
             {c.eligibility.minTenthPct && <div>10th ≥ {c.eligibility.minTenthPct}%</div>}
             <div>Branches: {c.eligibility.allowedBranches.join(", ")}</div>
@@ -151,7 +151,7 @@ export default function CompanyDetail() {
           </div>
         </Card>
         <Card>
-          <div className="mono text-[10px] uppercase tracking-widest text-white/40 mb-1">OA platforms</div>
+          <div className="mono text-[10px] uppercase tracking-widest text-[var(--color-text-faint)] mb-1">OA platforms</div>
           <div className="flex flex-wrap gap-1 mt-1">
             {c.oaTools.map((t) => (<Chip tone="neon" key={t}>{t}</Chip>))}
           </div>
@@ -169,10 +169,10 @@ export default function CompanyDetail() {
             <li key={i} className="flex gap-4 items-start border-l-2 border-[var(--color-neon)]/40 pl-4">
               <div className="display text-2xl text-[var(--color-neon)] w-8 shrink-0">{i + 1}</div>
               <div className="flex-1">
-                <div className="font-bold">{r.type} · <span className="font-normal text-white/60">{r.duration}</span></div>
-                <div className="text-sm text-white/80 mt-1">{r.format}</div>
-                {r.platform && <div className="mono text-[10px] text-white/40 uppercase tracking-widest mt-1">on {r.platform}</div>}
-                {r.notes && <div className="text-xs text-white/50 mt-1 italic">{r.notes}</div>}
+                <div className="font-bold">{r.type} · <span className="font-normal text-[var(--color-text-faint)]">{r.duration}</span></div>
+                <div className="text-sm text-[var(--color-text-dim)] mt-1">{r.format}</div>
+                {r.platform && <div className="mono text-[10px] text-[var(--color-text-faint)] uppercase tracking-widest mt-1">on {r.platform}</div>}
+                {r.notes && <div className="text-xs text-[var(--color-text-faint)] mt-1 italic">{r.notes}</div>}
               </div>
             </li>
           ))}
@@ -196,7 +196,7 @@ export default function CompanyDetail() {
           {c.topicsAsked.coreCs && c.topicsAsked.coreCs.length > 0 ? (
             <div className="flex flex-wrap gap-1.5">{c.topicsAsked.coreCs.map((t) => (<Chip key={t}>{t}</Chip>))}</div>
           ) : (
-            <div className="text-xs text-white/40">No core-CS topics reported for this round mix.</div>
+            <div className="text-xs text-[var(--color-text-faint)]">No core-CS topics reported for this round mix.</div>
           )}
           {c.topicsAsked.behavioral && (
             <>
@@ -213,7 +213,7 @@ export default function CompanyDetail() {
           <h3 className="display text-xl mb-3">TIPS FROM PREVIOUS OFFER HOLDERS.</h3>
           <ul className="space-y-2">
             {c.tipsFromOffers.map((t, i) => (
-              <li key={i} className="flex gap-2 text-sm text-white/80">
+              <li key={i} className="flex gap-2 text-sm text-[var(--color-text-dim)]">
                 <span className="text-[var(--color-neon)] shrink-0">→</span>
                 <span>{t}</span>
               </li>
@@ -234,18 +234,18 @@ export default function CompanyDetail() {
           </button>
         </div>
         {pyqs.length === 0 ? (
-          <div className="text-white/40 text-sm py-8 text-center">
+          <div className="text-[var(--color-text-faint)] text-sm py-8 text-center">
             No questions seeded for {c.name} yet. <Link to={`/pyq/submit?company=${c.slug}`} className="text-[var(--color-neon)] underline">Be the first to add one</Link>.
           </div>
         ) : (
           <div className="space-y-3">
             {pyqs.slice(0, 12).map((p) => (
-              <div key={p.id} className="border border-white/10 rounded-xl p-4 hover:border-[var(--color-neon)]/40 transition-colors">
+              <div key={p.id} className="border border-[var(--color-line)] rounded-xl p-4 hover:border-[var(--color-neon)]/40 transition-colors">
                 <div className="flex items-center justify-between gap-3 flex-wrap mb-2">
                   <div className="flex items-center gap-2 flex-wrap text-[10px] mono uppercase tracking-widest">
                     <span className="text-[var(--color-neon)]">{p.round}</span>
-                    <span className="text-white/50">· {p.year}</span>
-                    <span className="text-white/50">· {p.topic}</span>
+                    <span className="text-[var(--color-text-faint)]">· {p.year}</span>
+                    <span className="text-[var(--color-text-faint)]">· {p.topic}</span>
                     <span
                       className="px-2 py-0.5 rounded"
                       style={{
@@ -256,22 +256,22 @@ export default function CompanyDetail() {
                       {p.difficulty}
                     </span>
                     {p.status === "verified" && <span className="text-[var(--color-neon)]">✓ verified</span>}
-                    {p.status === "pending" && <span className="text-[#ffe87a]">pending</span>}
+                    {p.status === "pending" && <span className="text-[var(--severity-warn-text)]">pending</span>}
                   </div>
                   <div className="flex items-center gap-2 text-xs">
-                    <button onClick={() => vote(p.id, "up")} className={`inline-flex items-center gap-1 px-2 py-0.5 rounded ${votes[p.id] === "up" ? "bg-[var(--color-neon)]/20 text-[var(--color-neon)]" : "text-white/40 hover:text-white"}`}>
+                    <button onClick={() => vote(p.id, "up")} className={`inline-flex items-center gap-1 px-2 py-0.5 rounded ${votes[p.id] === "up" ? "bg-[var(--color-neon)]/20 text-[var(--color-neon)]" : "text-[var(--color-text-faint)] hover:text-[var(--color-text)]"}`}>
                       <ThumbsUp className="w-3 h-3" /> {p.upvotes}
                     </button>
-                    <button onClick={() => vote(p.id, "down")} className={`inline-flex items-center gap-1 px-2 py-0.5 rounded ${votes[p.id] === "down" ? "bg-red-400/20 text-red-300" : "text-white/40 hover:text-white"}`}>
+                    <button onClick={() => vote(p.id, "down")} className={`inline-flex items-center gap-1 px-2 py-0.5 rounded ${votes[p.id] === "down" ? "bg-red-400/20 text-red-300" : "text-[var(--color-text-faint)] hover:text-[var(--color-text)]"}`}>
                       <ThumbsDown className="w-3 h-3" /> {p.downvotes}
                     </button>
                   </div>
                 </div>
-                <div className="text-sm text-white whitespace-pre-line">{p.question}</div>
+                <div className="text-sm text-[var(--color-text)] whitespace-pre-line">{p.question}</div>
                 {p.expectedApproach && (
                   <details className="mt-2">
                     <summary className="text-xs text-[var(--color-neon)] cursor-pointer">expected approach</summary>
-                    <div className="text-xs text-white/70 mt-1 mono">{p.expectedApproach}</div>
+                    <div className="text-xs text-[var(--color-text-dim)] mt-1 mono">{p.expectedApproach}</div>
                   </details>
                 )}
               </div>

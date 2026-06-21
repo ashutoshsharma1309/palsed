@@ -272,9 +272,9 @@ export default function OaTest() {
               ) : (
                 <Card className="!bg-[#ffe87a]/[0.04] border border-[#ffe87a]/20">
                   <div className="flex items-start gap-2 text-xs text-[var(--color-text-dim)]">
-                    <AlertTriangle className="w-3.5 h-3.5 text-[#ffe87a] mt-0.5 shrink-0" />
+                    <AlertTriangle className="w-3.5 h-3.5 text-[var(--severity-warn-text)] mt-0.5 shrink-0" />
                     <div>
-                      <div className="mono text-[10px] uppercase tracking-widest text-[#ffe87a] mb-1.5">
+                      <div className="mono text-[10px] uppercase tracking-widest text-[var(--severity-warn-text)] mb-1.5">
                         Hint viewed · 20% penalty applied
                       </div>
                       <div className="whitespace-pre-wrap leading-relaxed">

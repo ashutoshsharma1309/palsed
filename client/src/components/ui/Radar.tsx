@@ -11,7 +11,7 @@ interface Props {
 
 export function Radar({ points, size = 360, color = "#c8ff3d" }: Props) {
   const n = points.length;
-  if (n < 3) return <div className="text-white/40 text-sm">Need at least 3 topics for a radar.</div>;
+  if (n < 3) return <div className="text-[var(--color-text-faint)] text-sm">Need at least 3 topics for a radar.</div>;
   const cx = size / 2;
   const cy = size / 2;
   const r = size / 2 - 40;

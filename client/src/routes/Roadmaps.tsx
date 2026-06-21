@@ -21,7 +21,7 @@ export default function Roadmaps() {
         <div>
           <div className="mono text-xs uppercase tracking-[0.3em] text-[var(--color-neon)] mb-2">// roadmaps</div>
           <h1 className="display text-5xl sm:text-7xl">ROADMAPS.</h1>
-          <p className="text-white/60 mt-2">Multi-stage career roadmaps for any topic, generated on demand.</p>
+          <p className="text-[var(--color-text-faint)] mt-2">Multi-stage career roadmaps for any topic, generated on demand.</p>
         </div>
         <Link to="/roadmaps/create"><Button size="lg"><Plus className="w-4 h-4" /> New roadmap</Button></Link>
       </div>
@@ -29,7 +29,7 @@ export default function Roadmaps() {
       {roadmaps.length === 0 ? (
         <Card className="text-center py-20">
           <div className="display text-4xl mb-3">NO ROADMAPS YET.</div>
-          <p className="text-white/60 mb-5">Generate one for any topic — Rust, Kubernetes, ML, whatever.</p>
+          <p className="text-[var(--color-text-faint)] mb-5">Generate one for any topic — Rust, Kubernetes, ML, whatever.</p>
           <Link to="/roadmaps/create"><Button>Generate first roadmap</Button></Link>
         </Card>
       ) : (
@@ -37,7 +37,7 @@ export default function Roadmaps() {
           {roadmaps.map((r) => (
             <Card key={r.id} className="relative group">
               <button
-                className="absolute top-4 right-4 text-white/30 hover:text-red-400 opacity-0 group-hover:opacity-100"
+                className="absolute top-4 right-4 text-[var(--color-text-faint)] hover:text-red-400 opacity-0 group-hover:opacity-100"
                 onClick={() => remove(r.id)}
               >
                 <Trash2 className="w-4 h-4" />
@@ -46,7 +46,7 @@ export default function Roadmaps() {
                 {r.stages.length} stages
               </div>
               <h3 className="display text-2xl mb-2 leading-tight">{r.title}</h3>
-              <p className="text-sm text-white/60 mb-4 line-clamp-3">{r.description}</p>
+              <p className="text-sm text-[var(--color-text-faint)] mb-4 line-clamp-3">{r.description}</p>
               <Link to={`/roadmaps/${r.id}`} className="block">
                 <Button fullWidth size="sm">Open</Button>
               </Link>

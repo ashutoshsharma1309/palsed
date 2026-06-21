@@ -206,7 +206,7 @@ export default function Oa() {
             <div className="text-xs text-[var(--color-text-dim)]">
               <span className="text-[var(--color-neon)] font-bold">{matchingPreview}</span> matching question{matchingPreview === 1 ? "" : "s"} in the pool
               {matchingPreview < config.questionCount && (
-                <span className="text-[#ffe87a] ml-2">
+                <span className="text-[var(--severity-warn-text)] ml-2">
                   · we'll top up from related rounds if short
                 </span>
               )}

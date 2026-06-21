@@ -183,7 +183,7 @@ export default function Landing() {
                 <br />
                 ORGANIZED.
               </h1>
-              <p className="text-base sm:text-lg text-white/70 max-w-xl mt-7">
+              <p className="text-base sm:text-lg text-[var(--color-text-dim)] max-w-xl mt-7">
                 Every recruiter visiting your campus. Every previous-year question. Every application
                 you've submitted. One platform. No more scattered WhatsApp groups or rotting Google Docs.
               </p>
@@ -215,13 +215,13 @@ export default function Landing() {
           </div>
         </section>
 
-        <section className="border-y border-white/10 bg-black/40 backdrop-blur-sm">
+        <section className="border-y border-[var(--color-line)] bg-black/40 backdrop-blur-sm">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 py-10 grid grid-cols-2 md:grid-cols-4 gap-6">
             {STATS.map((s, i) => (
               <div key={i} className="flex flex-col">
-                <div className="mono text-xs uppercase tracking-widest text-white/40">// pillar {i + 1}</div>
+                <div className="mono text-xs uppercase tracking-widest text-[var(--color-text-faint)]">// pillar {i + 1}</div>
                 <div className="display text-3xl sm:text-4xl mt-2 neon-text">{s.v}</div>
-                <div className="text-xs text-white/50 mt-1">{s.l}</div>
+                <div className="text-xs text-[var(--color-text-faint)] mt-1">{s.l}</div>
               </div>
             ))}
           </div>
@@ -230,7 +230,7 @@ export default function Landing() {
         <section className="mx-auto max-w-7xl px-4 sm:px-6 py-24">
           <div className="flex items-end justify-between flex-wrap gap-4 mb-10">
             <h2 className="display text-5xl sm:text-7xl">WHAT YOU GET.</h2>
-            <p className="text-white/60 max-w-md">
+            <p className="text-[var(--color-text-faint)] max-w-md">
               Six features that turn your placement season from a panic into a workflow.
             </p>
           </div>
@@ -276,7 +276,7 @@ export default function Landing() {
                 <div className="relative">
                   <div className="mono text-xs text-[var(--color-neon)] mb-3">{step.n}</div>
                   <div className="display text-2xl mb-2">{step.t}</div>
-                  <div className="text-sm text-white/60">{step.d}</div>
+                  <div className="text-sm text-[var(--color-text-faint)]">{step.d}</div>
                 </div>
               </motion.div>
             ))}
@@ -313,7 +313,7 @@ export default function Landing() {
                   {f.q}
                   <span className="text-[var(--color-neon)] group-open:rotate-45 transition-transform">+</span>
                 </summary>
-                <p className="text-white/70 mt-3">{f.a}</p>
+                <p className="text-[var(--color-text-dim)] mt-3">{f.a}</p>
               </details>
             ))}
           </div>

@@ -15,7 +15,7 @@ export default function Review() {
     return (
       <div className="mx-auto max-w-2xl px-4 py-32 text-center">
         <h1 className="display text-5xl mb-3">NOTHING DUE.</h1>
-        <p className="text-white/60 mb-6">Come back tomorrow — your spaced-repetition queue ages over time.</p>
+        <p className="text-[var(--color-text-faint)] mb-6">Come back tomorrow — your spaced-repetition queue ages over time.</p>
         <Link to="/dashboard"><Button>Back to dashboard</Button></Link>
       </div>
     );
@@ -25,7 +25,7 @@ export default function Review() {
     return (
       <div className="mx-auto max-w-2xl px-4 py-32 text-center">
         <h1 className="display text-5xl mb-3">SESSION DONE.</h1>
-        <p className="text-white/60 mb-6">You reviewed {due.length} cards. Good work.</p>
+        <p className="text-[var(--color-text-faint)] mb-6">You reviewed {due.length} cards. Good work.</p>
         <Link to="/dashboard"><Button>Back to dashboard</Button></Link>
       </div>
     );
@@ -47,7 +47,7 @@ export default function Review() {
       <h1 className="display text-4xl mb-6">SPACED REPETITION.</h1>
 
       <Card>
-        <div className="mono text-[10px] uppercase tracking-widest text-white/40 mb-3">
+        <div className="mono text-[10px] uppercase tracking-widest text-[var(--color-text-faint)] mb-3">
           {card.kind} · ease {card.easeFactor.toFixed(2)} · interval {card.interval}d · reps {card.reps}
         </div>
         <div className="text-lg font-semibold mb-4">

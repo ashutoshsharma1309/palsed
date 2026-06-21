@@ -15,18 +15,18 @@ interface Props {
 export function AccordionItem({ title, icon, defaultOpen = false, hint, children }: Props) {
   const [open, setOpen] = useState(defaultOpen);
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/[0.03] overflow-hidden">
+    <div className="rounded-2xl border border-[var(--color-line)] bg-[var(--color-card-soft)] overflow-hidden">
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
-        className="w-full flex items-center gap-3 px-5 py-4 text-left hover:bg-white/[0.03] transition-colors"
+        className="w-full flex items-center gap-3 px-5 py-4 text-left hover:bg-[var(--color-text)]/5 transition-colors"
       >
         {icon && <span className="text-[var(--color-neon)] shrink-0">{icon}</span>}
-        <span className="font-semibold text-white flex-1">{title}</span>
-        {hint && <span className="mono text-[11px] text-white/40">{hint}</span>}
+        <span className="font-semibold text-[var(--color-text)] flex-1">{title}</span>
+        {hint && <span className="mono text-[11px] text-[var(--color-text-faint)]">{hint}</span>}
         <ChevronDown
-          className={`w-4 h-4 text-white/50 shrink-0 transition-transform duration-300 ${open ? "rotate-180" : ""}`}
+          className={`w-4 h-4 text-[var(--color-text-faint)] shrink-0 transition-transform duration-300 ${open ? "rotate-180" : ""}`}
           aria-hidden="true"
         />
       </button>

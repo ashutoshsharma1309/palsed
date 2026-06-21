@@ -41,7 +41,7 @@ export const HubSectionView = memo(function HubSectionView({
           <h2 className="display text-3xl sm:text-4xl" style={{ color: accent }}>
             {section.title}
           </h2>
-          <p className="text-white/55 text-sm mt-1">{section.blurb}</p>
+          <p className="text-[var(--color-text-faint)] text-sm mt-1">{section.blurb}</p>
         </div>
         <div className="hidden sm:block w-40 shrink-0 pt-1">
           <ProgressBar value={total ? done / total : 0} color={accent} label={`${done}/${total}`} />

@@ -39,22 +39,22 @@ export default function Engagement() {
 
       <div className="grid lg:grid-cols-3 gap-5 mb-6">
         <Card>
-          <div className="mono text-xs uppercase tracking-widest text-white/50">Streak</div>
+          <div className="mono text-xs uppercase tracking-widest text-[var(--color-text-faint)]">Streak</div>
           <div className="display text-6xl neon-text">{streakDays}d</div>
         </Card>
         <Card>
-          <div className="mono text-xs uppercase tracking-widest text-white/50">14-day total focus</div>
+          <div className="mono text-xs uppercase tracking-widest text-[var(--color-text-faint)]">14-day total focus</div>
           <div className="display text-6xl">{Math.floor(totalMs / 60000)}<span className="text-3xl">min</span></div>
         </Card>
         <Card>
-          <div className="mono text-xs uppercase tracking-widest text-white/50">Peak hour</div>
+          <div className="mono text-xs uppercase tracking-widest text-[var(--color-text-faint)]">Peak hour</div>
           <div className="display text-6xl">{peakHour}:00</div>
-          <div className="text-xs text-white/40 mt-2">based on intervention timestamps</div>
+          <div className="text-xs text-[var(--color-text-faint)] mt-2">based on intervention timestamps</div>
         </Card>
       </div>
 
       <Card className="mb-6">
-        <div className="mono text-xs uppercase tracking-widest text-white/50 mb-3">Heatmap (last 14 days)</div>
+        <div className="mono text-xs uppercase tracking-widest text-[var(--color-text-faint)] mb-3">Heatmap (last 14 days)</div>
         <div className="grid grid-cols-7 lg:grid-cols-14 gap-2">
           {cells.map((c) => {
             const intensity = Math.min(1, c.ms / (30 * 60 * 1000));
@@ -74,7 +74,7 @@ export default function Engagement() {
 
       <div className="grid lg:grid-cols-2 gap-5 mb-6">
         <Card>
-          <div className="mono text-xs uppercase tracking-widest text-white/50 mb-3">Intervention hour histogram</div>
+          <div className="mono text-xs uppercase tracking-widest text-[var(--color-text-faint)] mb-3">Intervention hour histogram</div>
           <div className="flex items-end gap-1 h-32">
             {buckets.map((b, h) => (
               <div key={h} className="flex-1 flex flex-col items-center">
@@ -82,20 +82,20 @@ export default function Engagement() {
                   className="w-full rounded-sm bg-[var(--color-neon)]"
                   style={{ height: `${(b / maxB) * 100}%`, minHeight: b > 0 ? 4 : 1, opacity: b > 0 ? 1 : 0.2 }}
                 />
-                {h % 4 === 0 && <div className="mono text-[9px] text-white/40 mt-1">{h}</div>}
+                {h % 4 === 0 && <div className="mono text-[9px] text-[var(--color-text-faint)] mt-1">{h}</div>}
               </div>
             ))}
           </div>
         </Card>
         <Card>
-          <div className="mono text-xs uppercase tracking-widest text-white/50 mb-3">Top routes by time spent</div>
+          <div className="mono text-xs uppercase tracking-widest text-[var(--color-text-faint)] mb-3">Top routes by time spent</div>
           {topRoutes.length === 0 ? (
-            <div className="text-white/40 text-sm">No data yet.</div>
+            <div className="text-[var(--color-text-faint)] text-sm">No data yet.</div>
           ) : (
             <ul className="space-y-2 text-sm">
               {topRoutes.map(([r, v]) => (
                 <li key={r} className="flex items-center justify-between">
-                  <span className="mono text-white/70 truncate">{r}</span>
+                  <span className="mono text-[var(--color-text-dim)] truncate">{r}</span>
                   <span className="mono text-[var(--color-neon)]">{Math.floor(v / 60000)}min</span>
                 </li>
               ))}
@@ -105,16 +105,16 @@ export default function Engagement() {
       </div>
 
       <Card>
-        <div className="mono text-xs uppercase tracking-widest text-white/50 mb-3">Recent interventions</div>
+        <div className="mono text-xs uppercase tracking-widest text-[var(--color-text-faint)] mb-3">Recent interventions</div>
         {log.interventions.length === 0 ? (
-          <div className="text-white/40 text-sm">None yet — PrepPlace hasn't needed to nudge you.</div>
+          <div className="text-[var(--color-text-faint)] text-sm">None yet — PrepPlace hasn't needed to nudge you.</div>
         ) : (
           <ul className="space-y-1 text-xs">
             {log.interventions.slice(-20).reverse().map((iv, i) => (
-              <li key={i} className="mono text-white/70 flex gap-3">
-                <span className="text-white/40">{new Date(iv.at).toLocaleString()}</span>
+              <li key={i} className="mono text-[var(--color-text-dim)] flex gap-3">
+                <span className="text-[var(--color-text-faint)]">{new Date(iv.at).toLocaleString()}</span>
                 <span className="text-[var(--color-neon)]">{iv.action}</span>
-                <span className="text-white/40 truncate">on {iv.route}</span>
+                <span className="text-[var(--color-text-faint)] truncate">on {iv.route}</span>
               </li>
             ))}
           </ul>

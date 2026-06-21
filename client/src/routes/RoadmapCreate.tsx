@@ -53,9 +53,9 @@ export default function RoadmapCreate() {
 
       <Card className="space-y-6">
         <div>
-          <label className="text-xs uppercase tracking-widest text-white/50 mono">Topic</label>
+          <label className="text-xs uppercase tracking-widest text-[var(--color-text-faint)] mono">Topic</label>
           <input
-            className="w-full mt-2 bg-transparent border-b-2 border-white/20 focus:border-[var(--color-neon)] outline-none text-2xl py-2 display"
+            className="w-full mt-2 bg-transparent border-b-2 border-[var(--color-line)] focus:border-[var(--color-neon)] outline-none text-2xl py-2 display"
             placeholder="e.g. Rust for backend engineers"
             value={topic}
             onChange={(e) => setTopic(e.target.value)}
@@ -66,7 +66,7 @@ export default function RoadmapCreate() {
             <button
               key={l}
               onClick={() => setLevel(l)}
-              className={`p-3 rounded-xl border ${level === l ? "border-[var(--color-neon)] bg-[var(--color-neon)]/10" : "border-white/10"}`}
+              className={`p-3 rounded-xl border ${level === l ? "border-[var(--color-neon)] bg-[var(--color-neon)]/10" : "border-[var(--color-line)]"}`}
             >
               {l}
             </button>

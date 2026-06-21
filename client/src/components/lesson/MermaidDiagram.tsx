@@ -61,7 +61,7 @@ export function MermaidDiagram({ source }: { source: string }) {
           // diagram
         </div>
         <button
-          className="text-[10px] mono text-white/40 hover:text-white"
+          className="text-[10px] mono text-[var(--color-text-faint)] hover:text-[var(--color-text)]"
           onClick={() => setShowSource((v) => !v)}
         >
           {showSource ? "hide source" : "view source"}
@@ -70,13 +70,13 @@ export function MermaidDiagram({ source }: { source: string }) {
       {error ? (
         <div className="text-xs text-red-300 mono">
           Couldn't render: {error}
-          <pre className="text-white/50 mt-2 whitespace-pre-wrap">{source}</pre>
+          <pre className="text-[var(--color-text-faint)] mt-2 whitespace-pre-wrap">{source}</pre>
         </div>
       ) : (
         <div ref={ref} className="overflow-x-auto flex justify-center" />
       )}
       {showSource && (
-        <pre className="text-xs text-white/60 mono whitespace-pre-wrap mt-3 p-3 bg-[#0a0a0a] rounded-lg">
+        <pre className="text-xs text-[var(--color-text-faint)] mono whitespace-pre-wrap mt-3 p-3 bg-[#0a0a0a] rounded-lg">
           {source}
         </pre>
       )}

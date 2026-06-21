@@ -191,7 +191,7 @@ export default function CourseLesson() {
 
   return (
     <div className="mx-auto max-w-5xl px-4 sm:px-6 py-8">
-      <Link to={`/courses/${course.id}`} className="text-xs text-white/40 hover:text-white inline-flex items-center gap-1 mb-3">
+      <Link to={`/courses/${course.id}`} className="text-xs text-[var(--color-text-faint)] hover:text-[var(--color-text)] inline-flex items-center gap-1 mb-3">
         <ChevronLeft className="w-3 h-3" /> {course.title}
       </Link>
       <div className="mono text-xs text-[var(--color-neon)] uppercase tracking-widest mb-2">
@@ -207,7 +207,7 @@ export default function CourseLesson() {
             className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold transition-all ${
               style === t.id
                 ? "bg-[var(--color-neon)] text-black"
-                : "border border-white/20 text-white/70 hover:border-[var(--color-neon)]"
+                : "border border-[var(--color-line)] text-[var(--color-text-dim)] hover:border-[var(--color-neon)]"
             }`}
           >
             {t.icon} {t.label}
@@ -233,18 +233,18 @@ export default function CourseLesson() {
 
         {style === "code_first" && (exp as any).code_examples?.map((ex: any, i: number) => (
           <div key={i} className="mt-4">
-            <div className="text-xs text-white/50 mono mb-1">{ex.lang}</div>
+            <div className="text-xs text-[var(--color-text-faint)] mono mb-1">{ex.lang}</div>
             <pre className="bg-[#0d0d0d] p-3 rounded-lg overflow-x-auto"><code className={`language-${ex.lang} hljs`}>{ex.code}</code></pre>
-            <div className="text-sm text-white/70 mt-2">{ex.explanation}</div>
+            <div className="text-sm text-[var(--color-text-dim)] mt-2">{ex.explanation}</div>
           </div>
         ))}
 
         {style === "analogy" && (exp as any).analogies?.map((a: any, i: number) => (
           <div key={i} className="mt-4 border-l-2 border-[var(--color-neon)] pl-4">
             <div className="text-xs uppercase tracking-widest text-[var(--color-neon)] mono mb-1">Real-world</div>
-            <div className="text-white">{a.real_world}</div>
-            <div className="text-xs uppercase tracking-widest text-white/50 mono mt-2 mb-1">Mapping</div>
-            <div className="text-white/80 text-sm">{a.mapping}</div>
+            <div className="text-[var(--color-text)]">{a.real_world}</div>
+            <div className="text-xs uppercase tracking-widest text-[var(--color-text-faint)] mono mt-2 mb-1">Mapping</div>
+            <div className="text-[var(--color-text-dim)] text-sm">{a.mapping}</div>
           </div>
         ))}
 
@@ -255,7 +255,7 @@ export default function CourseLesson() {
             </div>
             <div>
               <div className="font-semibold">{s.title}</div>
-              <div className="text-sm text-white/70 mt-0.5">{s.detail}</div>
+              <div className="text-sm text-[var(--color-text-dim)] mt-0.5">{s.detail}</div>
             </div>
           </div>
         ))}
@@ -296,11 +296,11 @@ export default function CourseLesson() {
                             ? "border-[var(--color-neon)] bg-[var(--color-neon)]/10"
                             : isWrong
                             ? "border-red-400 bg-red-400/10"
-                            : "border-white/10 hover:border-white/30"
+                            : "border-[var(--color-line)] hover:border-[var(--color-line)]"
                         }`}
                       >
                         <div className="flex items-center gap-3">
-                          <div className={`w-5 h-5 rounded-full border ${isAnswer ? "bg-[var(--color-neon)] text-black border-transparent" : "border-white/30"} flex items-center justify-center text-[10px]`}>
+                          <div className={`w-5 h-5 rounded-full border ${isAnswer ? "bg-[var(--color-neon)] text-black border-transparent" : "border-[var(--color-line)]"} flex items-center justify-center text-[10px]`}>
                             {isAnswer && <Check className="w-3 h-3" />}
                           </div>
                           <span className="text-sm">{opt}</span>
@@ -310,7 +310,7 @@ export default function CourseLesson() {
                   })}
                 </div>
                 {revealed[qi] && (
-                  <div className="mt-3 text-sm text-white/70 p-3 rounded-lg bg-white/5">
+                  <div className="mt-3 text-sm text-[var(--color-text-dim)] p-3 rounded-lg bg-white/5">
                     <strong>{answers[qi] === q.answerIndex ? "Correct!" : "Not quite —"}</strong> {q.explanation}
                   </div>
                 )}

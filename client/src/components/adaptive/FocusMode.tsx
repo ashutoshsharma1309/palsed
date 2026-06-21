@@ -86,7 +86,7 @@ export function FocusMode() {
             ? state.mode === "focus"
               ? "bg-[var(--color-neon)] text-black border-[var(--color-neon)] neon-glow"
               : "bg-[var(--color-mint)] text-black border-[var(--color-mint)]"
-            : "bg-black/60 backdrop-blur border-white/20 text-white/70 hover:border-[var(--color-neon)]"
+            : "bg-black/60 backdrop-blur border-[var(--color-line)] text-[var(--color-text-dim)] hover:border-[var(--color-neon)]"
         }`}
         title="Focus mode (Pomodoro)"
       >
@@ -99,7 +99,7 @@ export function FocusMode() {
           <div className="card-base p-8 max-w-md w-full relative" onClick={(e) => e.stopPropagation()}>
             <button
               onClick={() => setOpen(false)}
-              className="absolute top-3 right-3 text-white/40 hover:text-white"
+              className="absolute top-3 right-3 text-[var(--color-text-faint)] hover:text-[var(--color-text)]"
             >
               <X className="w-4 h-4" />
             </button>
@@ -107,7 +107,7 @@ export function FocusMode() {
               // focus mode · pomodoro
             </div>
             <h2 className="display text-3xl mb-1">{state.mode === "focus" ? "DEEP WORK." : "BREATHE."}</h2>
-            <div className="mono text-xs text-white/40 mb-6">
+            <div className="mono text-xs text-[var(--color-text-faint)] mb-6">
               {state.mode === "focus" ? "25 min · interventions muted" : "5 min · stretch, water"}
             </div>
 
@@ -122,13 +122,13 @@ export function FocusMode() {
               />
             </div>
 
-            <div className="text-center text-xs text-white/50 mb-5">
+            <div className="text-center text-xs text-[var(--color-text-faint)] mb-5">
               <span className="mono text-[var(--color-neon)]">{state.cyclesToday}</span> cycles done today
             </div>
 
             <div className="flex gap-2">
               {state.active ? (
-                <button onClick={pause} className="flex-1 py-3 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center gap-2">
+                <button onClick={pause} className="flex-1 py-3 rounded-full bg-white/10 hover:bg-[var(--color-text)]/5 flex items-center justify-center gap-2">
                   <Pause className="w-4 h-4" /> Pause
                 </button>
               ) : (
@@ -136,7 +136,7 @@ export function FocusMode() {
                   <Play className="w-4 h-4" /> Start focus
                 </button>
               )}
-              <button onClick={reset} className="px-4 py-3 rounded-full border border-white/20 hover:border-[var(--color-neon)]">
+              <button onClick={reset} className="px-4 py-3 rounded-full border border-[var(--color-line)] hover:border-[var(--color-neon)]">
                 <RotateCcw className="w-4 h-4" />
               </button>
             </div>

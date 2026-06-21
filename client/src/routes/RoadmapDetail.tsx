@@ -27,11 +27,11 @@ export default function RoadmapDetail() {
 
   return (
     <div className="mx-auto max-w-5xl px-4 sm:px-6 py-12">
-      <Link to="/roadmaps" className="text-xs text-white/40 hover:text-white inline-flex items-center gap-1 mb-3">
+      <Link to="/roadmaps" className="text-xs text-[var(--color-text-faint)] hover:text-[var(--color-text)] inline-flex items-center gap-1 mb-3">
         <ChevronLeft className="w-3 h-3" /> Back to roadmaps
       </Link>
       <h1 className="display text-5xl sm:text-6xl mb-3">{r.title}</h1>
-      <p className="text-white/70 max-w-3xl">{r.description}</p>
+      <p className="text-[var(--color-text-dim)] max-w-3xl">{r.description}</p>
 
       <div className="flex gap-2 mt-6 mb-8 flex-wrap">
         {TABS.map((t) => (
@@ -39,7 +39,7 @@ export default function RoadmapDetail() {
             key={t}
             onClick={() => setTab(t)}
             className={`px-4 py-2 rounded-full text-sm font-semibold ${
-              tab === t ? "bg-[var(--color-neon)] text-black" : "border border-white/20 text-white/70 hover:border-[var(--color-neon)]"
+              tab === t ? "bg-[var(--color-neon)] text-black" : "border border-[var(--color-line)] text-[var(--color-text-dim)] hover:border-[var(--color-neon)]"
             }`}
           >
             {LABELS[t]}
@@ -53,17 +53,17 @@ export default function RoadmapDetail() {
             <Card key={i}>
               <div className="mono text-xs text-[var(--color-neon)] uppercase tracking-widest">stage {i + 1} · {s.level} · {s.timeframe}</div>
               <h2 className="display text-3xl mt-1 mb-2">{s.title}</h2>
-              <p className="text-white/70 mb-5">{s.description}</p>
+              <p className="text-[var(--color-text-dim)] mb-5">{s.description}</p>
 
               <Section title="Skills">
                 <div className="grid sm:grid-cols-2 gap-3">
                   {s.skills.map((sk, j) => (
-                    <div key={j} className="border border-white/10 rounded-lg p-3">
+                    <div key={j} className="border border-[var(--color-line)] rounded-lg p-3">
                       <div className="font-semibold flex items-center gap-2">
                         {sk.name}
                         <span className="mono text-[10px] text-[var(--color-neon)] uppercase">{sk.importance}</span>
                       </div>
-                      <div className="text-sm text-white/60 mt-1">{sk.description}</div>
+                      <div className="text-sm text-[var(--color-text-faint)] mt-1">{sk.description}</div>
                     </div>
                   ))}
                 </div>
@@ -78,13 +78,13 @@ export default function RoadmapDetail() {
                         href={res.url || "#"}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="border border-white/10 rounded-lg p-3 hover:border-[var(--color-neon)]"
+                        className="border border-[var(--color-line)] rounded-lg p-3 hover:border-[var(--color-neon)]"
                       >
                         <div className="flex items-center gap-2 justify-between">
                           <div className="font-semibold text-sm">{res.name}</div>
-                          {res.url && <ExternalLink className="w-3 h-3 text-white/40" />}
+                          {res.url && <ExternalLink className="w-3 h-3 text-[var(--color-text-faint)]" />}
                         </div>
-                        <div className="text-xs text-white/60 mt-1 line-clamp-2">{res.description}</div>
+                        <div className="text-xs text-[var(--color-text-faint)] mt-1 line-clamp-2">{res.description}</div>
                         <div className="flex gap-1 mt-2 flex-wrap">
                           <Chip>{res.type}</Chip>
                           <Chip>{res.difficulty}</Chip>
@@ -100,15 +100,15 @@ export default function RoadmapDetail() {
                 <Section title="Projects">
                   <div className="space-y-3">
                     {s.projects.map((p, j) => (
-                      <div key={j} className="border border-white/10 rounded-lg p-4">
+                      <div key={j} className="border border-[var(--color-line)] rounded-lg p-4">
                         <div className="flex items-center gap-2">
                           <div className="font-semibold">{p.name}</div>
                           <Chip>{p.difficulty}</Chip>
                           <Chip>{p.estimated_time}</Chip>
                         </div>
-                        <div className="text-sm text-white/60 mt-1">{p.description}</div>
+                        <div className="text-sm text-[var(--color-text-faint)] mt-1">{p.description}</div>
                         {p.features?.length > 0 && (
-                          <ul className="list-disc pl-5 mt-2 text-xs text-white/70">
+                          <ul className="list-disc pl-5 mt-2 text-xs text-[var(--color-text-dim)]">
                             {p.features.slice(0, 5).map((f, k) => <li key={k}>{f}</li>)}
                           </ul>
                         )}
@@ -120,7 +120,7 @@ export default function RoadmapDetail() {
 
               {s.best_practices?.length > 0 && (
                 <Section title="Best practices">
-                  <ul className="list-disc pl-5 space-y-1 text-sm text-white/70">
+                  <ul className="list-disc pl-5 space-y-1 text-sm text-[var(--color-text-dim)]">
                     {s.best_practices.map((bp, j) => (
                       <li key={j}><strong>{bp.title}:</strong> {bp.description}</li>
                     ))}
@@ -134,7 +134,7 @@ export default function RoadmapDetail() {
                     {s.common_pitfalls.map((pf, j) => (
                       <li key={j} className="border-l-2 border-[#ff8a7a]/40 pl-3">
                         <div className="text-[#ff8a7a]">{pf.issue}</div>
-                        <div className="text-white/70 text-xs">→ {pf.solution}</div>
+                        <div className="text-[var(--color-text-dim)] text-xs">→ {pf.solution}</div>
                       </li>
                     ))}
                   </ul>
@@ -151,15 +151,15 @@ export default function RoadmapDetail() {
             <Card key={i}>
               <div className="mono text-xs text-[var(--color-neon)] uppercase">{t.category}</div>
               <h3 className="display text-xl mt-1">{t.name}</h3>
-              <p className="text-sm text-white/70 mt-1">{t.description}</p>
+              <p className="text-sm text-[var(--color-text-dim)] mt-1">{t.description}</p>
               {t.url && <a href={t.url} target="_blank" rel="noopener noreferrer" className="text-xs text-[var(--color-neon)] underline mt-2 inline-block">visit →</a>}
               <div className="mt-3 grid grid-cols-2 gap-2 text-xs">
                 <div>
-                  <div className="mono text-white/40 mb-1">pros</div>
+                  <div className="mono text-[var(--color-text-faint)] mb-1">pros</div>
                   <ul className="list-disc pl-4 space-y-0.5">{t.pros?.slice(0, 3).map((p, j) => <li key={j}>{p}</li>)}</ul>
                 </div>
                 <div>
-                  <div className="mono text-white/40 mb-1">cons</div>
+                  <div className="mono text-[var(--color-text-faint)] mb-1">cons</div>
                   <ul className="list-disc pl-4 space-y-0.5">{t.cons?.slice(0, 3).map((p, j) => <li key={j}>{p}</li>)}</ul>
                 </div>
               </div>
@@ -174,8 +174,8 @@ export default function RoadmapDetail() {
             <Card key={i}>
               <div className="mono text-xs text-[var(--color-neon)]">{c.provider} · {c.level}</div>
               <h3 className="display text-xl mt-1">{c.name}</h3>
-              <p className="text-sm text-white/70 mt-1">{c.description}</p>
-              <div className="text-xs text-white/50 mt-2 mono">{c.cost} · valid {c.validity}</div>
+              <p className="text-sm text-[var(--color-text-dim)] mt-1">{c.description}</p>
+              <div className="text-xs text-[var(--color-text-faint)] mt-2 mono">{c.cost} · valid {c.validity}</div>
               {c.url && <a href={c.url} target="_blank" rel="noopener noreferrer" className="text-xs text-[var(--color-neon)] underline mt-2 inline-block">visit →</a>}
             </Card>
           ))}
@@ -194,12 +194,12 @@ export default function RoadmapDetail() {
             </div>
           </Section>
           <Section title="Skills required">
-            <ul className="list-disc pl-5 text-sm text-white/70 space-y-1">
+            <ul className="list-disc pl-5 text-sm text-[var(--color-text-dim)] space-y-1">
               {r.career_path.skills_required.map((s, i) => <li key={i}>{s}</li>)}
             </ul>
           </Section>
           <Section title="Progression">
-            <ol className="list-decimal pl-5 text-sm text-white/70 space-y-1">
+            <ol className="list-decimal pl-5 text-sm text-[var(--color-text-dim)] space-y-1">
               {r.career_path.progression.map((s, i) => <li key={i}>{s}</li>)}
             </ol>
           </Section>
@@ -212,7 +212,7 @@ export default function RoadmapDetail() {
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div className="mt-5">
-      <div className="mono text-xs uppercase tracking-widest text-white/40 mb-2">{title}</div>
+      <div className="mono text-xs uppercase tracking-widest text-[var(--color-text-faint)] mb-2">{title}</div>
       {children}
     </div>
   );

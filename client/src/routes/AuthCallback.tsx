@@ -108,7 +108,7 @@ export default function AuthCallback() {
             <div>
               <div className="mono text-xs uppercase tracking-[0.3em] text-[#ff5247] mb-2">· error ·</div>
               <h1 className="display text-3xl mb-2">Couldn't complete sign-in.</h1>
-              <p className="text-white/70 text-sm">{error}</p>
+              <p className="text-[var(--color-text-dim)] text-sm">{error}</p>
               <div className="flex gap-2 mt-5">
                 <Button onClick={() => navigate("/", { replace: true })}>Back to home</Button>
               </div>
@@ -122,7 +122,7 @@ export default function AuthCallback() {
               <Field label="New password">
                 <input
                   type="password"
-                  className="w-full bg-[#1a1a1a] border border-white/10 rounded-lg p-2"
+                  className="w-full bg-[#1a1a1a] border border-[var(--color-line)] rounded-lg p-2"
                   minLength={8}
                   required
                   value={newPassword}
@@ -133,7 +133,7 @@ export default function AuthCallback() {
               <Field label="Confirm">
                 <input
                   type="password"
-                  className="w-full bg-[#1a1a1a] border border-white/10 rounded-lg p-2"
+                  className="w-full bg-[#1a1a1a] border border-[var(--color-line)] rounded-lg p-2"
                   minLength={8}
                   required
                   value={confirm}
@@ -152,7 +152,7 @@ export default function AuthCallback() {
             <div>
               <div className="mono text-xs uppercase tracking-[0.3em] text-[var(--color-neon)] mb-2">· all set ·</div>
               <h1 className="display text-3xl">Password updated.</h1>
-              <p className="text-white/60 mt-2 text-sm">Redirecting…</p>
+              <p className="text-[var(--color-text-faint)] mt-2 text-sm">Redirecting…</p>
             </div>
           )}
         </Card>
@@ -164,7 +164,7 @@ export default function AuthCallback() {
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label className="block">
-      <div className="text-[10px] uppercase tracking-widest text-white/50 mono mb-1">{label}</div>
+      <div className="text-[10px] uppercase tracking-widest text-[var(--color-text-faint)] mono mb-1">{label}</div>
       {children}
     </label>
   );

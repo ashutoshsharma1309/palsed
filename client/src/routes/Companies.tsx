@@ -60,7 +60,7 @@ export default function Companies() {
       <header className="mb-8">
         <div className="mono text-xs uppercase tracking-[0.3em] text-[var(--color-neon)] mb-2">// companies</div>
         <h1 className="display text-5xl sm:text-7xl">RECRUITER MAP.</h1>
-        <p className="text-white/60 mt-2 max-w-2xl">
+        <p className="text-[var(--color-text-faint)] mt-2 max-w-2xl">
           50 top recruiters for Indian campus placements — eligibility, hiring windows, packages,
           rounds, topics asked, and tips from previous offer-holders. Click any company for the full
           prep kit + previous-year questions.
@@ -71,9 +71,9 @@ export default function Companies() {
 
       <Card className="mb-6">
         <div className="flex items-center gap-2 mb-4">
-          <Search className="w-4 h-4 text-white/40" />
+          <Search className="w-4 h-4 text-[var(--color-text-faint)]" />
           <input
-            className="flex-1 bg-transparent outline-none placeholder-white/30"
+            className="flex-1 bg-transparent outline-none placeholder:text-[var(--color-text-faint)]"
             placeholder="Search by name, sector, location, role…"
             value={q}
             onChange={(e) => setQ(e.target.value)}
@@ -105,12 +105,12 @@ export default function Companies() {
         </div>
       </Card>
 
-      <div className="text-xs text-white/40 mono mb-4">
+      <div className="text-xs text-[var(--color-text-faint)] mono mb-4">
         Showing {filtered.length} / {COMPANIES.length}
       </div>
 
       {filtered.length === 0 ? (
-        <div className="py-16 text-center text-white/40">No companies match. Try clearing filters.</div>
+        <div className="py-16 text-center text-[var(--color-text-faint)]">No companies match. Try clearing filters.</div>
       ) : (
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {filtered.map((c) => <CompanyTile key={c.id} c={c} />)}
@@ -123,7 +123,7 @@ export default function Companies() {
 function Row({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div>
-      <div className="mono text-[10px] uppercase tracking-widest text-white/40 mb-1.5">{label}</div>
+      <div className="mono text-[10px] uppercase tracking-widest text-[var(--color-text-faint)] mb-1.5">{label}</div>
       <div className="flex flex-wrap gap-1.5">{children}</div>
     </div>
   );

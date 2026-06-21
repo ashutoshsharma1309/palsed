@@ -119,7 +119,7 @@ export default function Dsa() {
         <div>
           <div className="mono text-xs uppercase tracking-[0.3em] text-[var(--color-neon)] mb-2">// dsa hub</div>
           <h1 className="display text-5xl sm:text-7xl">DSA PRACTICE.</h1>
-          <p className="text-white/60 mt-2">150 hand-curated problems across 18 topics. Adaptive picks above.</p>
+          <p className="text-[var(--color-text-faint)] mt-2">150 hand-curated problems across 18 topics. Adaptive picks above.</p>
         </div>
         <div className="flex gap-3 flex-wrap">
           <Button variant="outline" onClick={randomUnsolved}>
@@ -135,7 +135,7 @@ export default function Dsa() {
 
       <div className="grid lg:grid-cols-3 gap-5 mb-8">
         <Card>
-          <div className="mono text-xs uppercase tracking-widest text-white/50 mb-2">Completion</div>
+          <div className="mono text-xs uppercase tracking-widest text-[var(--color-text-faint)] mb-2">Completion</div>
           <Donut
             segments={[
               { label: "Solved", value: counts.solved, color: "#c8ff3d" },
@@ -148,7 +148,7 @@ export default function Dsa() {
           />
         </Card>
         <Card>
-          <div className="mono text-xs uppercase tracking-widest text-white/50 mb-4">By difficulty</div>
+          <div className="mono text-xs uppercase tracking-widest text-[var(--color-text-faint)] mb-4">By difficulty</div>
           <div className="space-y-4">
             {DIFFICULTIES.map((d) => {
               const c = counts.byDiff[d];
@@ -156,7 +156,7 @@ export default function Dsa() {
                 <div key={d}>
                   <div className="flex justify-between text-xs mb-1">
                     <span>{d}</span>
-                    <span className="mono text-white/40">{c.solved}/{c.total}</span>
+                    <span className="mono text-[var(--color-text-faint)]">{c.solved}/{c.total}</span>
                   </div>
                   <ProgressBar value={c.total ? c.solved / c.total : 0} color={DIFF_COLOR[d]} />
                 </div>
@@ -165,7 +165,7 @@ export default function Dsa() {
           </div>
         </Card>
         <Card>
-          <div className="mono text-xs uppercase tracking-widest text-white/50 mb-3">By topic</div>
+          <div className="mono text-xs uppercase tracking-widest text-[var(--color-text-faint)] mb-3">By topic</div>
           <div className="max-h-[200px] overflow-y-auto pr-2 space-y-1.5">
             {counts.byTopic
               .sort((a, b) => (b.solved / Math.max(1, b.total)) - (a.solved / Math.max(1, a.total)))
@@ -175,7 +175,7 @@ export default function Dsa() {
                   <div className="flex-1">
                     <ProgressBar value={r.total ? r.solved / r.total : 0} height={5} />
                   </div>
-                  <div className="mono text-white/40 w-12 text-right">{r.solved}/{r.total}</div>
+                  <div className="mono text-[var(--color-text-faint)] w-12 text-right">{r.solved}/{r.total}</div>
                 </div>
               ))}
           </div>
@@ -184,22 +184,22 @@ export default function Dsa() {
 
       <Card className="mb-6">
         <div className="flex items-center gap-2 mb-3">
-          <Search className="w-4 h-4 text-white/40" />
+          <Search className="w-4 h-4 text-[var(--color-text-faint)]" />
           <input
-            className="flex-1 bg-transparent outline-none placeholder-white/30"
+            className="flex-1 bg-transparent outline-none placeholder:text-[var(--color-text-faint)]"
             placeholder="Search by title…"
             value={q}
             onChange={(e) => setQ(e.target.value)}
           />
           <button
-            className="text-white/60 hover:text-white text-xs flex items-center gap-1"
+            className="text-[var(--color-text-faint)] hover:text-[var(--color-text)] text-xs flex items-center gap-1"
             onClick={() => setShowFilters((v) => !v)}
           >
             Filters {showFilters ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
           </button>
         </div>
         {showFilters && (
-          <div className="space-y-3 pt-2 border-t border-white/10">
+          <div className="space-y-3 pt-2 border-t border-[var(--color-line)]">
             <Row label="Difficulty">
               {DIFFICULTIES.map((d) => (
                 <Chip key={d} tone="neon" active={diffFilter.has(d)} onClick={() => toggleSet(setDiffFilter, d)}>{d}</Chip>
@@ -231,12 +231,12 @@ export default function Dsa() {
       </Card>
 
       <Card>
-        <div className="text-xs text-white/40 mb-3 mono">
+        <div className="text-xs text-[var(--color-text-faint)] mb-3 mono">
           Showing {filtered.length} / {PROBLEMS.length} problems
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
-            <thead className="text-left text-[10px] uppercase tracking-widest text-white/40 mono">
+            <thead className="text-left text-[10px] uppercase tracking-widest text-[var(--color-text-faint)] mono">
               <tr>
                 <th className="py-2 pr-3 w-16">Status</th>
                 <th className="py-2 pr-3 w-12">★</th>
@@ -252,25 +252,25 @@ export default function Dsa() {
                 const st: Status = statuses[p.id] ?? "not_started";
                 const bm = bookmarks.includes(p.id);
                 return (
-                  <tr key={p.id} className="border-t border-white/5 hover:bg-white/[0.02]">
+                  <tr key={p.id} className="border-t border-[var(--color-line)] hover:bg-[var(--color-text)]/5">
                     <td className="py-2 pr-3">
-                      <button onClick={() => cycleStatus(p.id)} className="w-7 h-7 rounded border border-white/20 flex items-center justify-center hover:border-[var(--color-neon)]">
+                      <button onClick={() => cycleStatus(p.id)} className="w-7 h-7 rounded border border-[var(--color-line)] flex items-center justify-center hover:border-[var(--color-neon)]">
                         {st === "solved" && <span className="text-[var(--color-neon)]">✓</span>}
-                        {st === "attempted" && <span className="text-[#ffe87a]">◐</span>}
+                        {st === "attempted" && <span className="text-[var(--severity-warn-text)]">◐</span>}
                       </button>
                     </td>
                     <td className="py-2 pr-3">
                       <button onClick={() => toggleBookmark(p.id)} className="text-[var(--color-neon)]">
-                        {bm ? <BookmarkCheck className="w-4 h-4" /> : <Bookmark className="w-4 h-4 text-white/30" />}
+                        {bm ? <BookmarkCheck className="w-4 h-4" /> : <Bookmark className="w-4 h-4 text-[var(--color-text-faint)]" />}
                       </button>
                     </td>
-                    <td className="py-2 pr-3 mono text-white/40 text-xs">{p.leetcodeNumber}</td>
+                    <td className="py-2 pr-3 mono text-[var(--color-text-faint)] text-xs">{p.leetcodeNumber}</td>
                     <td className="py-2 pr-3">
-                      <Link to={`/dsa/${p.slug}`} className="text-white hover:text-[var(--color-neon)]">
+                      <Link to={`/dsa/${p.slug}`} className="text-[var(--color-text)] hover:text-[var(--color-neon)]">
                         {p.title}
                       </Link>
                     </td>
-                    <td className="py-2 pr-3 text-xs text-white/60">{p.topic}</td>
+                    <td className="py-2 pr-3 text-xs text-[var(--color-text-faint)]">{p.topic}</td>
                     <td className="py-2 pr-3">
                       <span className="text-xs font-semibold" style={{ color: DIFF_COLOR[p.difficulty] }}>
                         {p.difficulty}
@@ -305,7 +305,7 @@ export default function Dsa() {
 function Row({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div>
-      <div className="text-[10px] uppercase tracking-widest text-white/40 mono mb-1.5">{label}</div>
+      <div className="text-[10px] uppercase tracking-widest text-[var(--color-text-faint)] mono mb-1.5">{label}</div>
       <div className="flex flex-wrap gap-1.5">{children}</div>
     </div>
   );

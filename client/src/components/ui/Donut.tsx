@@ -67,7 +67,7 @@ export function Donut({
               <div className="text-3xl font-extrabold neon-text mono">{centerValue}</div>
             )}
             {centerLabel && (
-              <div className="text-[10px] uppercase tracking-widest text-white/50 mt-1">
+              <div className="text-[10px] uppercase tracking-widest text-[var(--color-text-faint)] mt-1">
                 {centerLabel}
               </div>
             )}
@@ -77,13 +77,13 @@ export function Donut({
       {showLegend && (
         <ul className="flex flex-wrap gap-x-4 gap-y-1 justify-center text-xs">
           {segments.map((s, i) => (
-            <li key={i} className="flex items-center gap-2 text-white/70">
+            <li key={i} className="flex items-center gap-2 text-[var(--color-text-dim)]">
               <span
                 className="inline-block w-3 h-3 rounded-sm"
                 style={{ background: s.color }}
               />
               <span>{s.label}</span>
-              <span className="text-white/40 mono">{s.value}</span>
+              <span className="text-[var(--color-text-faint)] mono">{s.value}</span>
             </li>
           ))}
         </ul>

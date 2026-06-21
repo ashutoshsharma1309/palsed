@@ -51,10 +51,10 @@ export default function Pyq() {
         <div>
           <div className="mono text-xs uppercase tracking-[0.3em] text-[var(--color-neon)] mb-2">// pyq vault</div>
           <h1 className="display text-5xl sm:text-7xl">PYQ VAULT.</h1>
-          <p className="text-white/60 mt-2 max-w-xl">
+          <p className="text-[var(--color-text-faint)] mt-2 max-w-xl">
             Previous-year questions by company × round × year. Crowd-verified.
             {focusedCompany && (
-              <> Filtered to <strong className="text-white">{focusedCompany.name}</strong>.
+              <> Filtered to <strong className="text-[var(--color-text)]">{focusedCompany.name}</strong>.
                 <button onClick={() => setParams({})} className="ml-2 text-xs text-[var(--color-neon)] underline">clear</button>
               </>
             )}
@@ -67,9 +67,9 @@ export default function Pyq() {
 
       <Card className="mb-6">
         <div className="flex items-center gap-2 mb-3">
-          <Search className="w-4 h-4 text-white/40" />
+          <Search className="w-4 h-4 text-[var(--color-text-faint)]" />
           <input
-            className="flex-1 bg-transparent outline-none placeholder-white/30"
+            className="flex-1 bg-transparent outline-none placeholder:text-[var(--color-text-faint)]"
             placeholder="Search questions, topics…"
             value={q}
             onChange={(e) => setQ(e.target.value)}
@@ -104,12 +104,12 @@ export default function Pyq() {
         </div>
       </Card>
 
-      <div className="text-xs text-white/40 mono mb-4">
+      <div className="text-xs text-[var(--color-text-faint)] mono mb-4">
         Showing {filtered.length} / {all.length} questions
       </div>
 
       {filtered.length === 0 ? (
-        <div className="py-16 text-center text-white/40">
+        <div className="py-16 text-center text-[var(--color-text-faint)]">
           No PYQs match. <Link to="/pyq/submit" className="text-[var(--color-neon)] underline">Submit the first one.</Link>
         </div>
       ) : (
@@ -125,11 +125,11 @@ export default function Pyq() {
                         {company.name}
                       </Link>
                     )}
-                    <span className="text-white/40">·</span>
-                    <span className="text-white/60">{p.round}</span>
-                    <span className="text-white/40">·</span>
-                    <span className="text-white/60">{p.year}</span>
-                    <span className="text-white/40">·</span>
+                    <span className="text-[var(--color-text-faint)]">·</span>
+                    <span className="text-[var(--color-text-faint)]">{p.round}</span>
+                    <span className="text-[var(--color-text-faint)]">·</span>
+                    <span className="text-[var(--color-text-faint)]">{p.year}</span>
+                    <span className="text-[var(--color-text-faint)]">·</span>
                     <span
                       className="px-1.5 py-0.5 rounded"
                       style={{
@@ -141,24 +141,24 @@ export default function Pyq() {
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <button onClick={() => vote(p.id, "up")} className={`inline-flex items-center gap-1 px-2 py-0.5 rounded ${votes[p.id] === "up" ? "bg-[var(--color-neon)]/20 text-[var(--color-neon)]" : "text-white/40 hover:text-white"}`}>
+                    <button onClick={() => vote(p.id, "up")} className={`inline-flex items-center gap-1 px-2 py-0.5 rounded ${votes[p.id] === "up" ? "bg-[var(--color-neon)]/20 text-[var(--color-neon)]" : "text-[var(--color-text-faint)] hover:text-[var(--color-text)]"}`}>
                       <ThumbsUp className="w-3 h-3" /> {p.upvotes}
                     </button>
-                    <button onClick={() => vote(p.id, "down")} className={`inline-flex items-center gap-1 px-2 py-0.5 rounded ${votes[p.id] === "down" ? "bg-red-400/20 text-red-300" : "text-white/40 hover:text-white"}`}>
+                    <button onClick={() => vote(p.id, "down")} className={`inline-flex items-center gap-1 px-2 py-0.5 rounded ${votes[p.id] === "down" ? "bg-red-400/20 text-red-300" : "text-[var(--color-text-faint)] hover:text-[var(--color-text)]"}`}>
                       <ThumbsDown className="w-3 h-3" /> {p.downvotes}
                     </button>
                   </div>
                 </div>
-                <div className="text-sm text-white/95 leading-relaxed mb-2">{p.question}</div>
-                <div className="mono text-[10px] text-white/40">
-                  topic: <span className="text-white/60">{p.topic}</span>
+                <div className="text-sm text-[var(--color-text-faint)] leading-relaxed mb-2">{p.question}</div>
+                <div className="mono text-[10px] text-[var(--color-text-faint)]">
+                  topic: <span className="text-[var(--color-text-faint)]">{p.topic}</span>
                   {p.status === "verified" && <span className="ml-2 text-[var(--color-neon)]">verified</span>}
-                  {p.status === "pending" && <span className="ml-2 text-[#ffe87a]">pending review</span>}
+                  {p.status === "pending" && <span className="ml-2 text-[var(--severity-warn-text)]">pending review</span>}
                 </div>
                 {p.expectedApproach && (
                   <details className="mt-2">
                     <summary className="text-xs text-[var(--color-neon)] cursor-pointer">expected approach</summary>
-                    <div className="text-xs text-white/70 mt-1 mono whitespace-pre-line">{p.expectedApproach}</div>
+                    <div className="text-xs text-[var(--color-text-dim)] mt-1 mono whitespace-pre-line">{p.expectedApproach}</div>
                   </details>
                 )}
               </Card>
@@ -173,7 +173,7 @@ export default function Pyq() {
 function Row({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div>
-      <div className="mono text-[10px] uppercase tracking-widest text-white/40 mb-1">{label}</div>
+      <div className="mono text-[10px] uppercase tracking-widest text-[var(--color-text-faint)] mb-1">{label}</div>
       <div className="flex flex-wrap gap-1.5">{children}</div>
     </div>
   );

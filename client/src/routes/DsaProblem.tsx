@@ -125,7 +125,7 @@ export default function DsaProblem() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 py-8">
-      <Link to="/dsa" className="text-xs text-white/40 hover:text-white inline-flex items-center gap-1 mb-4">
+      <Link to="/dsa" className="text-xs text-[var(--color-text-faint)] hover:text-[var(--color-text)] inline-flex items-center gap-1 mb-4">
         <ChevronLeft className="w-3 h-3" /> Back to DSA Hub
       </Link>
 
@@ -139,15 +139,15 @@ export default function DsaProblem() {
             rel="noopener noreferrer"
             title="Solve on LeetCode"
             aria-label="Solve on LeetCode (opens in a new tab)"
-            className="group relative inline-flex items-center justify-center w-10 h-10 rounded-xl border border-white/15 text-[#ffa116] hover:border-[#ffa116] hover:bg-[#ffa116]/10 transition-colors"
+            className="group relative inline-flex items-center justify-center w-10 h-10 rounded-xl border border-[var(--color-line)] text-[#ffa116] hover:border-[#ffa116] hover:bg-[#ffa116]/10 transition-colors"
           >
             <LeetCodeLogo className="w-5 h-5" />
-            <span className="pointer-events-none absolute -bottom-9 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-black/90 border border-white/10 px-2 py-1 text-[11px] text-white opacity-0 group-hover:opacity-100 transition-opacity z-10">
+            <span className="pointer-events-none absolute -bottom-9 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-[var(--color-text)] px-2 py-1 text-[11px] text-[var(--color-bg)] opacity-0 group-hover:opacity-100 transition-opacity z-10">
               Solve on LeetCode
             </span>
           </a>
         </div>
-        <div className="mono text-xs text-white/40 mt-2">LeetCode #{problem.leetcodeNumber}</div>
+        <div className="mono text-xs text-[var(--color-text-faint)] mt-2">LeetCode #{problem.leetcodeNumber}</div>
       </header>
 
       {/* Question Information — modern cards + badges */}
@@ -162,11 +162,11 @@ export default function DsaProblem() {
         {/* Main column — accordions */}
         <div className="lg:col-span-2 space-y-3">
           <AccordionItem title="Problem Overview" icon={<FileText className="w-4 h-4" />} defaultOpen>
-            <div className="text-sm text-white/75 space-y-3">
+            <div className="text-sm text-[var(--color-text-faint)] space-y-3">
               <p>
-                <span className="text-white/50">{problem.title}</span> is a{" "}
+                <span className="text-[var(--color-text-faint)]">{problem.title}</span> is a{" "}
                 <span className={DIFF_COLOR[problem.difficulty]}>{problem.difficulty}</span> problem in the{" "}
-                <span className="text-white">{problem.topic}</span> pattern, asked with{" "}
+                <span className="text-[var(--color-text)]">{problem.topic}</span> pattern, asked with{" "}
                 <span className="text-[var(--color-neon)]">{FREQUENCY_LABEL[problem.frequency].toLowerCase()}</span>{" "}
                 frequency in interviews.
               </p>
@@ -191,7 +191,7 @@ export default function DsaProblem() {
               {problem.companies.map((c) => (
                 <span
                   key={c}
-                  className="px-3 py-1.5 rounded-lg border border-white/12 bg-white/[0.03] text-sm text-white/80"
+                  className="px-3 py-1.5 rounded-lg border border-[var(--color-line)] bg-[var(--color-card-soft)] text-sm text-[var(--color-text-dim)]"
                 >
                   {c}
                 </span>
@@ -201,10 +201,10 @@ export default function DsaProblem() {
 
           <AccordionItem title="Important Notes" icon={<StickyNote className="w-4 h-4" />}>
             {sol?.notes ? (
-              <div className="text-sm text-white/80"><MarkdownView>{sol.notes}</MarkdownView></div>
+              <div className="text-sm text-[var(--color-text-dim)]"><MarkdownView>{sol.notes}</MarkdownView></div>
             ) : (
-              <p className="text-sm text-white/60">
-                Focus on the <span className="text-white">{problem.topic}</span> pattern. Identify the
+              <p className="text-sm text-[var(--color-text-faint)]">
+                Focus on the <span className="text-[var(--color-text)]">{problem.topic}</span> pattern. Identify the
                 brute-force approach first, then look for the data structure or two-pointer/window trick
                 that removes redundant work.
               </p>
@@ -213,26 +213,26 @@ export default function DsaProblem() {
 
           <AccordionItem title="Solution" icon={<Code2 className="w-4 h-4" />}>
             {!sol ? (
-              <p className="text-sm text-white/60">
+              <p className="text-sm text-[var(--color-text-faint)]">
                 An in-platform solution for this problem is coming soon. Try it yourself, or ask the AI
                 tutor for a guided walkthrough.
               </p>
             ) : !solutionShown ? (
-              <div className="text-sm text-white/60">
+              <div className="text-sm text-[var(--color-text-faint)]">
                 <p className="mb-4">Give it a genuine attempt first — then reveal the full approach and code below.</p>
                 <Button onClick={viewSolution}>View Solution</Button>
               </div>
             ) : (
               <div className="space-y-4">
                 <div>
-                  <div className="mono text-[11px] uppercase tracking-widest text-white/40 mb-2">Approach</div>
-                  <div className="text-sm text-white/85"><MarkdownView>{sol.approach}</MarkdownView></div>
+                  <div className="mono text-[11px] uppercase tracking-widest text-[var(--color-text-faint)] mb-2">Approach</div>
+                  <div className="text-sm text-[var(--color-text-faint)]"><MarkdownView>{sol.approach}</MarkdownView></div>
                 </div>
                 {remoteLoading ? (
-                  <div className="text-sm text-white/50">Loading solution source…</div>
+                  <div className="text-sm text-[var(--color-text-faint)]">Loading solution source…</div>
                 ) : codeBlock ? (
                   <div>
-                    <div className="mono text-[11px] uppercase tracking-widest text-white/40 mb-2">Sample Code</div>
+                    <div className="mono text-[11px] uppercase tracking-widest text-[var(--color-text-faint)] mb-2">Sample Code</div>
                     <MarkdownView>{codeBlock}</MarkdownView>
                   </div>
                 ) : null}
@@ -243,17 +243,17 @@ export default function DsaProblem() {
           <AccordionItem title="Complexity Analysis" icon={<Gauge className="w-4 h-4" />}>
             {sol ? (
               <div className="grid grid-cols-2 gap-3">
-                <div className="rounded-xl border border-white/10 bg-white/[0.03] p-4">
-                  <div className="mono text-[11px] uppercase tracking-widest text-white/40 mb-1">Time</div>
+                <div className="rounded-xl border border-[var(--color-line)] bg-[var(--color-card-soft)] p-4">
+                  <div className="mono text-[11px] uppercase tracking-widest text-[var(--color-text-faint)] mb-1">Time</div>
                   <div className="display text-2xl text-[var(--color-neon)]">{sol.time}</div>
                 </div>
-                <div className="rounded-xl border border-white/10 bg-white/[0.03] p-4">
-                  <div className="mono text-[11px] uppercase tracking-widest text-white/40 mb-1">Space</div>
+                <div className="rounded-xl border border-[var(--color-line)] bg-[var(--color-card-soft)] p-4">
+                  <div className="mono text-[11px] uppercase tracking-widest text-[var(--color-text-faint)] mb-1">Space</div>
                   <div className="display text-2xl text-[var(--color-mint)]">{sol.space}</div>
                 </div>
               </div>
             ) : (
-              <p className="text-sm text-white/60">Complexity analysis will appear with the solution.</p>
+              <p className="text-sm text-[var(--color-text-faint)]">Complexity analysis will appear with the solution.</p>
             )}
           </AccordionItem>
         </div>
@@ -261,7 +261,7 @@ export default function DsaProblem() {
         {/* Sidebar — progress + AI tutor */}
         <div className="space-y-5">
           <Card>
-            <div className="mono text-xs uppercase tracking-widest text-white/50 mb-3">Your progress</div>
+            <div className="mono text-xs uppercase tracking-widest text-[var(--color-text-faint)] mb-3">Your progress</div>
             <div className="space-y-2">
               <ProgressOption active={status === "not_started"} onClick={() => setStatus("not_started")}
                 icon={<Circle className="w-4 h-4" />} label="Not Started" />
@@ -277,7 +277,7 @@ export default function DsaProblem() {
               className={`mt-3 w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border text-sm font-medium transition-colors ${
                 inRevision
                   ? "border-[var(--color-yellow)] bg-[var(--color-yellow)]/10 text-[var(--color-yellow)]"
-                  : "border-white/15 text-white/70 hover:border-white/30"
+                  : "border-[var(--color-line)] text-[var(--color-text-dim)] hover:border-[var(--color-line)]"
               }`}
             >
               <Flag className="w-4 h-4" /> {inRevision ? "Marked for Revision" : "Mark for Revision"}
@@ -287,12 +287,12 @@ export default function DsaProblem() {
           <Card>
             <div className="flex items-center gap-2 mb-3">
               <Sparkles className="w-4 h-4 text-[var(--color-neon)]" />
-              <div className="mono text-xs uppercase tracking-widest text-white/50">Ask the tutor</div>
+              <div className="mono text-xs uppercase tracking-widest text-[var(--color-text-faint)]">Ask the tutor</div>
             </div>
             {tutor ? (
-              <div className="text-sm text-white/80"><MarkdownView>{tutor}</MarkdownView></div>
+              <div className="text-sm text-[var(--color-text-dim)]"><MarkdownView>{tutor}</MarkdownView></div>
             ) : (
-              <div className="text-sm text-white/40 italic">
+              <div className="text-sm text-[var(--color-text-faint)] italic">
                 Stuck? The AI tutor guides you Socratically — without spoiling the answer.
               </div>
             )}
@@ -313,10 +313,10 @@ export default function DsaProblem() {
   );
 }
 
-function InfoCard({ label, value, valueClass = "text-white" }: { label: string; value: string; valueClass?: string }) {
+function InfoCard({ label, value, valueClass = "text-[var(--color-text)]" }: { label: string; value: string; valueClass?: string }) {
   return (
-    <div className="rounded-xl border border-white/10 bg-white/[0.03] p-4">
-      <div className="mono text-[10px] uppercase tracking-widest text-white/40 mb-1">{label}</div>
+    <div className="rounded-xl border border-[var(--color-line)] bg-[var(--color-card-soft)] p-4">
+      <div className="mono text-[10px] uppercase tracking-widest text-[var(--color-text-faint)] mb-1">{label}</div>
       <div className={`font-semibold ${valueClass}`}>{value}</div>
     </div>
   );
@@ -333,7 +333,7 @@ function ProgressOption({
       className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl border text-sm font-medium transition-colors ${
         active
           ? "border-[var(--color-neon)] bg-[var(--color-neon)]/10 text-[var(--color-neon)]"
-          : "border-white/12 text-white/70 hover:border-white/30"
+          : "border-[var(--color-line)] text-[var(--color-text-dim)] hover:border-[var(--color-line)]"
       }`}
     >
       {icon} {label}

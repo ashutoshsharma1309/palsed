@@ -19,7 +19,7 @@ export class ErrorBoundary extends React.Component<{ children: React.ReactNode }
             // something broke
           </div>
           <h1 className="display text-4xl mb-3">OOPS.</h1>
-          <p className="text-white/60 mb-4 text-sm">
+          <p className="text-[var(--color-text-faint)] mb-4 text-sm">
             {this.state.error.message || "An unexpected error occurred."}
           </p>
           <button
