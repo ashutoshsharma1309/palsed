@@ -22,7 +22,7 @@ export default function CompanyDetail() {
   // SEO: dynamically update <title> + meta description (good enough for Vercel SSR)
   useEffect(() => {
     if (!c) return;
-    document.title = `${c.name} — Placement Prep Kit · Salary · Rounds · PYQs | PrepNext`;
+    document.title = `${c.name} — Placement Prep Kit · Salary · Rounds · PYQs | PrepNxt`;
     const meta = document.querySelector('meta[name="description"]');
     if (meta) meta.setAttribute(
       "content",

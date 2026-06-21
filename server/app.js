@@ -15,7 +15,7 @@ import { Router } from "express";
 const aiGoneRouter = Router();
 aiGoneRouter.all("*", (_req, res) =>
   res.status(410).json({
-    error: "This endpoint has been retired. PrepNext no longer uses AI generation.",
+    error: "This endpoint has been retired. PrepNxt no longer uses AI generation.",
   })
 );
 

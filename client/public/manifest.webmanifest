@@ -1,6 +1,6 @@
 {
-  "name": "PrepNext — Adaptive AI Learning & Placement Prep",
-  "short_name": "PrepNext",
+  "name": "PrepNxt — Adaptive AI Learning & Placement Prep",
+  "short_name": "PrepNxt",
   "description": "AI-powered adaptive learning and placement preparation: personalized roadmaps, DSA practice, multi-style lessons, and progress tracking.",
   "start_url": "/dashboard",
   "scope": "/",

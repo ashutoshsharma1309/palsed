@@ -10,7 +10,7 @@
 
 ## 2. Current State
 
-PrepNext is in the dangerous middle-state where a hackathon prototype has been re-positioned ("Placement Season OS"), the UI was rewritten to match, but the **persistence and infrastructure layers were never migrated**. The Landing page promises a kanban applications tracker, a PYQ vault, and a mastery radar — and all three exist as functional UIs. None of them write to the database.
+PrepNxt is in the dangerous middle-state where a hackathon prototype has been re-positioned ("Placement Season OS"), the UI was rewritten to match, but the **persistence and infrastructure layers were never migrated**. The Landing page promises a kanban applications tracker, a PYQ vault, and a mastery radar — and all three exist as functional UIs. None of them write to the database.
 
 Concretely:
 

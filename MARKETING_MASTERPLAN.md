@@ -2,7 +2,7 @@
 
 ## 1. Executive Summary
 
-- **Your positioning is fighting itself.** The `index.html` head tag still markets PrepNext as an "Adaptive AI Learning Universe," but the Landing route, Companies vault, PYQ Vault, and Applications kanban explicitly sell a "Placement Season OS." Every paid click and SEO impression is currently confusing two different ICPs (general learners vs. placement-season engineering students). Fix copy alignment before spending a single rupee on Google Ads.
+- **Your positioning is fighting itself.** The `index.html` head tag still markets PrepNxt as an "Adaptive AI Learning Universe," but the Landing route, Companies vault, PYQ Vault, and Applications kanban explicitly sell a "Placement Season OS." Every paid click and SEO impression is currently confusing two different ICPs (general learners vs. placement-season engineering students). Fix copy alignment before spending a single rupee on Google Ads.
 - **You are unindexable today.** SPA-only Vite build + no SSR/prerender + no sitemap + no robots.txt + `prepnext.vercel.app` (subdomain, no E-A-T) means Googlebot sees an empty shell on `/companies/:slug`, `/dsa/:slug`, `/pyq`. Competitors like PrepInsta, GeeksforGeeks, and IndiaBix dominate exactly these long-tail queries ("TCS NQT previous year questions," "Accenture OA pattern 2026") because they ship static HTML. This is the single highest-leverage fix.
 - **In the ₹0/month bootstrap scenario,** the only viable channels are: (a) programmatic SEO on company-specific PYQ pages (you already have the data model — `Company`, `PYQ`, `DsaProblemStatus`), (b) Reddit (r/developersIndia, r/JEEAdv, r/Btechtards, r/csMajors) with founder-led posts, (c) college WhatsApp/Telegram seeding via campus ambassadors, and (d) shipping the Certificate flow with a public `/verify-certificate` page as a viral hook. Forget Meta/Google Ads at zero budget.
 - **In the ₹5L/month seed scenario,** the winning mix is roughly 40% Google Search Ads on bottom-funnel placement intent, 25% YouTube pre-roll on placement-prep creators (Striver, Apna College, CodeHelp), 15% Instagram Reels with founder-led content, 10% campus ambassador program (200 colleges), 5% LinkedIn (TPO/placement-cell B2B2C play), 5% Reddit/X content amplification. Avoid Meta cold prospecting — Indian student CPMs are cheap but intent is poor.
@@ -10,9 +10,9 @@
 
 ## 2. Current State
 
-Honest read: PrepNext is a hackathon project with 18 signups, zero paid users, no domain, no SEO surface, no analytics instrumentation visible in the recon, and a head tag that contradicts the landing page. The product is genuinely differentiated (the Companies vault + Applications kanban + PYQ Vault workflow is a real wedge), but **nothing about your current marketing surface communicates that**.
+Honest read: PrepNxt is a hackathon project with 18 signups, zero paid users, no domain, no SEO surface, no analytics instrumentation visible in the recon, and a head tag that contradicts the landing page. The product is genuinely differentiated (the Companies vault + Applications kanban + PYQ Vault workflow is a real wedge), but **nothing about your current marketing surface communicates that**.
 
-The brand is invisible. "PrepNext" as a search term returns nothing useful on Google India. The site lives on `prepnext.vercel.app` which (a) signals "not a real company" to students and parents, (b) tanks E-A-T for SEO, (c) prevents you from running Google Ads with sitelinks/structured snippets properly, and (d) cannot host a corporate email for outreach.
+The brand is invisible. "PrepNxt" as a search term returns nothing useful on Google India. The site lives on `prepnext.vercel.app` which (a) signals "not a real company" to students and parents, (b) tanks E-A-T for SEO, (c) prevents you from running Google Ads with sitelinks/structured snippets properly, and (d) cannot host a corporate email for outreach.
 
 Product-marketing fit is also off. The `<title>` says "Adaptive AI Learning Universe." The OG description says "AI-powered adaptive learning and placement-prep platform." But the actual landing copy (per your recon) says "zero AI calls" placement OS. If a journalist, TPO, or student lands on the site after seeing an ad, they get whiplash. This kills every funnel before it starts.
 
@@ -35,7 +35,7 @@ Competitively, you are entering a saturated category. PrepInsta owns "TCS NQT pr
 | 9 | No college ambassador / TPO outreach playbook — placement cells are the single highest-LTV B2B2C channel and you have zero motion here | High | 2 weeks | P1 |
 | 10 | No email lifecycle (welcome, OA reminders from Placement Calendar, weekly digest of new PYQs) — the SRS + Calendar models are perfect for retention emails and you're sending zero | High | 1 week | P2 |
 | 11 | Only ~150 DSA problems vs. LeetCode 3000+ / GFG ~5000 — you cannot win SEO on "DSA problem" head terms; must pivot SEO strategy to PYQ + company-specific long-tail | High | Strategic | P1 |
-| 12 | No social proof on Landing (no testimonials, no "X students from IIIT/NIT/VIT use PrepNext," no Product Hunt badge, no GitHub stars if open-source) | Medium | 1 week | P2 |
+| 12 | No social proof on Landing (no testimonials, no "X students from IIIT/NIT/VIT use PrepNxt," no Product Hunt badge, no GitHub stars if open-source) | Medium | 1 week | P2 |
 
 ## 4. Recommendations
 
@@ -44,7 +44,7 @@ Competitively, you are entering a saturated category. PrepInsta owns "TCS NQT pr
 Open `client/index.html` and rewrite the head. The current copy ("Adaptive AI Learning Universe," "AI-powered adaptive learning") is actively hurting you. Replace with:
 
 ```html
-<title>PrepNext — Your Placement Season Operating System</title>
+<title>PrepNxt — Your Placement Season Operating System</title>
 <meta name="description" content="Track 50+ company drives, crowd-sourced PYQs, DSA practice, and your full application pipeline in one workspace. Built for Indian engineering students chasing campus placements, internships, and off-campus offers." />
 <meta name="keywords" content="campus placement preparation, PYQ vault, placement tracker, TCS NQT, Infosys, Accenture OA, Wipro placement, DSA practice, engineering placement, internship tracker India" />
 ```
@@ -65,9 +65,9 @@ Pick option 1 if you raise. Option 2 if bootstrapped.
 
 You cannot out-content GeeksforGeeks. You can out-structure them. Your `Company` model + `PYQ` model + `DsaProblem` model are a programmatic SEO goldmine:
 
-- `/companies/tcs/pyq` — "TCS NQT Previous Year Questions 2026 | PrepNext"
-- `/companies/accenture/oa-pattern` — "Accenture OA Pattern 2026 | PrepNext"
-- `/companies/razorpay/dsa-questions` — "Razorpay DSA Interview Questions | PrepNext"
+- `/companies/tcs/pyq` — "TCS NQT Previous Year Questions 2026 | PrepNxt"
+- `/companies/accenture/oa-pattern` — "Accenture OA Pattern 2026 | PrepNxt"
+- `/companies/razorpay/dsa-questions` — "Razorpay DSA Interview Questions | PrepNxt"
 - `/pyq/{company}/{year}/{round}` — long-tail PYQ pages
 - `/colleges/iiit-hyderabad/placement-stats` — if you can scrape/seed college-level data
 
@@ -88,11 +88,11 @@ Install: PostHog (free up to 1M events) for product analytics, Plausible or Verc
 
 ### 4.6 Channel strategy — Bootstrap (₹0/month)
 
-**Reddit (highest ROI, 6-8 hours/week):** Don't post links. Write genuine long-form posts in r/developersIndia, r/Btechtards, r/csMajors, r/Indian_Academia. Examples: "I scraped 50 company hiring patterns from 2024 placements — here's what I found" → embed PrepNext screenshots → soft CTA in comments. Founder account, transparent about being the maker. Aim for 1 quality post/week. The Indian dev Reddit is starved for genuine resources.
+**Reddit (highest ROI, 6-8 hours/week):** Don't post links. Write genuine long-form posts in r/developersIndia, r/Btechtards, r/csMajors, r/Indian_Academia. Examples: "I scraped 50 company hiring patterns from 2024 placements — here's what I found" → embed PrepNxt screenshots → soft CTA in comments. Founder account, transparent about being the maker. Aim for 1 quality post/week. The Indian dev Reddit is starved for genuine resources.
 
 **Twitter/X (founder-led):** Post daily for 90 days. Format: screenshots of the Applications kanban, "how I tracked 47 applications this season," company-specific PYQ threads ("TCS NQT 2025 pattern, decoded"). Tag @striver_79, @Anuj_kumar_Sha2, @kunalstwt for engagement. Building in public works in this niche.
 
-**LinkedIn (TPO + student dual play):** Student posts = certificate flexes ("Just hit 100-day DSA streak on PrepNext — verify here"). TPO posts = case studies ("How VIT Vellore placement cell tracked 2,400 students through PrepNext"). The Certificate `/verify-certificate` route IS your LinkedIn growth loop — every issued cert is a recruiter-visible backlink.
+**LinkedIn (TPO + student dual play):** Student posts = certificate flexes ("Just hit 100-day DSA streak on PrepNxt — verify here"). TPO posts = case studies ("How VIT Vellore placement cell tracked 2,400 students through PrepNxt"). The Certificate `/verify-certificate` route IS your LinkedIn growth loop — every issued cert is a recruiter-visible backlink.
 
 **Reddit + Telegram + Discord seeding via campus ambassadors:** Recruit 1 ambassador per college from your 18 signups. Give them a Notion playbook + free Pro tier (if/when you have one) + ₹500/month gift card if they hit 50 referrals. Target 25 colleges in 90 days.
 
@@ -117,7 +117,7 @@ Total: ~₹5L. Reserve 20% for creative production (video editor on retainer, de
 ### 4.8 The two campaigns to run first
 
 1. **"Placement Season 2026" launch** — coincide with the August-October on-campus season. Landing page `/placement-season-2026`, Google Ads on every top-50 company name, founder-led X/LinkedIn thread, Reddit AMA in r/developersIndia.
-2. **"Verify on PrepNext" certificate viral loop** — every completed prep kit issues a signed certificate with public verification. Auto-generate a LinkedIn-share-optimized OG image per certificate using `@vercel/og` reading the `Certificate` model's `verifyCode`. Each shared cert = 50-200 LinkedIn impressions from the issuer's network. This is your single best free-distribution mechanism and it's already 80% built.
+2. **"Verify on PrepNxt" certificate viral loop** — every completed prep kit issues a signed certificate with public verification. Auto-generate a LinkedIn-share-optimized OG image per certificate using `@vercel/og` reading the `Certificate` model's `verifyCode`. Each shared cert = 50-200 LinkedIn impressions from the issuer's network. This is your single best free-distribution mechanism and it's already 80% built.
 
 ## 5. 30-Day Priorities
 
@@ -168,4 +168,4 @@ Total: ~₹5L. Reserve 20% for creative production (video editor on retainer, de
 | Revenue (if monetized) | Paying users | 0 | 200 at ₹299/mo |
 | Revenue | MRR | ₹0 | ₹60,000 |
 
-**One metric to rule them all:** *Weekly Active Application Trackers* — the count of users who created or updated an `Application` row in the past 7 days. This is the single best proxy for "did PrepNext become this student's placement-season home." If this number is growing 10% week-over-week by day 90, the product is winning. If it's flat, no amount of marketing spend will save it.
+**One metric to rule them all:** *Weekly Active Application Trackers* — the count of users who created or updated an `Application` row in the past 7 days. This is the single best proxy for "did PrepNxt become this student's placement-season home." If this number is growing 10% week-over-week by day 90, the product is winning. If it's flat, no amount of marketing spend will save it.

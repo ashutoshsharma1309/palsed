@@ -1,6 +1,6 @@
 # STARTUP_PLAN.md
 
-*PrepNext — Master Execution Document*
+*PrepNxt — Master Execution Document*
 *Author posture: COO synthesizing 12 specialist reports into one accountable plan.*
 *Last updated: 2026-06-20*
 
@@ -49,7 +49,7 @@ Concretely: by Sep 1, 2026, `view-source: prepnext.in/companies/razorpay` must r
 
 ### Feature comparison
 
-| Feature | Who has it | PrepNext status |
+| Feature | Who has it | PrepNxt status |
 |---|---|---|
 | DSA practice (3000+ problems) | LeetCode, GFG, Coding Ninjas, InterviewBit | Has ~150 problems — losing this fight |
 | Per-company prep pages (eligibility, rounds) | PrepInsta (ad-laden, 2015 UX), GFG, InterviewBit | Has data for 50, not prerendered — invisible to Google |
@@ -73,7 +73,7 @@ Concretely: by Sep 1, 2026, `view-source: prepnext.in/companies/razorpay` must r
 | Public student profile (LeetCode-style) | LeetCode, Codeforces | Not built |
 | Ambassador / campus rep program | Unstop (light), AlmaBetter, Scaler | Not built |
 
-### 10 unique features PrepNext could build (ranked by Impact ÷ Effort)
+### 10 unique features PrepNxt could build (ranked by Impact ÷ Effort)
 
 | # | Feature | Moat potential | Impact ÷ Effort |
 |---|---|---|---|
@@ -84,7 +84,7 @@ Concretely: by Sep 1, 2026, `view-source: prepnext.in/companies/razorpay` must r
 | 5 | **Resume Roast tool (public, no signup, watermarked)** | Top-of-funnel viral tool | High — Levels.fyi playbook |
 | 6 | **Per-company "Asked at" DSA tagging sourced from PYQ submissions** | Real differentiator vs. LeetCode | High — join existing tables |
 | 7 | **Verified senior / ambassador profile with cohort admin** | Distribution moat per campus | Medium-High — requires recruiting |
-| 8 | **Chrome extension: one-click "Add to PrepNext" from LinkedIn/Naukri/Unstop** | Workflow stickiness | Medium-High — new repo |
+| 8 | **Chrome extension: one-click "Add to PrepNxt" from LinkedIn/Naukri/Unstop** | Workflow stickiness | Medium-High — new repo |
 | 9 | **Weekly placement-pulse digest email (per cohort)** | Retention loop | Medium — Resend + cron |
 | 10 | **Public mastery radar profile (`/u/:handle`) for LinkedIn share** | LeetCode-profile-style brand impressions | Medium — opt-in flag + OG |
 
@@ -110,7 +110,7 @@ Sorted by overall priority. Revenue ranges assume 10k users, blended 3% Pro conv
 | 12 | **Telegram channel auto-post on verified PYQ** | Meet audience where they live | High | Low | ₹10k indirect | Distribution unlock |
 | 13 | **Status-transition surfacing (move "Razorpay → OA" → see PYQs)** | Magic moment, contextual | Med | Low | ₹15k | Cross-feature glue |
 | 14 | **Email digest "5 PYQs from your batch this week"** | Retention loop, replaces WhatsApp leak culture | Med | Low | ₹20k | Solves D7 retention |
-| 15 | **Chrome extension: "Add to PrepNext" from LinkedIn/Naukri** | Workflow becomes daily-open habit | High | High | ₹30k | Unique workflow moat |
+| 15 | **Chrome extension: "Add to PrepNxt" from LinkedIn/Naukri** | Workflow becomes daily-open habit | High | High | ₹30k | Unique workflow moat |
 | 16 | **Mock interview report card PDF (LinkedIn-ready)** | Brag artefact + virality loop | Med | Med | ₹20k | Uses existing jspdf |
 | 17 | **Off-campus drives feed (Vercel Cron scraping)** | Daily content — solves "what's hiring this week" | High | Med | ₹25k | Search-heavy intent |
 | 18 | **Public mastery radar profile `/u/:handle`** | LeetCode-profile-style brand surface | Med | Low | ₹10k indirect | Opt-in flag |
@@ -203,7 +203,7 @@ Assumptions: ₹99/mo Pro at 3% conversion is conservative for Indian campus mar
 **Marketing priorities (top 3)**
 1. Founder-led content: daily X post + 2 LinkedIn posts/wk + 1 long-form Reddit post/wk in r/developersIndia.
 2. WhatsApp/Telegram seeding via existing 18 users' college groups; launch Telegram channel `t.me/prepnext_pyq` with auto-post on verified PYQ.
-3. Build PrepNext Certificate LinkedIn share flow (per-cert OG via `@vercel/og`).
+3. Build PrepNxt Certificate LinkedIn share flow (per-cert OG via `@vercel/og`).
 
 **SEO priorities (top 3)**
 1. Rewrite `index.html` head + buy `prepnext.in` + add `sitemap.xml`/`robots.txt`/JSON-LD (Organization, WebSite, FAQPage).
@@ -237,7 +237,7 @@ Assumptions: ₹99/mo Pro at 3% conversion is conservative for Indian campus mar
 
 **SEO priorities (top 3)**
 1. Ship 200 programmatic pages (`/companies/:slug/{pyq,process,prep-kit}` ×50).
-2. Backlink campaign: outreach to 30 college TPO pages + coding-club blogs offering free PrepNext-branded dashboards in exchange for footer links.
+2. Backlink campaign: outreach to 30 college TPO pages + coding-club blogs offering free PrepNxt-branded dashboards in exchange for footer links.
 3. 24 more blog posts (Cluster A+B mix); cumulative 36 posts averaging 2,000 words.
 
 **Hiring priorities**
@@ -257,7 +257,7 @@ Assumptions: ₹99/mo Pro at 3% conversion is conservative for Indian campus mar
 
 **Product priorities (top 3)**
 1. Migrate to Next.js 15 App Router for SSR + ISR + edge OG; PWA + offline DSA shell.
-2. Chrome extension v1: one-click "Add to PrepNext" from LinkedIn/Naukri/Unstop.
+2. Chrome extension v1: one-click "Add to PrepNxt" from LinkedIn/Naukri/Unstop.
 3. Team tier rollout + College TPO admin dashboard (B2B2C); per-college branded pages.
 
 **Marketing priorities (top 3)**
@@ -293,7 +293,7 @@ Assumptions: ₹99/mo Pro at 3% conversion is conservative for Indian campus mar
 
 **Marketing priorities (top 3)**
 1. National brand campaign: TV + OTT (Hotstar, Jio) around July placement-season launch (₹50L–₹1Cr).
-2. Annual flagship event: "PrepNext Placement Summit" — 10k attendees, recruiter sponsors, free for students.
+2. Annual flagship event: "PrepNxt Placement Summit" — 10k attendees, recruiter sponsors, free for students.
 3. Partnerships: AICTE/UGC formal partnership for the National Placement Readiness Index.
 
 **SEO priorities (top 3)**
@@ -312,7 +312,7 @@ Assumptions: ₹99/mo Pro at 3% conversion is conservative for Indian campus mar
 
 ---
 
-## 7. Market Gap Analysis — White Space PrepNext Can Own
+## 7. Market Gap Analysis — White Space PrepNxt Can Own
 
 1. **The Applications kanban + per-company prep workflow.** Every competitor is a content library (LeetCode = problems, GFG = tutorials, PrepInsta = company pages, Unstop = events). Nobody owns "your placement season, organized." A daily-open kanban tied to PYQs, DSA filters, and calendar reminders is genuinely empty white space.
 
@@ -372,7 +372,7 @@ Only after these are in production should marketing dollars be deployed. Until t
 - Switch `DATABASE_URL` to Supavisor transaction pooler (port 6543, `?pgbouncer=true&connection_limit=1`).
 
 **Publish**
-- 3 founder X posts: "we pivoted, here's what we're building," "PrepNext positioning manifesto," screenshot of new domain.
+- 3 founder X posts: "we pivoted, here's what we're building," "PrepNxt positioning manifesto," screenshot of new domain.
 - 1 LinkedIn long-form post: "Why we deleted 60% of our hackathon code."
 - Submit homepage to Google Search Console + Bing Webmaster (even pre-prerender — to register domain).
 
@@ -418,7 +418,7 @@ Only after these are in production should marketing dollars be deployed. Until t
 
 **Publish**
 - 5 X posts + 2 LinkedIn posts (founder content cadence).
-- Reddit long-form post in r/developersIndia: "I scraped 50 company hiring patterns from 2024 — here's what I found" with PrepNext screenshots.
+- Reddit long-form post in r/developersIndia: "I scraped 50 company hiring patterns from 2024 — here's what I found" with PrepNxt screenshots.
 - Launch Telegram channel `t.me/prepnext_pyq`; auto-post bot when a PYQ is verified.
 - 2 more blog posts: "Infosys SP Eligibility 2026" + "Wipro Elite NTH Syllabus."
 

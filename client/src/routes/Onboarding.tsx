@@ -46,7 +46,7 @@ const labelCls = "text-[11px] uppercase tracking-widest text-[var(--color-text-f
 export default function Onboarding() {
   usePageMeta({
     title: "Set up your profile",
-    description: "Quick profile so PrepNext can tailor recruiters + prep to your branch, year, and CGPA.",
+    description: "Quick profile so PrepNxt can tailor recruiters + prep to your branch, year, and CGPA.",
     canonical: "/onboarding",
   });
 
@@ -138,7 +138,7 @@ export default function Onboarding() {
       <div className="relative z-10 mx-auto max-w-3xl px-4 sm:px-6 py-10 min-h-screen">
         <header className="mb-8">
           <div className="mono text-xs uppercase tracking-[0.3em] text-[var(--color-neon)] mb-2">
-            · welcome to PrepNext ·
+            · welcome to PrepNxt ·
           </div>
           <h1 className="display text-4xl sm:text-5xl leading-[0.95]">
             Quick profile.

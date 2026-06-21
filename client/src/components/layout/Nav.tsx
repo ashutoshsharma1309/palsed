@@ -77,7 +77,7 @@ export function Nav() {
   return (
     <nav className="sticky top-0 z-30 backdrop-blur-md bg-[var(--color-bg)]/85 border-b border-[var(--color-line)]">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 flex items-center justify-between h-14">
-        <Link to="/" className="shrink-0 neon-text" aria-label="PrepNext home">
+        <Link to="/" className="shrink-0 neon-text" aria-label="PrepNxt home">
           <LogoLockup wordmarkClass="display text-2xl tracking-tight" markSize={26} />
         </Link>
 

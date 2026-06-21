@@ -1,4 +1,4 @@
-// Mounts generic CRUD routers for every PrepNext entity under /api/db/*.
+// Mounts generic CRUD routers for every PrepNxt entity under /api/db/*.
 // Also exposes a deep "create full course" endpoint that proves nested
 // relational inserts (course -> chapters -> lessons) work end-to-end.
 import { Router } from "express";

@@ -1,13 +1,13 @@
 # INVESTOR REPORT
 
-*Partner memo — PrepNext (Seed / Pre-Seed evaluation). Author posture: skeptical YC/Sequoia/a16z partner. This is a brutal read, not a cheerleading exercise.*
+*Partner memo — PrepNxt (Seed / Pre-Seed evaluation). Author posture: skeptical YC/Sequoia/a16z partner. This is a brutal read, not a cheerleading exercise.*
 
 ---
 
 ## 1. Executive Summary
 
-- **Verdict at this stage: PASS, with an option to re-engage in 6 months.** PrepNext is a credible "workflow product for placement season" idea wrapped in a hackathon shell — 18 signups, no revenue, no domain, no SEO, no distribution, and a dual-auth stack that screams "still in build mode." There is a real wedge here (placement workflow > content), but nothing in the current repo proves the founder can win against Unstop, PrepInsta, and GFG, all of whom have 7–8 figure user bases and SEO moats.
-- **The product has an identity crisis baked into the codebase.** `index.html` still markets "Your Adaptive AI Learning Universe" while the Landing page pitches "zero AI calls placement OS." Prisma still ships `Course`, `Roadmap`, `Tutor*` models that the router (`App.tsx`) explicitly redirects away from. This is the single biggest tell that the founder hasn't decided what PrepNext actually is. No investor will write a check until that's resolved.
+- **Verdict at this stage: PASS, with an option to re-engage in 6 months.** PrepNxt is a credible "workflow product for placement season" idea wrapped in a hackathon shell — 18 signups, no revenue, no domain, no SEO, no distribution, and a dual-auth stack that screams "still in build mode." There is a real wedge here (placement workflow > content), but nothing in the current repo proves the founder can win against Unstop, PrepInsta, and GFG, all of whom have 7–8 figure user bases and SEO moats.
+- **The product has an identity crisis baked into the codebase.** `index.html` still markets "Your Adaptive AI Learning Universe" while the Landing page pitches "zero AI calls placement OS." Prisma still ships `Course`, `Roadmap`, `Tutor*` models that the router (`App.tsx`) explicitly redirects away from. This is the single biggest tell that the founder hasn't decided what PrepNxt actually is. No investor will write a check until that's resolved.
 - **The wedge ("Placement Season Operating System" — Companies vault + PYQ Vault + Applications kanban) is the only differentiated thing here.** DSA practice, mock interviews, system design, aptitude, AI tutor — all of that is commodity and directly overlaps with InterviewBit, LeetCode, Coding Ninjas. Strip 60% of the surface area and double down on the kanban + PYQ + recruiter-intel triad. That's where the moat candidate lives.
 - **Distribution, not product, is the bottleneck.** Indian campus placement is a known-buyer, known-channel market: T&P cells, campus ambassadors, college WhatsApp groups, and r/Indian_Academia / r/developersIndia. With no domain, no SEO, no SSR, and 18 signups after a hackathon launch, the founder hasn't yet demonstrated they can acquire users at zero cost — which is the only viable GTM at this stage given there's no monetization.
 - **The "why now" is weak but real.** 2024–2026 placement seasons in India have been historically bad (mass deferrals at Infosys/Wipro/TCS, hiring freezes at startups), and there is genuine student anxiety about prep workflow. PYQs are gated behind paid Telegram groups and college seniors. A free, crowd-sourced PYQ vault tied to a kanban tracker is a real opening — but only if it ships before someone at Unstop notices.
@@ -73,14 +73,14 @@ Ranked by impact on whether this company exists in 12 months.
 
 ## 4. Recommendations
 
-These are specific to PrepNext's actual codebase and competitive position. No generic "do PMF interviews" platitudes.
+These are specific to PrepNxt's actual codebase and competitive position. No generic "do PMF interviews" platitudes.
 
 ### 4.1 Pick the narrative in `index.html` and the Landing page TODAY
 
-The mismatch between `<title>PrepNext — Your Adaptive AI Learning Universe</title>` and the Landing page's "zero AI runtime" pitch is the single most damaging thing in the repo. Every share, every Google result, every OG unfurl on WhatsApp/LinkedIn currently sells the wrong product.
+The mismatch between `<title>PrepNxt — Your Adaptive AI Learning Universe</title>` and the Landing page's "zero AI runtime" pitch is the single most damaging thing in the repo. Every share, every Google result, every OG unfurl on WhatsApp/LinkedIn currently sells the wrong product.
 
 **Concrete change:**
-- `<title>PrepNext — Placement Season OS for Indian Engineering Students</title>`
+- `<title>PrepNxt — Placement Season OS for Indian Engineering Students</title>`
 - `<meta name="description" content="Track applications, study previous-year questions from 50+ top recruiters, and crack campus placements. Free for students.">`
 - Strip "adaptive AI learning" everywhere. It's not what you sell.
 - Update OG image (`/og-image.svg`) to reflect "Companies Vault + PYQ + Kanban," not generic learning.
@@ -163,7 +163,7 @@ Each item has a concrete, measurable deliverable. No "explore" or "consider."
 1. **Reach 5,000 signups and 500 weekly active.** Without this, no seed conversation is real. Focus channels: SEO (PYQ long-tail), college ambassadors (CR / placement coordinator commission), Reddit, Twitter, LinkedIn (job-seeker posts).
 2. **Hit 50 paid Certificate transactions** (~₹15,000 revenue). Trivial in absolute terms, but proves WTP and unlocks "paying users" in the deck.
 3. **Build the Company Prep Kit as a productized SKU.** Right now it's a concept ("Per-Company Prep Kits bundling DSA + sysdesign + behavioral + PYQs"). Make it a real, packaged, shareable URL per company. This becomes the unit of virality and monetization.
-4. **Ship a Chrome extension that auto-detects job postings on LinkedIn/Naukri/Unstop and one-clicks them into the Applications kanban.** This is the single most underrated wedge in the product. It turns PrepNext into a daily-open tool, not a study site. Files involved: new `extension/` directory, reuses `Application` model.
+4. **Ship a Chrome extension that auto-detects job postings on LinkedIn/Naukri/Unstop and one-clicks them into the Applications kanban.** This is the single most underrated wedge in the product. It turns PrepNxt into a daily-open tool, not a study site. Files involved: new `extension/` directory, reuses `Application` model.
 5. **Hire / contract a campus ambassador program** — 50 ambassadors across 50 colleges, paid in cash + certificates. Deliverable: ambassador dashboard (reuses engagement analytics infra) + ≥10 PYQs/college/month.
 6. **Get featured in 5 college placement-prep guides / T&P newsletters.** Outbound to college placement officers. They control the channel.
 7. **Cut Supabase + Vercel costs to <₹5000/month and document unit economics** — CAC, activation rate, % returning weekly, average PYQs viewed per session. Deliverable: a one-page metrics dashboard in `/engagement` (admin view).
@@ -204,7 +204,7 @@ I want to be honest about what would change my mind. A 6-month re-engagement loo
 - **A killed feature list longer than the shipped feature list.** Focus is the signal.
 - **At least 50 paying users** for the Verified Certificate or company prep kit, even at ₹299. Revenue isn't the point — the *learning loop* is.
 
-Right now, PrepNext is a feature factory in search of a company. The Companies Vault + PYQ Vault + Applications Kanban triad is a real business idea. Everything else in the repo is noise that is actively hurting the pitch. The founder's job for the next 30 days is to delete more code than they write.
+Right now, PrepNxt is a feature factory in search of a company. The Companies Vault + PYQ Vault + Applications Kanban triad is a real business idea. Everything else in the repo is noise that is actively hurting the pitch. The founder's job for the next 30 days is to delete more code than they write.
 
 If they do that, this becomes interesting. If they keep adding features, I'll see the same deck in 12 months with 40 signups instead of 18, and the answer will still be no.
 

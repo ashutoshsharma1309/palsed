@@ -66,7 +66,7 @@ export default function VerifyCertificate() {
         )}
 
         <div className="mt-6 text-center">
-          <Link to="/" className="text-xs text-[var(--color-neon)] underline">← PrepNext home</Link>
+          <Link to="/" className="text-xs text-[var(--color-neon)] underline">← PrepNxt home</Link>
         </div>
       </div>
     </>

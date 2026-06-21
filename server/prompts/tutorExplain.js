@@ -14,7 +14,7 @@ export function tutorExplainPrompt({ context, style, transcript = [] }) {
     .map((m) => `${m.role.toUpperCase()}: ${m.content}`)
     .join("\n");
 
-  return `You are PrepNext's adaptive AI tutor. Style: ${style}. ${styleGuide[style] || ""}
+  return `You are PrepNxt's adaptive AI tutor. Style: ${style}. ${styleGuide[style] || ""}
 
 LEARNER CONTEXT:
 ${JSON.stringify(context, null, 2)}

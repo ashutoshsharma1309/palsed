@@ -2,17 +2,17 @@
 
 ## 1. Executive Summary
 
-- **Positioning/SEO mismatch is the #1 problem.** `index.html` markets "Adaptive AI Learning Universe" while `Landing.tsx` markets a "zero-AI placement OS for Indian campus students." Google has no idea what PrepNext ranks for, and neither does a recruiter sharing the link on WhatsApp. Every ranking opportunity downstream is blocked until title/description/OG copy is rewritten around `campus placement preparation India`, `PYQ vault`, `company-wise placement prep`.
+- **Positioning/SEO mismatch is the #1 problem.** `index.html` markets "Adaptive AI Learning Universe" while `Landing.tsx` markets a "zero-AI placement OS for Indian campus students." Google has no idea what PrepNxt ranks for, and neither does a recruiter sharing the link on WhatsApp. Every ranking opportunity downstream is blocked until title/description/OG copy is rewritten around `campus placement preparation India`, `PYQ vault`, `company-wise placement prep`.
 - **SPA-only architecture is a crawler dead end.** Every route (`/companies/:slug`, `/dsa/:slug`, `/pyq`, `/internships`) is a client-rendered Suspense shell. Googlebot sees the same `<title>` for 50 companies and 150 DSA problems. Prerendering (`vite-plugin-prerender-spa`, `react-snap`, or migrating these high-intent routes to a thin SSR layer on Vercel) is the highest-leverage tech-SEO unlock.
 - **There is no `sitemap.xml`, no `robots.txt`, no canonical, no JSON-LD.** All four are table-stakes and all four are missing. The FAQ on Landing is a free FAQPage schema win sitting unused. Companies are a free `ItemList` + `Organization` schema win. DSA problems are a free `LearningResource` schema win.
 - **Domain rot kills E-E-A-T before the race starts.** `prepnext.vercel.app` will never outrank `geeksforgeeks.org`, `prepinsta.com`, `interviewbit.com` for any commercial-intent term. A `.com`/`.in` purchase is a prerequisite, not an optimization.
-- **Long-tail company-wise + PYQ queries are the only realistic wedge in the first 90 days.** PrepNext cannot beat LeetCode/GFG on `dsa practice` head terms. It *can* rank for `TCS NQT previous year questions 2026`, `Razorpay SDE intern interview questions`, `Zomato campus placement process` — 50 companies x 4 query variations = 200 programmatic pages with near-zero competition from monolith aggregators.
+- **Long-tail company-wise + PYQ queries are the only realistic wedge in the first 90 days.** PrepNxt cannot beat LeetCode/GFG on `dsa practice` head terms. It *can* rank for `TCS NQT previous year questions 2026`, `Razorpay SDE intern interview questions`, `Zomato campus placement process` — 50 companies x 4 query variations = 200 programmatic pages with near-zero competition from monolith aggregators.
 
 ## 2. Current State
 
-PrepNext's SEO posture is best described as accidentally hostile to its own ICP. The product is built for a hyper-specific Indian audience (2nd–4th year engineering students chasing campus placements), but the only crawlable HTML on the site — the static `<head>` block in `client/index.html` — pitches a generic global edtech narrative ("Adaptive AI Learning Universe", "AI tutor", "multi-style lessons"). None of that copy contains the words "placement", "India", "campus", "PYQ", "company", or "off-campus". A student googling `Infosys placement preparation` will never see this site, because the site does not claim to be about that, in markup.
+PrepNxt's SEO posture is best described as accidentally hostile to its own ICP. The product is built for a hyper-specific Indian audience (2nd–4th year engineering students chasing campus placements), but the only crawlable HTML on the site — the static `<head>` block in `client/index.html` — pitches a generic global edtech narrative ("Adaptive AI Learning Universe", "AI tutor", "multi-style lessons"). None of that copy contains the words "placement", "India", "campus", "PYQ", "company", or "off-campus". A student googling `Infosys placement preparation` will never see this site, because the site does not claim to be about that, in markup.
 
-Beyond positioning, the technical SEO foundation is missing entirely. There is no `robots.txt` at the public root, no `sitemap.xml`, no `<link rel="canonical">`, no `<meta name="robots">`, and no structured data of any kind. The `og:image` and `twitter:image` both point to a `/og-image.svg` — Twitter and LinkedIn unfurlers reject SVG; X drops the card entirely. This means every share of a PrepNext link on WhatsApp, X, or LinkedIn renders as a naked URL with no preview, killing organic referral CTR.
+Beyond positioning, the technical SEO foundation is missing entirely. There is no `robots.txt` at the public root, no `sitemap.xml`, no `<link rel="canonical">`, no `<meta name="robots">`, and no structured data of any kind. The `og:image` and `twitter:image` both point to a `/og-image.svg` — Twitter and LinkedIn unfurlers reject SVG; X drops the card entirely. This means every share of a PrepNxt link on WhatsApp, X, or LinkedIn renders as a naked URL with no preview, killing organic referral CTR.
 
 The architecture compounds the problem. The codebase is a Vite SPA with React Router 7, where every route lazy-loads through `Suspense`. The `7_EXISTING_SEO_HEAD` is the only HTML Googlebot reliably sees on first paint. Google does execute JS, but with a long render queue and aggressive timeouts, and it does not pass per-route `document.title` mutations to its long-tail ranking systems with anything like the priority of pre-rendered HTML. So `/companies/razorpay`, `/dsa/two-sum`, `/pyq` all collapse into one indexable surface as far as scale ranking is concerned.
 
@@ -48,13 +48,13 @@ Net: the site is technically online, occasionally shared, has 18 signups, and is
 
 `client/index.html` is the single highest-leverage file in the repo. Replace the entire metadata block with India-targeted, placement-targeted copy. Concretely:
 
-- `<title>`: `PrepNext — Campus Placement Prep for Indian Engineering Students | PYQs, Company Vault, DSA Tracker`
-- `<meta name="description">`: `PrepNext is the placement season OS for Indian engineering students. 50-company recruiter vault (TCS, Infosys, Razorpay, Zomato, Swiggy), verified PYQs, DSA tracker, application kanban, and mock interviews. Free during beta.`
+- `<title>`: `PrepNxt — Campus Placement Prep for Indian Engineering Students | PYQs, Company Vault, DSA Tracker`
+- `<meta name="description">`: `PrepNxt is the placement season OS for Indian engineering students. 50-company recruiter vault (TCS, Infosys, Razorpay, Zomato, Swiggy), verified PYQs, DSA tracker, application kanban, and mock interviews. Free during beta.`
 - Remove `<meta name="keywords">` entirely — it is a 2008 signal.
 - Add `<meta name="robots" content="index,follow,max-image-preview:large">`.
 - Add `<link rel="canonical" href="https://prepnext.com/">` (post-domain purchase).
 - Add `<meta http-equiv="content-language" content="en-IN">` + `<html lang="en-IN">`.
-- Replace `og:image` and `twitter:image` with a real 1200x630 PNG. Generate via a Vercel OG function (`@vercel/og`) so every route can have a dynamic card — `/companies/razorpay` should unfurl with "Razorpay Placement Prep — PrepNext".
+- Replace `og:image` and `twitter:image` with a real 1200x630 PNG. Generate via a Vercel OG function (`@vercel/og`) so every route can have a dynamic card — `/companies/razorpay` should unfurl with "Razorpay Placement Prep — PrepNxt".
 
 ### 4.2 Ship a static `robots.txt` and a dynamic `sitemap.xml`
 
@@ -92,7 +92,7 @@ Pick (2) for the next 30 days, plan (1) for Q1.
 
 ### 4.5 Programmatic SEO: the only winnable wedge
 
-PrepNext cannot beat GeeksforGeeks on `binary search`. It can beat them on `Razorpay SDE intern interview questions 2026` because the page does not exist on GFG. The `Company` model already has eligibility, packages, rounds, OA platforms, and tips. For each company, generate four crawlable surfaces:
+PrepNxt cannot beat GeeksforGeeks on `binary search`. It can beat them on `Razorpay SDE intern interview questions 2026` because the page does not exist on GFG. The `Company` model already has eligibility, packages, rounds, OA platforms, and tips. For each company, generate four crawlable surfaces:
 
 - `/companies/:slug` — overview (intent: navigational + "company X placement process")
 - `/companies/:slug/pyq` — filtered PYQ vault (intent: "company X previous year questions")
@@ -199,7 +199,7 @@ Build a `@vercel/og` route at `api/og/route.ts` that accepts `?title=&subtitle=`
 3. **Publish 12 high-intent long-form articles** on `prepnext.com/blog`: "TCS NQT 2026 Pattern", "How Razorpay Hires SDE Interns", "Off-Campus Placement Roadmap for 2026 Batch", etc. Internal-link aggressively to `/companies/:slug` and `/pyq`. Deliverable: 12 posts, each 1500+ words, each targeting one keyword from section 4.6.
 4. **Open the PYQ vault to logged-out reading** (gate only submission/voting behind auth). Deliverable: `/pyq` and `/companies/:slug/pyq` return HTML content, not an auth wall. This is currently the single biggest indexable-content unlock.
 5. **Core Web Vitals pass.** Self-host the Google Fonts subset (`Inter` only on Landing; `Anton`/`Bebas`/`Share Tech Mono` async loaded), drop the highlight.js stylesheet from Landing (move to DSA route only), preload the hero image. Deliverable: Landing LCP <2.0s on Moto G Power, INP <200ms, CLS <0.05.
-6. **Backlink campaign for E-E-A-T.** Partner with 10 college placement cells + 10 coding clubs (IIIT, NIT, BITS, IIIT-H, IIITH, IIT campus tech societies); offer free PrepNext access in exchange for a footer link on their placement portal. Deliverable: 20 referring root domains from `.ac.in` / `.edu.in` — these are extremely high-quality signals for Indian education SEO.
+6. **Backlink campaign for E-E-A-T.** Partner with 10 college placement cells + 10 coding clubs (IIIT, NIT, BITS, IIIT-H, IIITH, IIT campus tech societies); offer free PrepNxt access in exchange for a footer link on their placement portal. Deliverable: 20 referring root domains from `.ac.in` / `.edu.in` — these are extremely high-quality signals for Indian education SEO.
 7. **Launch IndexNow + Google Indexing API hooks.** Every verified PYQ submission and every new Company write triggers an instant ping. Deliverable: TTFI (time to first index) <24h on new PYQs.
 
 ## 7. Metrics to Track

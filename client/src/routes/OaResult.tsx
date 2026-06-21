@@ -53,9 +53,9 @@ export default function OaResult() {
   const handleShare = async () => {
     const text = `I scored ${stats.score}/100 on a ${session.config.questionCount}Q ${
       company?.name || "Mixed"
-    } OA mock in PrepNext 🚀\n\nTry yours: https://prepnext.vercel.app/oa`;
+    } OA mock in PrepNxt 🚀\n\nTry yours: https://prepnext.vercel.app/oa`;
     try {
-      if (navigator.share) await navigator.share({ title: "My PrepNext OA score", text });
+      if (navigator.share) await navigator.share({ title: "My PrepNxt OA score", text });
       else {
         await navigator.clipboard.writeText(text);
         alert("Score copied to clipboard!");

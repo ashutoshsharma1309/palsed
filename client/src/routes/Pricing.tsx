@@ -82,7 +82,7 @@ const TIERS: Tier[] = [
 export default function Pricing() {
   usePageMeta({
     title: "Pricing — Free, Pro, Team for campus placement prep",
-    description: "PrepNext is free forever. Pro at ₹99/mo unlocks unlimited features. Team for placement cells.",
+    description: "PrepNxt is free forever. Pro at ₹99/mo unlocks unlimited features. Team for placement cells.",
     canonical: "/pricing",
   });
 

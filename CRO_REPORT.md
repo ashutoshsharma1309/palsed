@@ -10,7 +10,7 @@
 
 ## 2. Current State
 
-PrepNext is a hackathon artifact masquerading as a product. The codebase reveals a team that built features faster than positioning: 21 routes, a Recruiter Map with 50 companies, a PYQ vault, DSA tracker with Monaco, kanban, SRS, mastery radar, certificates, engagement analytics, AI tutor threads — and 18 signups. The build-to-distribution ratio is roughly 100:1, which is normal for hackathon code but unsustainable as a business.
+PrepNxt is a hackathon artifact masquerading as a product. The codebase reveals a team that built features faster than positioning: 21 routes, a Recruiter Map with 50 companies, a PYQ vault, DSA tracker with Monaco, kanban, SRS, mastery radar, certificates, engagement analytics, AI tutor threads — and 18 signups. The build-to-distribution ratio is roughly 100:1, which is normal for hackathon code but unsustainable as a business.
 
 The conversion funnel today is:
 1. Visitor lands at `prepnext.vercel.app` (already a trust hit)
@@ -40,7 +40,7 @@ There's no "social proof above the fold" — no college logos, no "Built by IIT/
 | 5 | No structured data (Organization, FAQPage, BreadcrumbList) despite real FAQ on Landing | High | S (4hr) | P1 |
 | 6 | OTP-first auth flow — 30-90s latency between CTA and dashboard | Med | S (4hr) | P1 |
 | 7 | No social proof above the fold (college logos, student count, PYQ count) | High | S (1 day) | P1 |
-| 8 | Certificate verification page is a viral loop — no OG image, no PrepNext branding, no "claim your own" CTA | Med | S (1 day) | P1 |
+| 8 | Certificate verification page is a viral loop — no OG image, no PrepNxt branding, no "claim your own" CTA | Med | S (1 day) | P1 |
 | 9 | No segmentation by year-of-study (2nd/3rd/4th) on landing — generic CTA for very different ICPs | Med | M (3 days) | P1 |
 | 10 | Stale routes (Courses/Roadmaps/Tutor) bloat bundle, slow LCP, hurt mobile conversion | Med | S (1 day) | P2 |
 | 11 | No urgency mechanic — placement season is the most time-sensitive moment in a CS student's life and the landing page ignores it | High | S (1 day) | P1 |
@@ -56,14 +56,14 @@ There's no "social proof above the fold" — no college logos, no "Built by IIT/
 The `<head>` block from the recon contains:
 
 ```html
-<title>PrepNext — Your Adaptive AI Learning Universe</title>
-<meta name="description" content="PrepNext is an AI-powered adaptive learning...">
+<title>PrepNxt — Your Adaptive AI Learning Universe</title>
+<meta name="description" content="PrepNxt is an AI-powered adaptive learning...">
 ```
 
 This contradicts every signal on Landing.tsx. Replace immediately with:
 
 ```html
-<title>PrepNext — Placement Season OS for Indian Engineering Students</title>
+<title>PrepNxt — Placement Season OS for Indian Engineering Students</title>
 <meta name="description" content="Track 50+ company recruiter pages, 5,000+ PYQs, DSA practice, and your application pipeline in one place. Built for 2nd/3rd/4th-year engineering students preparing for campus placements.">
 <meta name="keywords" content="campus placement prep, PYQ vault, recruiter map, DSA tracker, placement tracker, off-campus drives, Indian engineering placements">
 ```
@@ -106,7 +106,7 @@ Each rendered page needs unique `<title>`, `<meta description>`, and JSON-LD `Br
 
 Example for `/companies/razorpay`:
 ```html
-<title>Razorpay Campus Placement Guide 2025 — OA Pattern, Rounds, CTC, PYQs | PrepNext</title>
+<title>Razorpay Campus Placement Guide 2025 — OA Pattern, Rounds, CTC, PYQs | PrepNxt</title>
 <meta name="description" content="Razorpay SDE-1 campus drive: 4 rounds, ₹28-32 LPA, OA on HackerEarth, 3 DSA + 1 SQL. 47 verified PYQs from 2023-2024 drives.">
 ```
 
@@ -126,10 +126,10 @@ Also: the `/auth/callback` 6-second timeout is too long for slow connections. Ad
 
 The `Certificate` model has `verifyCode` and there's a public `/verify-certificate` route. Today this is a passive viral loop. Make it active:
 
-- Auto-generate a sharable LinkedIn post template when a certificate is issued ("I just completed PrepNext's Razorpay Prep Kit — verify: prepnext.in/v/abc123")
+- Auto-generate a sharable LinkedIn post template when a certificate is issued ("I just completed PrepNxt's Razorpay Prep Kit — verify: prepnext.in/v/abc123")
 - Verification page must have its own OG image with the student's name + course (use `@vercel/og` or generate at issue time with `html2canvas`/`jspdf` which you already have)
 - Verification page must have a "Get your own placement-ready certificate" CTA → `/pricing`
-- Add "Powered by PrepNext" badge to the PDF
+- Add "Powered by PrepNxt" badge to the PDF
 
 Stripe does this with their `payments.stripe.com` pages — every receipt is a soft brand impression. Yours can be too.
 

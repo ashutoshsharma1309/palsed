@@ -64,7 +64,7 @@ function CertificateView({ cert }: { cert: Certificate }) {
           <div className="mono text-xs uppercase tracking-[0.3em] text-[var(--color-neon)] mb-4">
             // certificate of completion
           </div>
-          <div className="display text-3xl sm:text-5xl mb-8 leading-tight">PREPNEXT</div>
+          <div className="display text-3xl sm:text-5xl mb-8 leading-tight">PREPNXT</div>
           <div className="text-sm text-white/60 mb-2">This is to certify that</div>
           <div className="display text-4xl mb-8">{cert.displayName}</div>
           <div className="text-sm text-white/60 mb-2">has successfully completed</div>

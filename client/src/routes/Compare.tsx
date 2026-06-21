@@ -200,7 +200,7 @@ export default function Compare() {
             <div className="flex-1 min-w-[280px]">
               <div className="flex items-center gap-2 mb-1">
                 <Lock className="w-3.5 h-3.5 text-[var(--color-neon)]" />
-                <span className="mono text-[10px] uppercase tracking-widest text-[var(--color-neon)]">PrepNext Pro</span>
+                <span className="mono text-[10px] uppercase tracking-widest text-[var(--color-neon)]">PrepNxt Pro</span>
               </div>
               <div className="display text-2xl">Compare 6 offers + 5-year takehome projections.</div>
               <p className="text-sm text-[var(--color-text-dim)] mt-1">

@@ -12,7 +12,7 @@ import { scoreResume, type ResumeScore } from "../lib/resumeScorer";
 //   idle → loading → result | error
 //
 // Highly shareable: once a result is back, a "Share my score" button copies a
-// canned brag line ("I scored 73/100 on PrepNext Resume Roast — try yours")
+// canned brag line ("I scored 73/100 on PrepNxt Resume Roast — try yours")
 // that can virally pull in friends.
 
 // Reuse the ResumeScore shape from the scorer.
@@ -68,10 +68,10 @@ export default function ResumeRoast() {
 
   const shareBrag = async () => {
     if (!roast) return;
-    const text = `I scored ${roast.overallScore}/100 on PrepNext Resume Roast 🔥\n${roast.headline}\n\nTry yours: https://prepnext.vercel.app/resume-roast`;
+    const text = `I scored ${roast.overallScore}/100 on PrepNxt Resume Roast 🔥\n${roast.headline}\n\nTry yours: https://prepnext.vercel.app/resume-roast`;
     try {
       if (navigator.share) {
-        await navigator.share({ title: "My PrepNext Resume Roast", text });
+        await navigator.share({ title: "My PrepNxt Resume Roast", text });
       } else {
         await navigator.clipboard.writeText(text);
         alert("Brag copied to clipboard!");

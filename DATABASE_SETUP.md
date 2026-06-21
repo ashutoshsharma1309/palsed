@@ -1,9 +1,9 @@
-# PrepNext — Database Setup
+# PrepNxt — Database Setup
 
-This document describes the MySQL database that backs PrepNext: its structure,
+This document describes the MySQL database that backs PrepNxt: its structure,
 relationships, configuration, migrations, and backup/restore procedures.
 
-> **Architecture note.** PrepNext's React client currently persists everything in
+> **Architecture note.** PrepNxt's React client currently persists everything in
 > the browser's `localStorage`, and the Express server is a stateless proxy to the
 > Groq AI API. This MySQL layer is a **backend foundation**: a fully-migrated,
 > CRUD-tested relational database plus REST endpoints (`/api/db/*`), ready to be

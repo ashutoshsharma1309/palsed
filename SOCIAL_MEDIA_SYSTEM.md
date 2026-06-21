@@ -2,25 +2,25 @@
 
 ## 1. Executive Summary
 
-- **PrepNext has zero virality surface area today.** No share buttons, no public artefacts, no referral loop, no UGC distribution — every feature (DSA tracker, Applications kanban, Mastery radar, Certificates with `verifyCode`) lives behind `RequireAuth` and dies inside the dashboard. Even the one public asset that exists — `/verify-certificate` — has no "share my cert" CTA generating inbound traffic.
-- **The product is sitting on a goldmine of share-native artefacts and doesn't ship a single one of them.** Placement offer announcements, package reveals, "I cracked Google OA" moments, PYQ submissions, kanban-stage-changes, and 100-day-streak certificates are exactly the content that Indian campus Twitter/LinkedIn/WhatsApp groups already amplify organically. PrepNext owns the data and ignores the loop.
+- **PrepNxt has zero virality surface area today.** No share buttons, no public artefacts, no referral loop, no UGC distribution — every feature (DSA tracker, Applications kanban, Mastery radar, Certificates with `verifyCode`) lives behind `RequireAuth` and dies inside the dashboard. Even the one public asset that exists — `/verify-certificate` — has no "share my cert" CTA generating inbound traffic.
+- **The product is sitting on a goldmine of share-native artefacts and doesn't ship a single one of them.** Placement offer announcements, package reveals, "I cracked Google OA" moments, PYQ submissions, kanban-stage-changes, and 100-day-streak certificates are exactly the content that Indian campus Twitter/LinkedIn/WhatsApp groups already amplify organically. PrepNxt owns the data and ignores the loop.
 - **Indian placement season is a 90-day blitz from August to December** — the entire growth window for FY26 closes by Dec 15. If virality systems aren't in production by **August 1**, you've missed peak season and have to wait until July 2027. Every week of delay in August costs ~5x the equivalent week in March.
-- **WhatsApp + Telegram + college-specific groups beat Twitter/LinkedIn for this audience.** The "PrepNext System" must optimize for *forwardable* artefacts (image cards, sharable URLs that unfurl, PDF cheatsheets) — not threads. The current SPA architecture with empty `<head>` shells on per-route URLs (no SSR/prerender, confirmed in gap #3 of recon) means *every share link unfurls as a generic "Adaptive AI Learning Universe" card*. This is catastrophic.
+- **WhatsApp + Telegram + college-specific groups beat Twitter/LinkedIn for this audience.** The "PrepNxt System" must optimize for *forwardable* artefacts (image cards, sharable URLs that unfurl, PDF cheatsheets) — not threads. The current SPA architecture with empty `<head>` shells on per-route URLs (no SSR/prerender, confirmed in gap #3 of recon) means *every share link unfurls as a generic "Adaptive AI Learning Universe" card*. This is catastrophic.
 - **The fastest 10x lever is a per-company public landing page** (`/companies/:slug` made public + prerendered) that ranks for "[Company] campus placement 2026" queries — a search corpus with massive intent, weak SERP competition, and direct alignment with the 50-company recruiter vault you already have.
 
 ## 2. Current State
 
-Honest read: PrepNext is a closed loop. 18 signups in a hackathon-built MVP with no domain, no SEO, no share mechanic, and a Landing page whose `<title>` still says "Adaptive AI Learning Universe" — contradicting the actual positioning ("zero AI calls placement OS"). Even users who *want* to evangelize the product have nothing to forward except a `vercel.app` URL that screams "side project."
+Honest read: PrepNxt is a closed loop. 18 signups in a hackathon-built MVP with no domain, no SEO, no share mechanic, and a Landing page whose `<title>` still says "Adaptive AI Learning Universe" — contradicting the actual positioning ("zero AI calls placement OS"). Even users who *want* to evangelize the product have nothing to forward except a `vercel.app` URL that screams "side project."
 
 Concretely, what's missing across the codebase:
 
 - **No share components.** `grep` across `client/src/components/` will find zero `Share`, `Copy`, `Tweet`, `WhatsApp`, or `Embed` components. The Certificates route (`/certificates`) renders `Certificate` rows with a `verifyCode` — the *exact* artefact that should generate a PNG/PDF + WhatsApp share link — but appears to terminate at the dashboard.
 - **No referral primitive in the schema.** `User` has `id, authId, email, displayName, learningGoal, preferredStyle, dailyMinutes` — there is no `referredByUserId`, no `referralCode`, no `College` model, no `Cohort` model. There is no way for the product to know "Aditya from BITS Pilani invited 12 batchmates" — that signal is foundational to campus-by-campus growth.
 - **No public artefact pages.** `/companies/:slug`, `/dsa/:slug`, `/pyq` are gated behind `RequireAuth`. `/verify-certificate` is public but exists only as a verification utility, not a marketing surface — the verified certificate has no shareable OG card, no "Get yours at prepnext.vercel.app" footer, no `?ref=` param.
-- **No social proof on Landing.** No live counter ("3,142 problems solved this week"), no "Aditya from VIT placed at Atlassian using PrepNext" testimonial cards, no logo wall of colleges, no recent-activity feed. The 18 real signups are invisible to the 19th visitor.
+- **No social proof on Landing.** No live counter ("3,142 problems solved this week"), no "Aditya from VIT placed at Atlassian using PrepNxt" testimonial cards, no logo wall of colleges, no recent-activity feed. The 18 real signups are invisible to the 19th visitor.
 - **No content engine.** There is no `/blog`, no `/companies/google/oa-pattern-2024`, no `/pyq/google-pyq` SEO landing pages. Every PYQ submission is a unique long-tail keyword ("Google OA 2024 third question dynamic programming") that should be its own indexable page — instead they're locked behind auth and rendered client-side.
 - **No share-unfurl quality.** Even if someone shares `prepnext.vercel.app/companies/google`, WhatsApp/LinkedIn fetch the static `index.html` `<head>` and get the wrong title and a generic `/og-image.svg`. There is no per-route OG generation (no `@vercel/og`, no edge function, no prerender pipeline).
-- **No community surface.** No Discord/Telegram link in nav. No "join your college's PrepNext group" CTA. No leaderboard. No "Aditya solved 12 problems today" feed.
+- **No community surface.** No Discord/Telegram link in nav. No "join your college's PrepNxt group" CTA. No leaderboard. No "Aditya solved 12 problems today" feed.
 
 The product is technically capable of virality (Supabase Auth means easy onboarding; the schema is rich; Vercel makes edge OG trivial) but ships none of it.
 
@@ -50,10 +50,10 @@ The product is technically capable of virality (Supabase Auth means easy onboard
 
 Nothing else matters if shared links unfurl wrong. Add `@vercel/og` edge function at `api/og/[type].ts` that renders per-artefact PNGs:
 
-- `/api/og/company?slug=google` → "Google · 50 LPA · OA on HackerRank · 3 rounds · PrepNext"
+- `/api/og/company?slug=google` → "Google · 50 LPA · OA on HackerRank · 3 rounds · PrepNxt"
 - `/api/og/certificate?code=ABC123` → "Aditya completed Google Prep Kit · 94% mastery · Verify at prepnext.vercel.app"
-- `/api/og/offer?user=aditya&company=atlassian` → "Aditya cracked Atlassian · 32 LPA · Built with PrepNext"
-- `/api/og/streak?user=aditya&days=47` → "47-day DSA streak on PrepNext"
+- `/api/og/offer?user=aditya&company=atlassian` → "Aditya cracked Atlassian · 32 LPA · Built with PrepNxt"
+- `/api/og/streak?user=aditya&days=47` → "47-day DSA streak on PrepNxt"
 - `/api/og/pyq?id=123` → "Google OA 2024 Q3 · DP · Submitted by Aditya"
 
 Then, for SEO/unfurl, prerender the top 50 company pages and top 200 PYQ pages at build time. With Vite SPA you'll need either (a) migrate to Next.js (big lift, but solves this permanently and unblocks `/blog`), or (b) a `prerender.config.js` step using `@prerender/prerenderer` writing per-route `index.html` with proper `<head>`. **Recommendation: migrate `/companies/*`, `/pyq/*`, `/c/:certCode`, and `/blog/*` to Next.js App Router** in a separate Vercel project (subdomain `www.prepnext.in`) keeping the Vite SPA for the authed app at `app.prepnext.in`. This is the standard split for SaaS products with heavy marketing surface.
@@ -101,13 +101,13 @@ The single most powerful campus-growth mechanic. Add `College` model, force sele
 - Top placement offers this week
 - "Your college rank: #3 of 47 active colleges"
 
-This converts "I joined PrepNext" into "my college is winning on PrepNext" — a tribal signal that spreads through college WhatsApp groups in hours. PrepInsta and Unstop both run versions of this; PrepNext can outflank them by making it *per-college and live* instead of static rankings.
+This converts "I joined PrepNxt" into "my college is winning on PrepNxt" — a tribal signal that spreads through college WhatsApp groups in hours. PrepInsta and Unstop both run versions of this; PrepNxt can outflank them by making it *per-college and live* instead of static rankings.
 
 ### 4.5 Placement Offer share card (P0, week 2)
 
 Wire the Applications kanban (`Applications.tsx`): when a card moves to "Offer" column, fire a modal — "Congrats! Share your win?" with a pre-generated card via `/api/og/offer`. Make the share copy template Indian-student-native:
 
-> "Just got placed at Atlassian (32 LPA) — using PrepNext's Applications kanban + DSA tracker + Google PYQs. Built by a 4th-year for 4th-years. Try free: prepnext.in/r/aditya"
+> "Just got placed at Atlassian (32 LPA) — using PrepNxt's Applications kanban + DSA tracker + Google PYQs. Built by a 4th-year for 4th-years. Try free: prepnext.in/r/aditya"
 
 Every offer share = inbound traffic from the most credible source possible (a placed senior).
 
@@ -122,7 +122,7 @@ Edit `index.html` — replace "Adaptive AI Learning Universe" everywhere with "P
 
 ### 4.7 Add WhatsApp + Telegram + Discord links (P0, day 1)
 
-Nav footer link to a college-specific WhatsApp Community (free, supports 5000) and a Telegram channel for placement alerts. Pin in the dashboard sidebar: "PrepNext × Your College WhatsApp." The audience already lives there; meet them where they are.
+Nav footer link to a college-specific WhatsApp Community (free, supports 5000) and a Telegram channel for placement alerts. Pin in the dashboard sidebar: "PrepNxt × Your College WhatsApp." The audience already lives there; meet them where they are.
 
 ### 4.8 Per-Company SEO landing pages (P0, weeks 2-4)
 
@@ -139,7 +139,7 @@ This is the SEO play: "google campus placement 2026" + 49 other companies × mul
 
 ### 4.9 Content engine: PYQ pages (P1, weeks 4-8)
 
-Each PYQ becomes a public page (`/pyq/google-2024-q3-dp-coins`) with question + crowd-verified solution + "Submitted by Aditya (VIT, placed at Google)". Long-tail SEO + social proof in one artefact. Submission bonus: the student gets the page credited to them + share card "I contributed Google's 2024 OA question to PrepNext."
+Each PYQ becomes a public page (`/pyq/google-2024-q3-dp-coins`) with question + crowd-verified solution + "Submitted by Aditya (VIT, placed at Google)". Long-tail SEO + social proof in one artefact. Submission bonus: the student gets the page credited to them + share card "I contributed Google's 2024 OA question to PrepNxt."
 
 ### 4.10 Streak + Mastery share cards (P2, weeks 6-10)
 
@@ -150,7 +150,7 @@ Once the above are live, add:
 
 ### 4.11 Founder-led content cadence (P1, ongoing)
 
-Twitter/LinkedIn: 1 build-in-public post per day from founder, 3 product-tip threads per week, 1 "behind PrepNext" video per week. Indian campus Twitter responds to: relatability ("4th-year built this for 4th-years"), specificity ("here's the exact Google OA pattern from 2024"), and outcomes ("Aditya placed using this kanban"). See the 90-day calendar below.
+Twitter/LinkedIn: 1 build-in-public post per day from founder, 3 product-tip threads per week, 1 "behind PrepNxt" video per week. Indian campus Twitter responds to: relatability ("4th-year built this for 4th-years"), specificity ("here's the exact Google OA pattern from 2024"), and outcomes ("Aditya placed using this kanban"). See the 90-day calendar below.
 
 ---
 
@@ -162,7 +162,7 @@ Twitter/LinkedIn: 1 build-in-public post per day from founder, 3 product-tip thr
 4. **Week 2 — Placement Offer share card.** Modal triggered on kanban "Offer" stage in `Applications.tsx` + `/api/og/offer` + share copy template. Deliverable: 3 offer shares from real placements.
 5. **Week 2 — Domain + Landing v2.** Buy `prepnext.in`. Ship Landing with live counter, college logo wall, 5 testimonials, WhatsApp/Telegram CTA. Deliverable: prepnext.in live with new positioning.
 6. **Weeks 3-4 — Public `/companies/:slug`.** Split read/write auth so company pages are crawlable. Add JSON-LD, FAQPage, prerender top 50 at build time. Deliverable: 50 indexable company pages, sitemap.xml submitted to Google Search Console.
-7. **Weeks 3-4 — Founder content cadence kickoff.** 30 LinkedIn posts + 30 Twitter posts in the month. Daily DSA tip, weekly "behind PrepNext", 4 per-company "how to crack [X]" threads. Deliverable: 100 followers across LinkedIn + Twitter, 3 posts >10k impressions.
+7. **Weeks 3-4 — Founder content cadence kickoff.** 30 LinkedIn posts + 30 Twitter posts in the month. Daily DSA tip, weekly "behind PrepNxt", 4 per-company "how to crack [X]" threads. Deliverable: 100 followers across LinkedIn + Twitter, 3 posts >10k impressions.
 
 ## 6. 90-Day Priorities
 
@@ -178,25 +178,25 @@ Twitter/LinkedIn: 1 build-in-public post per day from founder, 3 product-tip thr
 
 | Week | Theme | Founder content (LinkedIn + Twitter) | Product launch / share artefact |
 |------|-------|--------------------------------------|---------------------------------|
-| 1 (Aug 1-7) | "Built for placement season" | Daily DSA tip; 1 "why I built PrepNext" thread; 3 per-company OA pattern posts | Certificate share + new Landing |
+| 1 (Aug 1-7) | "Built for placement season" | Daily DSA tip; 1 "why I built PrepNxt" thread; 3 per-company OA pattern posts | Certificate share + new Landing |
 | 2 (Aug 8-14) | "Track your applications" | Kanban demo videos; 5 "this is what placement-season chaos looks like" posts | Offer share card + referral page |
 | 3 (Aug 15-21) | "Per-company prep" | 5 company deep-dives (Google/Atlassian/Microsoft/Goldman/Adobe) | Public `/companies/:slug` launch |
 | 4 (Aug 22-28) | "Crowdsourced PYQs" | 3 "PYQ goldmine" threads with example questions | PYQ submission incentive program |
-| 5 (Aug 29-Sep 4) | "Your college on PrepNext" | 5 "which college is winning?" posts; tag college pages | College leaderboard launch |
+| 5 (Aug 29-Sep 4) | "Your college on PrepNxt" | 5 "which college is winning?" posts; tag college pages | College leaderboard launch |
 | 6 (Sep 5-11) | "Cracking OA patterns" | Daily OA pattern breakdown | 10 blog articles published |
 | 7 (Sep 12-18) | "Real students, real offers" | Founder posts every offer share with permission | Weekly recap email v1 |
 | 8 (Sep 19-25) | "Internship season" | Tagged internship-drive alerts | `/internships` Telegram channel |
 | 9 (Sep 26-Oct 2) | "Mid-season check-in" | "How are your DSA stats?" prompt | Streak heatmap share |
 | 10 (Oct 3-9) | "Diwali sprint" | 7-day DSA challenge thread | Mastery radar share |
 | 11 (Oct 10-16) | "Top 10 placements this week" | Weekly placement rollup post | Ambassador program launches |
-| 12 (Oct 17-23) | "Behind PrepNext" | 3 build-in-public videos | Ambassador WhatsApp communities live |
+| 12 (Oct 17-23) | "Behind PrepNxt" | 3 build-in-public videos | Ambassador WhatsApp communities live |
 | 13 (Oct 24-30) | "Crack core CS" | System design + Core CS threads | `/system-design` + `/core-cs` SEO pages |
 | 14 (Oct 31-Nov 6) | "Pre-final-year prep" | Target 2nd/3rd-year content | Roadmap-style guides published |
-| 15 (Nov 7-13) | "Offers thread" | Weekly Twitter thread of placed PrepNext users | LinkedIn certificate auto-share |
+| 15 (Nov 7-13) | "Offers thread" | Weekly Twitter thread of placed PrepNxt users | LinkedIn certificate auto-share |
 | 16 (Nov 14-20) | "Mock interview week" | Mock interview clips | Mock interview product launch |
 | 17 (Nov 21-27) | "Last-mile sprint" | Tactical "what to do 48hrs before OA" | Cohort study groups feature |
 | 18 (Nov 28-Dec 4) | "December drives" | Drive alerts hourly | Season-end recap cards |
-| 19 (Dec 5-11) | "Year recap" | "PrepNext 2026: X offers, Y colleges, Z PYQs" | Public annual report (sharable PDF) |
+| 19 (Dec 5-11) | "Year recap" | "PrepNxt 2026: X offers, Y colleges, Z PYQs" | Public annual report (sharable PDF) |
 | 20+ (Dec 12+) | "Off-campus + Jan reset" | Pivot to off-campus drive content | Reset streaks campaign |
 
 ## 7. Metrics to Track

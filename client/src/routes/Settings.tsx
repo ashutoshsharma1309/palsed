@@ -121,7 +121,7 @@ export default function Settings() {
       <Card>
         <h2 className="display text-2xl mb-4">WIPE EVERYTHING.</h2>
         <p className="text-sm text-white/60 mb-4">
-          Removes your profile, courses, mastery, SRS — everything PrepNext has saved on this browser.
+          Removes your profile, courses, mastery, SRS — everything PrepNxt has saved on this browser.
           No undo.
         </p>
         {confirming ? (
