@@ -1,0 +1,42 @@
+<svg width="1128" height="191" viewBox="0 0 1128 191" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#131711"/>
+      <stop offset="55%" stop-color="#0b0b0b"/>
+      <stop offset="100%" stop-color="#080808"/>
+    </linearGradient>
+    <linearGradient id="neon" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#d8ff5c"/>
+      <stop offset="100%" stop-color="#b4e62a"/>
+    </linearGradient>
+    <filter id="soft" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="45"/>
+    </filter>
+  </defs>
+
+  <rect width="1128" height="191" fill="url(#bg)"/>
+
+  <!-- neon glow accent on the right (left-bottom kept clear for the page logo overlay) -->
+  <circle cx="980" cy="60" r="150" fill="#c8ff3d" opacity="0.13" filter="url(#soft)"/>
+
+  <!-- faint grid -->
+  <g stroke="#ffffff" stroke-opacity="0.03" stroke-width="1">
+    <line x1="0" y1="95" x2="1128" y2="95"/>
+    <line x1="564" y1="0" x2="564" y2="191"/>
+    <line x1="846" y1="0" x2="846" y2="191"/>
+  </g>
+
+  <!-- vertical divider between lockup and tagline -->
+  <rect x="455" y="58" width="2" height="76" fill="#c8ff3d" opacity="0.3"/>
+
+  <g font-family="'Helvetica Neue', Arial, sans-serif">
+    <!-- logo lockup (kept around y-center, x ~210+, clear of lower-left logo overlay) -->
+    <circle cx="232" cy="96" r="26" fill="url(#neon)"/>
+    <text x="232" y="107" font-size="33" font-weight="800" fill="#0c0c0c" text-anchor="middle">P</text>
+    <text x="270" y="107" font-size="40" font-weight="800" fill="#ffffff" letter-spacing="-1">PrepPlace</text>
+
+    <!-- right: tagline + punch -->
+    <text x="495" y="88" font-size="27" font-weight="800" fill="#ffffff" letter-spacing="-0.5">Your placement season, organized.</text>
+    <text x="495" y="124" font-size="18" font-weight="700" fill="#c8ff3d" letter-spacing="2">Prep. Place. Placed.</text>
+  </g>
+</svg>
