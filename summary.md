@@ -160,6 +160,18 @@ Useful scripts: `npm run build` (production client build), `npm start`
 
 ---
 
+## Deployment
+
+- **Hosting:** Vercel — the Vite SPA is served statically and `/api/*` is
+  rewritten into a single Express serverless function (`api/index.js`).
+- **CI/CD:** push to `main` → Vercel builds (`prisma generate` + `vite build`)
+  and deploys automatically.
+- **Database & auth:** Supabase (managed Postgres + Google OAuth).
+- **Secrets:** configured as environment variables in Vercel / Supabase; only
+  `.env.example` files are committed.
+
+---
+
 ## Roadmap (near-term priorities)
 
 1. **Custom domain** — move off `prepnext.vercel.app` to a PrepPlace `.in`/`.com`
