@@ -160,6 +160,18 @@ Useful scripts: `npm run build` (production client build), `npm start`
 
 ---
 
+## Security & privacy
+
+- **Auth:** Supabase-issued JWTs are verified server-side; protected API routes
+  sit behind a `requireAuth` guard and the SPA behind a `RequireAuth` boundary.
+- **Per-user isolation:** data access is scoped to the authenticated user id.
+- **Server-side validation:** the profile endpoint trims, length-caps, and
+  whitelists inputs (branch + roles) — the client object is never trusted.
+- **Secrets:** service-role keys and DB URLs live only in environment variables
+  (git-ignored); the public Supabase anon key is the only client-exposed key.
+
+---
+
 ## Deployment
 
 - **Hosting:** Vercel — the Vite SPA is served statically and `/api/*` is
