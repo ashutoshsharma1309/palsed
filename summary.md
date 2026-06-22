@@ -9,6 +9,20 @@
 
 ---
 
+## Contents
+
+- [Who it's for](#who-its-for)
+- [What it does](#what-it-does)
+- [Tech stack](#tech-stack)
+- [Architecture](#architecture)
+- [Repository layout](#repository-layout)
+- [Data model (Prisma)](#data-model-prisma)
+- [Branding](#branding)
+- [Getting started (local development)](#getting-started-local-development)
+- [Status & known follow-ups](#status--known-follow-ups)
+
+---
+
 ## Who it's for
 
 - **Primary:** Indian engineering students (2nd–4th year / MTech) preparing for
