@@ -246,3 +246,16 @@ avoid breaking production or logging users out.
 - **README** needs a refresh to match the current placement-OS positioning.
 - **Difficulty pills** (Easy/Medium/Hard) use inline color tints that are
   slightly low-contrast in light mode — candidate for a follow-up theme pass.
+
+---
+
+## License
+
+No open-source license file is currently committed, so all rights are reserved
+by default. If the project is intended to be open source, add a `LICENSE` file
+(e.g. MIT) — until then, treat the code as proprietary.
+
+---
+
+*Maintained by the PrepPlace team. See [`CHANGELOG.md`](CHANGELOG.md) for recent
+changes and [`CONTRIBUTING.md`](CONTRIBUTING.md) to get involved.*
