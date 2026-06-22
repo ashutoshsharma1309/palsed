@@ -96,6 +96,27 @@ retained from the platform's earlier identity.
 
 ---
 
+## Getting started (local development)
+
+```bash
+# 1. Install dependencies (root + client)
+npm run install:all
+
+# 2. Configure environment
+#    server/.env  — DATABASE_URL, SUPABASE_URL, SUPABASE_JWT_SECRET,
+#                   SUPABASE_SERVICE_ROLE_KEY, GROQ_API_KEY
+#    client/.env  — VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY
+#    (copy from the committed .env.example files)
+
+# 3. Run server + client together (Express writes .ports.json; Vite waits on it)
+npm run dev
+```
+
+Useful scripts: `npm run build` (production client build), `npm start`
+(production server), `npm run db:seed` / `db:migrate` (from `server/`).
+
+---
+
 ## Status & known follow-ups
 
 - **Deployed and live** on Vercel; pushes to `main` auto-deploy.
