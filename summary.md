@@ -160,6 +160,18 @@ Useful scripts: `npm run build` (production client build), `npm start`
 
 ---
 
+## Roadmap (near-term priorities)
+
+1. **Custom domain** — move off `prepnext.vercel.app` to a PrepPlace `.in`/`.com`
+   (biggest credibility + SEO + email-deliverability win).
+2. **Public, indexable artefact pages** — expose `/companies/:slug` and `/pyq`
+   to crawlers (SSR/prerender) for long-tail placement search traffic.
+3. **Refresh `README.md`** to the placement-OS positioning.
+4. **Viral loops** — shareable certificates / offer cards / PYQ contributions.
+5. **Light-mode polish** — difficulty-pill contrast pass.
+
+---
+
 ## Status & known follow-ups
 
 - **Deployed and live** on Vercel; pushes to `main` auto-deploy.
