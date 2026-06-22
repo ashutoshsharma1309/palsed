@@ -37,6 +37,19 @@ organized, student-owned workspace.
 
 ---
 
+## By the numbers
+
+| Metric | Value |
+|---|---|
+| Curated recruiters | **85** |
+| Verified PYQs | **82+** (and growing) |
+| DSA problems | **150** across 18 topics |
+| Placement Hub sections | **10** |
+| Prisma data models | **~18** |
+| Cost to students | **Free** |
+
+---
+
 ## What it does
 
 PrepPlace consolidates the chaos of campus placement season — recruiter info scattered across WhatsApp groups, PYQs lost in Drive folders, no clarity on eligibility or timelines — into a single student workspace.
