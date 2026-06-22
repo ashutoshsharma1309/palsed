@@ -22,7 +22,22 @@ PrepPlace consolidates the chaos of campus placement season — recruiter info s
 - **OA Mock Tests** — timed, self-graded mock online-assessments with a rubric.
 - **Supporting tools** — Resume Roast, Salary insights, Company Compare, Placement Hub (10 curated sections), Certificates (shareable + verifiable), Mastery radar, and Engagement analytics.
 
-### Onboarding & access control
+#### Key routes
+
+| Route | Page |
+|---|---|
+| `/` | Landing (public) |
+| `/onboarding` | Profile setup (required before any feature) |
+| `/dashboard` | Student home |
+| `/companies`, `/companies/:slug` | Recruiter map + per-company detail |
+| `/pyq`, `/pyq/submit` | PYQ vault + contribution |
+| `/dsa`, `/dsa/:slug` | DSA hub + problem |
+| `/applications` | Applications kanban tracker |
+| `/oa`, `/oa/test/:id`, `/oa/result/:id` | Mock online assessments |
+| `/placement-hub`, `/resume-roast`, `/salary`, `/compare` | Supporting tools |
+| `/certificates`, `/verify-certificate` | Issue + public verification |
+
+## Onboarding & access control
 - **Google sign-in** (Supabase Auth) — single-tap, no passwords.
 - **Profile completion is enforced**: a signed-in user is routed to `/onboarding` and cannot reach any feature until the required fields are filled.
   - **Required:** full name, college, branch, year of study, target roles.
