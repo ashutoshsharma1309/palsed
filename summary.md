@@ -9,6 +9,20 @@
 
 ---
 
+## Who it's for
+
+- **Primary:** Indian engineering students (2nd–4th year / MTech) preparing for
+  campus and off-campus placements and internships.
+- **Also useful for:** any college student targeting tech, product, or analytics
+  roles who wants recruiter intel, interview prep, and an application tracker in
+  one place.
+
+The problem it solves: placement season is run out of scattered WhatsApp groups,
+rotting Google Docs, and ad-heavy prep sites. PrepPlace makes it a single,
+organized, student-owned workspace.
+
+---
+
 ## What it does
 
 PrepPlace consolidates the chaos of campus placement season — recruiter info scattered across WhatsApp groups, PYQs lost in Drive folders, no clarity on eligibility or timelines — into a single student workspace.
