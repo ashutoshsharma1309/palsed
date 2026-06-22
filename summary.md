@@ -221,6 +221,23 @@ Useful scripts: `npm run build` (production client build), `npm start`
 
 ---
 
+## Brand history (naming journey)
+
+The brand went through several names before landing on **PrepPlace**:
+
+| Name | Why dropped |
+|---|---|
+| PrepNext | Taken on LinkedIn + existing brand collision |
+| PrepNxt | Taken on LinkedIn |
+| PrepKit | Existing exam-prep brand (high trademark/SEO risk) + clashes with the in-app "Prep Kit" feature |
+| **PrepPlace** ✅ | Coined, on-theme (placement), domains broadly available |
+
+Each rename was applied as a guarded, repo-wide migration that preserved the
+live deployment URL (`prepnext.vercel.app`) and `localStorage`/session keys to
+avoid breaking production or logging users out.
+
+---
+
 ## Status & known follow-ups
 
 - **Deployed and live** on Vercel; pushes to `main` auto-deploy.
