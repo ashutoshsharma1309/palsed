@@ -1,5 +1,9 @@
 # PrepPlace — AI-Powered Adaptive Learning & Placement Prep Platform
 
+> ℹ️ This README describes the platform's earlier identity. For the **current**
+> product overview (PrepPlace as a placement-prep workspace), see
+> [`summary.md`](summary.md).
+
 **Live:** https://prepnext.vercel.app
 
 PrepPlace is a full-stack, production-deployed learning platform that generates
