@@ -160,6 +160,18 @@ Useful scripts: `npm run build` (production client build), `npm start`
 
 ---
 
+## Accessibility & theming
+
+- **Dark + light themes** via CSS custom properties on `[data-theme]`, resolved
+  from stored preference or the system `prefers-color-scheme`.
+- **Theme-aware UI:** colors are driven by tokens (`--color-text`, `--color-bg`,
+  `--severity-*`, …) so text stays legible in both modes; a recent sweep removed
+  hardcoded white/black/hex colors that broke contrast.
+- **A11y:** ARIA attributes, keyboard navigation, focus states, and a command
+  palette (⌘K) for fast navigation.
+
+---
+
 ## Security & privacy
 
 - **Auth:** Supabase-issued JWTs are verified server-side; protected API routes
