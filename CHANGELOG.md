@@ -4,6 +4,10 @@ Notable changes, most recent first. Dates are approximate.
 
 ## Recent
 
+- **Docs:** corrected `README.md` stack references (Supabase Postgres + Google
+  auth, `@prisma/adapter-pg`) that still described the old MySQL/Railway +
+  email-password setup; expanded `summary.md` (roadmap, deployment, security,
+  a11y, brand history, stats, TOC).
 - **Docs:** added `summary.md` (current product overview) and `CONTRIBUTING.md`.
 - **Theme:** full light/dark contrast sweep — replaced theme-unsafe
   `text-white` / `bg-white` / hardcoded hex colors with theme tokens so no text
