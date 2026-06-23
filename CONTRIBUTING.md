@@ -17,6 +17,12 @@ Short version: `npm run install:all`, add `server/.env` + `client/.env`, then
   `text-white` / hex colors, so UI works in both light and dark mode.
 - **Keep commits small and descriptive**, one logical change each.
 
+## Commit message style
+
+- Use an imperative, scoped subject: `area: what changed`
+  (e.g. `summary.md: add deployment section`, `auth: enforce profile completion`).
+- Keep the subject under ~72 characters; add a body for context when useful.
+
 ## Branding
 
 The product name is **PrepPlace**. The `PrepKit` component is a *feature*
