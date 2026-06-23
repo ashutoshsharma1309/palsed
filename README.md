@@ -88,7 +88,8 @@ PostgreSQL (Supabase)  +  Supabase Auth (Google)
 
 ## Run locally
 
-**Prerequisites:** Node 20+ and a local MySQL instance.
+**Prerequisites:** Node 20+ and a Supabase project (Postgres + Auth) — set the
+connection string and keys in `server/.env` / `client/.env`.
 
 ```bash
 # 1. Install dependencies
