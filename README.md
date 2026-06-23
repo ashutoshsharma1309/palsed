@@ -59,14 +59,13 @@ PostgreSQL (Supabase)  +  Supabase Auth (Google)
 
 ## Key features
 
-### Adaptive learning engine
-- **Per-topic EWMA mastery** (`α = 0.25`) feeds every recommendation.
-- **Difficulty targeting** at ~70% expected success (the "desirable difficulty" band).
-- **Multi-style lessons** — Visual / Code-first / Analogy / Step-by-step, switchable per lesson.
-- **"I'm stuck"** re-explanation in a different style; **diagnose-on-wrong** micro-lessons.
-- **Engagement watchdog** (focus, scroll-depth, tab-switches) triggers timely interventions.
-- **SM-2-lite spaced repetition**: missed questions + unsolved problems resurface in `/review`.
-- **Adaptive quizzes** and **client-side certificates** (PDF + QR + verifiable URL payload).
+### Placement workspace
+- **Recruiter map** — 85+ curated companies with eligibility, rounds, OA platforms, and verified-only CTC bands.
+- **PYQ vault** — 82+ verified previous-year questions with expected approaches; student contribution + verification flow.
+- **Applications kanban** — track every company through Wishlist → OA → Tech → HR → Offer with deadlines and conversion rate.
+- **Per-company Prep Kits** — DSA + PYQ + topic bundles composed per recruiter.
+- **OA mock tests** — timed, self-graded mock assessments with a rubric.
+- **Supporting tools** — Resume Roast, Salary insights, Company Compare, mastery radar, and **certificates** (PDF + QR + verifiable URL).
 
 ### Placement Training Hub
 - 10 sections: Programming Languages, DSA, LeetCode tracks, Web Dev, ML, AI, App Dev, Aptitude, Core CS, Interview Prep.
