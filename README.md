@@ -18,9 +18,9 @@ tracker — with Google sign-in and cloud-synced, per-user progress.
 
 - **Full-stack TypeScript/Node app** deployed on **Vercel** (static SPA + serverless API) with a managed **PostgreSQL** database on **Supabase**.
 - **Google authentication** via Supabase Auth — server-verified JWTs, centralized route guards, enforced profile completion, and per-user data isolation.
-- **18-table normalized relational schema** modeled in **Prisma 7** with versioned migrations, seed data, and a generic REST CRUD layer.
-- **AI adaptive engine**: per-topic EWMA mastery scoring drives difficulty targeting (~70% success band), multi-style lesson generation, and spaced repetition (SM-2).
-- **Placement Training Hub**: 10 sections, a data-driven resource architecture (no resources hardcoded in UI), progress tracking, and instant global search.
+- **Normalized relational schema** modeled in **Prisma** with versioned migrations, seed data, and a generic REST CRUD layer.
+- **Recruiter map + PYQ vault**: 85+ curated recruiters (eligibility, rounds, verified-only CTC) and 82+ verified previous-year questions with expected approaches.
+- **Applications tracker**: a placement-season kanban (Wishlist → OA → Tech → HR → Offer) with deadlines, notes, and conversion rate.
 - **DSA practice hub**: 150 curated problems across 18 topics with in-platform solutions, complexity analysis, LeetCode integration, and 4-state progress tracking.
 - **Performance & UX**: route-based code-splitting / lazy loading, memoized components, glassmorphism UI, framer-motion transitions, fully responsive, accessible (ARIA, keyboard nav).
 
