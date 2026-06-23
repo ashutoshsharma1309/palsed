@@ -80,7 +80,7 @@ PostgreSQL (Supabase)  +  Supabase Auth (Google)
 - **LeetCode integration** and **4-state progress** (Not Started / In Progress / Solved / Revision).
 
 ### Accounts & data
-- Email/password auth with a **full-screen auth experience** and intended-destination redirect.
+- Google sign-in (Supabase Auth) with a **single-tap auth experience** and intended-destination redirect.
 - **Centralized route protection** — protected pages require login; direct-URL access is guarded.
 - **Per-user data isolation** so accounts never share progress on the same device.
 
