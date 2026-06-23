@@ -4,6 +4,7 @@
 **What it is:** An all-in-one **placement-preparation operating system for Indian college students** — track recruiters, drill real previous-year questions, practice DSA, and manage every application in one workspace.
 **Live:** https://prepnext.vercel.app *(legacy deployment domain; a dedicated PrepPlace domain is planned)*
 **Repo:** https://github.com/ashutoshsharma1309/palsed
+**Status:** Live in production · early-stage · actively developed
 
 > Note: the root `README.md` still describes the project's earlier identity ("AI adaptive learning platform"). This `summary.md` reflects the **current** product after the pivot to a placement-season workspace.
 
