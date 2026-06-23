@@ -255,6 +255,18 @@ avoid breaking production or logging users out.
 
 ---
 
+## Related documents
+
+- [`README.md`](README.md) — original platform readme (being refreshed).
+- [`CONTRIBUTING.md`](CONTRIBUTING.md) — how to set up and contribute.
+- [`CHANGELOG.md`](CHANGELOG.md) — notable changes over time.
+- [`DATABASE_SETUP.md`](DATABASE_SETUP.md) — database/schema reference.
+- Strategy/analysis reports: `INVESTOR_MEMO.md`, `CTO_REPORT.md`,
+  `GROWTH_REPORT.md`, `MARKETING_MASTERPLAN.md`, `SEO_MASTER_PLAN.md`,
+  `PRODUCT_ROADMAP.md`, and more in the repo root.
+
+---
+
 ## License
 
 No open-source license file is currently committed, so all rights are reserved
