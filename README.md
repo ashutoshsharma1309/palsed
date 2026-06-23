@@ -53,7 +53,7 @@ PostgreSQL (Supabase)  +  Supabase Auth (Google)
 | **Database** | PostgreSQL (Supabase), Prisma ORM, `@prisma/adapter-pg` driver, SQL migrations |
 | **Auth** | bcryptjs (password hashing), JSON Web Tokens (sessions) |
 | **AI** | Groq API (`openai/gpt-oss-120b`) with strict JSON mode + schema validation + retry |
-| **Infra / DevOps** | Vercel (hosting + serverless), Railway (managed MySQL), Git-based CI/CD |
+| **Infra / DevOps** | Vercel (hosting + serverless), Supabase (managed Postgres + Auth), Git-based CI/CD |
 
 ---
 
