@@ -33,9 +33,9 @@ React SPA (Vercel static)
    │  fetch /api/*
    ▼
 Express app as a Vercel serverless function (api/index.js → server/app.js)
-   │  Prisma 7  +  @prisma/adapter-mariadb
+   │  Prisma  +  @prisma/adapter-pg
    ▼
-MySQL (Railway in production · local MySQL in dev)
+PostgreSQL (Supabase)  +  Supabase Auth (Google)
 ```
 
 - **Frontend** and **API** are served from one Vercel domain; a rewrite routes `/api/*` into the serverless function.
