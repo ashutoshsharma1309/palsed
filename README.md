@@ -17,7 +17,7 @@ real user accounts with cloud-synced progress.
 ## Highlights
 
 - **Full-stack TypeScript/Node app** deployed on **Vercel** (static SPA + serverless API) with a managed **PostgreSQL** database on **Supabase**.
-- **Email/password authentication** — bcrypt-hashed credentials, JWT sessions, centralized route guards, and per-user data isolation.
+- **Google authentication** via Supabase Auth — server-verified JWTs, centralized route guards, enforced profile completion, and per-user data isolation.
 - **18-table normalized relational schema** modeled in **Prisma 7** with versioned migrations, seed data, and a generic REST CRUD layer.
 - **AI adaptive engine**: per-topic EWMA mastery scoring drives difficulty targeting (~70% success band), multi-style lesson generation, and spaced repetition (SM-2).
 - **Placement Training Hub**: 10 sections, a data-driven resource architecture (no resources hardcoded in UI), progress tracking, and instant global search.
