@@ -23,6 +23,7 @@ const PRIMARY = [
 
 // "Prep" dropdown — deeper subject-area study.
 const PREP_LINKS = [
+  { to: "/roadmap", label: "Roadmap", desc: "Role-based career roadmaps" },
   { to: "/dsa", label: "DSA Tracker", desc: "450+ problems, company-tagged" },
   { to: "/system-design", label: "System Design", desc: "URL shortener, chat, etc." },
   { to: "/core-cs", label: "Core CS", desc: "OS · DBMS · Networks" },
