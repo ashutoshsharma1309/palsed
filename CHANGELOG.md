@@ -2,6 +2,11 @@
 
 Notable changes, most recent first. Dates are approximate.
 
+## Unreleased
+
+- Pending: refresh the rest of `README.md` to fully match the placement-OS
+  positioning; difficulty-pill light-mode contrast pass.
+
 ## Recent
 
 - **Docs:** corrected `README.md` stack references (Supabase Postgres + Google
