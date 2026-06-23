@@ -40,7 +40,7 @@ PostgreSQL (Supabase)  +  Supabase Auth (Google)
 
 - **Frontend** and **API** are served from one Vercel domain; a rewrite routes `/api/*` into the serverless function.
 - **CI/CD**: push to `main` → Vercel builds (`prisma generate` + `vite build`) and deploys automatically.
-- **Secrets** (`DATABASE_URL`, `JWT_SECRET`, `GROQ_API_KEY`) live in Vercel/`.env` (git-ignored); only `.env.example` is committed.
+- **Secrets** (`DATABASE_URL`, `SUPABASE_URL`, `SUPABASE_JWT_SECRET`, `SUPABASE_SERVICE_ROLE_KEY`, `GROQ_API_KEY`, plus client `VITE_SUPABASE_*`) live in Vercel/`.env` (git-ignored); only `.env.example` is committed.
 
 ---
 
