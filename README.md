@@ -51,7 +51,7 @@ PostgreSQL (Supabase)  +  Supabase Auth (Google)
 | **Frontend** | React 19, TypeScript, Vite 7, Tailwind CSS v4, React Router 7, framer-motion, react-markdown, jsPDF + qrcode |
 | **Backend** | Node 20, Express 4 (ESM), serverless functions |
 | **Database** | PostgreSQL (Supabase), Prisma ORM, `@prisma/adapter-pg` driver, SQL migrations |
-| **Auth** | bcryptjs (password hashing), JSON Web Tokens (sessions) |
+| **Auth** | Supabase Auth (Google OAuth); server-side JWT verification + route guards |
 | **AI** | Groq API (`openai/gpt-oss-120b`) with strict JSON mode + schema validation + retry |
 | **Infra / DevOps** | Vercel (hosting + serverless), Supabase (managed Postgres + Auth), Git-based CI/CD |
 
