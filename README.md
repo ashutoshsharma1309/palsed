@@ -1,4 +1,4 @@
-# PrepPlace — AI-Powered Adaptive Learning & Placement Prep Platform
+# PrepPlace — Placement Season Operating System for Indian Students
 
 > ℹ️ This README describes the platform's earlier identity. For the **current**
 > product overview (PrepPlace as a placement-prep workspace), see
