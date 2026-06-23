@@ -6,11 +6,11 @@
 
 **Live:** https://prepnext.vercel.app
 
-PrepPlace is a full-stack, production-deployed learning platform that generates
-personalized study roadmaps and adapts every lesson, hint, and quiz to the
-individual learner. It combines an AI adaptive-learning engine with a centralized
-**Placement Training Hub** (DSA, web, ML/AI, core CS, aptitude, interviews) and
-real user accounts with cloud-synced progress.
+PrepPlace is a full-stack, production-deployed **placement-preparation operating
+system for Indian college students**. It consolidates campus placement season
+into one workspace: a curated recruiter map, a verified previous-year-question
+(PYQ) vault, a DSA practice hub, per-company prep kits, and a kanban application
+tracker — with Google sign-in and cloud-synced, per-user progress.
 
 ---
 
