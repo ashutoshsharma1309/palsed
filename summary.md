@@ -12,13 +12,19 @@
 ## Contents
 
 - [Who it's for](#who-its-for)
+- [By the numbers](#by-the-numbers)
 - [What it does](#what-it-does)
 - [Tech stack](#tech-stack)
 - [Architecture](#architecture)
 - [Repository layout](#repository-layout)
 - [Data model (Prisma)](#data-model-prisma)
+- [Accessibility & theming](#accessibility--theming)
+- [Security & privacy](#security--privacy)
+- [Deployment](#deployment)
 - [Branding](#branding)
 - [Getting started (local development)](#getting-started-local-development)
+- [Roadmap (near-term priorities)](#roadmap-near-term-priorities)
+- [Brand history (naming journey)](#brand-history-naming-journey)
 - [Status & known follow-ups](#status--known-follow-ups)
 
 ---
