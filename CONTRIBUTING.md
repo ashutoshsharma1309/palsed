@@ -28,6 +28,12 @@ Short version: `npm run install:all`, add `server/.env` + `client/.env`, then
 The product name is **PrepPlace**. The `PrepKit` component is a *feature*
 (per-company prep kit), not the brand — don't rename it.
 
+## Reporting issues
+
+Open a GitHub issue with: what you expected, what happened, steps to reproduce,
+and your browser/OS. For UI bugs, note which **theme** (light/dark) and attach a
+screenshot if possible.
+
 ## Areas that need help
 
 See the [roadmap in `summary.md`](summary.md#roadmap-near-term-priorities).
