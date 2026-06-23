@@ -110,11 +110,11 @@ See [`DATABASE_SETUP.md`](DATABASE_SETUP.md) for the full database guide (schema
 migrations, backup/restore) and [`PLACEMENT_HUB.md`](PLACEMENT_HUB.md) for the
 Placement Hub architecture.
 
-## Deploy (Vercel + Railway)
+## Deploy (Vercel + Supabase)
 
-1. Provision a managed **MySQL** on Railway; copy its public connection URL.
-2. Apply migrations against it: `cd server && DATABASE_URL="<railway-url>" npx prisma migrate deploy`.
-3. In **Vercel → Settings → Environment Variables**, set `DATABASE_URL`, `JWT_SECRET`, `GROQ_API_KEY`.
+1. Create a **Supabase** project; copy the Postgres connection string (pooled).
+2. Apply migrations against it: `cd server && DATABASE_URL="<supabase-url>" npx prisma migrate deploy`.
+3. In **Vercel → Settings → Environment Variables**, set `DATABASE_URL`, `SUPABASE_URL`, `SUPABASE_JWT_SECRET`, `SUPABASE_SERVICE_ROLE_KEY`, `GROQ_API_KEY` (and the `VITE_SUPABASE_*` client keys).
 4. Push to `main` — Vercel builds and deploys automatically.
 
 ---
