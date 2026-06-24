@@ -83,6 +83,7 @@ PrepPlace consolidates the chaos of campus placement season — recruiter info s
 | `/dsa`, `/dsa/:slug` | DSA hub + problem |
 | `/applications` | Applications kanban tracker |
 | `/oa`, `/oa/test/:id`, `/oa/result/:id` | Mock online assessments |
+| `/roadmap` | Career roadmaps (role selection + progress) |
 | `/placement-hub`, `/resume-roast`, `/salary`, `/compare` | Supporting tools |
 | `/certificates`, `/verify-certificate` | Issue + public verification |
 
