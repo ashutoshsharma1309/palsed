@@ -66,6 +66,7 @@ PrepPlace consolidates the chaos of campus placement season — recruiter info s
 - **PYQ Vault** — 82+ real, verified previous-year interview questions with expected approaches, sourced from public archives.
 - **DSA Practice Hub** — 150 curated problems across 18 topics, in-platform solutions, complexity analysis, LeetCode integration, and 4-state progress tracking.
 - **Applications Tracker** — a kanban board for the placement season (Wishlist → OA → Tech → HR → Offer) with deadlines, notes, and conversion rate.
+- **Career Roadmaps** — role-based learning roadmaps (14 software/IT roles) with staged topics, must/good/optional skills, a shared interview-focused DSA module, CS fundamentals, curated courses, level-grouped projects, and localStorage progress tracking.
 - **Per-Company Prep Kits** — DSA + PYQ + topic bundles composed per recruiter.
 - **OA Mock Tests** — timed, self-graded mock online-assessments with a rubric.
 - **Supporting tools** — Resume Roast, Salary insights, Company Compare, Placement Hub (10 curated sections), Certificates (shareable + verifiable), Mastery radar, and Engagement analytics.
