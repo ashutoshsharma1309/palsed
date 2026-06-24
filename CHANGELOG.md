@@ -9,6 +9,11 @@ Notable changes, most recent first. Dates are approximate.
 
 ## Recent
 
+- **Feature:** added a **Career Roadmap** module (`/roadmap`, in the Prep nav) —
+  14 role-based roadmaps with staged topics, must/good/optional skills, a shared
+  interview-focused DSA module, CS fundamentals, curated courses, level-grouped
+  projects, and localStorage progress tracking. Fully additive; built on the
+  existing design system.
 - **Docs:** corrected `README.md` stack references (Supabase Postgres + Google
   auth, `@prisma/adapter-pg`) that still described the old MySQL/Railway +
   email-password setup; expanded `summary.md` (roadmap, deployment, security,
