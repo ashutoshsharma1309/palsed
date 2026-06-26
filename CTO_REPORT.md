@@ -1,5 +1,7 @@
 # CTO REPORT
 
+> **Audit note (June 2026):** The `index.html` `<title>` / OG / Twitter "Adaptive AI Learning Universe" identity mismatch flagged in this report has since been **resolved** — the document head now ships the PrepPlace placement-prep positioning. Treat references to that specific mismatch below as historical; other findings may still be open.
+
 ## 1. Executive Summary
 
 - **The product identity is fractured at the HTML level.** `index.html` still ships an "Adaptive AI Learning Universe" `<title>`, OG, and Twitter card while the Landing page markets a "zero-AI-runtime Placement Season OS" — every Google result, every WhatsApp unfurl, and every LinkedIn share currently sells a product that no longer exists. This is the cheapest, highest-leverage fix in the entire codebase and it costs ~30 minutes.
