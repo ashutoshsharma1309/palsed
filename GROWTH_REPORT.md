@@ -1,5 +1,7 @@
 # GROWTH REPORT
 
+> **Audit note (June 2026):** The `index.html` `<title>` / OG / Twitter "Adaptive AI Learning Universe" identity mismatch flagged in this report has since been **resolved** — the document head now ships the PrepPlace placement-prep positioning. Treat references to that specific mismatch below as historical; other findings may still be open.
+
 ## 1. Executive Summary
 
 - **PrepPlace has zero viral DNA in the product today.** Every artifact a student creates — their Applications kanban, DSA streak, PYQ contribution, mastery radar, Prep Kit for a company — is locked behind `RequireAuth`. There is no public share surface, no "view-only" link, no OG-image-per-asset, and no referral primitive in the `User` schema. The whole growth strategy must start by exposing crowd-generated artifacts as public, indexable, share-shaped objects.
