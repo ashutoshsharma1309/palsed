@@ -1,5 +1,7 @@
 # UX_DIRECTOR REPORT
 
+> **Audit note (June 2026):** The `index.html` `<title>` / OG / Twitter "Adaptive AI Learning Universe" identity mismatch flagged in this report has since been **resolved** — the document head now ships the PrepPlace placement-prep positioning. Treat references to that specific mismatch below as historical; other findings may still be open.
+
 ## 1. Executive Summary
 
 - **The product's positioning is fighting itself in three places at once.** `index.html` sells "Adaptive AI Learning Universe," `Landing.tsx` sells "Placement Season Operating System" + "0 AI calls," and `Nav.tsx` shows 13 top-level links that span both stories. A student arriving from Google has no idea whether this is a course platform, a tracker, or a vault. Linear, Notion, Stripe — none of them ever have to ask "what am I actually looking at?" PrepPlace does, every time.
