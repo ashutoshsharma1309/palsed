@@ -1,5 +1,7 @@
 # CONTENT REPORT
 
+> **Audit note (June 2026):** The `index.html` `<title>` / OG / Twitter "Adaptive AI Learning Universe" identity mismatch flagged in this report has since been **resolved** — the document head now ships the PrepPlace placement-prep positioning. Treat references to that specific mismatch below as historical; other findings may still be open.
+
 ## 1. Executive Summary
 
 - **PrepPlace is invisible to Google.** SPA-only Vite build with zero SSR/prerender means crawlers see an empty `<div id="root">` for every route except `/`. The `<head>` in `index.html` still pitches "Adaptive AI Learning Universe" while the Landing copy markets "zero AI calls placement-OS" — search engines, when they eventually index, will rank for the wrong intent. Fix the head + add a prerender layer (vite-plugin-prerender or migrate to Next.js) before any content investment.
