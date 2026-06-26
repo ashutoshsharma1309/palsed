@@ -1,5 +1,7 @@
 # SEO REPORT
 
+> **Audit note (June 2026):** The `index.html` `<title>` / OG / Twitter "Adaptive AI Learning Universe" identity mismatch flagged in this report has since been **resolved** — the document head now ships the PrepPlace placement-prep positioning. Treat references to that specific mismatch below as historical; other findings may still be open.
+
 ## 1. Executive Summary
 
 - **Positioning/SEO mismatch is the #1 problem.** `index.html` markets "Adaptive AI Learning Universe" while `Landing.tsx` markets a "zero-AI placement OS for Indian campus students." Google has no idea what PrepPlace ranks for, and neither does a recruiter sharing the link on WhatsApp. Every ranking opportunity downstream is blocked until title/description/OG copy is rewritten around `campus placement preparation India`, `PYQ vault`, `company-wise placement prep`.
