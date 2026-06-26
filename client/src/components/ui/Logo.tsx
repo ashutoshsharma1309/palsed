@@ -46,6 +46,30 @@ interface LogoLockupProps {
   markSize?: number;
 }
 
+/**
+ * The mark rendered as a filled neon "chip" with a dark P — the same treatment
+ * used in the PrepPlace social/brand assets. Unlike a bare neon-colored glyph
+ * (which becomes a pale, low-contrast lime in light mode), this stays clearly
+ * visible in BOTH themes: the neon fill reads on dark and light page
+ * backgrounds, and the near-black P always has strong contrast against the neon.
+ * A hairline ring + soft shadow give it definition on light surfaces.
+ */
+function LogoBadge({ size }: { size: number }) {
+  const pad = Math.round(size * 0.3);
+  const box = size + pad * 2;
+  return (
+    <span
+      className="inline-grid place-items-center rounded-[26%] bg-[var(--color-neon)] shadow-sm ring-1 ring-black/15"
+      style={{ width: box, height: box }}
+      aria-hidden="true"
+    >
+      {/* Fixed near-black P — the neon chip is bright in both themes, so a dark
+          glyph keeps maximum contrast regardless of the active theme. */}
+      <LogoMark size={size} className="text-[#0a0a0a]" />
+    </span>
+  );
+}
+
 export function LogoLockup({
   className = "",
   variant = "horizontal",
@@ -55,14 +79,14 @@ export function LogoLockup({
   if (variant === "stacked") {
     return (
       <span className={`inline-flex flex-col items-center gap-2 ${className}`}>
-        <LogoMark size={markSize} className="text-[var(--color-neon)]" />
+        <LogoBadge size={markSize} />
         <span className={wordmarkClass}>PREPPLACE</span>
       </span>
     );
   }
   return (
     <span className={`inline-flex items-center gap-2.5 ${className}`}>
-      <LogoMark size={markSize} className="text-[var(--color-neon)]" />
+      <LogoBadge size={markSize} />
       <span className={wordmarkClass}>PREPPLACE</span>
     </span>
   );

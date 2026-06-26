@@ -457,3 +457,15 @@ pre code.hljs {
   border-color: var(--color-neon);
   color: var(--color-neon-text);
 }
+
+/* ────────────────────────────────────────────────────────────────────────
+   Accessibility: global keyboard focus indicator (WCAG 2.4.7).
+   Uses --color-text (near-black in light, near-white in dark) so the ring is
+   always ≥3:1 against the page. :where() keeps specificity 0 so components can
+   still override. :focus-visible so it only shows for keyboard users.
+   ──────────────────────────────────────────────────────────────────────── */
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 2px;
+  border-radius: 4px;
+}

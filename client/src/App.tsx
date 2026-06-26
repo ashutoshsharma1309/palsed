@@ -66,6 +66,14 @@ function HideChromeForLanding({ children }: { children: React.ReactNode }) {
     pathname.startsWith("/oa/test/"); // OA test mode is fullscreen
   return (
     <>
+      {!hide && (
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-lg focus:bg-[var(--color-neon)] focus:text-black focus:font-semibold"
+        >
+          Skip to main content
+        </a>
+      )}
       {!hide && <Nav />}
       {!hide && <FocusMode />}
       {children}
@@ -88,7 +96,7 @@ export default function App() {
         <div className="relative z-10 min-h-screen flex flex-col">
           <ScrollToTop />
           <HideChromeForLanding>
-            <main className="flex-1 pb-[calc(56px+env(safe-area-inset-bottom))] lg:pb-0">
+            <main id="main-content" className="flex-1 pb-[calc(56px+env(safe-area-inset-bottom))] lg:pb-0">
               <Suspense fallback={<div className="py-32"><Loader label="Loading" /></div>}>
                 <Routes>
                   {/* Public — accessible without login */}
