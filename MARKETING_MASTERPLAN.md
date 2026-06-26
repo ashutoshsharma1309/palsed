@@ -1,5 +1,7 @@
 # MARKETING REPORT
 
+> **Audit note (June 2026):** The `index.html` `<title>` / OG / Twitter "Adaptive AI Learning Universe" identity mismatch flagged in this report has since been **resolved** — the document head now ships the PrepPlace placement-prep positioning. Treat references to that specific mismatch below as historical; other findings may still be open.
+
 ## 1. Executive Summary
 
 - **Your positioning is fighting itself.** The `index.html` head tag still markets PrepPlace as an "Adaptive AI Learning Universe," but the Landing route, Companies vault, PYQ Vault, and Applications kanban explicitly sell a "Placement Season OS." Every paid click and SEO impression is currently confusing two different ICPs (general learners vs. placement-season engineering students). Fix copy alignment before spending a single rupee on Google Ads.
