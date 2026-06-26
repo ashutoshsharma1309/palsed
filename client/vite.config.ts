@@ -74,7 +74,6 @@ export default defineConfig(async ({ command }) => {
         output: {
           manualChunks: {
             "vendor-react": ["react", "react-dom", "react-router-dom"],
-            "vendor-monaco": ["@monaco-editor/react"],
             "vendor-mermaid": ["mermaid"],
             "vendor-pdf": ["jspdf", "html2canvas"],
             "vendor-markdown": ["react-markdown", "remark-gfm", "rehype-highlight"],
