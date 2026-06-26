@@ -1,5 +1,7 @@
 # SR_ENGINEER REPORT
 
+> **Audit note (June 2026):** The `index.html` `<title>` / OG / Twitter "Adaptive AI Learning Universe" identity mismatch flagged in this report has since been **resolved** — the document head now ships the PrepPlace placement-prep positioning. Treat references to that specific mismatch below as historical; other findings may still be open.
+
 ## 1. Executive Summary
 
 - **The product is a localStorage demo wearing a Postgres costume.** Applications kanban (`useApplications.ts`), PYQ vault (`usePYQs.ts`), SRS queue (`useSRS.ts`), Mastery (`useMastery.ts`), and Placement Hub progress (`usePlacementProgress.ts`) all persist exclusively to `localStorage` despite full Prisma models (`Application`-equivalent `DsaProblemStatus`, `MasteryEntry`, `SRSItem`, etc.) sitting unused in `server/prisma/schema.prisma`. A user clearing their browser loses everything; switching devices is impossible.
