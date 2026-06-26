@@ -9,7 +9,7 @@ import { MarkdownView } from "../components/lesson/MarkdownView";
 import { useLocalStorageState, LS_KEYS } from "../hooks/useLocalStorageState";
 import { useMastery } from "../hooks/useMastery";
 import { apiPost } from "../lib/api";
-import type { Profile } from "./Onboarding";
+import type { Profile } from "../types/profile";
 
 const DEFAULT_PROFILE: Profile = {
   displayName: "Learner", avatarSeed: "x", joinedAt: new Date().toISOString(),

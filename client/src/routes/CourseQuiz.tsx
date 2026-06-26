@@ -13,7 +13,7 @@ import { adjustDifficulty, rollingStdev } from "../lib/mastery";
 import { apiPost } from "../lib/api";
 import { issueCertificate, Certificate } from "../lib/certificate";
 import type { AICourse } from "../types/course";
-import type { Profile } from "./Onboarding";
+import type { Profile } from "../types/profile";
 
 const DEFAULT_PROFILE: Profile = {
   displayName: "Learner",

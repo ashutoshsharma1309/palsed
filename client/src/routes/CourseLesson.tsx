@@ -12,7 +12,7 @@ import { MarkdownView } from "../components/lesson/MarkdownView";
 import { MermaidDiagram } from "../components/lesson/MermaidDiagram";
 import { apiPost } from "../lib/api";
 import type { AICourse, LessonProgress, Style } from "../types/course";
-import type { Profile } from "./Onboarding";
+import type { Profile } from "../types/profile";
 
 const DEFAULT_PROFILE: Profile = {
   displayName: "Learner",

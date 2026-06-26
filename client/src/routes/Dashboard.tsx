@@ -13,7 +13,7 @@ import { Radar } from "../components/ui/Radar";
 import { ProgressBar } from "../components/ui/ProgressBar";
 import { COMPANIES, getCompany } from "../data/companies";
 import { STATUS_LABELS, STATUS_COLORS } from "../types/application";
-import type { Profile } from "./Onboarding";
+import type { Profile } from "../types/profile";
 import { Flame, BrainCircuit, Sparkles, AlertTriangle, Rocket, ArrowRight, Bookmark, Calendar, Building2, Database, Plus } from "lucide-react";
 import { UpcomingRounds } from "../components/UpcomingRounds";
 

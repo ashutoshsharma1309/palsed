@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 import { Card } from "../components/ui/Card";
 import { Button } from "../components/ui/Button";
 import { LS_KEYS, useLocalStorageState } from "../hooks/useLocalStorageState";
-import type { Profile } from "./Onboarding";
+import type { Profile } from "../types/profile";
 
 const DEFAULT_PROFILE: Profile = {
   displayName: "Learner",
