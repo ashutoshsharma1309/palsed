@@ -1,5 +1,7 @@
 # STARTUP_PLAN.md
 
+> **Audit note (June 2026):** The `index.html` `<title>` / OG / Twitter "Adaptive AI Learning Universe" identity mismatch flagged in this report has since been **resolved** — the document head now ships the PrepPlace placement-prep positioning. Treat references to that specific mismatch below as historical; other findings may still be open.
+
 *PrepPlace — Master Execution Document*
 *Author posture: COO synthesizing 12 specialist reports into one accountable plan.*
 *Last updated: 2026-06-20*
