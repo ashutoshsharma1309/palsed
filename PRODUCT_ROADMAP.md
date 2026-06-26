@@ -1,5 +1,7 @@
 # PM REPORT
 
+> **Audit note (June 2026):** The `index.html` `<title>` / OG / Twitter "Adaptive AI Learning Universe" identity mismatch flagged in this report has since been **resolved** — the document head now ships the PrepPlace placement-prep positioning. Treat references to that specific mismatch below as historical; other findings may still be open.
+
 ## 1. Executive Summary
 
 - **Positioning is fractured at the front door.** The product markets itself as a "Placement Season Operating System" on Landing, but `index.html` `<title>`, OG, and Twitter meta still read "Adaptive AI Learning Universe." Indian students Googling "Wipro NLT pattern 2024" or "Goldman Sachs OA questions" will never find PrepPlace, and the ones who do land bounce because the meta promises something different from what they see. Fix this in week one.
