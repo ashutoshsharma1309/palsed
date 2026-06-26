@@ -1,5 +1,7 @@
 # CRO REPORT
 
+> **Audit note (June 2026):** The `index.html` `<title>` / OG / Twitter "Adaptive AI Learning Universe" identity mismatch flagged in this report has since been **resolved** — the document head now ships the PrepPlace placement-prep positioning. Treat references to that specific mismatch below as historical; other findings may still be open.
+
 ## 1. Executive Summary
 
 - **The landing page is selling the wrong product.** `index.html` markets "Adaptive AI Learning Universe" while the Landing component pitches a "zero AI calls" Placement Season OS. This contradiction is the single biggest conversion blocker — visitors arriving from organic, Twitter, or LinkedIn unfurls land on copy that doesn't match the meta promise. Fix the positioning to "Placement Season OS for Indian engineering students" everywhere, or stop confusing visitors with two products.
