@@ -1,5 +1,7 @@
 # PrepPlace — Database Setup
 
+> **Audit note (June 2026):** Production now runs on **Supabase PostgreSQL** (Prisma with `@prisma/adapter-pg`), not MySQL. This document describes the earlier **local MySQL** setup and is kept for historical reference. For current setup use `server/.env.example` (Supabase connection string + keys).
+
 This document describes the MySQL database that backs PrepPlace: its structure,
 relationships, configuration, migrations, and backup/restore procedures.
 
