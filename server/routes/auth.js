@@ -15,6 +15,30 @@ import { validateEmail } from "../lib/emailValidator.js";
 
 const r = Router();
 
+// Open-redirect guard: the magic-link redirectTo must point at OUR /auth/callback
+// on an allowed origin. A client-supplied value is only honored if it parses to
+// an allowed origin + the exact callback path; otherwise we fall back. This
+// prevents an attacker from crafting a post-login redirect to a phishing site.
+const PROD_CALLBACK = "https://prepnext.vercel.app/auth/callback";
+const LOCAL_ORIGIN_RE = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i;
+function safeRedirectTo(req) {
+  const allow = new Set(
+    (process.env.CLIENT_ORIGIN || "").split(",").map((s) => s.trim()).filter(Boolean)
+  );
+  allow.add("https://prepnext.vercel.app");
+  const candidate =
+    req.body?.redirectTo ||
+    (req.headers.origin ? `${req.headers.origin}/auth/callback` : PROD_CALLBACK);
+  try {
+    const u = new URL(candidate);
+    const okOrigin = allow.has(u.origin) || LOCAL_ORIGIN_RE.test(u.origin);
+    if (okOrigin && u.pathname === "/auth/callback") return u.toString();
+  } catch {
+    /* fall through to safe default */
+  }
+  return PROD_CALLBACK;
+}
+
 // GET /api/auth/me  → returns the synced User row (creates one if missing).
 r.get("/me", requireAuth, async (req, res, next) => {
   try {
@@ -198,9 +222,7 @@ r.post("/fallback-signin", async (req, res, next) => {
     }
 
     // Step 2 — generate magic link (no email sent; just returns the URL).
-    const redirectTo =
-      req.body?.redirectTo ||
-      `${req.headers.origin || "https://prepnext.vercel.app"}/auth/callback`;
+    const redirectTo = safeRedirectTo(req);
     const { data, error } = await admin.auth.admin.generateLink({
       type: "magiclink",
       email,
@@ -236,6 +258,11 @@ r.post("/fallback-signin", async (req, res, next) => {
  */
 r.post("/dev-confirm", async (req, res, next) => {
   try {
+    // Dev/demo-only escape hatch. Disabled in production so it can't be used to
+    // enumerate which emails are registered (it 404s instead of 200/404-by-existence).
+    if (process.env.NODE_ENV === "production") {
+      return res.status(404).json({ error: "Not found" });
+    }
     const { email } = req.body || {};
     if (!email || typeof email !== "string") {
       return res.status(400).json({ error: "email is required" });

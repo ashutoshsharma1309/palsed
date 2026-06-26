@@ -92,9 +92,14 @@ export function buildApp() {
       code: err?.code,
       stack: err?.stack?.split("\n").slice(0, 4),
     });
-    res.status(err.status || 500).json({
-      error: err.message || "Internal error",
-      detail: err.detail,
+    // Never leak internals (Postgres `err.detail` can expose schema/row data).
+    // 5xx returns a generic message in production; intentional 4xx keep theirs.
+    const status = err.status || 500;
+    res.status(status).json({
+      error:
+        status >= 500 && process.env.NODE_ENV === "production"
+          ? "Internal error"
+          : err.message || "Internal error",
     });
   });
 

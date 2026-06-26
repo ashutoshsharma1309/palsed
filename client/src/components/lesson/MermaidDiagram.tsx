@@ -18,7 +18,9 @@ function loadMermaid() {
           mainBkg: "#161616",
           fontFamily: "Inter, sans-serif",
         },
-        securityLevel: "loose",
+        // "strict" disables inline scripts/HTML in diagram definitions — XSS
+        // hardening in case diagram source is ever influenced by untrusted input.
+        securityLevel: "strict",
         fontFamily: "Inter, sans-serif",
       });
       return m.default;
