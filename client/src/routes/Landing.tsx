@@ -301,7 +301,7 @@ export default function Landing() {
               },
               {
                 q: "What does it cost?",
-                a: "Free during beta. Premium tier later: priority verification, deeper salary data, recruiter visibility.",
+                a: "It's free. Learn DSA step by step, practice problems, and track your streak at no cost.",
               },
               {
                 q: "What if my college isn't listed?",

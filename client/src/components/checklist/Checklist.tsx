@@ -1,11 +1,13 @@
-// Per-topic learning checklist. Each item persists; completing one counts as
-// learning activity (extends the streak via the central store).
+// Generic learning checklist (roadmap topic OR pattern). Each item persists;
+// completing one counts as learning activity (extends the streak via the
+// central store). Caller supplies the id namespace + the items.
 import { Circle, CheckCircle2 } from "lucide-react";
 import { useChecklist } from "../../hooks/useChecklist";
 import { ProgressBar } from "../ui/ProgressBar";
+import type { ChecklistItem } from "../../data/dsa/roadmap";
 
-export function Checklist({ topicId }: { topicId: string }) {
-  const { items, isChecked, toggle, completedCount, total } = useChecklist(topicId);
+export function Checklist({ id, items: itemsProp }: { id: string; items: ChecklistItem[] }) {
+  const { items, isChecked, toggle, completedCount, total } = useChecklist(id, itemsProp);
   if (!items.length) return null;
   return (
     <div>

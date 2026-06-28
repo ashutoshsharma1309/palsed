@@ -42,10 +42,11 @@ const PlacementHub = lazy(() => import("./routes/PlacementHub"));
 const Roadmap = lazy(() => import("./routes/Roadmap"));
 const Hackathon = lazy(() => import("./routes/Hackathon"));
 const LearnTopic = lazy(() => import("./routes/LearnTopic"));
+const Patterns = lazy(() => import("./routes/Patterns"));
+const PatternDetail = lazy(() => import("./routes/PatternDetail"));
 const ResumeRoast = lazy(() => import("./routes/ResumeRoast"));
 const Salary = lazy(() => import("./routes/Salary"));
 const Compare = lazy(() => import("./routes/Compare"));
-const Pricing = lazy(() => import("./routes/Pricing"));
 const Oa = lazy(() => import("./routes/Oa"));
 const OaTest = lazy(() => import("./routes/OaTest"));
 const OaResult = lazy(() => import("./routes/OaResult"));
@@ -105,7 +106,6 @@ export default function App() {
                   <Route path="/" element={<Landing />} />
                   <Route path="/verify-certificate" element={<VerifyCertificate />} />
                   <Route path="/auth/callback" element={<AuthCallback />} />
-                  <Route path="/pricing" element={<Pricing />} />
 
                   {/* Protected — login required for every feature */}
                   <Route element={<RequireAuth />}>
@@ -132,6 +132,8 @@ export default function App() {
                     <Route path="/roadmap" element={<Roadmap />} />
                     <Route path="/hackathon" element={<Hackathon />} />
                     <Route path="/learn/:topicId" element={<LearnTopic />} />
+                    <Route path="/patterns" element={<Patterns />} />
+                    <Route path="/patterns/:patternId" element={<PatternDetail />} />
                     <Route path="/resume-roast" element={<ResumeRoast />} />
                     <Route path="/salary" element={<Salary />} />
                     <Route path="/compare" element={<Compare />} />

@@ -38,11 +38,19 @@ export interface Question {
 
 export interface Lesson {
   objective: string;
-  /** Concise plain-language explanation (markdown allowed). */
+  /** Theory — concise plain-language explanation (markdown allowed). */
   explanation: string;
+  /** Short formal definition (e.g. "An array is a contiguous block of …"). */
+  definition?: string;
+  /** Basic C++ syntax (declaration / initialization / traversal). */
+  syntax?: string;
+  /** A small, beginner-friendly C++ example demonstrating only this concept. */
+  example?: { code: string; explanation?: string };
   keyConcepts: string[];
   interviewNotes: string[];
   commonMistakes: string[];
+  /** Structured complexity (best / average / worst / space). */
+  complexity?: { best?: string; average?: string; worst?: string; space?: string };
   timeComplexity?: string;
   spaceComplexity?: string;
   /** Real-world intuition — why this matters. */
@@ -75,11 +83,13 @@ export interface Phase {
 
 // Standard per-lesson checklist (Task 7). Reused unless a topic overrides it.
 export const DEFAULT_CHECKLIST: ChecklistItem[] = [
-  { id: "concept", label: "Learned the concept" },
-  { id: "easy", label: "Solved an Easy question" },
-  { id: "medium", label: "Solved a Medium question" },
-  { id: "hard", label: "Solved a Hard question" },
-  { id: "revised", label: "Revised today" },
+  { id: "theory", label: "Read the theory" },
+  { id: "syntax", label: "Understood the syntax" },
+  { id: "example", label: "Ran the example code" },
+  { id: "easy", label: "Solved Easy problems" },
+  { id: "medium", label: "Solved Medium problems" },
+  { id: "hard", label: "Solved Hard problems" },
+  { id: "revised", label: "Revised" },
 ];
 
 const cpp = (s: string): Solution => ({ cpp: s });
@@ -98,9 +108,16 @@ const TOPICS: Topic[] = [
       objective: "Confidently write single and nested loops and reason about how many times they run.",
       explanation:
         "A **loop** repeats a block of code. Use a `for` loop when you know the count, a `while` loop when you loop until a condition changes. **Nested loops** (a loop inside a loop) are how you process grids and print patterns — the inner loop runs fully for each step of the outer loop.",
+      definition: "A loop is a control structure that repeats a block of statements while (or until) a condition holds.",
+      syntax: `for (int i = 0; i < n; i++) { ... }   // counted\nwhile (cond) { ... }                  // condition-driven\ndo { ... } while (cond);              // runs at least once`,
+      example: {
+        code: `// Right-angled star triangle of height n\nfor (int i = 1; i <= n; i++) {     // rows\n  for (int j = 1; j <= i; j++)     // stars in this row\n    cout << '*';\n  cout << '\\n';\n}`,
+        explanation: "The inner loop runs `i` times for row `i` — total work 1+2+…+n = O(n²).",
+      },
       keyConcepts: ["for / while / do-while", "Loop counters & bounds", "Nested loops", "Pattern printing"],
       interviewNotes: ["Off-by-one errors live at the loop bounds — check `<` vs `<=`.", "Nested loops over n elements are usually O(n²)."],
-      commonMistakes: ["Infinite loops (forgetting to update the counter).", "Confusing the row vs column index in nested loops."],
+      commonMistakes: ["Infinite loops (forgetting to update the counter).", "Confusing the row vs column index in nested loops.", "Wrong loop bounds (`<=` when you meant `<`)."],
+      complexity: { best: "O(n) single", average: "O(n·m) nested", worst: "O(n·m) nested", space: "O(1)" },
       timeComplexity: "Single loop O(n); nested O(n·m)",
       spaceComplexity: "O(1)",
       intuition: "An odometer: the inner wheel spins fully before the outer wheel ticks once.",
@@ -160,10 +177,16 @@ const TOPICS: Topic[] = [
       objective: "Master in-place array techniques: two pointers, prefix sums, and the sliding window.",
       explanation:
         "An **array** stores elements in contiguous memory, giving **O(1) random access** by index. Most interview tricks avoid extra passes: **two pointers** (move from both ends or fast/slow), **prefix sums** (precompute running totals for O(1) range queries), and the **sliding window** (grow/shrink a contiguous range instead of re-scanning).",
+      definition: "An array is a fixed-size, contiguous block of memory holding elements of the same type, accessed by a 0-based index in O(1).",
+      syntax: `int a[5];                 // declaration (size 5)\nint b[] = {1, 2, 3, 4, 5}; // initialization\nfor (int i = 0; i < 5; i++) // traversal\n    cout << b[i] << ' ';\n\nvector<int> v = {1, 2, 3};  // dynamic array (preferred)\nv.push_back(4);`,
+      example: {
+        code: `// Sum every element of an array\nint sum(vector<int>& a){\n  int total = 0;\n  for(int x : a) total += x;   // range-based for\n  return total;\n}`,
+        explanation: "A single pass adds each element — O(n) time, O(1) extra space.",
+      },
       keyConcepts: ["O(1) index access", "Two pointers", "Prefix sum", "Sliding window", "Kadane's algorithm"],
       interviewNotes: ["Ask if the array is sorted — it unlocks two-pointer / binary search.", "Watch for integer overflow on sums (use long long)."],
-      commonMistakes: ["Out-of-bounds at the last index.", "Mutating the array while iterating.", "Resetting the window sum incorrectly."],
-      timeComplexity: "Most techniques O(n)", spaceComplexity: "O(1) in-place",
+      commonMistakes: ["Out-of-bounds at the last index (`i <= n` instead of `i < n`).", "Mutating the array while iterating.", "Resetting the window sum incorrectly.", "Overflow on a sum/product of ints — use `long long`."],
+      complexity: { best: "O(1) access", average: "O(n) scan", worst: "O(n) scan", space: "O(1) in-place" },
       intuition: "A row of numbered lockers — you can jump to any locker instantly, but inserting in the middle shifts everything.",
     },
     questions: [
@@ -220,9 +243,16 @@ const TOPICS: Topic[] = [
       objective: "Apply hashing, two pointers and sliding windows to string problems.",
       explanation:
         "A **string** is an array of characters. Most string interview problems reduce to **counting characters** (a 26-size array or hash map), **two pointers** (for palindromes), or a **sliding window** (longest/shortest substring with a property). Immutability in some languages means building results with a buffer.",
+      definition: "A string is a sequence of characters stored contiguously; in C++ `std::string` is a dynamic, mutable array of `char`.",
+      syntax: `string s = "hello";       // initialization\nint n = s.size();          // length\nchar c = s[0];             // index access ('h')\ns += " world";             // append\nfor (char ch : s) ...      // traversal`,
+      example: {
+        code: `// Count occurrences of each lowercase letter\nint freq[26] = {0};\nfor (char c : s) freq[c - 'a']++;  // 'a'->0 .. 'z'->25`,
+        explanation: "`c - 'a'` maps a letter to an index 0–25 — a fixed-size frequency array, faster than a hash map.",
+      },
       keyConcepts: ["Frequency arrays/maps", "Two pointers", "Sliding window", "ASCII math (c - 'a')"],
       interviewNotes: ["A fixed 26-int array beats a hash map for lowercase-only inputs.", "Clarify: case-sensitive? unicode? spaces?"],
-      commonMistakes: ["Comparing chars with wrong case.", "Window not shrinking from the left correctly."],
+      commonMistakes: ["Comparing chars with wrong case.", "Window not shrinking from the left correctly.", "Off-by-one when comparing `s[i]` and `s[n-1-i]` for palindromes."],
+      complexity: { best: "O(n)", average: "O(n)", worst: "O(n)", space: "O(1) (26) or O(k)" },
       timeComplexity: "O(n) for most", spaceComplexity: "O(1) (26) or O(k)",
       intuition: "A ticker tape of letters — slide a window across it and keep a tally of what's inside.",
     },

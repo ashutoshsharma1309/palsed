@@ -1,17 +1,16 @@
 import { NavLink } from "react-router-dom";
-import { LayoutDashboard, Building2, BookOpen, Briefcase, Repeat, type LucideIcon } from "lucide-react";
+import { LayoutDashboard, Code2, Layers, Repeat, type LucideIcon } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
 import { useSRS } from "../../hooks/useSRS";
 
 // Fixed bottom-tab bar shown only on small viewports for logged-in users.
-// Mirrors the iOS/Android pattern students expect — 5 anchors covering the
-// daily-open habit: Dashboard → Companies → PYQs → Apps → Review (SRS).
+// Mirrors the iOS/Android pattern students expect — learning-first anchors for
+// the daily habit: Dashboard → DSA Practice → Patterns → Review (SRS).
 type Tab = { to: string; label: string; Icon: LucideIcon; badge?: "due" };
 const TABS: Tab[] = [
   { to: "/dashboard", label: "Home", Icon: LayoutDashboard },
-  { to: "/companies", label: "Companies", Icon: Building2 },
-  { to: "/pyq", label: "PYQs", Icon: BookOpen },
-  { to: "/applications", label: "Apps", Icon: Briefcase },
+  { to: "/dsa", label: "DSA", Icon: Code2 },
+  { to: "/patterns", label: "Patterns", Icon: Layers },
   { to: "/review", label: "Review", Icon: Repeat, badge: "due" },
 ];
 

@@ -175,9 +175,9 @@ export default function Salary() {
               projections, and city cost-of-living adjustments.
             </p>
           </div>
-          <Link to="/pricing">
+          <Link to="/compare">
             <Button>
-              Upgrade to Pro <ChevronRight className="w-4 h-4" />
+              Compare offers <ChevronRight className="w-4 h-4" />
             </Button>
           </Link>
         </div>

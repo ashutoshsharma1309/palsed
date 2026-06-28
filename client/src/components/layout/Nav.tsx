@@ -1,5 +1,5 @@
 import { NavLink, Link, useNavigate } from "react-router-dom";
-import { Menu, X, LogOut, User, ChevronDown, BookOpen, Settings as SettingsIcon, Calculator, GitCompare, Star, Award, Activity, Building } from "lucide-react";
+import { Menu, X, LogOut, User, ChevronDown, BookOpen, Settings as SettingsIcon, Calculator, GitCompare, Award, Activity, Building } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import toast from "react-hot-toast";
 import { useSRS } from "../../hooks/useSRS";
@@ -14,6 +14,7 @@ import { LogoLockup } from "../ui/Logo";
 const PRIMARY = [
   { to: "/dashboard", label: "Dashboard" },
   { to: "/dsa", label: "DSA Practice" },
+  { to: "/patterns", label: "Patterns" },
   { to: "/review", label: "Review", badge: "due" as const },
 ];
 
@@ -168,14 +169,6 @@ export function Nav() {
                       <div className="text-xs font-bold truncate">{user.displayName}</div>
                       <div className="text-[10px] text-[var(--color-text-faint)] mono truncate">{user.email}</div>
                     </div>
-
-                    <Link
-                      to="/pricing"
-                      onClick={() => setMenu(false)}
-                      className="flex items-center gap-2 px-4 py-2.5 text-xs hover:bg-[var(--color-card-soft)]"
-                    >
-                      <Star className="w-3.5 h-3.5 text-[var(--color-neon)]" /> Upgrade to Pro
-                    </Link>
 
                     <div className="px-4 py-1.5 mono text-[9px] uppercase tracking-widest text-[var(--color-text-faint)] border-t border-[var(--color-line)]">
                       Tools

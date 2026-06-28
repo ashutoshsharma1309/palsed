@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { useSearchParams, Link } from "react-router-dom";
-import { Plus, X, Sparkles, IndianRupee, Star, Calendar, MapPin, Lock, ChevronRight } from "lucide-react";
+import { Plus, X, Sparkles, IndianRupee, Star, Calendar, MapPin } from "lucide-react";
 import { Card } from "../components/ui/Card";
 import { Button } from "../components/ui/Button";
 import { Chip } from "../components/ui/Chip";
@@ -11,7 +11,7 @@ import { usePageMeta } from "../hooks/usePageMeta";
 // Highlights deltas visually: better CTC = neon, harder = red, etc.
 // URL state: /compare?a=razorpay&b=stripe → shareable links.
 
-const MAX_FREE = 3;
+const MAX_COMPARE = 6;
 
 export default function Compare() {
   usePageMeta({
@@ -38,7 +38,7 @@ export default function Compare() {
 
   const add = (slug: string) => {
     if (!slug || slugs.includes(slug)) return;
-    if (slugs.length >= MAX_FREE) return;
+    if (slugs.length >= MAX_COMPARE) return;
     const next = [...slugs, slug];
     setSlugs(next);
     updateUrl(next);
@@ -98,7 +98,7 @@ export default function Compare() {
                 </Chip>
               );
             })}
-            {slugs.length < MAX_FREE && (
+            {slugs.length < MAX_COMPARE && (
               <select
                 value={picker}
                 onChange={(e) => add(e.target.value)}
@@ -112,7 +112,7 @@ export default function Compare() {
             )}
           </div>
           <span className="text-[11px] text-[var(--color-text-faint)] mono">
-            {slugs.length}/{MAX_FREE} on free · <Link to="/pricing" className="text-[var(--color-neon)] underline">Pro for 6+</Link>
+            {slugs.length}/{MAX_COMPARE} selected
           </span>
         </div>
       </Card>
@@ -193,29 +193,6 @@ export default function Compare() {
         </div>
       )}
 
-      {/* PRO UPSELL */}
-      {companies.length >= 2 && (
-        <Card className="border-[var(--color-neon)]/30 mb-4">
-          <div className="flex items-center justify-between gap-4 flex-wrap">
-            <div className="flex-1 min-w-[280px]">
-              <div className="flex items-center gap-2 mb-1">
-                <Lock className="w-3.5 h-3.5 text-[var(--color-neon)]" />
-                <span className="mono text-[10px] uppercase tracking-widest text-[var(--color-neon)]">PrepPlace Pro</span>
-              </div>
-              <div className="display text-2xl">Compare 6 offers + 5-year takehome projections.</div>
-              <p className="text-sm text-[var(--color-text-dim)] mt-1">
-                Pro unlocks side-by-side for up to 6 recruiters, RSU vest schedules, city
-                cost-of-living adjustments, and AI offer-letter clause review.
-              </p>
-            </div>
-            <Link to="/pricing">
-              <Button>
-                Go Pro <ChevronRight className="w-4 h-4" />
-              </Button>
-            </Link>
-          </div>
-        </Card>
-      )}
     </div>
   );
 }

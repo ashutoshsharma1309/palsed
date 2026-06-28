@@ -14,7 +14,6 @@ import { useLearningProgress } from "../hooks/useLearningProgress";
 import { RoadmapView } from "../components/roadmap/RoadmapView";
 import { DailyStreakCard } from "../components/dashboard/DailyStreakCard";
 import { DailyGoalBanner } from "../components/dashboard/DailyGoalBanner";
-import { ProUpsell } from "../components/dashboard/ProUpsell";
 
 export default function Dashboard() {
   usePageMeta({ title: "Dashboard", description: "Your DSA learning journey — roadmap, progress, and streak.", canonical: "/dashboard" });
@@ -88,7 +87,6 @@ export default function Dashboard() {
         {/* ===================== SIDEBAR ===================== */}
         <aside className="lg:sticky lg:top-20 space-y-6">
           <DailyStreakCard />
-          <ProUpsell />
         </aside>
       </div>
     </div>

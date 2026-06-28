@@ -10,7 +10,7 @@ import { usePageMeta } from "../hooks/usePageMeta";
 import { LessonView } from "../components/lesson/LessonView";
 import { QuestionCard } from "../components/question/QuestionCard";
 import { Checklist } from "../components/checklist/Checklist";
-import { getTopic, getPhase, TOPICS_ORDERED, type Difficulty, type Question } from "../data/dsa/roadmap";
+import { getTopic, getPhase, checklistFor, TOPICS_ORDERED, type Difficulty, type Question } from "../data/dsa/roadmap";
 
 const ORDER: Difficulty[] = ["Easy", "Medium", "Hard"];
 
@@ -102,7 +102,7 @@ export default function LearnTopic() {
         {/* RIGHT — checklist (sticky) */}
         <aside className="lg:sticky lg:top-20">
           <Card>
-            <Checklist topicId={topic.id} />
+            <Checklist id={topic.id} items={checklistFor(topic)} />
           </Card>
         </aside>
       </div>
