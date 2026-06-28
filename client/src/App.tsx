@@ -9,7 +9,6 @@ import { MobileTabBar } from "./components/layout/MobileTabBar";
 import { EngagementProvider } from "./components/adaptive/EngagementProvider";
 import { FocusMode } from "./components/adaptive/FocusMode";
 import { CommandPalette } from "./components/CommandPalette";
-import { LearningSync } from "./components/LearningSync";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { RequireAuth } from "./components/auth/RequireAuth";
 import { Loader } from "./components/ui/Loader";
@@ -94,7 +93,6 @@ export default function App() {
   return (
     <ErrorBoundary>
       <EngagementProvider>
-        <LearningSync />
         <Background />
         <CommandPalette />
         <div className="relative z-10 min-h-screen flex flex-col">

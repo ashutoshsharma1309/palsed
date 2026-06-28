@@ -66,11 +66,6 @@ model User {
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 
-  // DSA Learning OS — per-user progress (checklist, solved questions, active
-  // days). Stored as JSON so the client store maps 1:1. Backed up best-effort
-  // from the client; localStorage stays the working cache.
-  learningProgress Json?
-
   // Profile-setup fields — captured after Google sign-in via /onboarding.
   // profileComplete drives the route gate: false → bounce to /onboarding.
   profileComplete Boolean  @default(false)
