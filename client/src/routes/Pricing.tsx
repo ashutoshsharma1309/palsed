@@ -4,6 +4,7 @@ import { Button } from "../components/ui/Button";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import { usePageMeta } from "../hooks/usePageMeta";
+import { usePlan } from "../hooks/usePlan";
 import { useState } from "react";
 
 interface Tier {
@@ -87,16 +88,22 @@ export default function Pricing() {
   });
 
   const [annual, setAnnual] = useState(false);
+  const { isPro, upgrade, downgrade } = usePlan();
 
   const handleCta = (t: Tier) => {
     if (t.name === "Free") {
-      toast.success("You're already on the Free tier!");
+      if (isPro) { downgrade(); toast.success("Switched to Free."); }
+      else toast.success("You're already on the Free tier!");
       return;
     }
-    toast(
-      `${t.name} launches Aug 2026. Subscribe to early-bird wait-list?`,
-      { icon: "🚀", duration: 4000 }
-    );
+    if (t.name === "Pro") {
+      // NOTE: real checkout (Stripe/Razorpay) goes here. For now we activate
+      // Pro locally so the gated experience is demoable end-to-end.
+      upgrade();
+      toast.success("PrepPlace Pro activated 🎉 (demo — billing integration pending)");
+      return;
+    }
+    toast(`${t.name} — contact us for college/team plans.`, { icon: "🏫", duration: 4000 });
   };
 
   return (

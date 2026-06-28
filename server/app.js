@@ -8,6 +8,7 @@ import { securityHeaders, validateRequestBody } from "./security.js";
 
 import healthRouter from "./routes/health.js";
 import authRouter from "./routes/auth.js";
+import learningRouter from "./routes/learning.js";
 import { prisma } from "./db.js";
 import { Router } from "express";
 
@@ -69,6 +70,11 @@ export function buildApp() {
 
   // Legacy /api/db/* — locked down to health-only. See dbGoneRouter above.
   app.use("/api/db", dbGoneRouter);
+
+  // Learning-progress backup — mounted BEFORE validateRequestBody because the
+  // progress blob legitimately has many keys (one per checklist item). Still
+  // protected by CORS + rate limit + 1MB JSON cap + requireAuth.
+  app.use("/api/learning", learningRouter);
 
   app.use("/api/", validateRequestBody);
 

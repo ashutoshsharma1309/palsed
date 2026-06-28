@@ -287,8 +287,6 @@ function stub(id: string, name: string, phaseId: string, blurb: string, objectiv
 const STUB_TOPICS: Topic[] = [
   // Phase 4+ (advanced topics — concise lessons; question banks fill in as data)
   stub("backtracking", "Backtracking", "p4", "Choose → explore → un-choose: subsets, permutations, N-Queens.", "Enumerate possibilities with pruning.", "Try a choice, recurse, then undo it (backtrack). Prune branches that can't lead to a solution.", ["Choose/un-choose", "Pruning", "State restoration"]),
-  stub("searching-sorting", "Searching & Sorting", "p5", "Binary search and the classic sorts + when to use each.", "Use binary search and pick the right sort.", "Binary search needs sorted data and runs O(log n). Know merge/quick sort (O(n log n)) and 'binary search on the answer'.", ["Binary search", "Merge/Quick sort", "Search on answer"]),
-  stub("linked-list", "Linked List", "p6", "Pointers, reversal, fast/slow pointers, cycle detection.", "Manipulate nodes with pointers safely.", "A node holds a value + a pointer to the next. Use a dummy head to simplify edge cases and fast/slow pointers for cycles/middle.", ["Dummy node", "Fast/slow pointers", "Reversal"]),
   stub("stack", "Stack", "p6", "LIFO, monotonic stacks, expression parsing.", "Use stacks for nesting and 'next greater' problems.", "LIFO structure. The **monotonic stack** solves 'next greater/smaller element' in O(n).", ["LIFO", "Monotonic stack", "Bracket matching"]),
   stub("queue", "Queue & Deque", "p6", "FIFO, deque, sliding-window maximum.", "Use queues/deques for order and windows.", "FIFO structure; a deque allows both ends. The sliding-window maximum uses a monotonic deque.", ["FIFO", "Deque", "Monotonic deque"]),
   stub("hashing", "Hashing", "p7", "Hash maps/sets for O(1) lookup, frequency, dedup.", "Trade space for O(1) average lookups.", "Hash maps give average O(1) insert/lookup — the go-to for counting, dedup, and complement search.", ["Hash map/set", "Collisions", "Frequency counting"]),
@@ -299,7 +297,6 @@ const STUB_TOPICS: Topic[] = [
   stub("graphs", "Graphs", "p9", "Representations, BFS/DFS, topological sort, shortest paths.", "Model and traverse graphs.", "Adjacency list is the default. BFS finds shortest paths in unweighted graphs; topological sort orders a DAG; Dijkstra handles weights.", ["Adjacency list", "BFS/DFS", "Topological sort", "Dijkstra"]),
   stub("greedy", "Greedy", "p10", "Locally optimal choices that prove globally optimal.", "Recognize when greedy works (and prove it).", "Make the best local choice (e.g. earliest finish time). Greedy needs an exchange-argument proof — it doesn't always work.", ["Exchange argument", "Sorting + greedy", "Interval scheduling"]),
   stub("bit-manipulation", "Bit Manipulation", "p10", "AND/OR/XOR tricks, set bits, power-of-two checks.", "Manipulate numbers at the bit level.", "XOR cancels pairs (find the unique number); `x & (x-1)` clears the lowest set bit; `x & -x` isolates it.", ["XOR tricks", "Bitmask", "Set/clear bits"]),
-  stub("dp", "Dynamic Programming", "p11", "Memoization, tabulation, classic 1-D/2-D patterns.", "Solve overlapping-subproblem problems efficiently.", "DP = recursion + caching. Identify the state, the transition, and the base case; then memoize (top-down) or tabulate (bottom-up).", ["State & transition", "Memoization", "Tabulation"]),
   stub("advanced-dp", "Advanced DP", "p11", "Knapsack variants, DP on subsequences, intervals, bitmask DP.", "Tackle multi-dimensional DP.", "Patterns: 0/1 knapsack, LIS/LCS on subsequences, interval DP (MCM), and bitmask DP for small n.", ["Knapsack", "LCS/LIS", "Bitmask DP"]),
   stub("segment-tree", "Segment Tree", "p12", "Range queries + point/range updates in O(log n).", "Answer range queries with updates.", "A segment tree supports range sum/min/max with point updates in O(log n); lazy propagation enables range updates.", ["Range query", "Point update", "Lazy propagation"]),
   stub("fenwick", "Fenwick Tree (BIT)", "p12", "Prefix sums with updates in O(log n) — compact.", "Use a BIT for prefix-sum-with-updates.", "A Fenwick tree gives O(log n) prefix sums and point updates with very little code — great for inversion counts.", ["Prefix sums", "Point update", "Inversion count"]),
@@ -433,7 +430,65 @@ const FUNDAMENTALS: Topic[] = [
   },
 ];
 
-export const TOPICS_ALL: Topic[] = [...TOPICS, ...FUNDAMENTALS, ...STUB_TOPICS];
+// Core interview topics — fully fleshed (lesson + C++ question banks).
+const MORE_TOPICS: Topic[] = [
+  {
+    id: "searching-sorting", name: "Searching & Sorting", phaseId: "p5",
+    blurb: "Binary search and the classic sorts + when to use each.",
+    lesson: {
+      objective: "Apply binary search (incl. 'search on the answer') and pick the right sort.",
+      explanation: "**Binary search** needs sorted data and runs O(log n): repeatedly halve the range. The mid-computation `lo + (hi-lo)/2` avoids overflow. Know **merge/quick sort** (O(n log n)). A powerful pattern is **binary search on the answer**: binary-search the result value when checking feasibility is monotonic.",
+      keyConcepts: ["Binary search", "Lower/upper bound", "Merge/Quick sort", "Search on the answer"],
+      interviewNotes: ["Confirm the array is sorted before using binary search.", "`lower_bound`/`upper_bound` in C++ STL solve many variants."],
+      commonMistakes: ["Infinite loop from wrong `lo`/`hi` update.", "Overflow in `(lo+hi)/2`."],
+      timeComplexity: "Search O(log n); sort O(n log n)", spaceComplexity: "O(1)–O(n)",
+      intuition: "Guessing a number 1–100: each guess halves what's left.",
+    },
+    questions: [
+      { id: "ss-q1", title: "Binary Search", difficulty: "Easy", statement: "Return the index of target in a sorted array, or -1.", concepts: ["Binary search"], hint: "Maintain [lo,hi]; compare with a[mid].", timeComplexity: "O(log n)", spaceComplexity: "O(1)", solution: cpp(`int bsearch(vector<int>& a,int t){\n  int lo=0, hi=a.size()-1;\n  while(lo<=hi){\n    int mid=lo+(hi-lo)/2;\n    if(a[mid]==t) return mid;\n    if(a[mid]<t) lo=mid+1; else hi=mid-1;\n  }\n  return -1;\n}`) },
+      { id: "ss-q2", title: "Search in Rotated Sorted Array", difficulty: "Medium", statement: "Search target in a rotated sorted array in O(log n).", concepts: ["Binary search", "Halves"], hint: "One half is always sorted — decide which, then narrow.", timeComplexity: "O(log n)", spaceComplexity: "O(1)", similar: ["Find Minimum in Rotated Array"], solution: cpp(`int search(vector<int>& a,int t){\n  int lo=0, hi=a.size()-1;\n  while(lo<=hi){\n    int mid=lo+(hi-lo)/2;\n    if(a[mid]==t) return mid;\n    if(a[lo]<=a[mid]){            // left half sorted\n      if(a[lo]<=t && t<a[mid]) hi=mid-1; else lo=mid+1;\n    } else {                      // right half sorted\n      if(a[mid]<t && t<=a[hi]) lo=mid+1; else hi=mid-1;\n    }\n  }\n  return -1;\n}`) },
+      { id: "ss-q3", title: "Koko Eating Bananas", difficulty: "Medium", statement: "Min eating speed k so all piles finish within h hours.", concepts: ["Binary search on answer"], hint: "Binary-search k; feasibility (hours needed) decreases as k grows.", timeComplexity: "O(n log max)", spaceComplexity: "O(1)", solution: cpp(`int minSpeed(vector<int>& p,int h){\n  int lo=1, hi=*max_element(p.begin(),p.end());\n  while(lo<hi){\n    int k=lo+(hi-lo)/2; long need=0;\n    for(int x:p) need+=(x+k-1)/k;   // ceil\n    if(need<=h) hi=k; else lo=k+1;\n  }\n  return lo;\n}`) },
+    ],
+  },
+  {
+    id: "linked-list", name: "Linked List", phaseId: "p6",
+    blurb: "Pointers, reversal, fast/slow pointers, cycle detection.",
+    lesson: {
+      objective: "Manipulate nodes safely with pointers, dummy heads, and fast/slow pointers.",
+      explanation: "A node holds a value and a **pointer to the next** node. A **dummy head** simplifies insert/delete at the front. **Fast/slow pointers** (one moves 2×) find the middle and detect cycles. Reversal re-points each `next` backward as you walk.",
+      keyConcepts: ["Dummy node", "Fast/slow pointers", "In-place reversal", "Cycle detection"],
+      interviewNotes: ["Draw the pointers before coding — off-by-one node errors are common.", "A dummy head removes most edge cases."],
+      commonMistakes: ["Losing the rest of the list by overwriting `next` too early.", "Null-deref at the tail."],
+      timeComplexity: "O(n)", spaceComplexity: "O(1)",
+      intuition: "A treasure hunt: each clue points to the next location.",
+    },
+    questions: [
+      { id: "ll-q1", title: "Reverse a Linked List", difficulty: "Easy", statement: "Reverse a singly linked list and return the new head.", concepts: ["Pointer rewiring"], hint: "Track prev/cur/next; flip cur->next to prev.", timeComplexity: "O(n)", spaceComplexity: "O(1)", similar: ["Reverse in groups of k"], solution: cpp(`ListNode* reverse(ListNode* head){\n  ListNode* prev=nullptr;\n  while(head){ ListNode* nxt=head->next; head->next=prev; prev=head; head=nxt; }\n  return prev;\n}`) },
+      { id: "ll-q2", title: "Linked List Cycle", difficulty: "Easy", statement: "Detect whether the list has a cycle.", concepts: ["Floyd's fast/slow"], hint: "If fast meets slow, there's a cycle.", timeComplexity: "O(n)", spaceComplexity: "O(1)", solution: cpp(`bool hasCycle(ListNode* head){\n  ListNode *slow=head,*fast=head;\n  while(fast && fast->next){\n    slow=slow->next; fast=fast->next->next;\n    if(slow==fast) return true;\n  }\n  return false;\n}`) },
+      { id: "ll-q3", title: "Merge Two Sorted Lists", difficulty: "Medium", statement: "Merge two sorted lists into one sorted list.", concepts: ["Dummy head", "Two pointers"], hint: "Use a dummy node; attach the smaller head each step.", timeComplexity: "O(n+m)", spaceComplexity: "O(1)", solution: cpp(`ListNode* merge(ListNode* a,ListNode* b){\n  ListNode dummy(0), *t=&dummy;\n  while(a && b){\n    if(a->val<=b->val){ t->next=a; a=a->next; }\n    else { t->next=b; b=b->next; }\n    t=t->next;\n  }\n  t->next = a ? a : b;\n  return dummy.next;\n}`) },
+    ],
+  },
+  {
+    id: "dp", name: "Dynamic Programming", phaseId: "p11",
+    blurb: "Memoization, tabulation, classic 1-D/2-D patterns.",
+    lesson: {
+      objective: "Recognize overlapping subproblems and solve them with memoization or tabulation.",
+      explanation: "**DP = recursion + caching.** Find the *state* (what uniquely describes a subproblem), the *transition* (how states combine), and the *base case*. **Top-down** memoizes a recursion; **bottom-up** fills a table. Most 1-D DP depends on the previous one or two states.",
+      keyConcepts: ["State & transition", "Memoization (top-down)", "Tabulation (bottom-up)", "Space optimization"],
+      interviewNotes: ["Always write the recurrence first, then add caching.", "Many 1-D DPs need only O(1) rolling variables."],
+      commonMistakes: ["Wrong/missing base case.", "Iterating the table in the wrong order."],
+      timeComplexity: "O(states · transition)", spaceComplexity: "O(states) → often O(1)",
+      intuition: "Don't solve the same subproblem twice — write the answer down the first time.",
+    },
+    questions: [
+      { id: "dp-q1", title: "Climbing Stairs", difficulty: "Easy", statement: "How many distinct ways to climb n stairs taking 1 or 2 steps?", concepts: ["1-D DP", "Fibonacci"], hint: "ways(n) = ways(n-1) + ways(n-2).", timeComplexity: "O(n)", spaceComplexity: "O(1)", solution: cpp(`int climbStairs(int n){\n  int a=1,b=1;\n  for(int i=2;i<=n;i++){ int c=a+b; a=b; b=c; }\n  return b;\n}`) },
+      { id: "dp-q2", title: "House Robber", difficulty: "Medium", statement: "Max sum of non-adjacent elements.", concepts: ["1-D DP", "Take/skip"], hint: "dp[i] = max(skip dp[i-1], take a[i]+dp[i-2]).", timeComplexity: "O(n)", spaceComplexity: "O(1)", similar: ["House Robber II"], solution: cpp(`int rob(vector<int>& a){\n  int prev=0, cur=0;\n  for(int x:a){ int t=max(cur, prev+x); prev=cur; cur=t; }\n  return cur;\n}`) },
+      { id: "dp-q3", title: "Longest Common Subsequence", difficulty: "Hard", statement: "Length of the LCS of strings a and b.", concepts: ["2-D DP"], hint: "If chars match, 1+diag; else max(up, left).", timeComplexity: "O(n·m)", spaceComplexity: "O(n·m)", similar: ["Edit Distance", "LIS"], solution: cpp(`int lcs(string a,string b){\n  int n=a.size(), m=b.size();\n  vector<vector<int>> dp(n+1, vector<int>(m+1,0));\n  for(int i=1;i<=n;i++)\n    for(int j=1;j<=m;j++)\n      dp[i][j] = a[i-1]==b[j-1] ? dp[i-1][j-1]+1 : max(dp[i-1][j], dp[i][j-1]);\n  return dp[n][m];\n}`) },
+    ],
+  },
+];
+
+export const TOPICS_ALL: Topic[] = [...TOPICS, ...FUNDAMENTALS, ...MORE_TOPICS, ...STUB_TOPICS];
 
 // ── PHASES (ordered) ────────────────────────────────────────────────────────
 export const PHASES: Phase[] = [

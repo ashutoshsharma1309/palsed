@@ -8,29 +8,29 @@ import { useAuth } from "../../hooks/useAuth";
 import { ThemeToggle } from "../ui/ThemeToggle";
 import { LogoLockup } from "../ui/Logo";
 
-// Primary nav — placement-prep-first. 7 items + 1 dropdown.
-// Anything not directly used in the daily placement workflow has been moved
-// to the "Prep" dropdown or the avatar menu.
+// Primary nav — learning-first (DSA Learning OS). Daily loop:
+// Dashboard (roadmap + streak) → DSA Practice → Review. Everything else lives
+// one click deeper in the "Prep" dropdown or the avatar menu.
 const PRIMARY = [
   { to: "/dashboard", label: "Dashboard" },
-  { to: "/companies", label: "Companies" },
-  { to: "/pyq", label: "PYQs" },
-  { to: "/oa", label: "Mock OA" },
-  { to: "/applications", label: "My Apps" },
-  { to: "/resume-roast", label: "Resume" },
+  { to: "/dsa", label: "DSA Practice" },
   { to: "/review", label: "Review", badge: "due" as const },
 ];
 
-// "Prep" dropdown — deeper subject-area study.
+// "Prep" dropdown — deeper study (learning first) + placement tools.
 const PREP_LINKS = [
-  { to: "/roadmap", label: "Roadmap", desc: "Role-based career roadmaps" },
-  { to: "/hackathon", label: "Hackathon Guide", desc: "First hackathon → winning" },
-  { to: "/dsa", label: "DSA Tracker", desc: "450+ problems, company-tagged" },
+  { to: "/dsa", label: "DSA Practice Hub", desc: "Curated problems + solutions" },
   { to: "/system-design", label: "System Design", desc: "URL shortener, chat, etc." },
   { to: "/core-cs", label: "Core CS", desc: "OS · DBMS · Networks" },
   { to: "/aptitude", label: "Aptitude", desc: "Quantitative + verbal" },
   { to: "/interview-resources", label: "Interview Resources", desc: "Books, courses, sheets" },
-  { to: "/internships", label: "Internship Feed", desc: "Off-campus drives + boards" },
+  { to: "/hackathon", label: "Hackathon Guide", desc: "First hackathon → winning" },
+  { to: "/companies", label: "Companies", desc: "Recruiter map (placement)" },
+  { to: "/pyq", label: "PYQs", desc: "Previous-year questions" },
+  { to: "/oa", label: "Mock OA", desc: "Timed assessments" },
+  { to: "/applications", label: "My Applications", desc: "Kanban tracker" },
+  { to: "/resume-roast", label: "Resume Roast", desc: "ATS feedback" },
+  { to: "/internships", label: "Internship Feed", desc: "Off-campus drives" },
   { to: "/placement-hub", label: "Placement Hub", desc: "All-in-one timeline" },
 ];
 
