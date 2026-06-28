@@ -50,8 +50,13 @@ export function QuestionCard({ q }: { q: Question }) {
             ))}
           </div>
 
+          {/* Nudge: solve it yourself before revealing */}
+          <p className="text-[12px] text-[var(--color-text-faint)] mt-3 flex items-center gap-1.5">
+            <span aria-hidden>✍️</span> Try writing your own solution first — then check yourself with the hint or solution below.
+          </p>
+
           {/* Actions */}
-          <div className="flex flex-wrap gap-2 mt-3">
+          <div className="flex flex-wrap gap-2 mt-2">
             <button
               onClick={() => setShowHint((v) => !v)}
               className="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full border border-[var(--color-line)] text-[var(--color-text-dim)] hover:text-[var(--color-text)] hover:border-[var(--color-neon)]/50"

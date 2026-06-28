@@ -285,15 +285,7 @@ function stub(id: string, name: string, phaseId: string, blurb: string, objectiv
 }
 
 const STUB_TOPICS: Topic[] = [
-  // Phase 1 remainder
-  stub("io", "Input / Output", "p1", "Reading input and printing output in C++ (cin/cout, fast IO).", "Read input and print output reliably.", "C++ uses `cin >> x` to read and `cout << x` to print. For large inputs, add `ios::sync_with_stdio(false); cin.tie(0);` for fast IO.", ["cin / cout", "Fast IO", "Reading until EOF"]),
-  stub("variables", "Variables & Data Types", "p1", "int, long long, double, char, bool and their ranges.", "Pick the right type and avoid overflow.", "Choose `int` for ≤2·10⁹, `long long` beyond that, `double` for decimals. Overflow is silent — size your types to the constraints.", ["Integer ranges", "Overflow", "Type casting"]),
-  stub("operators", "Operators", "p1", "Arithmetic, relational, logical and bitwise operators.", "Use operators (incl. modulo & bitwise) correctly.", "Beyond +−×÷, `%` (modulo) and bitwise `& | ^ << >>` are interview staples. Modulo of negatives can be negative in C++.", ["Modulo", "Logical vs bitwise", "Precedence"]),
-  stub("conditions", "Conditions", "p1", "if / else / switch and clean branching.", "Write correct, readable branching logic.", "Order conditions from most specific to least (e.g. %15 before %3). Prefer early returns over deep nesting.", ["if/else/switch", "Early return", "Boolean logic"]),
-  stub("functions", "Functions & Recursion Intro", "p1", "Parameters, return values, pass-by-reference, scope.", "Decompose code into reusable functions.", "Pass large objects by `const&` to avoid copies. A function that calls itself is recursion — every recursion needs a base case.", ["Pass by value/ref", "Scope", "Base case"]),
-  stub("basic-math", "Basic Mathematics", "p1", "GCD, primes, factors, modular arithmetic.", "Apply number-theory basics used across DSA.", "Know the Euclidean GCD, the sieve for primes up to n, and `(a·b)%m` to avoid overflow. These recur in many problems.", ["GCD (Euclid)", "Sieve of Eratosthenes", "Modular arithmetic"]),
-  // Phase 4+
-  stub("recursion", "Recursion", "p4", "Base cases, the call stack, and recursion trees.", "Solve problems by reducing them to smaller subproblems.", "Define a base case, then assume the function works for smaller inputs and combine. The call stack uses O(depth) memory.", ["Base case", "Recursion tree", "Stack depth"]),
+  // Phase 4+ (advanced topics — concise lessons; question banks fill in as data)
   stub("backtracking", "Backtracking", "p4", "Choose → explore → un-choose: subsets, permutations, N-Queens.", "Enumerate possibilities with pruning.", "Try a choice, recurse, then undo it (backtrack). Prune branches that can't lead to a solution.", ["Choose/un-choose", "Pruning", "State restoration"]),
   stub("searching-sorting", "Searching & Sorting", "p5", "Binary search and the classic sorts + when to use each.", "Use binary search and pick the right sort.", "Binary search needs sorted data and runs O(log n). Know merge/quick sort (O(n log n)) and 'binary search on the answer'.", ["Binary search", "Merge/Quick sort", "Search on answer"]),
   stub("linked-list", "Linked List", "p6", "Pointers, reversal, fast/slow pointers, cycle detection.", "Manipulate nodes with pointers safely.", "A node holds a value + a pointer to the next. Use a dummy head to simplify edge cases and fast/slow pointers for cycles/middle.", ["Dummy node", "Fast/slow pointers", "Reversal"]),
@@ -317,7 +309,131 @@ const STUB_TOPICS: Topic[] = [
   stub("mock-interview", "Mock Interview Prep", "p13", "Simulate the real thing: think aloud, edge cases, complexity.", "Practice the interview format itself.", "Practice: clarify → brute force → optimize → code → test → state complexity. Time yourself to 30–40 minutes.", ["Think aloud", "Edge cases", "Time management"]),
 ];
 
-export const TOPICS_ALL: Topic[] = [...TOPICS, ...STUB_TOPICS];
+// Phase 1 fundamentals + Recursion — fully fleshed: lesson + Easy/Medium
+// questions with C++ solutions (collapsed until the learner reveals them).
+const FUNDAMENTALS: Topic[] = [
+  {
+    id: "io", name: "Input / Output", phaseId: "p1",
+    blurb: "Reading input and printing output in C++ (cin/cout, fast IO).",
+    lesson: {
+      objective: "Read input and print output reliably in C++.",
+      explanation: "`cin >> x` reads (skipping whitespace) and `cout << x` prints. For big inputs add `ios::sync_with_stdio(false); cin.tie(0);` for **fast IO**. Use `'\\n'` instead of `endl` to avoid slow flushes.",
+      keyConcepts: ["cin / cout", "Fast IO", "Reading until EOF"],
+      interviewNotes: ["Add fast IO once n ≥ 10⁵.", "`cin >> x` returns false at EOF — loop on it."],
+      commonMistakes: ["Mixing `cin >>` and `getline` without clearing the newline.", "Using `endl` in tight loops (flushes every time)."],
+      timeComplexity: "O(n) to read n items", spaceComplexity: "O(1)",
+    },
+    questions: [
+      { id: "io-q1", title: "Sum of Two Numbers", difficulty: "Easy", statement: "Read two integers a and b; print a + b.", concepts: ["cin/cout"], hint: "Read into two ints, print their sum.", timeComplexity: "O(1)", spaceComplexity: "O(1)", solution: cpp(`int main(){\n  long long a,b; cin>>a>>b;\n  cout<<a+b<<'\\n';\n}`) },
+      { id: "io-q2", title: "Sum of N Numbers", difficulty: "Easy", statement: "Read n, then n integers; print their sum.", concepts: ["Loop", "Accumulate"], hint: "Loop n times adding each into a running total (use long long).", timeComplexity: "O(n)", spaceComplexity: "O(1)", solution: cpp(`int main(){\n  int n; cin>>n;\n  long long s=0,x;\n  for(int i=0;i<n;i++){ cin>>x; s+=x; }\n  cout<<s<<'\\n';\n}`) },
+      { id: "io-q3", title: "Read Until EOF", difficulty: "Medium", statement: "Read integers until end-of-input; print how many there were and their sum.", concepts: ["EOF loop"], hint: "`while(cin>>x)` is false at EOF.", timeComplexity: "O(n)", spaceComplexity: "O(1)", solution: cpp(`int main(){\n  long long x,s=0; int cnt=0;\n  while(cin>>x){ s+=x; cnt++; }\n  cout<<cnt<<' '<<s<<'\\n';\n}`) },
+    ],
+  },
+  {
+    id: "variables", name: "Variables & Data Types", phaseId: "p1",
+    blurb: "int, long long, double, char, bool and their ranges.",
+    lesson: {
+      objective: "Pick the right type and avoid silent overflow.",
+      explanation: "Use `int` for values ≤ ~2·10⁹, `long long` beyond that (up to ~9·10¹⁸), `double` for decimals, `char` for single characters. **Overflow is silent** in C++ — size types to the constraints before you compute.",
+      keyConcepts: ["Integer ranges", "Overflow", "Type casting"],
+      interviewNotes: ["A sum/product of ints can overflow even if each fits — promote to `long long`.", "Compare doubles with an epsilon, not `==`."],
+      commonMistakes: ["`int` overflow on `a*b`.", "Integer division `5/2 == 2` (cast to double for 2.5)."],
+      timeComplexity: "O(1)", spaceComplexity: "O(1)",
+    },
+    questions: [
+      { id: "var-q1", title: "Swap Without a Temp", difficulty: "Easy", statement: "Swap two integers a and b without using a third variable.", concepts: ["Arithmetic/XOR"], hint: "a^=b; b^=a; a^=b; — or use sums.", timeComplexity: "O(1)", spaceComplexity: "O(1)", solution: cpp(`void swapNoTemp(int& a,int& b){\n  a^=b; b^=a; a^=b;   // XOR swap\n}`) },
+      { id: "var-q2", title: "Seconds to HH:MM:SS", difficulty: "Easy", statement: "Given total seconds, print hours, minutes, seconds.", concepts: ["Integer division", "Modulo"], hint: "h=s/3600; m=(s%3600)/60; sec=s%60.", timeComplexity: "O(1)", spaceComplexity: "O(1)", solution: cpp(`void toHMS(int s){\n  int h=s/3600, m=(s%3600)/60, sec=s%60;\n  cout<<h<<":"<<m<<":"<<sec<<'\\n';\n}`) },
+      { id: "var-q3", title: "Overflow-Safe Sum", difficulty: "Medium", statement: "Two ints near INT_MAX — return their true sum without overflow.", concepts: ["long long"], hint: "Promote operands to long long before adding.", timeComplexity: "O(1)", spaceComplexity: "O(1)", solution: cpp(`long long safeSum(int a,int b){\n  return (long long)a + b;  // promote BEFORE adding\n}`) },
+    ],
+  },
+  {
+    id: "operators", name: "Operators", phaseId: "p1",
+    blurb: "Arithmetic, relational, logical and bitwise operators.",
+    lesson: {
+      objective: "Use operators correctly, including modulo and bitwise.",
+      explanation: "Beyond `+ − × ÷`, `%` (modulo) gives the remainder and bitwise `& | ^ << >>` operate on bits. **Modulo of a negative** can be negative in C++. Bit tricks: `x<<1` doubles, `x>>1` halves, `x&1` tests the last bit.",
+      keyConcepts: ["Modulo", "Logical vs bitwise", "Precedence"],
+      interviewNotes: ["`x & 1` is a fast even/odd test.", "Use parentheses — bitwise has low precedence."],
+      commonMistakes: ["Confusing `&&` (logical) with `&` (bitwise).", "Assuming `-7 % 3` is positive."],
+      timeComplexity: "O(1)", spaceComplexity: "O(1)",
+    },
+    questions: [
+      { id: "op-q1", title: "Even or Odd", difficulty: "Easy", statement: "Return true if n is even.", concepts: ["Bitwise/Modulo"], hint: "`(n & 1) == 0`.", timeComplexity: "O(1)", spaceComplexity: "O(1)", solution: cpp(`bool isEven(int n){ return (n & 1) == 0; }`) },
+      { id: "op-q2", title: "First & Last Digit", difficulty: "Easy", statement: "Print the first and last digit of a positive integer n.", concepts: ["Modulo", "Loop"], hint: "Last = n%10; divide by 10 until one digit remains for first.", timeComplexity: "O(log n)", spaceComplexity: "O(1)", solution: cpp(`void firstLast(int n){\n  int last=n%10;\n  while(n>=10) n/=10;\n  cout<<n<<' '<<last<<'\\n'; // first last\n}`) },
+      { id: "op-q3", title: "Power of Two", difficulty: "Medium", statement: "Return true if n is a power of two.", concepts: ["Bit trick"], hint: "A power of two has exactly one set bit: `n>0 && (n&(n-1))==0`.", timeComplexity: "O(1)", spaceComplexity: "O(1)", similar: ["Count set bits"], solution: cpp(`bool isPowerOfTwo(long long n){\n  return n>0 && (n & (n-1))==0;\n}`) },
+    ],
+  },
+  {
+    id: "conditions", name: "Conditions", phaseId: "p1",
+    blurb: "if / else / switch and clean branching.",
+    lesson: {
+      objective: "Write correct, readable branching logic.",
+      explanation: "`if/else` and `switch` choose a path. Order checks **most-specific first** (e.g. check %15 before %3). Prefer **early returns** over deep nesting to keep code flat and readable.",
+      keyConcepts: ["if/else/switch", "Early return", "Boolean logic"],
+      interviewNotes: ["Handle edge cases (empty, equal, negative) explicitly.", "Combine conditions with `&&`/`||` and parentheses."],
+      commonMistakes: ["Falling through a `switch` (missing `break`).", "Wrong order of overlapping conditions."],
+      timeComplexity: "O(1)", spaceComplexity: "O(1)",
+    },
+    questions: [
+      { id: "cond-q1", title: "Largest of Three", difficulty: "Easy", statement: "Return the maximum of three integers.", concepts: ["Comparison"], hint: "`max(a, max(b, c))`.", timeComplexity: "O(1)", spaceComplexity: "O(1)", solution: cpp(`int largest3(int a,int b,int c){\n  return max(a, max(b, c));\n}`) },
+      { id: "cond-q2", title: "Leap Year", difficulty: "Easy", statement: "Return true if year y is a leap year.", concepts: ["Modulo logic"], hint: "Divisible by 4 and (not by 100, or by 400).", timeComplexity: "O(1)", spaceComplexity: "O(1)", solution: cpp(`bool isLeap(int y){\n  return (y%4==0 && y%100!=0) || (y%400==0);\n}`) },
+      { id: "cond-q3", title: "Marks to Grade", difficulty: "Medium", statement: "Map a mark 0–100 to a grade (A ≥90, B ≥75, C ≥60, D ≥40, else F).", concepts: ["Ordered branching"], hint: "Check the highest threshold first and return early.", timeComplexity: "O(1)", spaceComplexity: "O(1)", solution: cpp(`char grade(int m){\n  if(m>=90) return 'A';\n  if(m>=75) return 'B';\n  if(m>=60) return 'C';\n  if(m>=40) return 'D';\n  return 'F';\n}`) },
+    ],
+  },
+  {
+    id: "functions", name: "Functions & Recursion Intro", phaseId: "p1",
+    blurb: "Parameters, return values, pass-by-reference, scope.",
+    lesson: {
+      objective: "Decompose code into small reusable functions.",
+      explanation: "A function takes parameters and returns a value. Pass large objects by `const&` to avoid copies; pass by `&` to modify the caller's variable. A function that calls itself is **recursion** — every recursion needs a **base case**.",
+      keyConcepts: ["Pass by value/ref", "Scope", "Base case"],
+      interviewNotes: ["Prefer pure functions (no side effects) — easier to test.", "Recursion depth = stack memory."],
+      commonMistakes: ["Recursion with no base case (stack overflow).", "Modifying a copy and expecting the original to change."],
+      timeComplexity: "depends", spaceComplexity: "O(depth) for recursion",
+    },
+    questions: [
+      { id: "fn-q1", title: "Factorial (iterative)", difficulty: "Easy", statement: "Return n! for n ≥ 0.", concepts: ["Loop"], hint: "Multiply 1..n into a long long.", timeComplexity: "O(n)", spaceComplexity: "O(1)", solution: cpp(`long long factorial(int n){\n  long long f=1;\n  for(int i=2;i<=n;i++) f*=i;\n  return f;\n}`) },
+      { id: "fn-q2", title: "Is Prime", difficulty: "Easy", statement: "Return true if n is prime.", concepts: ["Trial division"], hint: "Only check divisors up to √n.", timeComplexity: "O(√n)", spaceComplexity: "O(1)", solution: cpp(`bool isPrime(int n){\n  if(n<2) return false;\n  for(long long i=2;i*i<=n;i++)\n    if(n%i==0) return false;\n  return true;\n}`) },
+      { id: "fn-q3", title: "Power a^b (fast)", difficulty: "Medium", statement: "Compute a^b efficiently.", concepts: ["Binary exponentiation"], hint: "Square the base, halve the exponent.", timeComplexity: "O(log b)", spaceComplexity: "O(1)", similar: ["Modular exponentiation"], solution: cpp(`long long power(long long a,long long b){\n  long long r=1;\n  while(b>0){ if(b&1) r*=a; a*=a; b>>=1; }\n  return r;\n}`) },
+    ],
+  },
+  {
+    id: "basic-math", name: "Basic Mathematics", phaseId: "p1",
+    blurb: "GCD, primes, factors, modular arithmetic.",
+    lesson: {
+      objective: "Apply the number-theory basics that recur across DSA.",
+      explanation: "Know the **Euclidean GCD**, the **Sieve of Eratosthenes** (all primes ≤ n in ~O(n log log n)), and modular arithmetic `(a·b)%m` to avoid overflow. These show up in countless problems.",
+      keyConcepts: ["GCD (Euclid)", "Sieve of Eratosthenes", "Modular arithmetic"],
+      interviewNotes: ["`lcm(a,b) = a/gcd(a,b)*b` (divide first to avoid overflow).", "Take a `long long` product before `%m`."],
+      commonMistakes: ["Sieving up to n but forgetting i·i ≤ n bound.", "Overflow in `a*b` before the modulo."],
+      timeComplexity: "GCD O(log min)", spaceComplexity: "Sieve O(n)",
+    },
+    questions: [
+      { id: "math-q1", title: "GCD (Euclid)", difficulty: "Easy", statement: "Return gcd(a, b).", concepts: ["Euclid"], hint: "gcd(a,b) = gcd(b, a%b); base case b==0.", timeComplexity: "O(log min)", spaceComplexity: "O(1)", solution: cpp(`int gcd(int a,int b){\n  while(b){ a%=b; swap(a,b); }\n  return a;\n}`) },
+      { id: "math-q2", title: "Count Digits", difficulty: "Easy", statement: "Count the digits in a positive integer n.", concepts: ["Loop", "Division"], hint: "Divide by 10 until 0, counting steps.", timeComplexity: "O(log n)", spaceComplexity: "O(1)", solution: cpp(`int countDigits(long long n){\n  int c=0;\n  while(n){ c++; n/=10; }\n  return c?c:1;\n}`) },
+      { id: "math-q3", title: "Sieve of Eratosthenes", difficulty: "Medium", statement: "Return all primes ≤ n.", concepts: ["Sieve"], hint: "Mark multiples of each prime starting at i·i.", timeComplexity: "O(n log log n)", spaceComplexity: "O(n)", similar: ["Count primes"], solution: cpp(`vector<int> primesUpto(int n){\n  vector<bool> isP(n+1,true); isP[0]=isP[1]=false;\n  for(long long i=2;i*i<=n;i++)\n    if(isP[i]) for(long long j=i*i;j<=n;j+=i) isP[j]=false;\n  vector<int> res;\n  for(int i=2;i<=n;i++) if(isP[i]) res.push_back(i);\n  return res;\n}`) },
+    ],
+  },
+  {
+    id: "recursion", name: "Recursion", phaseId: "p4",
+    blurb: "Base cases, the call stack, and recursion trees.",
+    lesson: {
+      objective: "Solve problems by reducing them to smaller subproblems.",
+      explanation: "Define a **base case**, then assume the function already works for smaller inputs and combine the results. Each call adds a frame to the **call stack**, so recursion uses O(depth) memory. Draw the **recursion tree** to find the time complexity.",
+      keyConcepts: ["Base case", "Recursion tree", "Stack depth"],
+      interviewNotes: ["Every recursion = base case + recursive case.", "Overlapping subproblems → add memoization (that's DP)."],
+      commonMistakes: ["Missing/incorrect base case (infinite recursion).", "Recomputing the same subproblem exponentially (e.g. naive Fibonacci)."],
+      timeComplexity: "depends on the tree", spaceComplexity: "O(depth)",
+    },
+    questions: [
+      { id: "rec-q1", title: "Sum 1..n (recursive)", difficulty: "Easy", statement: "Return 1 + 2 + … + n using recursion.", concepts: ["Base case"], hint: "sum(n) = n + sum(n-1); base sum(0)=0.", timeComplexity: "O(n)", spaceComplexity: "O(n)", solution: cpp(`long long sumN(int n){\n  if(n==0) return 0;\n  return n + sumN(n-1);\n}`) },
+      { id: "rec-q2", title: "Reverse a String (recursive)", difficulty: "Easy", statement: "Reverse string s in place using recursion / two pointers.", concepts: ["Two pointers", "Recursion"], hint: "Swap ends, recurse inward until l>=r.", timeComplexity: "O(n)", spaceComplexity: "O(n) stack", solution: cpp(`void rev(string& s,int l,int r){\n  if(l>=r) return;\n  swap(s[l],s[r]);\n  rev(s,l+1,r-1);\n}`) },
+      { id: "rec-q3", title: "All Subsets", difficulty: "Medium", statement: "Generate all 2ⁿ subsets of an array.", concepts: ["Backtracking", "Choose/skip"], hint: "At each index, branch: include it or not.", timeComplexity: "O(2ⁿ·n)", spaceComplexity: "O(n) depth", similar: ["Permutations", "Combination Sum"], solution: cpp(`void gen(vector<int>& a,int i,vector<int>& cur,vector<vector<int>>& out){\n  if(i==a.size()){ out.push_back(cur); return; }\n  gen(a,i+1,cur,out);          // skip\n  cur.push_back(a[i]);\n  gen(a,i+1,cur,out);          // include\n  cur.pop_back();\n}`) },
+    ],
+  },
+];
+
+export const TOPICS_ALL: Topic[] = [...TOPICS, ...FUNDAMENTALS, ...STUB_TOPICS];
 
 // ── PHASES (ordered) ────────────────────────────────────────────────────────
 export const PHASES: Phase[] = [

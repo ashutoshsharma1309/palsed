@@ -38,13 +38,13 @@ function DayCell({ cell, state, logged }: { cell: MonthCell; state: DayState; lo
 
 function StreakStat({ icon, label, value }: { icon: React.ReactNode; label: string; value: number }) {
   return (
-    <div className="rounded-xl border border-[var(--color-line)] bg-[var(--color-card-soft)] p-3">
-      <div className="flex items-center gap-1.5 mb-1.5 text-[var(--color-neon)]">
-        {icon}
+    <div className="rounded-xl border border-[var(--color-line)] bg-[var(--color-card-soft)] p-4">
+      <div className="flex items-center gap-2 mb-2">
+        <span className="w-8 h-8 rounded-lg bg-[var(--color-neon)]/10 grid place-items-center text-[var(--color-neon)]">{icon}</span>
         <div className="mono text-[10px] uppercase tracking-widest text-[var(--color-text-faint)]">{label}</div>
       </div>
-      <div className="display text-3xl leading-none">
-        {value}<span className="text-xs text-[var(--color-text-faint)] ml-1">{value === 1 ? "day" : "days"}</span>
+      <div className="display text-4xl leading-none">
+        {value}<span className="text-sm text-[var(--color-text-faint)] ml-1.5">{value === 1 ? "day" : "days"}</span>
       </div>
     </div>
   );
@@ -114,10 +114,10 @@ export function DailyStreakCard() {
           </div>
         </div>
 
-        {/* Streak stats — below the calendar in the sidebar */}
-        <div className="grid grid-cols-2 gap-3 mt-5">
-          <StreakStat icon={<Flame className="w-5 h-5" />} label="Current" value={currentStreak} />
-          <StreakStat icon={<Trophy className="w-5 h-5" />} label="Best" value={bestStreak} />
+        {/* Streak stats — prominent, directly below the calendar */}
+        <div className="grid grid-cols-2 gap-3 mt-5 pt-5 border-t border-[var(--color-line)]">
+          <StreakStat icon={<Flame className="w-4 h-4" />} label="Current" value={currentStreak} />
+          <StreakStat icon={<Trophy className="w-4 h-4" />} label="Best" value={bestStreak} />
         </div>
       </div>
     </Card>
