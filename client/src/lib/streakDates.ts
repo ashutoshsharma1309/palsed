@@ -56,21 +56,28 @@ export interface MonthCell {
 }
 
 /**
- * Calendar cells for a given month. Returns weekday labels, the number of
- * leading blanks before day 1 (Sun-first), and the day cells.
+ * Calendar cells for a given month. Returns weekday labels (Monday-first), the
+ * number of leading blanks before day 1, and the day cells.
  */
 export function monthGrid(year: number, month /* 0-based */: number) {
   const first = new Date(year, month, 1);
   const daysInMonth = new Date(year, month + 1, 0).getDate();
-  const leadingBlanks = first.getDay(); // 0 = Sunday
+  // Monday-first: shift Sun(0) to the end.
+  const leadingBlanks = (first.getDay() + 6) % 7;
   const cells: MonthCell[] = [];
   for (let d = 1; d <= daysInMonth; d++) {
     cells.push({ iso: localISO(new Date(year, month, d)), day: d });
   }
   return {
-    weekdays: ["S", "M", "T", "W", "T", "F", "S"],
+    weekdays: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
     leadingBlanks,
     cells,
     label: first.toLocaleString("default", { month: "long", year: "numeric" }),
   };
+}
+
+/** Step a {year, month} pair by ±1 month (month is 0-based). */
+export function shiftMonth(year: number, month: number, delta: number) {
+  const d = new Date(year, month + delta, 1);
+  return { year: d.getFullYear(), month: d.getMonth() };
 }
