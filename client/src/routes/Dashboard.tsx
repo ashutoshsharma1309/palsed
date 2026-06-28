@@ -14,9 +14,10 @@ import { ProgressBar } from "../components/ui/ProgressBar";
 import { COMPANIES, getCompany } from "../data/companies";
 import { STATUS_LABELS, STATUS_COLORS } from "../types/application";
 import type { Profile } from "../types/profile";
-import { Flame, BrainCircuit, Sparkles, AlertTriangle, Rocket, ArrowRight, Bookmark, Calendar, Building2, Database, Plus } from "lucide-react";
+import { Flame, Sparkles, AlertTriangle, Rocket, ArrowRight, Bookmark, Calendar, Building2, Database, Plus } from "lucide-react";
 import { UpcomingRounds } from "../components/UpcomingRounds";
 import { DailyStreakCard } from "../components/dashboard/DailyStreakCard";
+import { DsaRoadmapCard } from "../components/dashboard/DsaRoadmapCard";
 
 const DEFAULT_PROFILE: Profile = {
   displayName: "Learner",
@@ -29,16 +30,12 @@ const DEFAULT_PROFILE: Profile = {
 
 export default function Dashboard() {
   const [profile] = useLocalStorageState<Profile>(LS_KEYS.profile, DEFAULT_PROFILE);
-  const [statuses] = useLocalStorageState<Record<number, string>>(LS_KEYS.dsaStatuses, {});
   const { map: mastery, top } = useMastery();
   const { dueCount } = useSRS();
   const { streakDays, log } = useEngagement();
   const placement = usePlacementProgress();
   const { apps, active, offers, upcoming } = useApplications();
   const { all: pyqs } = usePYQs();
-
-  const solved = Object.values(statuses).filter((s) => s === "solved").length;
-  const attempted = Object.values(statuses).filter((s) => s === "attempted").length;
 
   const { weak } = top(3);
 
@@ -71,6 +68,10 @@ export default function Dashboard() {
           </Link>
         </div>
       </header>
+
+      <div className="grid lg:grid-cols-[minmax(0,1fr)_340px] gap-6 items-start">
+        {/* ===================== MAIN COLUMN ===================== */}
+        <div className="min-w-0">
 
       {/* PLACEMENT SEASON — top of dashboard */}
       <Card className="mb-6 border-[var(--color-neon)]/30">
@@ -117,12 +118,7 @@ export default function Dashboard() {
         <UpcomingRounds limit={5} />
       </div>
 
-      {/* 🔥 Daily login streak */}
-      <div className="mb-6">
-        <DailyStreakCard />
-      </div>
-
-      <div className="grid lg:grid-cols-3 gap-5 mb-6">
+      <div className="grid sm:grid-cols-2 gap-5 mb-6">
         <Card>
           <div className="flex items-center gap-3 mb-3">
             <Flame className="w-5 h-5 text-[var(--color-neon)]" />
@@ -141,16 +137,11 @@ export default function Dashboard() {
             <ProgressBar value={goalFrac} label={`Goal · ${profile.dailyMinutes}min`} />
           </div>
         </Card>
-        <Card>
-          <div className="flex items-center gap-3 mb-3">
-            <BrainCircuit className="w-5 h-5 text-[var(--color-neon)]" />
-            <div className="mono text-xs uppercase tracking-widest text-[var(--color-text-faint)]">DSA progress</div>
-          </div>
-          <div className="display text-6xl">
-            {solved}<span className="text-[var(--color-text-faint)] text-3xl">/150</span>
-          </div>
-          <div className="text-xs text-[var(--color-text-faint)] mt-2">{attempted} attempted but unsolved</div>
-        </Card>
+      </div>
+
+      {/* DSA Roadmap Tracker — replaces the old DSA progress widget */}
+      <div className="mb-6">
+        <DsaRoadmapCard />
       </div>
 
       {/* Placement Hub analytics */}
@@ -278,6 +269,14 @@ export default function Dashboard() {
         </div>
         <Heatmap days={log.days} />
       </Card>
+
+        </div>{/* ===================== /MAIN COLUMN ===================== */}
+
+        {/* ===================== RIGHT SIDEBAR ===================== */}
+        <aside className="lg:sticky lg:top-20 space-y-6">
+          <DailyStreakCard />
+        </aside>
+      </div>
     </div>
   );
 }

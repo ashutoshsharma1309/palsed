@@ -38,15 +38,13 @@ function DayCell({ cell, state, logged }: { cell: MonthCell; state: DayState; lo
 
 function StreakStat({ icon, label, value }: { icon: React.ReactNode; label: string; value: number }) {
   return (
-    <div className="flex items-center gap-3 rounded-xl border border-[var(--color-line)] bg-[var(--color-card-soft)] px-4 py-3">
-      <div className="w-9 h-9 rounded-lg bg-[var(--color-neon)]/10 grid place-items-center text-[var(--color-neon)] shrink-0">
+    <div className="rounded-xl border border-[var(--color-line)] bg-[var(--color-card-soft)] p-3">
+      <div className="flex items-center gap-1.5 mb-1.5 text-[var(--color-neon)]">
         {icon}
-      </div>
-      <div>
         <div className="mono text-[10px] uppercase tracking-widest text-[var(--color-text-faint)]">{label}</div>
-        <div className="display text-3xl leading-none mt-0.5">
-          {value}<span className="text-sm text-[var(--color-text-faint)] ml-1">{value === 1 ? "day" : "days"}</span>
-        </div>
+      </div>
+      <div className="display text-3xl leading-none">
+        {value}<span className="text-xs text-[var(--color-text-faint)] ml-1">{value === 1 ? "day" : "days"}</span>
       </div>
     </div>
   );
@@ -67,8 +65,8 @@ export function DailyStreakCard() {
         <span aria-hidden>🔥</span> Daily Streak
       </h3>
 
-      <div className="grid lg:grid-cols-[minmax(0,1fr)_240px] gap-6 items-start">
-        {/* LEFT — calendar column */}
+      <div>
+        {/* Calendar */}
         <div>
           <div className="flex items-center justify-between mb-3">
             <button
@@ -116,8 +114,8 @@ export function DailyStreakCard() {
           </div>
         </div>
 
-        {/* RIGHT — streak stats */}
-        <div className="grid gap-3">
+        {/* Streak stats — below the calendar in the sidebar */}
+        <div className="grid grid-cols-2 gap-3 mt-5">
           <StreakStat icon={<Flame className="w-5 h-5" />} label="Current" value={currentStreak} />
           <StreakStat icon={<Trophy className="w-5 h-5" />} label="Best" value={bestStreak} />
         </div>
