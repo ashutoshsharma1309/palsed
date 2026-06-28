@@ -25,13 +25,15 @@ function DayCell({ cell, state, logged }: { cell: MonthCell; state: DayState; lo
     past: "border-transparent text-[var(--color-text-faint)]",
     future: "border-transparent text-[var(--color-text-faint)]",
   };
+  // 🔥 on learned days; 😢 on a missed past day; nothing for today/future.
+  const emoji = logged ? "🔥" : state === "past" ? "😢" : "";
   return (
     <div
       className={`${base} ${styles[state]}`}
-      aria-label={`${cell.iso}${logged ? " — learned 🔥" : state === "today" ? " — today" : ""}`}
+      aria-label={`${cell.iso}${logged ? " — learned 🔥" : state === "past" ? " — missed 😢" : state === "today" ? " — today" : ""}`}
     >
       <span className="mono leading-none">{cell.day}</span>
-      <span className="leading-none h-[12px] text-[11px]">{logged ? "🔥" : ""}</span>
+      <span className="leading-none h-[12px] text-[11px]">{emoji}</span>
     </div>
   );
 }
@@ -107,7 +109,8 @@ export function DailyStreakCard() {
           </div>
 
           <div className="mt-3 text-[11px] text-[var(--color-text-faint)] flex flex-wrap gap-x-4 gap-y-1">
-            <span>🔥 learned that day</span>
+            <span>🔥 learned</span>
+            <span>😢 missed</span>
             <span className="inline-flex items-center gap-1">
               <span className="w-3 h-3 rounded border border-[var(--color-neon)] bg-[var(--color-neon)]/10 inline-block" /> today
             </span>

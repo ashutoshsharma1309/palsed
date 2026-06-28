@@ -5,33 +5,14 @@
 // completion %, current phase), and the full roadmap. The daily streak lives in
 // a sticky right sidebar. (Placement widgets were removed in the pivot.)
 import { Link } from "react-router-dom";
-import {
-  Flame, Trophy, CheckCircle2, ListChecks, Layers, BarChart3, Target, ArrowRight, Clock, CalendarDays,
-} from "lucide-react";
+import { CheckCircle2, BarChart3, Target, ArrowRight } from "lucide-react";
 import { Card } from "../components/ui/Card";
 import { Button } from "../components/ui/Button";
-import { ProgressBar } from "../components/ui/ProgressBar";
 import { usePageMeta } from "../hooks/usePageMeta";
 import { useAuth } from "../hooks/useAuth";
 import { useLearningProgress } from "../hooks/useLearningProgress";
 import { RoadmapView } from "../components/roadmap/RoadmapView";
 import { DailyStreakCard } from "../components/dashboard/DailyStreakCard";
-import { TOTAL_QUESTIONS } from "../data/dsa/roadmap";
-
-function StatTile({
-  icon, label, value, sub,
-}: { icon: React.ReactNode; label: string; value: React.ReactNode; sub?: React.ReactNode }) {
-  return (
-    <div className="rounded-2xl border border-[var(--color-line)] bg-[var(--color-card-soft)] p-4">
-      <div className="flex items-center gap-2 mb-2 text-[var(--color-neon)]">
-        {icon}
-        <div className="mono text-[10px] uppercase tracking-widest text-[var(--color-text-faint)]">{label}</div>
-      </div>
-      <div className="display text-4xl leading-none">{value}</div>
-      {sub && <div className="mt-2">{sub}</div>}
-    </div>
-  );
-}
 
 export default function Dashboard() {
   usePageMeta({ title: "Dashboard", description: "Your DSA learning journey — roadmap, progress, and streak.", canonical: "/dashboard" });
@@ -39,7 +20,6 @@ export default function Dashboard() {
   const { stats } = useLearningProgress();
   const name = user?.displayName || user?.fullName || "Learner";
   const next = stats.nextTopic;
-  const pct = Math.round(stats.completionPct * 100);
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 py-12">
@@ -89,22 +69,6 @@ export default function Dashboard() {
               )}
             </div>
           </Card>
-
-          {/* Learning stats */}
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            <StatTile icon={<Flame className="w-4 h-4" />} label="Current streak" value={<>{stats.currentStreak}<span className="text-base text-[var(--color-text-faint)] ml-1">{stats.currentStreak === 1 ? "day" : "days"}</span></>} />
-            <StatTile icon={<Trophy className="w-4 h-4" />} label="Best streak" value={<>{stats.bestStreak}<span className="text-base text-[var(--color-text-faint)] ml-1">days</span></>} />
-            <StatTile icon={<CheckCircle2 className="w-4 h-4" />} label="Problems solved" value={<>{stats.problemsSolved}<span className="text-base text-[var(--color-text-faint)]">/{TOTAL_QUESTIONS}</span></>} />
-            <StatTile icon={<ListChecks className="w-4 h-4" />} label="Topics completed" value={<>{stats.topicsCompleted}<span className="text-base text-[var(--color-text-faint)]">/{stats.totalTopics}</span></>} />
-            <StatTile
-              icon={<BarChart3 className="w-4 h-4" />} label="Completion"
-              value={<>{pct}<span className="text-base text-[var(--color-text-faint)]">%</span></>}
-              sub={<ProgressBar value={stats.completionPct} />}
-            />
-            <StatTile icon={<CalendarDays className="w-4 h-4" />} label="This week" value={<>{stats.weekActiveDays}<span className="text-base text-[var(--color-text-faint)]">/7</span></>} sub={<div className="mono text-[10px] text-[var(--color-text-faint)]">active learning days</div>} />
-            <StatTile icon={<Layers className="w-4 h-4" />} label="Current phase" value={<span className="text-xl">{stats.currentPhase.name.replace(/Phase \d+ — /, "")}</span>} />
-            <StatTile icon={<Clock className="w-4 h-4" />} label="Hours studied" value={<span className="text-[var(--color-text-faint)] text-2xl">soon</span>} sub={<div className="mono text-[10px] text-[var(--color-text-faint)]">time tracking coming</div>} />
-          </div>
 
           {/* Roadmap */}
           <div>
