@@ -41,6 +41,7 @@ const Settings = lazy(() => import("./routes/Settings"));
 const PlacementHub = lazy(() => import("./routes/PlacementHub"));
 const Roadmap = lazy(() => import("./routes/Roadmap"));
 const Hackathon = lazy(() => import("./routes/Hackathon"));
+const LearnTopic = lazy(() => import("./routes/LearnTopic"));
 const ResumeRoast = lazy(() => import("./routes/ResumeRoast"));
 const Salary = lazy(() => import("./routes/Salary"));
 const Compare = lazy(() => import("./routes/Compare"));
@@ -130,6 +131,7 @@ export default function App() {
                     <Route path="/placement-hub" element={<PlacementHub />} />
                     <Route path="/roadmap" element={<Roadmap />} />
                     <Route path="/hackathon" element={<Hackathon />} />
+                    <Route path="/learn/:topicId" element={<LearnTopic />} />
                     <Route path="/resume-roast" element={<ResumeRoast />} />
                     <Route path="/salary" element={<Salary />} />
                     <Route path="/compare" element={<Compare />} />
