@@ -16,6 +16,7 @@ import { STATUS_LABELS, STATUS_COLORS } from "../types/application";
 import type { Profile } from "../types/profile";
 import { Flame, BrainCircuit, Sparkles, AlertTriangle, Rocket, ArrowRight, Bookmark, Calendar, Building2, Database, Plus } from "lucide-react";
 import { UpcomingRounds } from "../components/UpcomingRounds";
+import { DailyStreakCard } from "../components/dashboard/DailyStreakCard";
 
 const DEFAULT_PROFILE: Profile = {
   displayName: "Learner",
@@ -58,10 +59,6 @@ export default function Dashboard() {
             // welcome back, {profile.displayName}
           </div>
           <h1 className="display text-5xl sm:text-7xl">DASHBOARD.</h1>
-          <p className="text-[var(--color-text-faint)] max-w-xl mt-2">
-            Goal: <span className="text-[var(--color-text)]">{profile.learningGoal}</span> · Style:{" "}
-            <span className="text-[var(--color-text)]">{profile.preferredStyle.replace("_", " ")}</span>
-          </p>
         </div>
         <div className="flex flex-wrap gap-3">
           <Link to="/applications"><Button><Plus className="w-4 h-4" /> Track application</Button></Link>
@@ -118,6 +115,11 @@ export default function Dashboard() {
       {/* Upcoming OAs / interviews — drives the daily-open habit */}
       <div className="mb-6">
         <UpcomingRounds limit={5} />
+      </div>
+
+      {/* 🔥 Daily login streak */}
+      <div className="mb-6">
+        <DailyStreakCard />
       </div>
 
       <div className="grid lg:grid-cols-3 gap-5 mb-6">

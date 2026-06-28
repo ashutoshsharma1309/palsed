@@ -72,25 +72,6 @@ export default function Settings() {
               onChange={(e) => setProfile({ ...profile, displayName: e.target.value })}
             />
           </Field>
-          <Field label="Learning goal">
-            <input
-              className="w-full bg-transparent border-b border-[var(--color-line)] focus:border-[var(--color-neon)] outline-none py-2"
-              value={profile.learningGoal}
-              onChange={(e) => setProfile({ ...profile, learningGoal: e.target.value })}
-            />
-          </Field>
-          <Field label="Preferred style">
-            <select
-              className="w-full bg-[#1a1a1a] border border-[var(--color-line)] rounded p-2"
-              value={profile.preferredStyle}
-              onChange={(e) => setProfile({ ...profile, preferredStyle: e.target.value as any })}
-            >
-              <option value="visual">Visual</option>
-              <option value="code_first">Code-first</option>
-              <option value="analogy">Analogy</option>
-              <option value="step_by_step">Step-by-step</option>
-            </select>
-          </Field>
           <Field label="Daily minutes">
             <input
               type="number"
