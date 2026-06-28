@@ -11,7 +11,7 @@ Short version: `npm run install:all`, add `server/.env` + `client/.env`, then
 
 ## Before you open a PR
 
-- **Type-check & build:** `cd client && npx tsc --noEmit` and `npm run build`.
+- **Type-check, test & build:** `cd client && npm run typecheck && npm test && npm run build` (CI runs the same three on every PR).
 - **Match the surrounding code** — naming, structure, and comment density.
 - **Theme safety:** use CSS variables (`var(--color-*)`), not hardcoded
   `text-white` / hex colors, so UI works in both light and dark mode.

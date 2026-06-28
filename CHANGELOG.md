@@ -9,6 +9,13 @@ Notable changes, most recent first. Dates are approximate.
 
 ## Recent
 
+- **Testing:** added the first automated tests — Vitest unit suite (24 tests)
+  covering the DSA learning engine (streak math, progress derivations, roadmap
+  data integrity) — plus a GitHub Actions CI workflow gating every push/PR on
+  typecheck → test → build.
+- **Pivot:** PrepPlace reframed as a DSA Learning OS — learning dashboard,
+  curated roadmap, per-topic lessons + C++ question banks, activity-based streak.
+
 - **Feature:** added a **Career Roadmap** module (`/roadmap`, in the Prep nav) —
   14 role-based roadmaps with staged topics, must/good/optional skills, a shared
   interview-focused DSA module, CS fundamentals, curated courses, level-grouped

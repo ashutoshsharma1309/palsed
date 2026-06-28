@@ -359,7 +359,7 @@ No embeddings, vector DB, RAG, fine-tuning, or agents. _(Future AI — e.g., AI 
 | **Authentication** | Supabase Auth (Google OAuth), server-verified JWT |
 | **Deployment** | Vercel (static SPA + serverless API); live at prepnext.vercel.app |
 | **AI components** | None active (Groq remnants retired; voice input remains) |
-| **Tests / CI** | None |
+| **Tests / CI** | Vitest unit tests (learning engine: streak, progress, roadmap) + GitHub Actions CI (typecheck · test · build) |
 | **Current status** | ~70% v1 student product; security-hardened; not yet monetized |
 | **Next priority** | Move localStorage features → Postgres; add tests/CI; custom domain |
 
