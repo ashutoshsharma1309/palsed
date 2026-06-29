@@ -499,6 +499,10 @@ export const PATTERNS: Pattern[] = [
         "Return the k-th largest element in an array.",
         ["Heap"], "Maintain a size-k min-heap.",
         `priority_queue<int,vector<int>,greater<int>> pq;\nfor(int x:a){ pq.push(x); if((int)pq.size()>k) pq.pop(); }\nreturn pq.top();`, "O(n log k)", "O(k)"),
+      q("heap-merge-k", "Merge k sorted lists", "Hard",
+        "Merge k sorted linked lists into one sorted list.",
+        ["Heap"], "Min-heap of the current head of each list; pop the smallest, push its next.",
+        `priority_queue<pair<int,Node*>,vector<pair<int,Node*>>,greater<>> pq;\nfor(auto* l:lists) if(l) pq.push({l->val,l});\nNode dummy(0), *t=&dummy;\nwhile(!pq.empty()){ auto [v,n]=pq.top(); pq.pop();\n  t->next=n; t=n; if(n->next) pq.push({n->next->val,n->next}); }\nreturn dummy.next;`, "O(N log k)", "O(k)"),
     ],
   },
 
@@ -571,6 +575,10 @@ export const PATTERNS: Pattern[] = [
         "Count connected groups of '1' cells (4-directional) in a grid.",
         ["Graph DFS", "Flood fill"], "DFS from each unvisited land cell, sinking it.",
         `int count=0;\nfor(int r=0;r<R;r++) for(int c=0;c<C;c++)\n  if(g[r][c]=='1'){ dfs(r,c,g); count++; }\nreturn count;`, "O(R·C)", "O(R·C)"),
+      q("gd-cycle-undirected", "Detect cycle (undirected)", "Medium",
+        "Detect whether an undirected graph contains a cycle.",
+        ["Graph DFS"], "DFS tracking the parent; a visited non-parent neighbor means a cycle.",
+        `function<bool(int,int)> dfs=[&](int u,int par)->bool{\n  vis[u]=true;\n  for(int v:adj[u]){\n    if(!vis[v]){ if(dfs(v,u)) return true; }\n    else if(v!=par) return true;   // back-edge\n  }\n  return false;\n};`, "O(V+E)", "O(V)"),
     ],
   },
   {
@@ -683,6 +691,10 @@ export const PATTERNS: Pattern[] = [
         "Support insert(word), search(word), and startsWith(prefix).",
         ["Trie"], "Walk children per character; mark word ends.",
         `// insert: create missing child nodes, set end=true at the last\n// search: walk; true only if the final node's end is set\n// startsWith: walk; true if the path exists`, "O(L) per op", "O(total chars)"),
+      q("trie-startswith-count", "Count words with prefix", "Medium",
+        "After inserting words, return how many stored words start with a given prefix.",
+        ["Trie"], "Store a counter at each node, incremented on every insert that passes through.",
+        `// On insert: cur->cnt++ at every node along the word.\n// countPrefix(p): walk p; return the final node's cnt (0 if the path breaks).`, "O(L) per op", "O(total chars)"),
     ],
   },
   {
