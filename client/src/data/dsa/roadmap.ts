@@ -519,6 +519,12 @@ const MORE_TOPICS: Topic[] = [
     lesson: {
       objective: "Apply binary search (incl. 'search on the answer') and pick the right sort.",
       explanation: "**Binary search** needs sorted data and runs O(log n): repeatedly halve the range. The mid-computation `lo + (hi-lo)/2` avoids overflow. Know **merge/quick sort** (O(n log n)). A powerful pattern is **binary search on the answer**: binary-search the result value when checking feasibility is monotonic.",
+      definition: "Searching locates an element (linear O(n), or binary O(log n) on sorted data); sorting arranges elements in order (comparison sorts are O(n log n)).",
+      syntax: `sort(a.begin(), a.end());                 // ascending\nsort(a.rbegin(), a.rend());               // descending\nbool found = binary_search(a.begin(), a.end(), x);\nauto it = lower_bound(a.begin(), a.end(), x); // first >= x`,
+      example: {
+        code: `// Hand-written binary search\nint lo = 0, hi = n - 1;\nwhile (lo <= hi) {\n  int mid = lo + (hi - lo) / 2;   // overflow-safe\n  if (a[mid] == x) return mid;\n  if (a[mid] < x) lo = mid + 1;\n  else            hi = mid - 1;\n}\nreturn -1;`,
+        explanation: "Each step discards half the range, so n elements take only ~log₂n comparisons.",
+      },
       keyConcepts: ["Binary search", "Lower/upper bound", "Merge/Quick sort", "Search on the answer"],
       interviewNotes: ["Confirm the array is sorted before using binary search.", "`lower_bound`/`upper_bound` in C++ STL solve many variants."],
       commonMistakes: ["Infinite loop from wrong `lo`/`hi` update.", "Overflow in `(lo+hi)/2`."],
