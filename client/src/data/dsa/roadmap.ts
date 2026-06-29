@@ -398,9 +398,16 @@ const FUNDAMENTALS: Topic[] = [
     lesson: {
       objective: "Use operators correctly, including modulo and bitwise.",
       explanation: "Beyond `+ − × ÷`, `%` (modulo) gives the remainder and bitwise `& | ^ << >>` operate on bits. **Modulo of a negative** can be negative in C++. Bit tricks: `x<<1` doubles, `x>>1` halves, `x&1` tests the last bit.",
+      definition: "Operators are symbols that perform computation on values — arithmetic, relational, logical, and bitwise.",
+      syntax: `a + b   a - b   a * b   a / b   a % b   // arithmetic\na == b  a != b  a < b   a >= b          // relational\na && b  a || b  !a                       // logical\na & b   a | b   a ^ b   a << 1  a >> 1   // bitwise`,
+      example: {
+        code: `bool even = (x & 1) == 0;   // last bit 0 -> even\nint  half = x >> 1;         // divide by 2\nint  twice = x << 1;        // multiply by 2\nint  r = ((x % m) + m) % m; // always-positive modulo`,
+        explanation: "`((x % m) + m) % m` fixes C++'s negative-modulo so the result is always in [0, m).",
+      },
       keyConcepts: ["Modulo", "Logical vs bitwise", "Precedence"],
       interviewNotes: ["`x & 1` is a fast even/odd test.", "Use parentheses — bitwise has low precedence."],
       commonMistakes: ["Confusing `&&` (logical) with `&` (bitwise).", "Assuming `-7 % 3` is positive."],
+      complexity: { best: "O(1)", average: "O(1)", worst: "O(1)", space: "O(1)" },
       timeComplexity: "O(1)", spaceComplexity: "O(1)",
     },
     questions: [
@@ -415,9 +422,16 @@ const FUNDAMENTALS: Topic[] = [
     lesson: {
       objective: "Write correct, readable branching logic.",
       explanation: "`if/else` and `switch` choose a path. Order checks **most-specific first** (e.g. check %15 before %3). Prefer **early returns** over deep nesting to keep code flat and readable.",
+      definition: "A conditional executes a block only when a boolean expression is true, letting a program branch between paths.",
+      syntax: `if (cond) { ... }\nelse if (other) { ... }\nelse { ... }\n\nswitch (x) {\n  case 1: ...; break;   // break stops fall-through\n  default: ...;\n}`,
+      example: {
+        code: `// FizzBuzz: order matters — check 15 first\nfor (int i = 1; i <= n; i++) {\n  if (i % 15 == 0)      cout << "FizzBuzz";\n  else if (i % 3 == 0)  cout << "Fizz";\n  else if (i % 5 == 0)  cout << "Buzz";\n  else                  cout << i;\n  cout << '\\n';\n}`,
+        explanation: "The %15 branch must come first — otherwise %3 would catch multiples of 15 before %15 is ever tested.",
+      },
       keyConcepts: ["if/else/switch", "Early return", "Boolean logic"],
       interviewNotes: ["Handle edge cases (empty, equal, negative) explicitly.", "Combine conditions with `&&`/`||` and parentheses."],
       commonMistakes: ["Falling through a `switch` (missing `break`).", "Wrong order of overlapping conditions."],
+      complexity: { best: "O(1)", average: "O(1)", worst: "O(1)", space: "O(1)" },
       timeComplexity: "O(1)", spaceComplexity: "O(1)",
     },
     questions: [
