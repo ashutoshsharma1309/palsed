@@ -350,9 +350,16 @@ const FUNDAMENTALS: Topic[] = [
     lesson: {
       objective: "Read input and print output reliably in C++.",
       explanation: "`cin >> x` reads (skipping whitespace) and `cout << x` prints. For big inputs add `ios::sync_with_stdio(false); cin.tie(0);` for **fast IO**. Use `'\\n'` instead of `endl` to avoid slow flushes.",
+      definition: "Standard input/output in C++ uses the stream objects `cin` (read) and `cout` (write) from <iostream>.",
+      syntax: `int x; cin >> x;            // read one int\ncout << x << '\\n';          // print + newline\nstring line; getline(cin, line); // read a whole line\nios::sync_with_stdio(false); cin.tie(0); // fast IO`,
+      example: {
+        code: `int n; cin >> n;\nvector<int> a(n);\nfor (auto& x : a) cin >> x;   // read n numbers\nfor (int x : a) cout << x << ' ';`,
+        explanation: "Read the count first, size the container, then loop to read each value.",
+      },
       keyConcepts: ["cin / cout", "Fast IO", "Reading until EOF"],
       interviewNotes: ["Add fast IO once n ≥ 10⁵.", "`cin >> x` returns false at EOF — loop on it."],
       commonMistakes: ["Mixing `cin >>` and `getline` without clearing the newline.", "Using `endl` in tight loops (flushes every time)."],
+      complexity: { best: "O(n) read", average: "O(n) read", worst: "O(n) read", space: "O(1)" },
       timeComplexity: "O(n) to read n items", spaceComplexity: "O(1)",
     },
     questions: [
@@ -367,9 +374,16 @@ const FUNDAMENTALS: Topic[] = [
     lesson: {
       objective: "Pick the right type and avoid silent overflow.",
       explanation: "Use `int` for values ≤ ~2·10⁹, `long long` beyond that (up to ~9·10¹⁸), `double` for decimals, `char` for single characters. **Overflow is silent** in C++ — size types to the constraints before you compute.",
+      definition: "A variable is a named, typed storage location; the type fixes its size, range, and the operations allowed on it.",
+      syntax: `int n = 42;            // 32-bit integer\nlong long big = 1e18;  // 64-bit integer\ndouble d = 3.14;       // floating point\nchar c = 'A';          // single character\nbool ok = true;        // boolean`,
+      example: {
+        code: `int a = 100000, b = 100000;\nint   bad = a * b;          // overflow! (1e10 > int max)\nlong long good = (long long)a * b;  // 10000000000 ✓`,
+        explanation: "Each int fits, but their product doesn't — cast to long long *before* multiplying.",
+      },
       keyConcepts: ["Integer ranges", "Overflow", "Type casting"],
       interviewNotes: ["A sum/product of ints can overflow even if each fits — promote to `long long`.", "Compare doubles with an epsilon, not `==`."],
       commonMistakes: ["`int` overflow on `a*b`.", "Integer division `5/2 == 2` (cast to double for 2.5)."],
+      complexity: { best: "O(1)", average: "O(1)", worst: "O(1)", space: "O(1)" },
       timeComplexity: "O(1)", spaceComplexity: "O(1)",
     },
     questions: [
