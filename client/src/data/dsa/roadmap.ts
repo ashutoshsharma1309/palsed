@@ -567,6 +567,12 @@ const MORE_TOPICS: Topic[] = [
     lesson: {
       objective: "Recognize overlapping subproblems and solve them with memoization or tabulation.",
       explanation: "**DP = recursion + caching.** Find the *state* (what uniquely describes a subproblem), the *transition* (how states combine), and the *base case*. **Top-down** memoizes a recursion; **bottom-up** fills a table. Most 1-D DP depends on the previous one or two states.",
+      definition: "Dynamic programming solves a problem by combining solutions to overlapping subproblems, computing each subproblem once and storing its result.",
+      syntax: `// Bottom-up (tabulation)\nvector<int> dp(n + 1);\ndp[0] = base;\nfor (int i = 1; i <= n; i++)\n  dp[i] = transition(dp[i - 1], ...);\n\n// Top-down (memoization): cache + recurse`,
+      example: {
+        code: `// House robber: max sum with no two adjacent\nint prev = 0, prev2 = 0;\nfor (int x : nums) {\n  int cur = max(prev, prev2 + x);  // skip vs take\n  prev2 = prev; prev = cur;\n}\nreturn prev;`,
+        explanation: "State = best up to house i; transition = max(skip this house, rob it + best two back). Only two states are needed, so space is O(1).",
+      },
       keyConcepts: ["State & transition", "Memoization (top-down)", "Tabulation (bottom-up)", "Space optimization"],
       interviewNotes: ["Always write the recurrence first, then add caching.", "Many 1-D DPs need only O(1) rolling variables."],
       commonMistakes: ["Wrong/missing base case.", "Iterating the table in the wrong order."],
