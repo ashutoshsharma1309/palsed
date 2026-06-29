@@ -153,9 +153,14 @@ const TOPICS: Topic[] = [
       objective: "Estimate the Big-O time and space of a loop or function by inspection.",
       explanation:
         "**Big-O** describes how the work grows as input size n grows, ignoring constants. A single loop over n items is **O(n)**; a loop inside a loop is **O(n²)**; halving the search space each step is **O(log n)**. You care about the *dominant* term as n → ∞.",
+      definition: "Big-O is an upper bound on how an algorithm's running time (or space) grows relative to its input size, ignoring constant factors and lower-order terms.",
+      example: {
+        code: `// O(n): one pass\nfor (int i = 0; i < n; i++) sum += a[i];\n\n// O(n^2): a pass for each element\nfor (int i = 0; i < n; i++)\n  for (int j = 0; j < n; j++) work();\n\n// O(log n): halve the range each step\nwhile (lo < hi) { int m = (lo+hi)/2; ... }`,
+        explanation: "Count how many times the innermost line runs as a function of n — that exponent is your Big-O.",
+      },
       keyConcepts: ["O(1), O(log n), O(n), O(n log n), O(n²), O(2ⁿ)", "Dominant term", "Best/avg/worst case", "Amortized cost"],
       interviewNotes: ["State complexity for every solution you give — interviewers always ask.", "n ≤ 10⁸ ops/sec is the rough budget; use it to pick an algorithm."],
-      commonMistakes: ["Counting constants (O(2n) is just O(n)).", "Forgetting recursion stack space."],
+      commonMistakes: ["Counting constants (O(2n) is just O(n)).", "Forgetting recursion stack space.", "Quoting best-case when the interviewer wants worst-case."],
       intuition: "Not 'how long does it take' but 'how much worse does it get when the input doubles'.",
     },
     questions: [
