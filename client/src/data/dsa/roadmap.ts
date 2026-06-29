@@ -446,6 +446,12 @@ const FUNDAMENTALS: Topic[] = [
     lesson: {
       objective: "Decompose code into small reusable functions.",
       explanation: "A function takes parameters and returns a value. Pass large objects by `const&` to avoid copies; pass by `&` to modify the caller's variable. A function that calls itself is **recursion** — every recursion needs a **base case**.",
+      definition: "A function is a named, reusable block of code that takes typed parameters and returns a value.",
+      syntax: `int add(int a, int b) { return a + b; }   // by value\nvoid scale(vector<int>& v, int k) {        // by reference (mutates)\n  for (int& x : v) x *= k;\n}\nlong long sumOf(const vector<int>& v);     // const& (no copy)`,
+      example: {
+        code: `// Pass by reference to modify the caller's variable\nvoid addOne(int& x) { x++; }\nint a = 5;\naddOne(a);   // a is now 6`,
+        explanation: "The `&` makes `x` an alias for the caller's `a`, so the change persists after the call returns.",
+      },
       keyConcepts: ["Pass by value/ref", "Scope", "Base case"],
       interviewNotes: ["Prefer pure functions (no side effects) — easier to test.", "Recursion depth = stack memory."],
       commonMistakes: ["Recursion with no base case (stack overflow).", "Modifying a copy and expecting the original to change."],
@@ -463,6 +469,12 @@ const FUNDAMENTALS: Topic[] = [
     lesson: {
       objective: "Apply the number-theory basics that recur across DSA.",
       explanation: "Know the **Euclidean GCD**, the **Sieve of Eratosthenes** (all primes ≤ n in ~O(n log log n)), and modular arithmetic `(a·b)%m` to avoid overflow. These show up in countless problems.",
+      definition: "Number-theory basics: greatest common divisor, prime generation (sieve), and modular arithmetic for large results.",
+      syntax: `int g = gcd(a, b);              // <numeric> (C++17)\nint l = a / gcd(a, b) * b;      // lcm (divide first to avoid overflow)\nlong long r = (a % m) * (b % m) % m;  // modular multiply`,
+      example: {
+        code: `// Sieve of Eratosthenes: mark composites up to n\nvector<bool> isPrime(n + 1, true);\nisPrime[0] = isPrime[1] = false;\nfor (int i = 2; (long long)i * i <= n; i++)\n  if (isPrime[i])\n    for (int j = i * i; j <= n; j += i) isPrime[j] = false;`,
+        explanation: "Start crossing out at i·i (smaller multiples are already marked) — that's the key efficiency.",
+      },
       keyConcepts: ["GCD (Euclid)", "Sieve of Eratosthenes", "Modular arithmetic"],
       interviewNotes: ["`lcm(a,b) = a/gcd(a,b)*b` (divide first to avoid overflow).", "Take a `long long` product before `%m`."],
       commonMistakes: ["Sieving up to n but forgetting i·i ≤ n bound.", "Overflow in `a*b` before the modulo."],
@@ -480,6 +492,12 @@ const FUNDAMENTALS: Topic[] = [
     lesson: {
       objective: "Solve problems by reducing them to smaller subproblems.",
       explanation: "Define a **base case**, then assume the function already works for smaller inputs and combine the results. Each call adds a frame to the **call stack**, so recursion uses O(depth) memory. Draw the **recursion tree** to find the time complexity.",
+      definition: "Recursion is when a function solves a problem by calling itself on a smaller input until it reaches a base case.",
+      syntax: `ReturnType f(args) {\n  if (baseCase) return ...;   // stop condition\n  return combine(f(smaller));  // recursive step\n}`,
+      example: {
+        code: `// Sum 1..n recursively\nint sumTo(int n) {\n  if (n == 0) return 0;     // base case\n  return n + sumTo(n - 1);  // shrink toward the base\n}`,
+        explanation: "Each call handles one number and trusts the recursive call for the rest — base case `n==0` stops it.",
+      },
       keyConcepts: ["Base case", "Recursion tree", "Stack depth"],
       interviewNotes: ["Every recursion = base case + recursive case.", "Overlapping subproblems → add memoization (that's DP)."],
       commonMistakes: ["Missing/incorrect base case (infinite recursion).", "Recomputing the same subproblem exponentially (e.g. naive Fibonacci)."],
