@@ -6,6 +6,7 @@ import { useSRS } from "../../hooks/useSRS";
 import { useEngagement } from "../adaptive/EngagementProvider";
 import { useAuth } from "../../hooks/useAuth";
 import { ThemeToggle } from "../ui/ThemeToggle";
+import { ComfortMenu } from "../ui/ComfortMenu";
 import { LogoLockup } from "../ui/Logo";
 
 // Primary nav — learning-first (DSA Learning OS). Daily loop:
@@ -146,6 +147,7 @@ export function Nav() {
               🔥 {streakDays}d
             </div>
           )}
+          <ComfortMenu />
           <ThemeToggle />
           {user ? (
             <div className="relative">
@@ -208,6 +210,7 @@ export function Nav() {
 
         {/* MOBILE TRIGGERS */}
         <div className="lg:hidden flex items-center gap-2">
+          <ComfortMenu />
           <ThemeToggle />
           <button
             className="text-[var(--color-text)]"
