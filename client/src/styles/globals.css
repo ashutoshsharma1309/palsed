@@ -263,7 +263,7 @@ body {
 .diff-medium { background: var(--diff-medium-bg); color: var(--diff-medium-text); }
 .diff-hard   { background: var(--diff-hard-bg);   color: var(--diff-hard-text); }
 
-/* Severity pills (used by ResumeRoast + OA urgency contexts) */
+/* Severity pills (used by OA urgency contexts) */
 .severity-pill {
   display: inline-flex;
   align-items: center;

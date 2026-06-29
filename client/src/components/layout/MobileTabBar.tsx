@@ -1,16 +1,17 @@
 import { NavLink } from "react-router-dom";
-import { LayoutDashboard, Code2, Layers, Repeat, type LucideIcon } from "lucide-react";
+import { LayoutDashboard, Code2, Layers, FolderGit2, Repeat, type LucideIcon } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
 import { useSRS } from "../../hooks/useSRS";
 
 // Fixed bottom-tab bar shown only on small viewports for logged-in users.
-// Mirrors the iOS/Android pattern students expect — learning-first anchors for
-// the daily habit: Dashboard → DSA Practice → Patterns → Review (SRS).
+// Mirrors the iOS/Android pattern students expect — anchors for the daily habit
+// across the journey: Dashboard → DSA → Patterns → Projects → Review (SRS).
 type Tab = { to: string; label: string; Icon: LucideIcon; badge?: "due" };
 const TABS: Tab[] = [
   { to: "/dashboard", label: "Home", Icon: LayoutDashboard },
   { to: "/dsa", label: "DSA", Icon: Code2 },
   { to: "/patterns", label: "Patterns", Icon: Layers },
+  { to: "/projects", label: "Projects", Icon: FolderGit2 },
   { to: "/review", label: "Review", Icon: Repeat, badge: "due" },
 ];
 

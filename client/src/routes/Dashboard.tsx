@@ -14,9 +14,10 @@ import { useLearningProgress } from "../hooks/useLearningProgress";
 import { RoadmapView } from "../components/roadmap/RoadmapView";
 import { DailyStreakCard } from "../components/dashboard/DailyStreakCard";
 import { DailyGoalBanner } from "../components/dashboard/DailyGoalBanner";
+import { JourneyMap } from "../components/dashboard/JourneyMap";
 
 export default function Dashboard() {
-  usePageMeta({ title: "Dashboard", description: "Your DSA learning journey — roadmap, progress, and streak.", canonical: "/dashboard" });
+  usePageMeta({ title: "Dashboard", description: "Your placement journey — learn, practice, build, interview, and place.", canonical: "/dashboard" });
   const { user } = useAuth();
   const { stats } = useLearningProgress();
   const name = user?.displayName || user?.fullName || "Learner";
@@ -26,9 +27,9 @@ export default function Dashboard() {
     <div className="mx-auto max-w-7xl px-4 sm:px-6 py-12">
       <header className="mb-8">
         <div className="mono text-xs uppercase tracking-[0.3em] text-[var(--color-neon)] mb-2">// welcome back, {name}</div>
-        <h1 className="display text-5xl sm:text-7xl">CONTINUE YOUR<br />DSA JOURNEY.</h1>
+        <h1 className="display text-5xl sm:text-7xl">YOUR PLACEMENT<br />JOURNEY.</h1>
         <p className="text-[var(--color-text-faint)] max-w-2xl mt-3 text-lg">
-          From zero to interview-ready — one topic, a few problems, and a daily streak at a time.
+          Learn → Practice → Build → Interview → Placement. Pick up where you left off, one focused session a day.
         </p>
       </header>
 
@@ -73,6 +74,9 @@ export default function Dashboard() {
               )}
             </div>
           </Card>
+
+          {/* Placement journey map — orient students across the full arc */}
+          <JourneyMap />
 
           {/* Roadmap */}
           <div>

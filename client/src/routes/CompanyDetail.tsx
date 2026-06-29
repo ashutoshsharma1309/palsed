@@ -1,14 +1,11 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { ArrowLeft, Plus, ExternalLink, ThumbsDown, ThumbsUp, MapPin, IndianRupee, Building2, Sparkles, GraduationCap, Calendar } from "lucide-react";
-import toast from "react-hot-toast";
+import { ArrowLeft, Plus, ExternalLink, ThumbsDown, ThumbsUp, MapPin, IndianRupee, Building2, GraduationCap, Calendar } from "lucide-react";
 import { Card } from "../components/ui/Card";
 import { Chip } from "../components/ui/Chip";
-import { Button } from "../components/ui/Button";
 import { CompanyTile } from "../components/CompanyTile";
 import { getCompany, COMPANIES } from "../data/companies";
 import { usePYQs } from "../hooks/usePYQs";
-import { useApplications } from "../hooks/useApplications";
 import { PrepKit } from "../components/PrepKit";
 
 export default function CompanyDetail() {
@@ -16,8 +13,6 @@ export default function CompanyDetail() {
   const navigate = useNavigate();
   const c = useMemo(() => (slug ? getCompany(slug) : undefined), [slug]);
   const { all: allPyqs, votes, vote } = usePYQs();
-  const { add: addApplication, apps } = useApplications();
-  const [appliedRole, setAppliedRole] = useState("");
 
   // SEO: dynamically update <title> + meta description (good enough for Vercel SSR)
   useEffect(() => {
@@ -41,14 +36,6 @@ export default function CompanyDetail() {
 
   const pyqs = allPyqs.filter((p) => p.companySlug === c.slug);
   const related = c.related.map((s) => COMPANIES.find((x) => x.slug === s)).filter(Boolean) as typeof COMPANIES;
-  const isTracking = apps.some((a) => a.companySlug === c.slug);
-
-  const trackApplication = () => {
-    const role = appliedRole.trim() || c.rolesOffered[0] || "SDE";
-    addApplication({ companySlug: c.slug, role, source: "campus" });
-    toast.success(`Added ${c.name} to your tracker`);
-    setAppliedRole("");
-  };
 
   return (
     <div className="mx-auto max-w-6xl px-4 sm:px-6 py-8">
@@ -106,26 +93,6 @@ export default function CompanyDetail() {
           </div>
         </Card>
       </div>
-
-      {/* TRACK APPLICATION */}
-      <Card className="mb-6 flex flex-col md:flex-row items-stretch md:items-center gap-3">
-        <div className="flex-1">
-          <div className="font-bold text-base flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-[var(--color-neon)]" />
-            {isTracking ? "Already in your tracker" : "Track this company in your placement season"}
-          </div>
-          <div className="text-xs text-[var(--color-text-faint)] mt-0.5">
-            Adds to your application kanban with status, deadlines, and notes.
-          </div>
-        </div>
-        <input
-          className="flex-1 bg-[#1a1a1a] border border-[var(--color-line)] rounded-lg px-3 py-2 text-sm"
-          placeholder={`Role (e.g. ${c.rolesOffered[0]})`}
-          value={appliedRole}
-          onChange={(e) => setAppliedRole(e.target.value)}
-        />
-        <Button onClick={trackApplication}>+ Track</Button>
-      </Card>
 
       {/* QUICK STATS */}
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">

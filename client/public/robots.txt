@@ -5,7 +5,6 @@ Disallow: /dashboard
 Disallow: /settings
 Disallow: /review
 Disallow: /mastery
-Disallow: /applications
 Disallow: /auth/callback
 Crawl-delay: 1
 

@@ -9,31 +9,48 @@ import { ThemeToggle } from "../ui/ThemeToggle";
 import { ComfortMenu } from "../ui/ComfortMenu";
 import { LogoLockup } from "../ui/Logo";
 
-// Primary nav — learning-first (DSA Learning OS). Daily loop:
-// Dashboard (roadmap + streak) → DSA Practice → Review. Everything else lives
-// one click deeper in the "Prep" dropdown or the avatar menu.
+// Primary nav — follows the placement journey: Learn → Practice → Build → OA.
+// The always-visible bar holds the daily-driver modules; everything else lives
+// one click deeper in the journey-grouped "Prep" dropdown or the avatar menu.
 const PRIMARY = [
   { to: "/dashboard", label: "Dashboard" },
-  { to: "/dsa", label: "DSA Practice" },
+  { to: "/dsa", label: "DSA" },
   { to: "/patterns", label: "Patterns" },
-  { to: "/review", label: "Review", badge: "due" as const },
+  { to: "/aptitude", label: "Aptitude" },
+  { to: "/projects", label: "Projects" },
+  { to: "/oa", label: "Mock OA" },
 ];
 
-// "Prep" dropdown — deeper study (learning first) + placement tools.
-const PREP_LINKS = [
-  { to: "/dsa", label: "DSA Practice Hub", desc: "Curated problems + solutions" },
-  { to: "/system-design", label: "System Design", desc: "URL shortener, chat, etc." },
-  { to: "/core-cs", label: "Core CS", desc: "OS · DBMS · Networks" },
-  { to: "/aptitude", label: "Aptitude", desc: "Quantitative + verbal" },
-  { to: "/interview-resources", label: "Interview Resources", desc: "Books, courses, sheets" },
-  { to: "/hackathon", label: "Hackathon Guide", desc: "First hackathon → winning" },
-  { to: "/companies", label: "Companies", desc: "Recruiter map (placement)" },
-  { to: "/pyq", label: "PYQs", desc: "Previous-year questions" },
-  { to: "/oa", label: "Mock OA", desc: "Timed assessments" },
-  { to: "/applications", label: "My Applications", desc: "Kanban tracker" },
-  { to: "/resume-roast", label: "Resume Roast", desc: "ATS feedback" },
-  { to: "/internships", label: "Internship Feed", desc: "Off-campus drives" },
-  { to: "/placement-hub", label: "Placement Hub", desc: "All-in-one timeline" },
+// "Prep" dropdown — the rest of the journey, grouped by stage so it reads as a
+// deliberate map rather than a flat list. Review carries the SRS "due" badge.
+const PREP_GROUPS: {
+  label: string;
+  links: { to: string; label: string; desc: string; badge?: "due" }[];
+}[] = [
+  {
+    label: "Practice",
+    links: [
+      { to: "/pyq", label: "PYQs", desc: "Previous-year questions" },
+      { to: "/review", label: "Review", desc: "Spaced-repetition recall", badge: "due" },
+    ],
+  },
+  {
+    label: "Interview",
+    links: [
+      { to: "/interview-resources", label: "Interview Prep", desc: "Books, sheets, guides" },
+      { to: "/system-design", label: "System Design", desc: "URL shortener, chat, etc." },
+      { to: "/core-cs", label: "Core CS", desc: "OS · DBMS · Networks" },
+    ],
+  },
+  {
+    label: "Placement",
+    links: [
+      { to: "/hackathon", label: "Hackathon Guide", desc: "First hackathon → winning" },
+      { to: "/companies", label: "Companies", desc: "Recruiter map" },
+      { to: "/internships", label: "Internships", desc: "Off-campus drives" },
+      { to: "/placement-hub", label: "Placement Hub", desc: "All-in-one timeline" },
+    ],
+  },
 ];
 
 // Tools available via the avatar dropdown — these are useful but not part of
@@ -100,40 +117,53 @@ export function Nav() {
               }
             >
               {l.label}
-              {l.badge === "due" && dueCount > 0 && (
-                <span className="ml-1.5 inline-flex items-center justify-center bg-[var(--color-neon)] text-black text-[10px] font-bold rounded-full px-1.5 py-0.5 mono">
-                  {dueCount}
-                </span>
-              )}
             </NavLink>
           ))}
 
-          {/* Prep dropdown */}
+          {/* Prep dropdown — grouped by journey stage */}
           <div className="relative" ref={prepRef}>
             <button
               onClick={() => setPrepOpen((v) => !v)}
-              className={`px-3 py-1.5 text-xs font-semibold rounded-full inline-flex items-center gap-1 transition-colors ${
+              className={`relative px-3 py-1.5 text-xs font-semibold rounded-full inline-flex items-center gap-1 transition-colors ${
                 prepOpen ? "bg-[var(--color-bg-soft)] text-[var(--color-text)]" : "text-[var(--color-text-dim)] hover:text-[var(--color-text)] hover:bg-[var(--color-card-soft)]"
               }`}
               aria-haspopup="menu"
               aria-expanded={prepOpen}
             >
               <BookOpen className="w-3 h-3" /> Prep <ChevronDown className={`w-3 h-3 transition-transform ${prepOpen ? "rotate-180" : ""}`} />
+              {/* due-recall nudge (Review lives in this dropdown now) */}
+              {dueCount > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-[var(--color-neon)]" aria-hidden />
+              )}
             </button>
             {prepOpen && (
-              <div className="absolute right-0 top-full mt-2 w-72 rounded-2xl border border-[var(--color-line)] bg-[var(--color-card)] shadow-2xl overflow-hidden z-40 py-1">
-                {PREP_LINKS.map((p) => (
-                  <NavLink
-                    key={p.to}
-                    to={p.to}
-                    onClick={() => setPrepOpen(false)}
-                    className={({ isActive }) =>
-                      `block px-4 py-2.5 hover:bg-[var(--color-card-soft)] ${isActive ? "bg-[var(--color-neon)]/[0.06]" : ""}`
-                    }
-                  >
-                    <div className="text-sm font-semibold">{p.label}</div>
-                    <div className="text-[11px] text-[var(--color-text-faint)]">{p.desc}</div>
-                  </NavLink>
+              <div className="absolute right-0 top-full mt-2 w-72 rounded-2xl border border-[var(--color-line)] bg-[var(--color-card)] shadow-2xl overflow-hidden z-40 py-1.5">
+                {PREP_GROUPS.map((group) => (
+                  <div key={group.label} className="py-1">
+                    <div className="px-4 py-1 mono text-[9px] uppercase tracking-widest text-[var(--color-text-faint)]">
+                      {group.label}
+                    </div>
+                    {group.links.map((p) => (
+                      <NavLink
+                        key={p.to}
+                        to={p.to}
+                        onClick={() => setPrepOpen(false)}
+                        className={({ isActive }) =>
+                          `block px-4 py-2 hover:bg-[var(--color-card-soft)] ${isActive ? "bg-[var(--color-neon)]/[0.06]" : ""}`
+                        }
+                      >
+                        <div className="text-sm font-semibold flex items-center gap-2">
+                          {p.label}
+                          {p.badge === "due" && dueCount > 0 && (
+                            <span className="inline-flex items-center justify-center bg-[var(--color-neon)] text-black text-[10px] font-bold rounded-full px-1.5 mono">
+                              {dueCount}
+                            </span>
+                          )}
+                        </div>
+                        <div className="text-[11px] text-[var(--color-text-faint)]">{p.desc}</div>
+                      </NavLink>
+                    ))}
+                  </div>
                 ))}
               </div>
             )}
@@ -240,31 +270,35 @@ export function Nav() {
                 }
               >
                 {l.label}
-                {l.badge === "due" && dueCount > 0 && (
-                  <span className="ml-1.5 mono text-[10px] text-[var(--color-neon)]">·{dueCount}</span>
-                )}
               </NavLink>
             ))}
           </div>
 
-          {/* Prep */}
-          <div className="mono text-[10px] uppercase tracking-widest text-[var(--color-text-faint)] mb-1.5">Prep library</div>
-          <div className="grid grid-cols-2 gap-1.5 mb-4">
-            {PREP_LINKS.map((l) => (
-              <NavLink
-                key={l.to}
-                to={l.to}
-                onClick={() => setOpen(false)}
-                className={({ isActive }) =>
-                  `px-3 py-2 text-sm rounded-lg ${
-                    isActive ? "text-[var(--color-neon)] bg-[var(--color-neon)]/10" : "text-[var(--color-text-dim)]"
-                  }`
-                }
-              >
-                {l.label}
-              </NavLink>
-            ))}
-          </div>
+          {/* Prep — grouped by journey stage */}
+          {PREP_GROUPS.map((group) => (
+            <div key={group.label}>
+              <div className="mono text-[10px] uppercase tracking-widest text-[var(--color-text-faint)] mb-1.5">{group.label}</div>
+              <div className="grid grid-cols-2 gap-1.5 mb-4">
+                {group.links.map((l) => (
+                  <NavLink
+                    key={l.to}
+                    to={l.to}
+                    onClick={() => setOpen(false)}
+                    className={({ isActive }) =>
+                      `px-3 py-2 text-sm rounded-lg ${
+                        isActive ? "text-[var(--color-neon)] bg-[var(--color-neon)]/10" : "text-[var(--color-text-dim)]"
+                      }`
+                    }
+                  >
+                    {l.label}
+                    {l.badge === "due" && dueCount > 0 && (
+                      <span className="ml-1.5 mono text-[10px] text-[var(--color-neon)]">·{dueCount}</span>
+                    )}
+                  </NavLink>
+                ))}
+              </div>
+            </div>
+          ))}
 
           {/* Tools */}
           <div className="mono text-[10px] uppercase tracking-widest text-[var(--color-text-faint)] mb-1.5">Tools</div>
