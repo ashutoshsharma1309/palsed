@@ -543,6 +543,12 @@ const MORE_TOPICS: Topic[] = [
     lesson: {
       objective: "Manipulate nodes safely with pointers, dummy heads, and fast/slow pointers.",
       explanation: "A node holds a value and a **pointer to the next** node. A **dummy head** simplifies insert/delete at the front. **Fast/slow pointers** (one moves 2×) find the middle and detect cycles. Reversal re-points each `next` backward as you walk.",
+      definition: "A linked list is a chain of nodes where each node stores a value and a pointer to the next node (O(1) insert/delete, O(n) access).",
+      syntax: `struct Node {\n  int val;\n  Node* next;\n  Node(int v) : val(v), next(nullptr) {}\n};\nNode* head = new Node(1);\nhead->next = new Node(2);   // 1 -> 2 -> null`,
+      example: {
+        code: `// Reverse a singly linked list in place\nNode* prev = nullptr, *cur = head;\nwhile (cur) {\n  Node* nxt = cur->next;  // save before overwriting\n  cur->next = prev;       // flip the pointer\n  prev = cur; cur = nxt;  // advance\n}\nreturn prev;              // new head`,
+        explanation: "Save `next` *before* re-pointing, or you lose the rest of the list — the classic pitfall.",
+      },
       keyConcepts: ["Dummy node", "Fast/slow pointers", "In-place reversal", "Cycle detection"],
       interviewNotes: ["Draw the pointers before coding — off-by-one node errors are common.", "A dummy head removes most edge cases."],
       commonMistakes: ["Losing the rest of the list by overwriting `next` too early.", "Null-deref at the tail."],
