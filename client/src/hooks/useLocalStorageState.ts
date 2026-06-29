@@ -150,7 +150,6 @@ export const LS_KEYS = {
   focusMode: "palsed.focusmode.v1",
 
   // new "prepnext.*" namespace (placement-OS pivot)
-  applications: "prepnext.applications.v1",
   pyq: "prepnext.pyq.v1",
   placementCompleted: "prepnext.placement.completed.v1",
   placementBookmarks: "prepnext.placement.bookmarks.v1",

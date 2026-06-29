@@ -25,7 +25,6 @@ const Companies = lazy(() => import("./routes/Companies"));
 const CompanyDetail = lazy(() => import("./routes/CompanyDetail"));
 const Pyq = lazy(() => import("./routes/Pyq"));
 const PyqSubmit = lazy(() => import("./routes/PyqSubmit"));
-const Applications = lazy(() => import("./routes/Applications"));
 const Internships = lazy(() => import("./routes/Internships"));
 const AuthCallback = lazy(() => import("./routes/AuthCallback"));
 const Review = lazy(() => import("./routes/Review"));
@@ -44,7 +43,9 @@ const Hackathon = lazy(() => import("./routes/Hackathon"));
 const LearnTopic = lazy(() => import("./routes/LearnTopic"));
 const Patterns = lazy(() => import("./routes/Patterns"));
 const PatternDetail = lazy(() => import("./routes/PatternDetail"));
-const ResumeRoast = lazy(() => import("./routes/ResumeRoast"));
+const Projects = lazy(() => import("./routes/Projects"));
+const ProjectDomain = lazy(() => import("./routes/ProjectDomain"));
+const ProjectDetail = lazy(() => import("./routes/ProjectDetail"));
 const Salary = lazy(() => import("./routes/Salary"));
 const Compare = lazy(() => import("./routes/Compare"));
 const Oa = lazy(() => import("./routes/Oa"));
@@ -118,7 +119,9 @@ export default function App() {
                     <Route path="/dsa" element={<Dsa />} />
                     <Route path="/dsa/:slug" element={<DsaProblem />} />
                     <Route path="/pyq/submit" element={<PyqSubmit />} />
-                    <Route path="/applications" element={<Applications />} />
+                    <Route path="/projects" element={<Projects />} />
+                    <Route path="/projects/:domainId" element={<ProjectDomain />} />
+                    <Route path="/projects/:domainId/:projectId" element={<ProjectDetail />} />
                     <Route path="/review" element={<Review />} />
                     <Route path="/system-design" element={<SystemDesign />} />
                     <Route path="/core-cs" element={<CoreCs />} />
@@ -134,7 +137,6 @@ export default function App() {
                     <Route path="/learn/:topicId" element={<LearnTopic />} />
                     <Route path="/patterns" element={<Patterns />} />
                     <Route path="/patterns/:patternId" element={<PatternDetail />} />
-                    <Route path="/resume-roast" element={<ResumeRoast />} />
                     <Route path="/salary" element={<Salary />} />
                     <Route path="/compare" element={<Compare />} />
                     <Route path="/oa" element={<Oa />} />
@@ -142,12 +144,16 @@ export default function App() {
                     <Route path="/oa/result/:id" element={<OaResult />} />
                   </Route>
 
-                  {/* Legacy redirects — old AI routes → new homes */}
+                  {/* Legacy redirects — retired routes → current homes. Kept so old
+                      links/bookmarks resolve gracefully instead of 404-ing. */}
                   <Route path="/courses" element={<Navigate to="/companies" replace />} />
                   <Route path="/courses/*" element={<Navigate to="/companies" replace />} />
                   <Route path="/roadmaps" element={<Navigate to="/companies" replace />} />
                   <Route path="/roadmaps/*" element={<Navigate to="/companies" replace />} />
-                  <Route path="/tutor" element={<Navigate to="/applications" replace />} />
+                  <Route path="/tutor" element={<Navigate to="/dashboard" replace />} />
+                  {/* Retired features (Resume Roast, Applications tracker) */}
+                  <Route path="/resume-roast" element={<Navigate to="/dashboard" replace />} />
+                  <Route path="/applications" element={<Navigate to="/dashboard" replace />} />
                   <Route path="/auth" element={<Navigate to="/onboarding" replace />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>

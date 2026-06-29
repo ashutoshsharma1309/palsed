@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
-import { ArrowRight, Building2, Calendar, Database, Layers, Search, Target, Timer, FileText } from "lucide-react";
+import { ArrowRight, Building2, Calendar, Database, Layers, Search, FolderGit2, Timer, Puzzle } from "lucide-react";
 import { Button } from "../components/ui/Button";
 import { Card } from "../components/ui/Card";
 import { ThemeToggle } from "../components/ui/ThemeToggle";
@@ -33,9 +33,9 @@ const FEATURES = [
   },
   {
     tint: "peach" as const,
-    icon: <Target className="w-7 h-7" />,
-    title: "Application Tracker",
-    desc: "Kanban for your placement season. Wishlist → OA → Tech → HR → Offer. Deadlines, notes, conversion rate.",
+    icon: <FolderGit2 className="w-7 h-7" />,
+    title: "Project Tracks",
+    desc: "Build resume-worthy projects with structured paths across 10 domains — objective, features, folder structure, tech stack, stretch goals.",
   },
   {
     tint: "yellow" as const,
@@ -51,17 +51,17 @@ const FEATURES = [
   },
   {
     tint: "purple" as const,
-    icon: <FileText className="w-7 h-7" />,
-    title: "Resume Roast",
-    desc: "Brutal but actionable feedback on your CV. ATS keywords, bullet rewrites, fixes ranked by impact. Runs locally.",
+    icon: <Puzzle className="w-7 h-7" />,
+    title: "Coding Patterns",
+    desc: "The 20+ recurring patterns behind DSA — recognition cues, when to use, worked examples, and grouped practice.",
   },
 ];
 
 const HOW_IT_WORKS = [
   { n: "01", t: "Sign up", d: "Email + password. 30 seconds. No analysis." },
-  { n: "02", t: "Pick your targets", d: "Browse 50 recruiter pages. Bookmark the ones visiting your campus." },
-  { n: "03", t: "Track every round", d: "Add each application to the kanban. Move it as you progress." },
-  { n: "04", t: "Prep with PYQs", d: "Open any company → past questions, topics, tips. Quiz yourself daily." },
+  { n: "02", t: "Learn the fundamentals", d: "DSA roadmap, coding patterns, aptitude, and core CS — structured, step by step." },
+  { n: "03", t: "Practice & build", d: "Solve company-tagged PYQs, run timed mock OAs, and ship resume-worthy projects." },
+  { n: "04", t: "Interview & place", d: "Per-company prep kits, interview resources, and hackathon guidance — through to the offer." },
 ];
 
 const STATS = [
@@ -74,7 +74,7 @@ const STATS = [
 const FAQ_SCHEMA_ITEMS = [
   {
     q: "What is PrepPlace?",
-    a: "PrepPlace is an all-in-one placement preparation OS for Indian college students. Track companies, master PYQs, prep DSA, manage applications — all in one workspace.",
+    a: "PrepPlace is an all-in-one placement preparation platform for Indian college students — learn DSA and core CS, master coding patterns and aptitude, build resume-worthy projects, practice mock OAs and PYQs, and prep for interviews, all in one workspace.",
   },
   {
     q: "Is PrepPlace free?",
@@ -89,8 +89,8 @@ const FAQ_SCHEMA_ITEMS = [
     a: "Yes — a curated DSA tracker with 450+ problems, company-tagged, with spaced repetition for retention.",
   },
   {
-    q: "Can I track placement applications like a kanban board?",
-    a: "Yes — drag-and-drop applications across Applied / OA / Interview / Offer / Rejected stages.",
+    q: "Does PrepPlace help me build projects for my resume?",
+    a: "Yes — the Projects module gives structured learning paths across 10 domains (Web, Backend, AI/ML, Cybersecurity, Cloud, DevOps, Mobile, Blockchain, Data Science, Open Source), each with beginner→advanced projects detailing objective, features, folder structure, tech stack, and stretch goals.",
   },
   {
     q: "Is PrepPlace only for engineering students?",
@@ -105,7 +105,7 @@ export default function Landing() {
   usePageMeta({
     title: "Placement Season OS for Indian campus students",
     description:
-      "Map 75+ recruiters, crack PYQs, prep DSA + Core CS, track applications kanban-style, and get internship leads — all in one workspace. Free for students.",
+      "Learn DSA + Core CS, master coding patterns and aptitude, build resume-worthy projects, practice mock OAs and PYQs, and prep for interviews — all in one workspace. Free for students.",
     canonical: "/",
   });
 
