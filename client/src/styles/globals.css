@@ -11,6 +11,25 @@
   --font-display: "Anton", "Bebas Neue", "Inter", system-ui, sans-serif;
   --font-body: "Inter", system-ui, sans-serif;
   --font-mono: "Share Tech Mono", "JetBrains Mono", ui-monospace, monospace;
+
+  /* ──────────────────────────────────────────────────────────────────────
+     Reading-comfort type scale (long-session friendly).
+     The app uses text-xs/sm/base heavily for body + UI copy. The stock
+     Tailwind scale (12/14/16px) is too small to read for 3–4 hours, so we
+     lift every step ~1–2px and pair it with a generous line-height. This
+     redefinition flows through all 400+ text-xs / text-sm / text-base usages
+     at once — no per-component edits needed.
+     ────────────────────────────────────────────────────────────────────── */
+  --text-xs: 0.8125rem;   /* 13px (was 12) */
+  --text-xs--line-height: 1.5;
+  --text-sm: 0.9375rem;   /* 15px (was 14) */
+  --text-sm--line-height: 1.6;
+  --text-base: 1.0625rem; /* 17px (was 16) */
+  --text-base--line-height: 1.7;
+  --text-lg: 1.1875rem;   /* 19px (was 18) */
+  --text-lg--line-height: 1.65;
+  --text-xl: 1.3125rem;   /* 21px (was 20) */
+  --text-xl--line-height: 1.5;
 }
 
 /* DARK (default) ────────────────────────────────────────────────────────── */
@@ -18,24 +37,31 @@
 [data-theme="dark"] {
   color-scheme: dark;
 
-  --color-bg: #0a0a0a;
-  --color-bg-soft: #111111;
-  --color-card: #161616;
-  --color-card-soft: #1a1a1a;
-  --color-line: #222222;
-  --color-input: #1a1a1a;
-  --color-input-strong: #0d0d0d;
+  /* Backgrounds lifted off pure black. Pure #000/#0a0a0a behind near-white
+     text causes halation (the glow/smear that tires eyes over long reads), so
+     the base is a very dark neutral-warm grey instead. Cards stay a step
+     above so elevation still reads. */
+  --color-bg: #101012;
+  --color-bg-soft: #16161a;
+  --color-card: #1b1b1f;
+  --color-card-soft: #202025;
+  --color-line: #2a2a30;
+  --color-input: #1f1f24;
+  --color-input-strong: #141417;
 
-  --color-text: #f7f7f7;
-  --color-text-dim: #a0a0a0;
-  --color-text-faint: #666666;
+  /* Text dropped from near-pure-white (#f7f7f7, ~18:1) to a softer off-white.
+     Still ~13:1 — comfortably AAA — but without the glare. Dim/faint lifted
+     a touch so secondary copy stays legible at the larger sizes. */
+  --color-text: #e9e9ea;
+  --color-text-dim: #adadb2;
+  --color-text-faint: #76767c;
 
-  /* brand neon */
+  /* brand neon — glow softened so accents don't bloom during long sessions */
   --color-neon: #c8ff3d;
   --color-neon-dim: #97c12a;
   --color-neon-text: #c8ff3d;
-  --color-neon-glow: rgba(200, 255, 61, 0.45);
-  --color-neon-glow-subtle: rgba(200, 255, 61, 0.18);
+  --color-neon-glow: rgba(200, 255, 61, 0.30);
+  --color-neon-glow-subtle: rgba(200, 255, 61, 0.11);
 
   /* pastel feature-card tints (work on both themes) */
   --color-mint: #b9f5c8;
@@ -60,8 +86,10 @@
   --severity-crit-text: #ff8a7a;
   --severity-crit-border: rgba(255, 82, 71, 0.4);
 
-  /* surface tints — used in CSS overrides for opacity utilities */
-  --tint-text-rgb: 255, 255, 255; /* "white-with-opacity" → muted text */
+  /* surface tints — used in CSS overrides for opacity utilities.
+     text tint is softened from pure white so every `text-white/N` (200+ uses)
+     reads as a calm off-white rather than glaring #fff. */
+  --tint-text-rgb: 233, 233, 234; /* "white-with-opacity" → muted text */
   --tint-surface-rgb: 255, 255, 255; /* white/N → subtle highlight */
   --tint-line-rgb: 255, 255, 255; /* white/N → borders */
   --tint-glass-rgb: 0, 0, 0; /* black/N → translucent nav/modal backdrops */
@@ -72,7 +100,7 @@
   --blob-a: #c8ff3d;
   --blob-b: #b5d4ff;
   --blob-c: #d6c1ff;
-  --blob-opacity: 0.35;
+  --blob-opacity: 0.26;
 
   /* scrollbar */
   --sb-track: #0a0a0a;
@@ -92,9 +120,11 @@
   --color-input: #f0f0eb;
   --color-input-strong: #e9e7df;
 
-  --color-text: #0a0a0a;
-  --color-text-dim: #555555;
-  --color-text-faint: #8a8a85;
+  /* Softened from pure #0a0a0a — near-black ink on off-white is harsh over
+     long reads; a very dark warm grey keeps contrast high (~14:1) but easier. */
+  --color-text: #1d1d1b;
+  --color-text-dim: #565654;
+  --color-text-faint: #84847f;
 
   /* brand neon — dimmer + a darker text-only variant for readability on white */
   --color-neon: #b4e62a;
@@ -125,7 +155,7 @@
   --severity-crit-border: rgba(183, 28, 28, 0.30);
 
   /* invert tint origins so opacity utilities work on a light surface */
-  --tint-text-rgb: 10, 10, 10;
+  --tint-text-rgb: 29, 29, 27;
   --tint-surface-rgb: 10, 10, 10;
   --tint-line-rgb: 10, 10, 10;
   --tint-glass-rgb: 255, 255, 255;
@@ -146,6 +176,13 @@
    Base
    ──────────────────────────────────────────────────────────────────────── */
 
+html {
+  /* Honor the OS "larger text" accessibility setting and stop mobile Safari
+     from auto-inflating font sizes unpredictably. */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
 html,
 body,
 #root {
@@ -159,7 +196,24 @@ body,
 body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  /* Comfortable defaults for the long-read UI copy that doesn't set its own. */
+  line-height: 1.6;
+  letter-spacing: 0.003em;
 }
+
+/* ────────────────────────────────────────────────────────────────────────
+   Tiny-text floor.
+   The app has 150+ `text-[10px]`, plus `text-[9px]`/`[11px]` labels, overlines
+   and badges. Sub-12px text is the single biggest eye-strain source over a
+   multi-hour session, so we lift each arbitrary micro-size to a readable floor.
+   Same single-class specificity as Tailwind's arbitrary utilities, declared
+   later in the cascade + !important so these win.
+   ──────────────────────────────────────────────────────────────────────── */
+.text-\[9px\]  { font-size: 10.5px !important; }
+.text-\[10px\] { font-size: 11.5px !important; }
+.text-\[11px\] { font-size: 12px   !important; }
+.text-\[12px\] { font-size: 13px   !important; }
+.text-\[13px\] { font-size: 14px   !important; }
 
 ::selection {
   background: var(--color-neon);
@@ -230,12 +284,14 @@ body {
     linear-gradient(var(--grid-line) 1px, transparent 1px),
     linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
   background-size: 48px 48px;
-  animation: grid-pulse 9s ease-in-out infinite;
+  /* Slower + much shallower pulse — constant peripheral flicker is tiring on
+     a multi-hour study session, so the grid now breathes almost imperceptibly. */
+  animation: grid-pulse 20s ease-in-out infinite;
 }
 
 @keyframes grid-pulse {
-  0%, 100% { opacity: 0.55; }
-  50% { opacity: 1; }
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 0.9; }
 }
 
 .blob {
@@ -245,12 +301,13 @@ body {
   opacity: var(--blob-opacity);
   pointer-events: none;
   will-change: transform;
-  animation: blob-float 18s ease-in-out infinite;
+  /* Gentler, slower drift so the background stays calm during long reads. */
+  animation: blob-float 34s ease-in-out infinite;
 }
 
 @keyframes blob-float {
   0%, 100% { transform: translate3d(0,0,0); }
-  50% { transform: translate3d(40px, -30px, 0); }
+  50% { transform: translate3d(22px, -16px, 0); }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -273,7 +330,8 @@ input, select, textarea, button {
 pre code.hljs {
   padding: 16px !important;
   font-family: var(--font-mono);
-  font-size: 13px;
+  font-size: 14.5px;
+  line-height: 1.65;
 }
 
 /* In light mode, override the CDN dark theme's harsh hardcoded palette
@@ -294,18 +352,39 @@ pre code.hljs {
 [data-theme="light"] .hljs-title,
 [data-theme="light"] .hljs-function .hljs-title { color: #1f4e8c !important; }
 
+/* Long-form reading surface (lessons, patterns, system-design, core-CS).
+   This is where the 3–4 hour sessions actually happen, so it gets the most
+   generous treatment: bigger base text, a capped line length (~68 characters
+   is the comfortable reading measure — eyes tire tracking back across very
+   wide lines), and roomy line-height. */
+.markdown-body {
+  font-size: 1.0625rem;   /* ~17px body copy */
+  line-height: 1.75;
+  color: var(--color-text);
+}
+.markdown-body > * {
+  max-width: 68ch;
+}
+/* Block elements that are meant to be wide (code, tables, diagrams, media)
+   opt back out of the reading-measure cap. */
+.markdown-body > pre,
+.markdown-body > table,
+.markdown-body > .mermaid,
+.markdown-body > img {
+  max-width: 100%;
+}
 .markdown-body h1, .markdown-body h2, .markdown-body h3 {
   font-family: var(--font-display);
   letter-spacing: 0;
-  margin-top: 1.2em;
+  margin-top: 1.3em;
   margin-bottom: 0.5em;
 }
-.markdown-body h1 { font-size: 1.8rem; }
-.markdown-body h2 { font-size: 1.4rem; }
-.markdown-body h3 { font-size: 1.15rem; color: var(--color-neon-text); }
-.markdown-body p { margin: 0.7em 0; line-height: 1.65; color: var(--color-text); }
-.markdown-body ul, .markdown-body ol { padding-left: 1.4em; margin: 0.6em 0; }
-.markdown-body li { margin: 0.3em 0; line-height: 1.55; }
+.markdown-body h1 { font-size: 2rem; }
+.markdown-body h2 { font-size: 1.55rem; }
+.markdown-body h3 { font-size: 1.25rem; color: var(--color-neon-text); }
+.markdown-body p { margin: 0.85em 0; line-height: 1.75; color: var(--color-text); }
+.markdown-body ul, .markdown-body ol { padding-left: 1.4em; margin: 0.7em 0; }
+.markdown-body li { margin: 0.4em 0; line-height: 1.7; }
 .markdown-body a { color: var(--color-neon-text); text-decoration: underline; text-underline-offset: 3px; }
 .markdown-body code {
   background: var(--color-input);
@@ -383,6 +462,15 @@ pre code.hljs {
 [data-theme="light"] .bg-\[\#0d0d0d\] { background-color: var(--color-input-strong) !important; }
 [data-theme="light"] .bg-\[\#111111\] { background-color: var(--color-bg-soft) !important; }
 
+/* DARK mode: redirect the same hardcoded greyscale hexes to the (now lifted)
+   theme surfaces so pure-black slabs don't sit beside the softened base bg.
+   Keeps the whole dark surface system consistent after the contrast easing. */
+[data-theme="dark"] .bg-\[\#0a0a0a\] { background-color: var(--color-bg) !important; }
+[data-theme="dark"] .bg-\[\#111111\] { background-color: var(--color-bg-soft) !important; }
+[data-theme="dark"] .bg-\[\#0d0d0d\] { background-color: var(--color-input-strong) !important; }
+[data-theme="dark"] .bg-\[\#161616\] { background-color: var(--color-card) !important; }
+[data-theme="dark"] .bg-\[\#1a1a1a\] { background-color: var(--color-input) !important; }
+
 /* Tailwind opacity classes that target `text-black` (mostly on pastel cards
    — that already works fine on both themes, so no override needed). Leave. */
 
@@ -456,6 +544,30 @@ pre code.hljs {
 .theme-toggle:hover {
   border-color: var(--color-neon);
   color: var(--color-neon-text);
+}
+
+/* ────────────────────────────────────────────────────────────────────────
+   Warm light (low-blue-light) mode — toggled from the Reading-Comfort menu.
+   A full-viewport, click-through overlay tints the page amber via `multiply`,
+   which knocks down blue most on bright surfaces (where eye-tiring blue light
+   mostly originates) while barely touching dark areas. Using an overlay rather
+   than a `filter` on <html> avoids creating a containing block that would break
+   position:fixed nav/modals.
+   ──────────────────────────────────────────────────────────────────────── */
+html[data-warm="on"] body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 2147483000;
+  pointer-events: none;
+  background: #ffcd80;
+  mix-blend-mode: multiply;
+  opacity: 0.14;
+}
+/* Dark theme is already low-blue; multiply does little on near-black, so add a
+   gentle soft-light warm wash too for a perceptible effect there. */
+html[data-warm="on"][data-theme="dark"] body::after {
+  opacity: 0.10;
 }
 
 /* ────────────────────────────────────────────────────────────────────────
