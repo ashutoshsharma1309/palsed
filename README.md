@@ -1,28 +1,50 @@
-# PrepPlace — Placement Season Operating System for Indian Students
-
-> ℹ️ This README describes the platform's earlier identity. For the **current**
-> product overview (PrepPlace as a placement-prep workspace), see
-> [`summary.md`](summary.md).
+# PrepPlace — The Placement-Prep Operating System for Indian Students
 
 **Live:** https://prepnext.vercel.app
 
-PrepPlace is a full-stack, production-deployed **placement-preparation operating
-system for Indian college students**. It consolidates campus placement season
-into one workspace: a curated recruiter map, a verified previous-year-question
-(PYQ) vault, a DSA practice hub, per-company prep kits, and a kanban application
-tracker — with Google sign-in and cloud-synced, per-user progress.
+PrepPlace is a full-stack, production-deployed platform that takes a college
+student through the **entire placement journey in one place** —
+**Learn → Practice → Build → Interview → Placement** — with Google sign-in,
+a single **Placement Readiness Score**, and structured, opinionated content end
+to end.
+
+---
+
+## The journey model
+
+The whole product is organized around the five stages a student actually moves
+through, and a single score that tells them where they stand:
+
+```
+Learn  →  Practice  →  Build  →  Interview  →  Placement
+DSA       Patterns +    Projects   Mock OA +     Recruiter map +
+roadmap   problems      (10        interview     PYQ vault +
+          + aptitude    domains)   resources     prep kits
+                    │
+                    ▼
+        Placement Readiness Score (0–100)
+   DSA · Patterns · Projects · Mock OA · Consistency
+```
+
+The **Placement Readiness Score** aggregates the journey into one number with a
+per-dimension breakdown and an "improve next →" nudge that routes the student to
+their weakest area. Weights: **DSA 25% · Coding patterns 20% · Projects 20% ·
+Mock OA 20% · Consistency 15%**, with bands (Getting started → Building up →
+Interview-ready → Placement-ready).
 
 ---
 
 ## Highlights
 
-- **Full-stack TypeScript/Node app** deployed on **Vercel** (static SPA + serverless API) with a managed **PostgreSQL** database on **Supabase**.
-- **Google authentication** via Supabase Auth — server-verified JWTs, centralized route guards, enforced profile completion, and per-user data isolation.
-- **Normalized relational schema** modeled in **Prisma** with versioned migrations, seed data, and a generic REST CRUD layer.
-- **Recruiter map + PYQ vault**: 85+ curated recruiters (eligibility, rounds, verified-only CTC) and 82+ verified previous-year questions with expected approaches.
-- **Applications tracker**: a placement-season kanban (Wishlist → OA → Tech → HR → Offer) with deadlines, notes, and conversion rate.
-- **DSA practice hub**: 150 curated problems across 18 topics with in-platform solutions, complexity analysis, LeetCode integration, and 4-state progress tracking.
-- **Performance & UX**: route-based code-splitting / lazy loading, memoized components, glassmorphism UI, framer-motion transitions, fully responsive, accessible (ARIA, keyboard nav).
+- **Full-stack TypeScript/Node app** on **Vercel** (static SPA + serverless API) with managed **PostgreSQL** on **Supabase**.
+- **Google authentication** via Supabase Auth — server-verified JWTs, centralized route guards, enforced profile completion, per-user isolation.
+- **Journey-based navigation** — primary nav (Dashboard, DSA, Patterns, Aptitude, Projects, Mock OA) plus a grouped Prep menu (Practice / Interview / Placement).
+- **Placement Readiness Score** — one 0–100 metric across the whole journey, on the dashboard.
+- **Projects module** — **10 domains, 30 structured projects** (Web, Backend, AI/ML, Cybersecurity, Cloud, DevOps, Mobile, Blockchain, Data Science, Open Source) with per-project detail and difficulty paths.
+- **Coding Patterns module** — **26 interview patterns** with explanations and practice problems, tracked toward readiness.
+- **DSA practice hub** — curated problems across topics with in-platform solutions, complexity analysis, LeetCode links, and 4-state progress.
+- **Recruiter map + PYQ vault + Mock OA** — verified-CTC company kits, previous-year questions, and timed self-graded online-assessment mocks.
+- **Performance & UX** — route-based code-splitting, memoized components, glassmorphism UI, framer-motion transitions, fully responsive, accessible (ARIA, keyboard nav, skip-link), and a low-eye-strain type scale tuned for multi-hour study sessions.
 
 ---
 
@@ -39,8 +61,9 @@ PostgreSQL (Supabase)  +  Supabase Auth (Google)
 ```
 
 - **Frontend** and **API** are served from one Vercel domain; a rewrite routes `/api/*` into the serverless function.
-- **CI/CD**: push to `main` → Vercel builds (`prisma generate` + `vite build`) and deploys automatically.
-- **Secrets** (`DATABASE_URL`, `SUPABASE_URL`, `SUPABASE_JWT_SECRET`, `SUPABASE_SERVICE_ROLE_KEY`, `GROQ_API_KEY`, plus client `VITE_SUPABASE_*`) live in Vercel/`.env` (git-ignored); only `.env.example` is committed.
+- **Data-driven content** — each domain (projects, patterns, DSA topics) is one typed TS data file aggregated in an index registry; the UI renders from the data.
+- **Progress** (checklist, solved problems, projects built, active days) is tracked client-side via a `useLearningProgress` store and feeds the readiness score.
+- **CI/CD** — push to `main` → Vercel builds (`prisma generate` + `vite build`) and deploys automatically.
 
 ---
 
@@ -48,40 +71,37 @@ PostgreSQL (Supabase)  +  Supabase Auth (Google)
 
 | Layer | Technologies |
 |---|---|
-| **Frontend** | React 19, TypeScript, Vite 7, Tailwind CSS v4, React Router 7, framer-motion, react-markdown, jsPDF + qrcode |
-| **Backend** | Node 20, Express 4 (ESM), serverless functions |
-| **Database** | PostgreSQL (Supabase), Prisma ORM, `@prisma/adapter-pg` driver, SQL migrations |
+| **Frontend** | React 19, TypeScript, Vite 7, Tailwind CSS v4 (`@theme` tokens), React Router 7, framer-motion, react-markdown, jsPDF + qrcode |
+| **Backend** | Node 20, Express 4 (ESM), Vercel serverless functions |
+| **Database** | PostgreSQL (Supabase), Prisma ORM, `@prisma/adapter-pg`, SQL migrations |
 | **Auth** | Supabase Auth (Google OAuth); server-side JWT verification + route guards |
-| **AI** | Groq API (`openai/gpt-oss-120b`) with strict JSON mode + schema validation + retry |
 | **Infra / DevOps** | Vercel (hosting + serverless), Supabase (managed Postgres + Auth), Git-based CI/CD |
 
 ---
 
 ## Key features
 
-### Placement workspace
-- **Recruiter map** — 85+ curated companies with eligibility, rounds, OA platforms, and verified-only CTC bands.
-- **PYQ vault** — 82+ verified previous-year questions with expected approaches; student contribution + verification flow.
-- **Applications kanban** — track every company through Wishlist → OA → Tech → HR → Offer with deadlines and conversion rate.
-- **Per-company Prep Kits** — DSA + PYQ + topic bundles composed per recruiter.
-- **OA mock tests** — timed, self-graded mock assessments with a rubric.
-- **Supporting tools** — Resume Roast, Salary insights, Company Compare, mastery radar, and **certificates** (PDF + QR + verifiable URL).
+### Learn
+- **Structured DSA roadmap** with per-topic lessons (definition, syntax, worked example) and progress tracking.
+- **Aptitude, Core CS, System Design, Interview resources** — typed resource libraries with instant search, bookmarking, and SEO-complete pages.
 
-### Placement Training Hub
-- 10 sections: Programming Languages, DSA, LeetCode tracks, Web Dev, ML, AI, App Dev, Aptitude, Core CS, Interview Prep.
-- **Scalable resource architecture** — all resources typed and stored in data files; UI is fully data-driven.
-- **Progress tracking** (completion %, readiness score, recommended-next) and **resource bookmarking**.
-- **Instant global search** across every topic and resource.
+### Practice
+- **DSA practice hub** — hand-curated problems with company tags, in-platform solutions, complexity analysis, LeetCode integration, and 4-state progress (Not Started / In Progress / Solved / Revision).
+- **Coding Patterns** — 26 reusable interview patterns, each with practice problems.
 
-### DSA practice hub
-- **150 hand-curated problems** across 18 topics with company tags, interview-frequency, and source sheets (Blind 75, NeetCode 150, Striver SDE, Grind 75).
-- **In-platform solutions**: approach, complexity analysis, and sample code — no leaving the site.
-- **LeetCode integration** and **4-state progress** (Not Started / In Progress / Solved / Revision).
+### Build
+- **Projects module** — 10 domains × structured project paths (30 projects), each with a detail page covering what you build, the stack, and milestones; "built" toggles feed the readiness score.
+
+### Interview & Placement
+- **Mock OA** — timed, self-graded online-assessment mocks with a rubric and result page.
+- **Recruiter map** — curated companies with eligibility, rounds, OA platforms, and verified-only CTC bands.
+- **PYQ vault** — verified previous-year questions with expected approaches and a student contribution/verification flow.
+- **Per-company prep kits**, salary insights, company compare, mastery radar, and verifiable **certificates** (PDF + QR + verify URL).
 
 ### Accounts & data
-- Google sign-in (Supabase Auth) with a **single-tap auth experience** and intended-destination redirect.
-- **Centralized route protection** — protected pages require login; direct-URL access is guarded.
-- **Per-user data isolation** so accounts never share progress on the same device.
+- Google sign-in (Supabase Auth) with single-tap auth and intended-destination redirect.
+- Centralized route protection; direct-URL access to protected pages is guarded.
+- Per-user data isolation so accounts never share progress on the same device.
 
 ---
 
@@ -96,7 +116,7 @@ npm run install:all
 
 # 2. Configure environment
 cp server/.env.example server/.env
-#    set GROQ_API_KEY, DATABASE_URL, SHADOW_DATABASE_URL, JWT_SECRET
+#    set DATABASE_URL, SHADOW_DATABASE_URL, SUPABASE_* keys
 
 # 3. Create the database schema
 cd server && npm run db:migrate && npm run db:seed && cd ..
@@ -105,23 +125,26 @@ cd server && npm run db:migrate && npm run db:seed && cd ..
 npm run dev
 ```
 
-See [`DATABASE_SETUP.md`](DATABASE_SETUP.md) for the full database guide (schema,
-migrations, backup/restore) and [`PLACEMENT_HUB.md`](PLACEMENT_HUB.md) for the
-Placement Hub architecture.
+See [`DATABASE_SETUP.md`](DATABASE_SETUP.md) for the full database guide and
+[`summary.md`](summary.md) for the current product/architecture overview.
 
 ## Deploy (Vercel + Supabase)
 
 1. Create a **Supabase** project; copy the Postgres connection string (pooled).
-2. Apply migrations against it: `cd server && DATABASE_URL="<supabase-url>" npx prisma migrate deploy`.
-3. In **Vercel → Settings → Environment Variables**, set `DATABASE_URL`, `SUPABASE_URL`, `SUPABASE_JWT_SECRET`, `SUPABASE_SERVICE_ROLE_KEY`, `GROQ_API_KEY` (and the `VITE_SUPABASE_*` client keys).
+2. Apply migrations: `cd server && DATABASE_URL="<supabase-url>" npx prisma migrate deploy`.
+3. In **Vercel → Settings → Environment Variables**, set `DATABASE_URL`, `SUPABASE_URL`, `SUPABASE_JWT_SECRET`, `SUPABASE_SERVICE_ROLE_KEY` (and the `VITE_SUPABASE_*` client keys).
 4. Push to `main` — Vercel builds and deploys automatically.
 
 ---
 
+## Roadmap
+
+PrepPlace is moving toward **institution-grade** adoption. Strategy and the
+phased build plan live in [`SAAS_READINESS.md`](SAAS_READINESS.md),
+[`COMPETITOR_ANALYSIS.md`](COMPETITOR_ANALYSIS.md), and
+[`PHASE2_REPORT.md`](PHASE2_REPORT.md). Next milestones: server-synced progress,
+a TPO/admin cohort dashboard, SSO + CSV bulk onboarding, and multi-tenancy.
+
+---
+
 Made by **Ashutosh Sharma** — [www.linkedin.com/in/ashutoshsharma1309](https://www.linkedin.com/in/ashutoshsharma1309)
-
-<!-- deploy-marker: 20260619142718 -->
-
-<!-- vercel-author-fix: 1781880177 -->
-
-<!-- vercel-rebuild-as-owner: 1781884735 -->
