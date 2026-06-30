@@ -15,6 +15,7 @@ import { RoadmapView } from "../components/roadmap/RoadmapView";
 import { DailyStreakCard } from "../components/dashboard/DailyStreakCard";
 import { DailyGoalBanner } from "../components/dashboard/DailyGoalBanner";
 import { JourneyMap } from "../components/dashboard/JourneyMap";
+import { ReadinessCard } from "../components/dashboard/ReadinessCard";
 
 export default function Dashboard() {
   usePageMeta({ title: "Dashboard", description: "Your placement journey — learn, practice, build, interview, and place.", canonical: "/dashboard" });
@@ -90,6 +91,7 @@ export default function Dashboard() {
 
         {/* ===================== SIDEBAR ===================== */}
         <aside className="lg:sticky lg:top-20 space-y-6">
+          <ReadinessCard />
           <DailyStreakCard />
         </aside>
       </div>

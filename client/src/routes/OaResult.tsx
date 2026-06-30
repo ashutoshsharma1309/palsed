@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { Link, useParams } from "react-router-dom";
+import toast from "react-hot-toast";
 import {
   CheckCircle2, XCircle, AlertCircle, RotateCw, Share2, Eye, Flag, Trophy,
   Code2, Clock, HardDrive, ExternalLink, Sparkles, Lightbulb, Zap,
@@ -58,7 +59,7 @@ export default function OaResult() {
       if (navigator.share) await navigator.share({ title: "My PrepPlace OA score", text });
       else {
         await navigator.clipboard.writeText(text);
-        alert("Score copied to clipboard!");
+        toast.success("Score copied to clipboard!");
       }
     } catch {/* user cancelled */}
   };

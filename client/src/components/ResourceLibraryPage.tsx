@@ -4,6 +4,7 @@ import { Card } from "./ui/Card";
 import { Chip } from "./ui/Chip";
 import { parseResourceMarkdown, ResourceDifficulty, ResourceLink, ResourceType } from "../lib/markdown";
 import { Loader } from "./ui/Loader";
+import { usePageMeta } from "../hooks/usePageMeta";
 
 interface Props {
   title: string;
@@ -11,12 +12,22 @@ interface Props {
   mdPath: string;
   extras?: React.ReactNode;
   accent?: string;
+  /** Canonical path for SEO, e.g. "/aptitude". */
+  canonical?: string;
+  /** Optional override for the <title>; defaults to the cleaned-up title. */
+  metaTitle?: string;
 }
 
 const TYPES: ResourceType[] = ["Questions", "Tutorial", "Practice", "Guide", "Collection", "Book", "Course", "Tool"];
 const DIFFS: ResourceDifficulty[] = ["Beginner", "Intermediate", "Advanced", "All Levels"];
 
-export function ResourceLibraryPage({ title, tagline, mdPath, extras, accent = "#c8ff3d" }: Props) {
+export function ResourceLibraryPage({ title, tagline, mdPath, extras, accent = "#c8ff3d", canonical, metaTitle }: Props) {
+  usePageMeta({
+    title: metaTitle ?? title.replace(/\.$/, ""),
+    description: tagline,
+    canonical,
+  });
+
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<{ categories: string[]; links: ResourceLink[] }>({
     categories: [],

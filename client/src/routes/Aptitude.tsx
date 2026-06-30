@@ -6,6 +6,8 @@ export default function Aptitude() {
       tagline="Quant, reasoning, verbal, DI, and company PYQs — everything the test rounds throw at you."
       mdPath="/aptitude.md"
       accent="#ffe87a"
+      canonical="/aptitude"
+      metaTitle="Aptitude Prep — Quant, Reasoning, Verbal & Company PYQs"
     />
   );
 }

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import toast from "react-hot-toast";
 import { useLocalStorageState, LS_KEYS } from "../hooks/useLocalStorageState";
 import { Card } from "../components/ui/Card";
 import { Button } from "../components/ui/Button";
@@ -91,7 +92,7 @@ function CertificateView({ cert }: { cert: Certificate }) {
         <Button onClick={() => ref.current && downloadCertificatePdf(ref.current, `prepplace-${cert.verifyCode}.pdf`)}>
           Download PDF
         </Button>
-        <Button variant="outline" onClick={() => { navigator.clipboard.writeText(url); alert("Verify URL copied"); }}>
+        <Button variant="outline" onClick={() => { navigator.clipboard.writeText(url); toast.success("Verify URL copied"); }}>
           Copy verify URL
         </Button>
       </div>

@@ -214,8 +214,9 @@ export default function DsaProblem() {
           <AccordionItem title="Solution" icon={<Code2 className="w-4 h-4" />}>
             {!sol ? (
               <p className="text-sm text-[var(--color-text-faint)]">
-                An in-platform solution for this problem is coming soon. Try it yourself, or ask the AI
-                tutor for a guided walkthrough.
+                A full editorial for this problem isn't published yet. Give it a genuine attempt, use the
+                hint above, and revisit the relevant approach in the{" "}
+                <Link to="/patterns" className="text-[var(--color-neon-text)] underline">Patterns</Link> library.
               </p>
             ) : !solutionShown ? (
               <div className="text-sm text-[var(--color-text-faint)]">
