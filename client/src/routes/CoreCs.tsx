@@ -6,6 +6,8 @@ export default function CoreCs() {
       tagline="OOP, OS, DBMS, computer networks, and SQL — the fundamentals every interview circles back to."
       mdPath="/core-cs.md"
       accent="#b9f5c8"
+      canonical="/core-cs"
+      metaTitle="Core CS — OOP, OS, DBMS, Networks & SQL for Interviews"
     />
   );
 }

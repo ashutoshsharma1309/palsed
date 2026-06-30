@@ -17,6 +17,8 @@ export default function SystemDesign() {
       tagline="Foundational primers, case studies, and the diagram tools you'll actually use in interviews."
       mdPath="/system-design.md"
       accent="#b5d4ff"
+      canonical="/system-design"
+      metaTitle="System Design — Primers, Case Studies & Diagram Tools"
       extras={
         <Card className="my-6">
           <div className="mono text-xs uppercase tracking-widest text-[var(--color-neon)] mb-3">
