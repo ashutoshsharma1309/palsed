@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { Bookmark, BookmarkCheck, ChevronDown, ChevronUp, Flame, RotateCw, Search, Shuffle } from "lucide-react";
+import { Bookmark, BookmarkCheck, ChevronDown, ChevronUp, ExternalLink, Flame, RotateCw, Search, Shuffle } from "lucide-react";
 import toast from "react-hot-toast";
 import { useLocalStorageState, LS_KEYS } from "../hooks/useLocalStorageState";
 import { PROBLEMS, TOPICS, COMPANY_LIST, SOURCE_LIST, Difficulty, Topic, Source } from "../data/dsa-problems";
@@ -10,6 +10,7 @@ import { Donut } from "../components/ui/Donut";
 import { ProgressBar } from "../components/ui/ProgressBar";
 import { Button } from "../components/ui/Button";
 import { AdaptiveRecommender } from "../components/adaptive/AdaptiveRecommender";
+import { LeetCodeLogo } from "../components/dsa/LeetCodeLogo";
 import { usePageMeta } from "../hooks/usePageMeta";
 
 type Status = "not_started" | "attempted" | "solved";
@@ -242,6 +243,7 @@ export default function Dsa() {
                 <th className="py-2 pr-3 w-12">★</th>
                 <th className="py-2 pr-3 w-16">LC#</th>
                 <th className="py-2 pr-3">Title</th>
+                <th className="py-2 pr-3 w-16">LeetCode</th>
                 <th className="py-2 pr-3">Topic</th>
                 <th className="py-2 pr-3 w-24">Difficulty</th>
                 <th className="py-2 pr-3 w-20">Freq</th>
@@ -269,6 +271,19 @@ export default function Dsa() {
                       <Link to={`/dsa/${p.slug}`} className="text-[var(--color-text)] hover:text-[var(--color-neon)]">
                         {p.title}
                       </Link>
+                    </td>
+                    <td className="py-2 pr-3">
+                      <a
+                        href={`https://leetcode.com/problems/${p.slug}/`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 text-xs text-[var(--color-text-faint)] hover:text-[#ffa116]"
+                        title="Open on LeetCode"
+                        aria-label={`Open ${p.title} on LeetCode`}
+                      >
+                        <LeetCodeLogo className="w-4 h-4" />
+                        <ExternalLink className="w-3 h-3" />
+                      </a>
                     </td>
                     <td className="py-2 pr-3 text-xs text-[var(--color-text-faint)]">{p.topic}</td>
                     <td className="py-2 pr-3">
