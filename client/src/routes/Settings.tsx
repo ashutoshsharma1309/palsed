@@ -2,7 +2,13 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { Card } from "../components/ui/Card";
 import { Button } from "../components/ui/Button";
-import { LS_KEYS, useLocalStorageState } from "../hooks/useLocalStorageState";
+import {
+  LS_KEYS,
+  useLocalStorageState,
+  exportUserData,
+  importUserData,
+  wipeUserData,
+} from "../hooks/useLocalStorageState";
 import type { Profile } from "../types/profile";
 
 const DEFAULT_PROFILE: Profile = {
@@ -19,16 +25,16 @@ export default function Settings() {
   const [confirming, setConfirming] = useState(false);
 
   const exportData = () => {
-    const blob: Record<string, unknown> = {};
-    Object.values(LS_KEYS).forEach((k) => {
-      const raw = localStorage.getItem(k);
-      if (raw !== null) blob[k] = JSON.parse(raw);
-    });
+    const blob = exportUserData();
+    if (Object.keys(blob).length === 0) {
+      toast("Nothing to export yet — start learning first.");
+      return;
+    }
     const data = new Blob([JSON.stringify(blob, null, 2)], { type: "application/json" });
     const url = URL.createObjectURL(data);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `prepplace-${new Date().toISOString().slice(0, 10)}.json`;
+    a.download = `prepnext-${new Date().toISOString().slice(0, 10)}.json`;
     a.click();
     URL.revokeObjectURL(url);
     toast.success("Exported your data");
@@ -41,19 +47,25 @@ export default function Settings() {
     reader.onload = () => {
       try {
         const parsed = JSON.parse(reader.result as string);
-        Object.entries(parsed).forEach(([k, v]) => localStorage.setItem(k, JSON.stringify(v)));
-        toast.success("Imported. Reloading…");
+        if (!parsed || typeof parsed !== "object") throw new Error("bad shape");
+        const n = importUserData(parsed as Record<string, unknown>);
+        if (n === 0) {
+          toast.error("No recognizable PrepNext data in that file");
+          return;
+        }
+        toast.success(`Imported ${n} sections. Reloading…`);
         setTimeout(() => location.reload(), 600);
       } catch (err) {
         toast.error("Couldn't parse that file");
       }
     };
     reader.readAsText(file);
+    e.target.value = ""; // allow re-importing the same file
   };
 
   const wipe = () => {
-    Object.values(LS_KEYS).forEach((k) => localStorage.removeItem(k));
-    toast.success("Wiped. Reloading…");
+    const n = wipeUserData();
+    toast.success(n > 0 ? "Wiped. Reloading…" : "Nothing to wipe. Reloading…");
     setTimeout(() => location.reload(), 600);
   };
 
@@ -102,7 +114,7 @@ export default function Settings() {
       <Card>
         <h2 className="display text-2xl mb-4">WIPE EVERYTHING.</h2>
         <p className="text-sm text-[var(--color-text-faint)] mb-4">
-          Removes your profile, courses, mastery, SRS — everything PrepPlace has saved on this browser.
+          Removes your profile, courses, mastery, SRS — everything PrepNext has saved on this browser.
           No undo.
         </p>
         {confirming ? (

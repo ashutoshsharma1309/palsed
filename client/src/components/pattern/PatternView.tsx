@@ -1,7 +1,7 @@
 // Renders a coding Pattern in the standard structure (Task 2):
 // Definition → Why useful → Recognition clues → When to use → When NOT to use →
 // (Visual: future) → Example → Interview notes. Pure presentation.
-import { Quote, Sparkles, Eye, Code2, Search, Check, Ban, Target } from "lucide-react";
+import { Quote, Sparkles, Code2, Search, Check, Ban, Target } from "lucide-react";
 import { MarkdownView } from "../lesson/MarkdownView";
 import type { Pattern } from "../../data/patterns/patterns";
 
@@ -55,11 +55,6 @@ export function PatternView({ pattern: p }: { pattern: Pattern }) {
           <Bullets items={p.whenNotToUse} tone="bad" />
         </Section>
       </div>
-
-      {/* Visual explanation — future-ready slot. */}
-      <Section icon={<Eye className="w-4 h-4" />} title="Visual explanation">
-        <p className="text-[13px] text-[var(--color-text-faint)] italic">Interactive visualizations coming soon.</p>
-      </Section>
 
       <Section icon={<Code2 className="w-4 h-4" />} title="Example (C++)">
         <MarkdownView>{`\`\`\`cpp\n${p.example.code}\n\`\`\``}</MarkdownView>

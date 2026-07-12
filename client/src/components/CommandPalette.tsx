@@ -38,7 +38,7 @@ export function CommandPalette() {
   const commands: Cmd[] = useMemo(
     () => [
       { label: "Go to Dashboard", hint: "/dashboard", icon: <LayoutDashboard className="w-4 h-4" />, run: () => navigate("/dashboard") },
-      { label: "Recruiter map · 50 companies", hint: "/companies", icon: <Compass className="w-4 h-4" />, run: () => navigate("/companies"), keywords: "company recruiter map list" },
+      { label: "Recruiter map · 85 companies", hint: "/companies", icon: <Compass className="w-4 h-4" />, run: () => navigate("/companies"), keywords: "company recruiter map list" },
       { label: "PYQ Vault — browse questions", hint: "/pyq", icon: <BookOpen className="w-4 h-4" />, run: () => navigate("/pyq"), keywords: "previous year questions pyq" },
       { label: "Contribute a PYQ", hint: "/pyq/submit", icon: <Sparkles className="w-4 h-4" />, run: () => navigate("/pyq/submit"), keywords: "submit add question crowd" },
       { label: "Internship Boards · 50+ platforms", hint: "/internships", icon: <Compass className="w-4 h-4" />, run: () => navigate("/internships"), keywords: "internship intern jobs find apply board linkedin internshala yc" },

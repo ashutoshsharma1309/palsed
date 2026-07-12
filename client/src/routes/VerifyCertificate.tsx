@@ -8,24 +8,23 @@ import { LS_KEYS } from "../hooks/useLocalStorageState";
 export default function VerifyCertificate() {
   const [params] = useSearchParams();
   const id = params.get("id");
-  const [cert, setCert] = useState<Certificate | null>(null);
+  // Parse synchronously so a valid link never flashes the red error card first.
+  const [cert] = useState<Certificate | null>(() => parseVerifyHash());
   const [localMatch, setLocalMatch] = useState<boolean | null>(null);
 
   useEffect(() => {
-    const parsed = parseVerifyHash();
-    setCert(parsed);
     try {
       const raw = localStorage.getItem(LS_KEYS.certificates);
-      if (raw && parsed) {
+      if (raw && cert) {
         const all: Certificate[] = JSON.parse(raw);
-        setLocalMatch(all.some((c) => c.verifyCode === parsed.verifyCode));
+        setLocalMatch(all.some((c) => c.verifyCode === cert.verifyCode));
       } else {
         setLocalMatch(null);
       }
     } catch {
       setLocalMatch(null);
     }
-  }, [id]);
+  }, [id, cert]);
 
   return (
     <>
@@ -66,7 +65,7 @@ export default function VerifyCertificate() {
         )}
 
         <div className="mt-6 text-center">
-          <Link to="/" className="text-xs text-[var(--color-neon)] underline">← PrepPlace home</Link>
+          <Link to="/" className="text-xs text-[var(--color-neon)] underline">← PrepNext home</Link>
         </div>
       </div>
     </>

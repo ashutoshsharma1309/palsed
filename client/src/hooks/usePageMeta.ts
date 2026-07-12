@@ -7,9 +7,9 @@ interface PageMeta {
   canonical?: string;
 }
 
-const BRAND = "PrepPlace";
+const BRAND = "PrepNext";
 const DEFAULT_DESCRIPTION =
-  "Crack campus placements: 75+ recruiters mapped, crowd-verified PYQs, DSA + Core CS prep, internship feed, kanban application tracker. Built for Indian engineering students.";
+  "Crack campus placements: 85 recruiters mapped, crowd-verified PYQs, DSA + Core CS prep, coding patterns, project paths, and a single Placement Readiness Score. Built for Indian engineering students.";
 
 function setMetaContent(name: string, content: string, attr: "name" | "property" = "name") {
   let el = document.head.querySelector<HTMLMetaElement>(`meta[${attr}="${name}"]`);
@@ -35,7 +35,7 @@ function setCanonical(href: string) {
  * Per-route document head updater. Sets <title>, meta description, OG/Twitter
  * mirrors, and canonical link. Tiny + dependency-free — no react-helmet needed.
  *
- * Pass `title` without the brand suffix; we append " — PrepPlace" automatically.
+ * Pass `title` without the brand suffix; we append " — PrepNext" automatically.
  */
 export function usePageMeta({ title, description, canonical }: PageMeta) {
   useEffect(() => {

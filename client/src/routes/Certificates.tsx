@@ -9,6 +9,13 @@ export default function Certificates() {
   const [certs] = useLocalStorageState<Certificate[]>(LS_KEYS.certificates, []);
   const [selected, setSelected] = useState<Certificate | null>(certs[0] ?? null);
 
+  // Auto-select the first cert once the list resolves (it can start empty while
+  // the per-user storage key settles), and clear a stale selection.
+  useEffect(() => {
+    if (!certs.length) return;
+    if (!selected || !certs.some((c) => c.id === selected.id)) setSelected(certs[0]);
+  }, [certs, selected]);
+
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 py-12">
       <div className="mono text-xs uppercase tracking-[0.3em] text-[var(--color-neon)] mb-2">// certificates</div>
@@ -65,7 +72,7 @@ function CertificateView({ cert }: { cert: Certificate }) {
           <div className="mono text-xs uppercase tracking-[0.3em] text-[var(--color-neon)] mb-4">
             // certificate of completion
           </div>
-          <div className="display text-3xl sm:text-5xl mb-8 leading-tight">PREPPLACE</div>
+          <div className="display text-3xl sm:text-5xl mb-8 leading-tight">PREPNEXT</div>
           <div className="text-sm text-[var(--color-text-faint)] mb-2">This is to certify that</div>
           <div className="display text-4xl mb-8">{cert.displayName}</div>
           <div className="text-sm text-[var(--color-text-faint)] mb-2">has successfully completed</div>
@@ -89,10 +96,14 @@ function CertificateView({ cert }: { cert: Certificate }) {
         </div>
       </div>
       <div className="flex gap-3 mt-4 flex-wrap">
-        <Button onClick={() => ref.current && downloadCertificatePdf(ref.current, `prepplace-${cert.verifyCode}.pdf`)}>
+        <Button onClick={() => ref.current && downloadCertificatePdf(ref.current, `prepnext-${cert.verifyCode}.pdf`)}>
           Download PDF
         </Button>
-        <Button variant="outline" onClick={() => { navigator.clipboard.writeText(url); toast.success("Verify URL copied"); }}>
+        <Button variant="outline" onClick={() => {
+          navigator.clipboard?.writeText(url)
+            .then(() => toast.success("Verify URL copied"))
+            .catch(() => toast.error("Couldn't copy — long-press to copy manually"));
+        }}>
           Copy verify URL
         </Button>
       </div>

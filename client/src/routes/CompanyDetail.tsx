@@ -12,12 +12,12 @@ export default function CompanyDetail() {
   const { slug } = useParams();
   const navigate = useNavigate();
   const c = useMemo(() => (slug ? getCompany(slug) : undefined), [slug]);
-  const { all: allPyqs, votes, vote } = usePYQs();
+  const { all: allPyqs, votes, vote, countsFor } = usePYQs();
 
   // SEO: dynamically update <title> + meta description (good enough for Vercel SSR)
   useEffect(() => {
     if (!c) return;
-    document.title = `${c.name} — Placement Prep Kit · Salary · Rounds · PYQs | PrepPlace`;
+    document.title = `${c.name} — Placement Prep Kit · Salary · Rounds · PYQs | PrepNext`;
     const meta = document.querySelector('meta[name="description"]');
     if (meta) meta.setAttribute(
       "content",
@@ -207,7 +207,7 @@ export default function CompanyDetail() {
         ) : (
           <div className="space-y-3">
             {pyqs.slice(0, 12).map((p) => (
-              <div key={p.id} className="border border-[var(--color-line)] rounded-xl p-4 hover:border-[var(--color-neon)]/40 transition-colors">
+              <div key={p.id} id={`pyq-${p.id}`} className="border border-[var(--color-line)] rounded-xl p-4 hover:border-[var(--color-neon)]/40 transition-colors scroll-mt-24">
                 <div className="flex items-center justify-between gap-3 flex-wrap mb-2">
                   <div className="flex items-center gap-2 flex-wrap text-[10px] mono uppercase tracking-widest">
                     <span className="text-[var(--color-neon)]">{p.round}</span>
@@ -227,10 +227,10 @@ export default function CompanyDetail() {
                   </div>
                   <div className="flex items-center gap-2 text-xs">
                     <button onClick={() => vote(p.id, "up")} className={`inline-flex items-center gap-1 px-2 py-0.5 rounded ${votes[p.id] === "up" ? "bg-[var(--color-neon)]/20 text-[var(--color-neon)]" : "text-[var(--color-text-faint)] hover:text-[var(--color-text)]"}`}>
-                      <ThumbsUp className="w-3 h-3" /> {p.upvotes}
+                      <ThumbsUp className="w-3 h-3" /> {countsFor(p).upvotes}
                     </button>
                     <button onClick={() => vote(p.id, "down")} className={`inline-flex items-center gap-1 px-2 py-0.5 rounded ${votes[p.id] === "down" ? "bg-red-400/20 text-red-300" : "text-[var(--color-text-faint)] hover:text-[var(--color-text)]"}`}>
-                      <ThumbsDown className="w-3 h-3" /> {p.downvotes}
+                      <ThumbsDown className="w-3 h-3" /> {countsFor(p).downvotes}
                     </button>
                   </div>
                 </div>

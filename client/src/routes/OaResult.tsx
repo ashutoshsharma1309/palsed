@@ -54,9 +54,9 @@ export default function OaResult() {
   const handleShare = async () => {
     const text = `I scored ${stats.score}/100 on a ${session.config.questionCount}Q ${
       company?.name || "Mixed"
-    } OA mock in PrepPlace 🚀\n\nTry yours: https://prepnext.vercel.app/oa`;
+    } OA mock in PrepNext 🚀\n\nTry yours: https://prepnext.vercel.app/oa`;
     try {
-      if (navigator.share) await navigator.share({ title: "My PrepPlace OA score", text });
+      if (navigator.share) await navigator.share({ title: "My PrepNext OA score", text });
       else {
         await navigator.clipboard.writeText(text);
         toast.success("Score copied to clipboard!");
@@ -117,7 +117,7 @@ export default function OaResult() {
         <StatBox label="Missed" value={stats.unsolvedCount} color="var(--severity-crit-text)" Icon={XCircle} />
         <StatBox
           label="Hints used"
-          value={questions.filter((q) => session.answers[q.id].viewedApproach).length}
+          value={questions.filter((q) => session.answers[q.id]?.viewedApproach).length}
           color="var(--color-text-faint)"
           Icon={Eye}
         />

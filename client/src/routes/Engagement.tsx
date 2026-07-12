@@ -31,6 +31,8 @@ export default function Engagement() {
 
   const totalMs = cells.reduce((a, c) => a + c.ms, 0);
   const peakHour = buckets.indexOf(Math.max(...buckets));
+  const hasInterventions = log.interventions.length > 0;
+  const activeDays = cells.filter((c) => c.ms > 0).length;
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 py-12">
@@ -46,11 +48,19 @@ export default function Engagement() {
           <div className="mono text-xs uppercase tracking-widest text-[var(--color-text-faint)]">14-day total focus</div>
           <div className="display text-6xl">{Math.floor(totalMs / 60000)}<span className="text-3xl">min</span></div>
         </Card>
-        <Card>
-          <div className="mono text-xs uppercase tracking-widest text-[var(--color-text-faint)]">Peak hour</div>
-          <div className="display text-6xl">{peakHour}:00</div>
-          <div className="text-xs text-[var(--color-text-faint)] mt-2">based on intervention timestamps</div>
-        </Card>
+        {hasInterventions ? (
+          <Card>
+            <div className="mono text-xs uppercase tracking-widest text-[var(--color-text-faint)]">Peak hour</div>
+            <div className="display text-6xl">{peakHour}:00</div>
+            <div className="text-xs text-[var(--color-text-faint)] mt-2">based on intervention timestamps</div>
+          </Card>
+        ) : (
+          <Card>
+            <div className="mono text-xs uppercase tracking-widest text-[var(--color-text-faint)]">Active days</div>
+            <div className="display text-6xl">{activeDays}<span className="text-3xl">/14</span></div>
+            <div className="text-xs text-[var(--color-text-faint)] mt-2">days with logged focus time</div>
+          </Card>
+        )}
       </div>
 
       <Card className="mb-6">
@@ -65,7 +75,7 @@ export default function Engagement() {
                 title={`${c.key} · ${Math.floor(c.ms / 60000)} min`}
                 style={{ background: intensity > 0 ? `rgba(200,255,61,${0.15 + 0.85 * intensity})` : "#1a1a1a" }}
               >
-                <div className="mono text-[9px] text-black/70">{c.date.getDate()}</div>
+                <div className={`mono text-[9px] ${intensity > 0.4 ? "text-black/70" : "text-[var(--color-text-faint)]"}`}>{c.date.getDate()}</div>
               </div>
             );
           })}
@@ -75,17 +85,23 @@ export default function Engagement() {
       <div className="grid lg:grid-cols-2 gap-5 mb-6">
         <Card>
           <div className="mono text-xs uppercase tracking-widest text-[var(--color-text-faint)] mb-3">Intervention hour histogram</div>
-          <div className="flex items-end gap-1 h-32">
-            {buckets.map((b, h) => (
-              <div key={h} className="flex-1 flex flex-col items-center">
-                <div
-                  className="w-full rounded-sm bg-[var(--color-neon)]"
-                  style={{ height: `${(b / maxB) * 100}%`, minHeight: b > 0 ? 4 : 1, opacity: b > 0 ? 1 : 0.2 }}
-                />
-                {h % 4 === 0 && <div className="mono text-[9px] text-[var(--color-text-faint)] mt-1">{h}</div>}
-              </div>
-            ))}
-          </div>
+          {hasInterventions ? (
+            <div className="flex items-end gap-1 h-32">
+              {buckets.map((b, h) => (
+                <div key={h} className="flex-1 flex flex-col items-center">
+                  <div
+                    className="w-full rounded-sm bg-[var(--color-neon)]"
+                    style={{ height: `${(b / maxB) * 100}%`, minHeight: b > 0 ? 4 : 1, opacity: b > 0 ? 1 : 0.2 }}
+                  />
+                  {h % 4 === 0 && <div className="mono text-[9px] text-[var(--color-text-faint)] mt-1">{h}</div>}
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="h-32 flex items-center justify-center text-center text-sm text-[var(--color-text-faint)]">
+              No focus interruptions logged — you've been studying without needing a nudge. 🎯
+            </div>
+          )}
         </Card>
         <Card>
           <div className="mono text-xs uppercase tracking-widest text-[var(--color-text-faint)] mb-3">Top routes by time spent</div>
@@ -107,7 +123,7 @@ export default function Engagement() {
       <Card>
         <div className="mono text-xs uppercase tracking-widest text-[var(--color-text-faint)] mb-3">Recent interventions</div>
         {log.interventions.length === 0 ? (
-          <div className="text-[var(--color-text-faint)] text-sm">None yet — PrepPlace hasn't needed to nudge you.</div>
+          <div className="text-[var(--color-text-faint)] text-sm">None yet — PrepNext hasn't needed to nudge you.</div>
         ) : (
           <ul className="space-y-1 text-xs">
             {log.interventions.slice(-20).reverse().map((iv, i) => (

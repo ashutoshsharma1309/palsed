@@ -174,7 +174,9 @@ export function useOaSessions() {
       setSessions((prev) =>
         prev.map((s) => {
           if (s.id !== id) return s;
-          const finishedAt = new Date().toISOString();
+          // Preserve the original finish time — re-grading on the result page
+          // must not reset it and inflate the displayed "time spent".
+          const finishedAt = s.finishedAt || new Date().toISOString();
           const full = { ...s, finishedAt };
           full.resultStats = computeStats(full);
           return full;

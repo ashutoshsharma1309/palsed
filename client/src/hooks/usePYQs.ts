@@ -4,6 +4,18 @@ import { PYQ, PYQ_SEED } from "../data/pyqs-seed";
 
 const KEY = "prepnext.pyq.v1";
 
+// The seed data ships a handful of duplicate ids. Guarantee unique ids once, at
+// module load, so React keys and per-question vote state never collide.
+const SEED: PYQ[] = (() => {
+  const seen = new Set<string>();
+  return PYQ_SEED.map((p) => {
+    let id = p.id;
+    while (seen.has(id)) id = `${id}_${seen.size}`;
+    seen.add(id);
+    return id === p.id ? p : { ...p, id };
+  });
+})();
+
 interface State {
   userSubmitted: PYQ[];        // crowd-submitted (this browser)
   votes: Record<string, "up" | "down" | undefined>; // pyqId → user vote
@@ -15,8 +27,21 @@ export function usePYQs() {
   const [state, setState] = useLocalStorageState<State>(KEY, DEFAULT);
 
   const all = useMemo(
-    () => [...state.userSubmitted, ...PYQ_SEED],
+    () => [...state.userSubmitted, ...SEED],
     [state.userSubmitted]
+  );
+
+  // Displayed counts = stored base + this user's own vote, applied uniformly to
+  // seed and crowd entries so a vote always visibly moves the number.
+  const countsFor = useCallback(
+    (p: PYQ) => {
+      const v = state.votes[p.id];
+      return {
+        upvotes: p.upvotes + (v === "up" ? 1 : 0),
+        downvotes: p.downvotes + (v === "down" ? 1 : 0),
+      };
+    },
+    [state.votes]
   );
 
   const submit = useCallback(
@@ -41,27 +66,12 @@ export function usePYQs() {
       setState((prev) => {
         const current = prev.votes[pyqId];
         if (current === dir) {
-          // toggle off
-          const { [pyqId]: _, ...rest } = prev.votes;
-          // mirror counts on user-submitted entries
-          const userSubmitted = prev.userSubmitted.map((p) =>
-            p.id === pyqId
-              ? { ...p, [dir === "up" ? "upvotes" : "downvotes"]: Math.max(0, (dir === "up" ? p.upvotes : p.downvotes) - 1) }
-              : p
-          );
-          return { ...prev, votes: rest, userSubmitted };
+          // toggle the vote off
+          const { [pyqId]: _removed, ...rest } = prev.votes;
+          return { ...prev, votes: rest };
         }
-        const votes = { ...prev.votes, [pyqId]: dir };
-        const userSubmitted = prev.userSubmitted.map((p) => {
-          if (p.id !== pyqId) return p;
-          let up = p.upvotes, down = p.downvotes;
-          // reverse previous vote
-          if (current === "up") up = Math.max(0, up - 1);
-          if (current === "down") down = Math.max(0, down - 1);
-          if (dir === "up") up += 1; else down += 1;
-          return { ...p, upvotes: up, downvotes: down };
-        });
-        return { ...prev, votes, userSubmitted };
+        // set/switch the vote — display counts are derived via countsFor().
+        return { ...prev, votes: { ...prev.votes, [pyqId]: dir } };
       });
     },
     [setState]
@@ -78,5 +88,5 @@ export function usePYQs() {
     [setState]
   );
 
-  return { all, userSubmitted: state.userSubmitted, votes: state.votes, submit, vote, remove };
+  return { all, userSubmitted: state.userSubmitted, votes: state.votes, countsFor, submit, vote, remove };
 }
