@@ -45,6 +45,23 @@ export async function generateJSON(prompt, { temperature = 0.7, maxTokens = 6553
   }
 }
 
+export function hasGroq() {
+  return Boolean(process.env.GROQ_API_KEY);
+}
+
+/** Plain-text chat completion (no JSON mode) — used as the assistant fallback. */
+export async function chatText(messages, { temperature = 0.3, maxTokens = 500 } = {}) {
+  const resp = await client().chat.completions.create({
+    model: MODEL,
+    temperature,
+    max_tokens: maxTokens,
+    messages,
+  });
+  const reply = resp.choices?.[0]?.message?.content?.trim();
+  if (!reply) throw new Error("Groq returned an empty reply");
+  return reply;
+}
+
 export function validateShape(obj, requiredKeys) {
   if (!obj || typeof obj !== "object") return false;
   return requiredKeys.every((k) => k in obj);

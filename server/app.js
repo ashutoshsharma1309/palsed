@@ -9,6 +9,7 @@ import { securityHeaders, validateRequestBody } from "./security.js";
 import healthRouter from "./routes/health.js";
 import authRouter from "./routes/auth.js";
 import tutorRouter from "./routes/tutor.js";
+import assistantRouter from "./routes/assistant.js";
 import { prisma } from "./db.js";
 import { Router } from "express";
 
@@ -76,6 +77,9 @@ export function buildApp() {
 
   app.use("/api/auth", authRouter);
   app.use("/api/health", healthRouter);
+
+  // PrepNext Assistant — scoped OpenAI chatbot (placement-prep help only).
+  app.use("/api/assistant", assistantRouter);
 
   // AI tutor — the only AI surface in v2. It is opt-in (invoked when a student
   // clicks "Ask tutor") and guides Socratically without spoiling the answer.
