@@ -1,6 +1,6 @@
-# Contributing to PrepPlace
+# Contributing to PrepNext
 
-Thanks for your interest in improving PrepPlace. This is a small, fast-moving
+Thanks for your interest in improving PrepNext. This is a small, fast-moving
 codebase — keep changes focused and consistent with what's already there.
 
 ## Setup
@@ -25,7 +25,7 @@ Short version: `npm run install:all`, add `server/.env` + `client/.env`, then
 
 ## Branding
 
-The product name is **PrepPlace**. The `PrepKit` component is a *feature*
+The product name is **PrepNext**. The `PrepKit` component is a *feature*
 (per-company prep kit), not the brand — don't rename it.
 
 ## Reporting issues

@@ -1,8 +1,8 @@
-# PrepPlace — The Placement-Prep Operating System for Indian Students
+# PrepNext — The Placement-Prep Operating System for Indian Students
 
 **Live:** https://prepnext.vercel.app
 
-PrepPlace is a full-stack, production-deployed platform that takes a college
+PrepNext is a full-stack, production-deployed platform that takes a college
 student through the **entire placement journey in one place** —
 **Learn → Practice → Build → Interview → Placement** — with Google sign-in,
 a single **Placement Readiness Score**, and structured, opinionated content end
@@ -139,7 +139,7 @@ See [`DATABASE_SETUP.md`](DATABASE_SETUP.md) for the full database guide and
 
 ## Roadmap
 
-PrepPlace is moving toward **institution-grade** adoption. Strategy and the
+PrepNext is moving toward **institution-grade** adoption. Strategy and the
 phased build plan live in [`SAAS_READINESS.md`](SAAS_READINESS.md),
 [`COMPETITOR_ANALYSIS.md`](COMPETITOR_ANALYSIS.md), and
 [`PHASE2_REPORT.md`](PHASE2_REPORT.md). Next milestones: server-synced progress,

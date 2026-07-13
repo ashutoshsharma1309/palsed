@@ -1,20 +1,20 @@
 # SEO REPORT
 
-> **Audit note (June 2026):** The `index.html` `<title>` / OG / Twitter "Adaptive AI Learning Universe" identity mismatch flagged in this report has since been **resolved** — the document head now ships the PrepPlace placement-prep positioning. Treat references to that specific mismatch below as historical; other findings may still be open.
+> **Audit note (June 2026):** The `index.html` `<title>` / OG / Twitter "Adaptive AI Learning Universe" identity mismatch flagged in this report has since been **resolved** — the document head now ships the PrepNext placement-prep positioning. Treat references to that specific mismatch below as historical; other findings may still be open.
 
 ## 1. Executive Summary
 
-- **Positioning/SEO mismatch is the #1 problem.** `index.html` markets "Adaptive AI Learning Universe" while `Landing.tsx` markets a "zero-AI placement OS for Indian campus students." Google has no idea what PrepPlace ranks for, and neither does a recruiter sharing the link on WhatsApp. Every ranking opportunity downstream is blocked until title/description/OG copy is rewritten around `campus placement preparation India`, `PYQ vault`, `company-wise placement prep`.
+- **Positioning/SEO mismatch is the #1 problem.** `index.html` markets "Adaptive AI Learning Universe" while `Landing.tsx` markets a "zero-AI placement OS for Indian campus students." Google has no idea what PrepNext ranks for, and neither does a recruiter sharing the link on WhatsApp. Every ranking opportunity downstream is blocked until title/description/OG copy is rewritten around `campus placement preparation India`, `PYQ vault`, `company-wise placement prep`.
 - **SPA-only architecture is a crawler dead end.** Every route (`/companies/:slug`, `/dsa/:slug`, `/pyq`, `/internships`) is a client-rendered Suspense shell. Googlebot sees the same `<title>` for 50 companies and 150 DSA problems. Prerendering (`vite-plugin-prerender-spa`, `react-snap`, or migrating these high-intent routes to a thin SSR layer on Vercel) is the highest-leverage tech-SEO unlock.
 - **There is no `sitemap.xml`, no `robots.txt`, no canonical, no JSON-LD.** All four are table-stakes and all four are missing. The FAQ on Landing is a free FAQPage schema win sitting unused. Companies are a free `ItemList` + `Organization` schema win. DSA problems are a free `LearningResource` schema win.
 - **Domain rot kills E-E-A-T before the race starts.** `prepnext.vercel.app` will never outrank `geeksforgeeks.org`, `prepinsta.com`, `interviewbit.com` for any commercial-intent term. A `.com`/`.in` purchase is a prerequisite, not an optimization.
-- **Long-tail company-wise + PYQ queries are the only realistic wedge in the first 90 days.** PrepPlace cannot beat LeetCode/GFG on `dsa practice` head terms. It *can* rank for `TCS NQT previous year questions 2026`, `Razorpay SDE intern interview questions`, `Zomato campus placement process` — 50 companies x 4 query variations = 200 programmatic pages with near-zero competition from monolith aggregators.
+- **Long-tail company-wise + PYQ queries are the only realistic wedge in the first 90 days.** PrepNext cannot beat LeetCode/GFG on `dsa practice` head terms. It *can* rank for `TCS NQT previous year questions 2026`, `Razorpay SDE intern interview questions`, `Zomato campus placement process` — 50 companies x 4 query variations = 200 programmatic pages with near-zero competition from monolith aggregators.
 
 ## 2. Current State
 
-PrepPlace's SEO posture is best described as accidentally hostile to its own ICP. The product is built for a hyper-specific Indian audience (2nd–4th year engineering students chasing campus placements), but the only crawlable HTML on the site — the static `<head>` block in `client/index.html` — pitches a generic global edtech narrative ("Adaptive AI Learning Universe", "AI tutor", "multi-style lessons"). None of that copy contains the words "placement", "India", "campus", "PYQ", "company", or "off-campus". A student googling `Infosys placement preparation` will never see this site, because the site does not claim to be about that, in markup.
+PrepNext's SEO posture is best described as accidentally hostile to its own ICP. The product is built for a hyper-specific Indian audience (2nd–4th year engineering students chasing campus placements), but the only crawlable HTML on the site — the static `<head>` block in `client/index.html` — pitches a generic global edtech narrative ("Adaptive AI Learning Universe", "AI tutor", "multi-style lessons"). None of that copy contains the words "placement", "India", "campus", "PYQ", "company", or "off-campus". A student googling `Infosys placement preparation` will never see this site, because the site does not claim to be about that, in markup.
 
-Beyond positioning, the technical SEO foundation is missing entirely. There is no `robots.txt` at the public root, no `sitemap.xml`, no `<link rel="canonical">`, no `<meta name="robots">`, and no structured data of any kind. The `og:image` and `twitter:image` both point to a `/og-image.svg` — Twitter and LinkedIn unfurlers reject SVG; X drops the card entirely. This means every share of a PrepPlace link on WhatsApp, X, or LinkedIn renders as a naked URL with no preview, killing organic referral CTR.
+Beyond positioning, the technical SEO foundation is missing entirely. There is no `robots.txt` at the public root, no `sitemap.xml`, no `<link rel="canonical">`, no `<meta name="robots">`, and no structured data of any kind. The `og:image` and `twitter:image` both point to a `/og-image.svg` — Twitter and LinkedIn unfurlers reject SVG; X drops the card entirely. This means every share of a PrepNext link on WhatsApp, X, or LinkedIn renders as a naked URL with no preview, killing organic referral CTR.
 
 The architecture compounds the problem. The codebase is a Vite SPA with React Router 7, where every route lazy-loads through `Suspense`. The `7_EXISTING_SEO_HEAD` is the only HTML Googlebot reliably sees on first paint. Google does execute JS, but with a long render queue and aggressive timeouts, and it does not pass per-route `document.title` mutations to its long-tail ranking systems with anything like the priority of pre-rendered HTML. So `/companies/razorpay`, `/dsa/two-sum`, `/pyq` all collapse into one indexable surface as far as scale ranking is concerned.
 
@@ -50,13 +50,13 @@ Net: the site is technically online, occasionally shared, has 18 signups, and is
 
 `client/index.html` is the single highest-leverage file in the repo. Replace the entire metadata block with India-targeted, placement-targeted copy. Concretely:
 
-- `<title>`: `PrepPlace — Campus Placement Prep for Indian Engineering Students | PYQs, Company Vault, DSA Tracker`
-- `<meta name="description">`: `PrepPlace is the placement season OS for Indian engineering students. 50-company recruiter vault (TCS, Infosys, Razorpay, Zomato, Swiggy), verified PYQs, DSA tracker, application kanban, and mock interviews. Free during beta.`
+- `<title>`: `PrepNext — Campus Placement Prep for Indian Engineering Students | PYQs, Company Vault, DSA Tracker`
+- `<meta name="description">`: `PrepNext is the placement season OS for Indian engineering students. 50-company recruiter vault (TCS, Infosys, Razorpay, Zomato, Swiggy), verified PYQs, DSA tracker, application kanban, and mock interviews. Free during beta.`
 - Remove `<meta name="keywords">` entirely — it is a 2008 signal.
 - Add `<meta name="robots" content="index,follow,max-image-preview:large">`.
-- Add `<link rel="canonical" href="https://prepplace.com/">` (post-domain purchase).
+- Add `<link rel="canonical" href="https://prepnext.com/">` (post-domain purchase).
 - Add `<meta http-equiv="content-language" content="en-IN">` + `<html lang="en-IN">`.
-- Replace `og:image` and `twitter:image` with a real 1200x630 PNG. Generate via a Vercel OG function (`@vercel/og`) so every route can have a dynamic card — `/companies/razorpay` should unfurl with "Razorpay Placement Prep — PrepPlace".
+- Replace `og:image` and `twitter:image` with a real 1200x630 PNG. Generate via a Vercel OG function (`@vercel/og`) so every route can have a dynamic card — `/companies/razorpay` should unfurl with "Razorpay Placement Prep — PrepNext".
 
 ### 4.2 Ship a static `robots.txt` and a dynamic `sitemap.xml`
 
@@ -73,7 +73,7 @@ Disallow: /engagement
 Disallow: /onboarding
 Disallow: /auth/
 
-Sitemap: https://prepplace.com/sitemap.xml
+Sitemap: https://prepnext.com/sitemap.xml
 ```
 
 Generate `sitemap.xml` server-side via an Express route at `server/routes/sitemap.js`. It must read `Company`, `PYQ` (verified only), and the static DSA problem list from Prisma. Index split: `sitemap-index.xml` -> `sitemap-companies.xml`, `sitemap-pyq.xml`, `sitemap-dsa.xml`, `sitemap-static.xml`. Re-ping Google + IndexNow on new PYQ verification (hook into the existing PYQ submit flow).
@@ -90,11 +90,11 @@ Pick (2) for the next 30 days, plan (1) for Q1.
 
 ### 4.4 Buy a real domain immediately
 
-`prepplace.com` if available, otherwise `prepplace.in` or `getprepplace.com`. `.vercel.app` will never outrank `prepinsta.com`. Configure 301 from the Vercel preview domain to the canonical, and update `supabase.auth.redirectTo`, the `AuthCallback` allow-list, and CORS in the Express server.
+`prepnext.com` if available, otherwise `prepnext.in` or `getprepnext.com`. `.vercel.app` will never outrank `prepinsta.com`. Configure 301 from the Vercel preview domain to the canonical, and update `supabase.auth.redirectTo`, the `AuthCallback` allow-list, and CORS in the Express server.
 
 ### 4.5 Programmatic SEO: the only winnable wedge
 
-PrepPlace cannot beat GeeksforGeeks on `binary search`. It can beat them on `Razorpay SDE intern interview questions 2026` because the page does not exist on GFG. The `Company` model already has eligibility, packages, rounds, OA platforms, and tips. For each company, generate four crawlable surfaces:
+PrepNext cannot beat GeeksforGeeks on `binary search`. It can beat them on `Razorpay SDE intern interview questions 2026` because the page does not exist on GFG. The `Company` model already has eligibility, packages, rounds, OA platforms, and tips. For each company, generate four crawlable surfaces:
 
 - `/companies/:slug` — overview (intent: navigational + "company X placement process")
 - `/companies/:slug/pyq` — filtered PYQ vault (intent: "company X previous year questions")
@@ -156,7 +156,7 @@ PrepPlace cannot beat GeeksforGeeks on `binary search`. It can beat them on `Raz
 | 47 | off campus internship drive | `/internships` |
 | 48 | mock interview platform for placements | `/interview-resources` |
 | 49 | placement application tracker kanban | `/applications` (logged-out marketing variant) |
-| 50 | verify placement certificate prepplace | `/verify-certificate` |
+| 50 | verify placement certificate prepnext | `/verify-certificate` |
 
 ### 4.7 Structured data plan
 
@@ -187,8 +187,8 @@ Build a `@vercel/og` route at `api/og/route.ts` that accepts `?title=&subtitle=`
 ## 5. 30-Day Priorities
 
 1. **Day 1–2: Rewrite `client/index.html` head.** Title, description, OG, Twitter, canonical, robots, lang=en-IN. Export `og-image.png` (1200x630) and drop the SVG. Deliverable: PR merged, validated in [Open Graph debugger](https://www.opengraph.xyz/) and Twitter card validator.
-2. **Day 3–5: Buy `prepplace.com` (or `.in`), point at Vercel, update Supabase redirect URLs, update CORS, 301 the `.vercel.app` host.** Deliverable: HTTPS canonical domain live, all Supabase OAuth flows green.
-3. **Day 6–10: Ship `robots.txt` + dynamic `sitemap.xml` via Express route reading Prisma `Company` + verified `PYQ`.** Deliverable: `prepplace.com/sitemap.xml` returns valid XML with 200+ URLs; submit to Google Search Console + Bing.
+2. **Day 3–5: Buy `prepnext.com` (or `.in`), point at Vercel, update Supabase redirect URLs, update CORS, 301 the `.vercel.app` host.** Deliverable: HTTPS canonical domain live, all Supabase OAuth flows green.
+3. **Day 6–10: Ship `robots.txt` + dynamic `sitemap.xml` via Express route reading Prisma `Company` + verified `PYQ`.** Deliverable: `prepnext.com/sitemap.xml` returns valid XML with 200+ URLs; submit to Google Search Console + Bing.
 4. **Day 11–18: Add `react-helmet-async`, set per-route `<Helmet>` titles/descriptions for `/companies/:slug`, `/dsa/:slug`, `/pyq`.** Deliverable: 50 unique titles indexed within 4 weeks.
 5. **Day 19–24: Add JSON-LD: `Organization` + `WebSite` site-wide, `FAQPage` on Landing, `ItemList` on `/companies`, `BreadcrumbList` everywhere.** Deliverable: zero errors in [Rich Results Test](https://search.google.com/test/rich-results) for all four templates.
 6. **Day 25–28: Build `@vercel/og` dynamic OG image route; wire per-route `og:image` URLs.** Deliverable: every public route produces a unique unfurl card.
@@ -198,10 +198,10 @@ Build a `@vercel/og` route at `api/og/route.ts` that accepts `?title=&subtitle=`
 
 1. **Prerender (or migrate) the public surface.** Either `vite-plugin-prerender` for `/`, `/companies`, all `/companies/:slug`, `/pyq`, `/dsa`, `/dsa/:slug`, or a clean Next.js App Router migration of the public marketing/SEO routes while keeping the authed product as Vite. Deliverable: 200+ statically-served HTML routes with unique content.
 2. **Ship 200 programmatic company pages** (`/companies/:slug/{pyq,process,prep-kit}`). Deliverable: 4 templates x 50 companies indexed; track impressions per template in GSC.
-3. **Publish 12 high-intent long-form articles** on `prepplace.com/blog`: "TCS NQT 2026 Pattern", "How Razorpay Hires SDE Interns", "Off-Campus Placement Roadmap for 2026 Batch", etc. Internal-link aggressively to `/companies/:slug` and `/pyq`. Deliverable: 12 posts, each 1500+ words, each targeting one keyword from section 4.6.
+3. **Publish 12 high-intent long-form articles** on `prepnext.com/blog`: "TCS NQT 2026 Pattern", "How Razorpay Hires SDE Interns", "Off-Campus Placement Roadmap for 2026 Batch", etc. Internal-link aggressively to `/companies/:slug` and `/pyq`. Deliverable: 12 posts, each 1500+ words, each targeting one keyword from section 4.6.
 4. **Open the PYQ vault to logged-out reading** (gate only submission/voting behind auth). Deliverable: `/pyq` and `/companies/:slug/pyq` return HTML content, not an auth wall. This is currently the single biggest indexable-content unlock.
 5. **Core Web Vitals pass.** Self-host the Google Fonts subset (`Inter` only on Landing; `Anton`/`Bebas`/`Share Tech Mono` async loaded), drop the highlight.js stylesheet from Landing (move to DSA route only), preload the hero image. Deliverable: Landing LCP <2.0s on Moto G Power, INP <200ms, CLS <0.05.
-6. **Backlink campaign for E-E-A-T.** Partner with 10 college placement cells + 10 coding clubs (IIIT, NIT, BITS, IIIT-H, IIITH, IIT campus tech societies); offer free PrepPlace access in exchange for a footer link on their placement portal. Deliverable: 20 referring root domains from `.ac.in` / `.edu.in` — these are extremely high-quality signals for Indian education SEO.
+6. **Backlink campaign for E-E-A-T.** Partner with 10 college placement cells + 10 coding clubs (IIIT, NIT, BITS, IIIT-H, IIITH, IIT campus tech societies); offer free PrepNext access in exchange for a footer link on their placement portal. Deliverable: 20 referring root domains from `.ac.in` / `.edu.in` — these are extremely high-quality signals for Indian education SEO.
 7. **Launch IndexNow + Google Indexing API hooks.** Every verified PYQ submission and every new Company write triggers an instant ping. Deliverable: TTFI (time to first index) <24h on new PYQs.
 
 ## 7. Metrics to Track
@@ -211,7 +211,7 @@ Build a `@vercel/og` route at `api/og/route.ts` that accepts `?title=&subtitle=`
 | Indexed URLs (GSC) | <5 | 250 | 600 |
 | Organic impressions / month | ~0 | 5,000 | 50,000 |
 | Organic clicks / month | ~0 | 200 | 3,000 |
-| Branded "prepplace" search impressions | 0 | 500 | 5,000 |
+| Branded "prepnext" search impressions | 0 | 500 | 5,000 |
 | Referring root domains (Ahrefs/GSC links) | <5 | 15 | 40 |
 | `.ac.in` / `.edu.in` referring domains | 0 | 3 | 15 |
 | Landing LCP (mobile, p75) | unknown — likely >3s | <2.5s | <2.0s |

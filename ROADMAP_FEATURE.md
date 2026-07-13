@@ -1,6 +1,6 @@
 # Career Roadmap Module
 
-A role-based learning-roadmap feature added to PrepPlace. Fully additive — it
+A role-based learning-roadmap feature added to PrepNext. Fully additive — it
 introduces no changes to existing layouts, auth, or the database, and is built
 entirely on the existing design system.
 

@@ -1,18 +1,18 @@
 # GROWTH REPORT
 
-> **Audit note (June 2026):** The `index.html` `<title>` / OG / Twitter "Adaptive AI Learning Universe" identity mismatch flagged in this report has since been **resolved** — the document head now ships the PrepPlace placement-prep positioning. Treat references to that specific mismatch below as historical; other findings may still be open.
+> **Audit note (June 2026):** The `index.html` `<title>` / OG / Twitter "Adaptive AI Learning Universe" identity mismatch flagged in this report has since been **resolved** — the document head now ships the PrepNext placement-prep positioning. Treat references to that specific mismatch below as historical; other findings may still be open.
 
 ## 1. Executive Summary
 
-- **PrepPlace has zero viral DNA in the product today.** Every artifact a student creates — their Applications kanban, DSA streak, PYQ contribution, mastery radar, Prep Kit for a company — is locked behind `RequireAuth`. There is no public share surface, no "view-only" link, no OG-image-per-asset, and no referral primitive in the `User` schema. The whole growth strategy must start by exposing crowd-generated artifacts as public, indexable, share-shaped objects.
+- **PrepNext has zero viral DNA in the product today.** Every artifact a student creates — their Applications kanban, DSA streak, PYQ contribution, mastery radar, Prep Kit for a company — is locked behind `RequireAuth`. There is no public share surface, no "view-only" link, no OG-image-per-asset, and no referral primitive in the `User` schema. The whole growth strategy must start by exposing crowd-generated artifacts as public, indexable, share-shaped objects.
 - **The Companies vault + PYQ vault are the only two true SEO and viral assets** and they are catastrophically underused. 50 companies × (eligibility + packages + rounds + PYQs) is exactly the long-tail query stream Indian students are typing into Google ("Zomato OA questions 2024", "Razorpay eligibility CGPA"). Today these pages are client-rendered SPA shells with no per-route meta, no JSON-LD, no sitemap — so they exist for no one.
-- **The single highest-ROI growth loop is "PYQ contribution → public verified page → backlink in WhatsApp group → new signup to contribute their own PYQ."** This is a textbook UGC SEO + virality flywheel (Glassdoor's playbook, AmbitionBox's playbook, PrepInsta's playbook). PrepPlace already has the submission UI (`/pyq/submit`) and the verification model — it just doesn't expose the output to the world.
+- **The single highest-ROI growth loop is "PYQ contribution → public verified page → backlink in WhatsApp group → new signup to contribute their own PYQ."** This is a textbook UGC SEO + virality flywheel (Glassdoor's playbook, AmbitionBox's playbook, PrepInsta's playbook). PrepNext already has the submission UI (`/pyq/submit`) and the verification model — it just doesn't expose the output to the world.
 - **Certificates are sitting on a silver-bullet referral mechanic that is being wasted.** The `Certificate` model already has `verifyCode` and a public `/verify-certificate` route. Every LinkedIn post a student makes with a verify link is free distribution — but the verification page has no `og:image` per certificate, no "Get your own" CTA, no referral attribution, and the certificate share flow itself does not exist as a feature.
 - **There is no referral, no invite system, no campus-leaderboard, no group/cohort primitive in the schema.** For an Indian campus-placement product, the campus is the unit of virality (everyone in CSE 2026 batch of NIT Trichy shares one WhatsApp group). Adding a `Campus`/`Cohort` model and a `ReferralCode` field on `User` is a one-week effort that unlocks 6 of the 10 loops below.
 
 ## 2. Current State
 
-PrepPlace is a hackathon-stage product with ~18 signups, zero paid users, no domain, no SEO, no marketing motion, and — most importantly — **no growth surface exposed to the open web**. The `App.tsx` route table has only four public routes: `/`, `/auth/callback`, `/onboarding`, `/verify-certificate`. Every other surface — including the entire Companies vault, PYQ Vault, DSA tracker, and Internships feed which are the assets students would actually share — is gated.
+PrepNext is a hackathon-stage product with ~18 signups, zero paid users, no domain, no SEO, no marketing motion, and — most importantly — **no growth surface exposed to the open web**. The `App.tsx` route table has only four public routes: `/`, `/auth/callback`, `/onboarding`, `/verify-certificate`. Every other surface — including the entire Companies vault, PYQ Vault, DSA tracker, and Internships feed which are the assets students would actually share — is gated.
 
 The landing page itself (per the recon) is positioned correctly as a "Placement Season Operating System", but the `<head>` block in `index.html` still markets "Adaptive AI Learning Universe". This is not a minor copy nit — it means every Google preview, every WhatsApp link unfurl, and every Twitter card a student shares pitches a different product than the page they land on. Bounce will be brutal.
 
@@ -46,7 +46,7 @@ Distribution reality: zero brand, zero domain authority (vercel.app subdomain �
 
 ## 4. Recommendations
 
-### 4.1 Ten Concrete PrepPlace Growth Loops with CAC Estimates
+### 4.1 Ten Concrete PrepNext Growth Loops with CAC Estimates
 
 These are ranked by expected K-factor for the Indian campus placement audience. CAC ranges assume INR, blended across paid + organic for the loop, and assume the loop is built end-to-end (creation surface + share surface + attribution).
 
@@ -55,7 +55,7 @@ Mechanic: A student submits one verified PYQ via `/pyq/submit` → unlocks 7 day
 Implementation: extend `PYQ` (assumed model) with `submitterId`, `verifiedAt`, `slug`, `voteScore`. Add public route. Add `og:image` generated server-side from the question text + company logo. Estimated CAC: **INR 0–8 per signup** at scale (purely organic after first 200 PYQs).
 
 **Loop 2 — Certificate LinkedIn Loop (K ≈ 0.4–0.7)**
-Mechanic: Finish a Prep Kit / DSA milestone → auto-issued cert with `verifyCode` → one-tap "Share on LinkedIn" pre-fills post copy ("Just finished PrepPlace's Razorpay Prep Kit — 47 PYQs, 23 DSA problems, 3 system design rounds. Verify: prepplace.com/v/ABC123") → public verify page has a "Get your own kit" CTA → recruiter eyeballs + classmate eyeballs both convert.
+Mechanic: Finish a Prep Kit / DSA milestone → auto-issued cert with `verifyCode` → one-tap "Share on LinkedIn" pre-fills post copy ("Just finished PrepNext's Razorpay Prep Kit — 47 PYQs, 23 DSA problems, 3 system design rounds. Verify: prepnext.com/v/ABC123") → public verify page has a "Get your own kit" CTA → recruiter eyeballs + classmate eyeballs both convert.
 The `Certificate` model already has `verifyCode`. You need: per-cert OG image (use `og-image-as-a-service` pattern, server-render PNG with student name, kit, score), `?ref=verifyCode` attribution on the verify page CTA. CAC: **INR 5–20 per signup**.
 
 **Loop 3 — Campus Leaderboard Loop (K ≈ 0.5–0.9)**
@@ -63,7 +63,7 @@ Mechanic: Add `Campus` model + `User.campusId`. On signup, infer campus from `.e
 This requires a `Campus` table, `Cohort` (campus + year), a leaderboard query, and a public read route. CAC: **INR 3–12 per signup**.
 
 **Loop 4 — Application Tracker "Offer Card" Loop (K ≈ 0.3–0.6)**
-Mechanic: When a student moves an application card to the "Offer" column in the kanban, prompt "Share your offer story (anonymous OK)?". Generate a beautiful public card at `/offers/:slug` ("Got an offer from Zomato as SDE-1, prepped 4 months on PrepPlace, here's my kit"). This is the AmbitionBox + Glassdoor loop. Each offer card creates a backlink and a WhatsApp moment.
+Mechanic: When a student moves an application card to the "Offer" column in the kanban, prompt "Share your offer story (anonymous OK)?". Generate a beautiful public card at `/offers/:slug` ("Got an offer from Zomato as SDE-1, prepped 4 months on PrepNext, here's my kit"). This is the AmbitionBox + Glassdoor loop. Each offer card creates a backlink and a WhatsApp moment.
 Hook into the kanban transition logic. Add `Offer` model derived from application. CAC: **INR 0–10 per signup** (offer stories are gold — they go viral on LinkedIn).
 
 **Loop 5 — Two-Sided Referral with Streak Shield (K ≈ 0.2–0.4)**
@@ -71,7 +71,7 @@ Mechanic: Add `User.referralCode` + `User.referredBy`. Every user gets a code. I
 Pure referral CAC: **INR 30–80 per signup** (referral programs always have lower K than UGC loops, but they convert better — referred users are higher LTV).
 
 **Loop 6 — "Roast My Resume" Public Tool Loop (K ≈ 0.6–1.0)**
-Mechanic: Build a free, no-signup-required tool at `/tools/resume-roast` that takes a PDF resume and returns 5 specific issues + 5 missing keywords for top-50 PrepPlace companies. Watermarked output. Public sharable URL of the roast. Tweet-friendly format.
+Mechanic: Build a free, no-signup-required tool at `/tools/resume-roast` that takes a PDF resume and returns 5 specific issues + 5 missing keywords for top-50 PrepNext companies. Watermarked output. Public sharable URL of the roast. Tweet-friendly format.
 This is Levels.fyi's salary-card playbook. The tool is the bait, the watermark is the distribution, the company keywords are the bridge to your Companies vault. CAC: **INR 2–15 per signup** if it goes viral on Twitter/LinkedIn India.
 
 **Loop 7 — WhatsApp Group Drop Kit (K ≈ 0.3–0.5)**
@@ -87,14 +87,14 @@ Mechanic: Make `/u/:handle` public (opt-in). Show the mastery radar (from `Maste
 This is the LeetCode profile + Codeforces profile loop. The trick is the OG image must look like a status symbol. CAC: **INR 10–25 per signup**.
 
 **Loop 10 — Campus Ambassador + Verified Senior Loop (K ≈ paid, then ≈ 0.3)**
-Mechanic: Recruit one student per campus (start with top-50 NITs/IITs/BITS/IIITs) as a verified "PrepPlace Senior". Give them: free paid plan for life, a verified badge on their public profile, a campus-leaderboard admin role, INR 1000 per 50 verified signups from their campus, and exclusive access to seed company PYQs.
+Mechanic: Recruit one student per campus (start with top-50 NITs/IITs/BITS/IIITs) as a verified "PrepNext Senior". Give them: free paid plan for life, a verified badge on their public profile, a campus-leaderboard admin role, INR 1000 per 50 verified signups from their campus, and exclusive access to seed company PYQs.
 Run via Unstop-style outreach. The senior posts in their campus WhatsApp/Discord. CAC: **INR 40–100 per signup** but very high LTV (whole-campus penetration once a senior is locked in).
 
 ### 4.2 Cross-Cutting Recommendations
 
 **Fix the message-match in `client/index.html` today.** The `<title>`, `og:title`, `og:description`, `twitter:title`, `twitter:description`, `meta name="description"`, and `meta name="keywords"` all need to be rewritten to match the Landing's "Placement Season Operating System" positioning. Target keywords: "campus placement prep", "previous year OA questions", "Indian company recruitment", "internship tracker". This is a 15-minute change with outsized impact on every share preview going forward.
 
-**Buy `prepplace.in` or `prepplace.co` today.** `vercel.app` subdomains tank Google rankings, get flagged by Indian campus mail filters (gmail.com → @nitt.edu, @iiit.ac.in often reject unknown senders), and look unfundable. INR 700/yr investment.
+**Buy `prepnext.in` or `prepnext.co` today.** `vercel.app` subdomains tank Google rankings, get flagged by Indian campus mail filters (gmail.com → @nitt.edu, @iiit.ac.in often reject unknown senders), and look unfundable. INR 700/yr investment.
 
 **Ship an Express route `/sitemap.xml` and `/robots.txt`** that enumerates the 50 companies, all verified PYQs, all public certificates, all campus pages. This is a 50-line Express handler reading from Prisma. Submit to Google Search Console and Bing Webmaster. Expect indexation within 2 weeks.
 
@@ -110,12 +110,12 @@ Run via Unstop-style outreach. The senior posts in their campus WhatsApp/Discord
 
 ## 5. 30-Day Priorities
 
-1. **Day 1 — Fix `client/index.html` head + buy `prepplace.in`.** Rewrite all meta to "Placement Season Operating System". Point DNS. Update Supabase Auth redirect URLs. Update Google OAuth callback. Deliverable: live on a real `.in` domain with consistent messaging.
+1. **Day 1 — Fix `client/index.html` head + buy `prepnext.in`.** Rewrite all meta to "Placement Season Operating System". Point DNS. Update Supabase Auth redirect URLs. Update Google OAuth callback. Deliverable: live on a real `.in` domain with consistent messaging.
 2. **Days 2–4 — Add `referralCode`, `referredBy`, and `Campus` to Prisma schema.** Migration, backfill, expose in `/settings`. Add `?ref=` parsing on Landing → localStorage → attach on Supabase signup via `data` user metadata. Deliverable: every signup has a referrer attributed.
 3. **Days 5–10 — Ship public PYQ pages with per-page OG images.** New route `/pyq/:company/:round/:slug` (public), rendered server-side via Express + a simple HBS/JSX template. Per-page `og:image` generated via `@vercel/og` or `satori`. Add submitter credit + vote count + "Got more PYQs? Contribute" CTA. Deliverable: at least 100 PYQ public pages indexable by Google.
 4. **Days 11–14 — Ship `sitemap.xml`, `robots.txt`, canonical tags, JSON-LD (Organization, WebSite, FAQPage on `/`, ItemList on `/companies`).** Submit to GSC + Bing. Deliverable: 200+ URLs submitted, first impressions visible in GSC.
 5. **Days 15–20 — Certificate LinkedIn loop.** Per-cert OG image, one-tap LinkedIn share with pre-filled copy, "Get your own kit" CTA on `/verify-certificate?code=...` with referrer attribution. Deliverable: live on every issued cert.
-6. **Days 21–25 — Resume Roast tool at `/tools/resume-roast`** (public, no signup). Upload PDF, parse, return 5 issues + 5 keyword gaps for top-50 PrepPlace companies, watermarked shareable URL. Deliverable: live tool with share-URL output.
+6. **Days 21–25 — Resume Roast tool at `/tools/resume-roast`** (public, no signup). Upload PDF, parse, return 5 issues + 5 keyword gaps for top-50 PrepNext companies, watermarked shareable URL. Deliverable: live tool with share-URL output.
 7. **Days 26–30 — `Share` event table + `/admin/growth` dashboard.** Track copy-link, LinkedIn-share, WhatsApp-share clicks across all surfaces. Compute K-factor weekly. Deliverable: first weekly K-factor number on the books.
 
 ## 6. 90-Day Priorities
@@ -126,7 +126,7 @@ Run via Unstop-style outreach. The senior posts in their campus WhatsApp/Discord
 4. **Days 66–75 — Campus Ambassador program v1.** Recruit one verified senior per campus (top 50). Verified badge, lifetime paid, INR 1000/50-signup bounty. Slack/Discord cohort for ambassadors. Deliverable: 30 ambassadors signed, 10 active (defined as > 20 signups attributed).
 5. **Days 76–85 — Application "Offer Card" public pages.** Hook into kanban → Offer column transition. Generate `/offers/:slug` with anonymized option. LinkedIn-ready OG card. Deliverable: 20+ offer cards published, at least 5 shared on LinkedIn.
 6. **Days 86–90 — WhatsApp Drop Kit on every win surface.** Calibrated 4-line copy + link + OG card, one-tap copy. Deliverable: live on Prep Kit completion, DSA milestones, mock interview completion.
-7. **Days 86–90 (parallel) — Email infra hardening on `prepplace.in`.** SPF, DKIM, DMARC. Move transactional to Resend, marketing to Loops. Warm up sending domain. Deliverable: > 95% inbox placement on Gmail (largest target since most `.edu.in` are Google Workspace).
+7. **Days 86–90 (parallel) — Email infra hardening on `prepnext.in`.** SPF, DKIM, DMARC. Move transactional to Resend, marketing to Loops. Warm up sending domain. Deliverable: > 95% inbox placement on Gmail (largest target since most `.edu.in` are Google Workspace).
 
 ## 7. Metrics to Track
 
@@ -165,7 +165,7 @@ Run via Unstop-style outreach. The senior posts in their campus WhatsApp/Discord
 **Brand / Distribution**
 - Domain Rating (Ahrefs/free alt). **Target D90: 15.**
 - Referring domains. **Target D90: 50** (campus blogs, college subreddits, Unstop articles, GFG forum threads).
-- Branded search volume for "prepplace". **Target D90: 200/mo** (per GSC).
+- Branded search volume for "prepnext". **Target D90: 200/mo** (per GSC).
 
 **Anti-metrics (watch for trouble)**
 - Bounce rate on `/companies/:slug` from Google. Must drop below 60% within 60 days of SSR ship — otherwise the long-tail pages are not satisfying intent and need richer content (more PYQs per company, salary ranges, interviewer notes).

@@ -1,16 +1,16 @@
-# PrepPlace — Competitor & Gap Analysis (Phase 2)
+# PrepNext — Competitor & Gap Analysis (Phase 2)
 
 > Market: Indian engineering campus placement preparation.
 > Date: 2026-06-29. Facts verified against 2025–2026 public sources where possible.
 
 This document covers **Task 3 (Competitive Product Analysis)** and **Task 4 (Gap Analysis)**.
-The goal is not to copy competitors but to extract the best ideas, find the gaps none of them solve well, and define how PrepPlace wins.
+The goal is not to copy competitors but to extract the best ideas, find the gaps none of them solve well, and define how PrepNext wins.
 
 ---
 
 ## 1. The competitive landscape, mapped
 
-The market splits into four archetypes. No single player owns the **whole journey** (Learn → Practice → Build → Interview → Placement) — that is PrepPlace's opening.
+The market splits into four archetypes. No single player owns the **whole journey** (Learn → Practice → Build → Interview → Placement) — that is PrepNext's opening.
 
 | Archetype | Players | What they own | What they ignore |
 |---|---|---|---|
@@ -46,13 +46,13 @@ The market splits into four archetypes. No single player owns the **whole journe
 - **Pain points:** 150 isn't enough for some; Pro paywall.
 - **Business model:** Free core → NeetCode Pro subscription.
 - **Retention:** Roadmap progress, "finish the 150."
-- **Borrow:** ① The roadmap **graph** visualization. ② Ruthless curation. ③ Pattern-first pedagogy (PrepPlace already mirrors this in /patterns).
+- **Borrow:** ① The roadmap **graph** visualization. ② Ruthless curation. ③ Pattern-first pedagogy (PrepNext already mirrors this in /patterns).
 
 #### Apna College
 - **Core features:** 6.9M-subscriber YouTube channel; paid Alpha (DSA, ~₹4–6K) and Delta (web dev, ~₹8K) cohorts.
 - **Strengths:** Massive reach, affordability, Hindi-friendly, strong placement marketing, project + DSA blend.
 - **Weaknesses:** Cohort/video-centric; limited interactive tooling; support complaints post-payment.
-- **Borrow:** ① Affordable cohort pricing anchor. ② Hindi/vernacular accessibility. ③ Project + DSA bundling (validates PrepPlace's new Projects module).
+- **Borrow:** ① Affordable cohort pricing anchor. ② Hindi/vernacular accessibility. ③ Project + DSA bundling (validates PrepNext's new Projects module).
 
 #### Pepcoding (acquired by Scaler, 2023)
 - **Core features:** Deep DSA levels (L1/L2), live classes, strong free YouTube library.
@@ -72,13 +72,13 @@ The market splits into four archetypes. No single player owns the **whole journe
 - **Core:** Enormous article/tutorial library, DSA self-paced (~₹3,899), company-wise interview archives, GfG 160 roadmap, practice judge.
 - **Strengths:** SEO ubiquity in India, company-wise experiences, affordability, breadth (CS core + DSA + aptitude).
 - **Weaknesses:** **Ad-heavy, cluttered UX**; inconsistent quality; navigation chaos — the single most-complained-about UX in Indian prep.
-- **Borrow:** ① Company-wise interview-experience archive. ② Breadth (CS core + aptitude + DSA). ③ Affordability. **Avoid:** the ad clutter — this is PrepPlace's clearest UX wedge.
+- **Borrow:** ① Company-wise interview-experience archive. ② Breadth (CS core + aptitude + DSA). ③ Affordability. **Avoid:** the ad clutter — this is PrepNext's clearest UX wedge.
 
 #### HackerRank
 - **Core:** Skill tracks, certifications, and the **assessment engine many Indian companies use for OAs**.
 - **Strengths:** Familiarity with the actual OA environment; free certs as resume signal.
 - **Weaknesses:** Dated learning UX; weak as a learning tool; B2B focus.
-- **Borrow:** ① Free skill **certifications** as resume signal. ② Replicating the real OA environment (PrepPlace's /oa).
+- **Borrow:** ① Free skill **certifications** as resume signal. ② Replicating the real OA environment (PrepNext's /oa).
 
 #### CodeChef (Unacademy-owned)
 - **Core:** Contests, practice, learning paths, India-strong CP community.
@@ -120,19 +120,19 @@ The market splits into four archetypes. No single player owns the **whole journe
 
 #### Unstop (ex-Dare2Compete)
 - **Core:** Hackathons/competitions (2,500+ active), off-campus **hiring challenges as recruitment funnels**, jobs/internships, B2B assessment + ATS, "Unstop for Institutes" TPO tool; **28–30M registered users**; Pro ~₹1,999/yr.
-- **Strengths:** **Owns the opportunity/competition layer**; competitions convert directly to PPIs/offers; largest community; real off-campus funnel for non-Tier-1 students; **already sells to college TPOs** (validates PrepPlace's B2B2C path).
+- **Strengths:** **Owns the opportunity/competition layer**; competitions convert directly to PPIs/offers; largest community; real off-campus funnel for non-Tier-1 students; **already sells to college TPOs** (validates PrepNext's B2B2C path).
 - **Weaknesses:** Discovery-not-skill-building; **fake/scam listings slip moderation**; Tier-1 bias; crashes at scale; spammy.
-- **Borrow:** ① **Hiring-challenge-as-funnel** (competition → interview, skipping resume screen). ② Hackathon/competition feed (PrepPlace has /hackathon guide — could add a live feed). ③ **"For Institutes" TPO motion** (direct input to SAAS_READINESS roadmap).
+- **Borrow:** ① **Hiring-challenge-as-funnel** (competition → interview, skipping resume screen). ② Hackathon/competition feed (PrepNext has /hackathon guide — could add a live feed). ③ **"For Institutes" TPO motion** (direct input to SAAS_READINESS roadmap).
 
 ---
 
 ## 3. Market-wide gaps (what NOBODY solves well)
 
-1. **No one owns the full journey.** Every player is a point solution. A student juggles Striver (DSA) + GfG (CS core) + PrepInsta (aptitude) + LeetCode (practice) + Unstop (opportunities) + YouTube (projects). **PrepPlace's entire thesis is integration.**
-2. **Projects are an afterthought everywhere.** No major DSA platform offers *structured, resume-oriented project paths*. PrepPlace's new Projects module is a genuine differentiator.
-3. **Clean, calm UX is rare.** GfG/PrepInsta/Coding Ninjas are ad-heavy and cluttered. Only NeetCode is calm — and it's not India-focused. PrepPlace's clean, distraction-free, eye-comfort-tuned UI is a real wedge.
+1. **No one owns the full journey.** Every player is a point solution. A student juggles Striver (DSA) + GfG (CS core) + PrepInsta (aptitude) + LeetCode (practice) + Unstop (opportunities) + YouTube (projects). **PrepNext's entire thesis is integration.**
+2. **Projects are an afterthought everywhere.** No major DSA platform offers *structured, resume-oriented project paths*. PrepNext's new Projects module is a genuine differentiator.
+3. **Clean, calm UX is rare.** GfG/PrepInsta/Coding Ninjas are ad-heavy and cluttered. Only NeetCode is calm — and it's not India-focused. PrepNext's clean, distraction-free, eye-comfort-tuned UI is a real wedge.
 4. **No-pressure, student-affordable model.** Scaler/Coding Ninjas monetize via sales pressure and EMIs. A trustworthy free/low-cost product earns the student's default loyalty.
-5. **India campus context is fragmented.** Company-tagged DSA (LeetCode) and company OA/aptitude (PrepInsta) live in different products. PrepPlace already unifies PYQs + company prep kits + OA + aptitude.
+5. **India campus context is fragmented.** Company-tagged DSA (LeetCode) and company OA/aptitude (PrepInsta) live in different products. PrepNext already unifies PYQs + company prep kits + OA + aptitude.
 6. **Weak cross-device persistence & analytics for students.** Most track progress shallowly. A real "placement readiness score" doesn't exist.
 7. **No college-facing layer.** None serve the *placement cell / TPO* as a first-class user. This is the B2B2C opening (see SAAS_READINESS.md).
 
@@ -140,7 +140,7 @@ The market splits into four archetypes. No single player owns the **whole journe
 
 ## 4. Gap analysis table (Task 4)
 
-| # | Opportunity | Best competitor today | Why they fail | How PrepPlace wins | Priority | Impact | Difficulty |
+| # | Opportunity | Best competitor today | Why they fail | How PrepNext wins | Priority | Impact | Difficulty |
 |---|---|---|---|---|---|---|---|
 | 1 | **One integrated journey** (Learn→Build→Place) | None | All are point solutions w/ different business models | Single workspace; journey dashboard already shipped | P0 | ★★★★★ | Low (done) |
 | 2 | **Structured Projects module** | Apna College (loosely) | DSA platforms see projects as out-of-scope | 10 domains, beginner→advanced, full build guides — shipped | P0 | ★★★★★ | Med (done) |
@@ -157,9 +157,9 @@ The market splits into four archetypes. No single player owns the **whole journe
 
 ---
 
-## 5. How PrepPlace differentiates (the one-liner)
+## 5. How PrepNext differentiates (the one-liner)
 
-> **Every competitor sells you a piece of the placement journey. PrepPlace is the only calm, ad-free, India-aware workspace that takes a student from *learning DSA* to *building projects* to *cracking the interview* — in one place, for free.**
+> **Every competitor sells you a piece of the placement journey. PrepNext is the only calm, ad-free, India-aware workspace that takes a student from *learning DSA* to *building projects* to *cracking the interview* — in one place, for free.**
 
 The three moats to defend:
 1. **Integration** (the whole journey, one login).

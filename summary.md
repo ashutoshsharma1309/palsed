@@ -1,4 +1,4 @@
-# PrepPlace — Project Brain (summary.md)
+# PrepNext — Project Brain (summary.md)
 
 > Permanent technical documentation generated from a full-repository analysis.
 > **Facts** are drawn from source. **Inferences** are explicitly marked _(inferred)_.
@@ -10,15 +10,15 @@
 
 | | |
 |---|---|
-| **Project name** | **PrepPlace** (evolved from PrepNext → PrepNxt → PrepKit → PrepPlace) |
+| **Project name** | **PrepNext** (evolved from PrepNext → PrepNxt → PrepKit → PrepNext) |
 | **One-line** | A placement-season operating system for Indian college students. |
-| **Live** | https://prepnext.vercel.app _(legacy deployment domain; PrepPlace domain pending)_ |
+| **Live** | https://prepnext.vercel.app _(legacy deployment domain; PrepNext domain pending)_ |
 | **Repo** | https://github.com/ashutoshsharma1309/palsed |
 | **Scale** | ~22,500 lines across `client/` + `server/` |
 
-**Detailed description.** PrepPlace consolidates the chaos of campus placement season — recruiter info scattered across WhatsApp groups, previous-year questions lost in Drive folders, no clarity on eligibility or timelines — into one student workspace: a curated **recruiter map**, a verified **PYQ vault**, a **DSA practice hub**, **per-company prep kits**, an **applications kanban tracker**, **career roadmaps**, a **hackathon guide**, mock **online assessments**, and supporting tools (resume roast, salary insights, company compare, verifiable certificates).
+**Detailed description.** PrepNext consolidates the chaos of campus placement season — recruiter info scattered across WhatsApp groups, previous-year questions lost in Drive folders, no clarity on eligibility or timelines — into one student workspace: a curated **recruiter map**, a verified **PYQ vault**, a **DSA practice hub**, **per-company prep kits**, an **applications kanban tracker**, **career roadmaps**, a **hackathon guide**, mock **online assessments**, and supporting tools (resume roast, salary insights, company compare, verifiable certificates).
 
-**Problem it solves.** Placement prep for Indian students is fragmented and ad-heavy. PrepPlace makes it a single, organized, student-owned workflow.
+**Problem it solves.** Placement prep for Indian students is fragmented and ad-heavy. PrepNext makes it a single, organized, student-owned workflow.
 
 **Why it exists.** Built (originally as a hackathon project) around the thesis that the *workflow* of placement season — recruiter intel + applications + PYQs + a calendar — is a stronger, more defensible wedge than yet another generic interview-prep content site.
 
@@ -30,7 +30,7 @@
 
 ## 2. Executive Summary
 
-PrepPlace is a **web app** (a React single-page app + a small Express API) that helps college students get placed. A student signs in with Google, completes a short profile (college, branch, year, target roles), and lands in a workspace where they can: browse 85+ curated recruiters with eligibility and real CTC, drill 82+ verified past interview questions, practice 150 curated DSA problems, follow role-based career roadmaps, track every job application on a kanban board, take timed mock assessments, and generate shareable certificates. It's **free for students**. What makes it unique vs. PrepInsta/Unstop/GFG: it's a *workflow product* (track *my* placement season) rather than a content dump, with verified, India-specific data. It runs entirely on Vercel (static frontend + serverless API) backed by Supabase Postgres.
+PrepNext is a **web app** (a React single-page app + a small Express API) that helps college students get placed. A student signs in with Google, completes a short profile (college, branch, year, target roles), and lands in a workspace where they can: browse 85+ curated recruiters with eligibility and real CTC, drill 82+ verified past interview questions, practice 150 curated DSA problems, follow role-based career roadmaps, track every job application on a kanban board, take timed mock assessments, and generate shareable certificates. It's **free for students**. What makes it unique vs. PrepInsta/Unstop/GFG: it's a *workflow product* (track *my* placement season) rather than a content dump, with verified, India-specific data. It runs entirely on Vercel (static frontend + serverless API) backed by Supabase Postgres.
 
 ---
 
@@ -314,7 +314,7 @@ No embeddings, vector DB, RAG, fine-tuning, or agents. _(Future AI — e.g., AI 
 - **Run locally:** `npm run install:all`, add `server/.env` + `client/.env` (copy from `.env.example`), then `npm run dev` (server writes `.ports.json`; Vite waits on it).
 - **Build:** `npm run build` (client). **Typecheck:** `cd client && npx tsc --noEmit` (currently 0 errors — keep it that way).
 - **Theme safety:** use CSS variables (`var(--color-*)`), never hardcoded `text-white`/hex, so UI works in both themes.
-- **Brand:** the product is **PrepPlace**; the in-app `PrepKit` is a *feature* (per-company prep kit), not the brand — don't rename.
+- **Brand:** the product is **PrepNext**; the in-app `PrepKit` is a *feature* (per-company prep kit), not the brand — don't rename.
 - **Adding content pages:** follow `Roadmap.tsx`/`Hackathon.tsx` (data/markdown-driven) — no UI redesign needed.
 - **Don't** add new persistence to localStorage for new features; prefer the API/DB.
 - **Deps:** keep `npm audit` clean on the server runtime path.
@@ -329,7 +329,7 @@ No embeddings, vector DB, RAG, fine-tuning, or agents. _(Future AI — e.g., AI 
 2. **Pivot:** to a **Placement Season OS** for Indian students — Companies/PYQ/DSA/Applications added; AI endpoints retired (410); marketing copy + landing rewritten.
 3. **Auth migration:** email/password (bcrypt + JWT) → **Supabase Google OAuth**; legacy auth deps removed.
 4. **DB migration:** MySQL/Railway → **Supabase Postgres** (Prisma adapter-pg).
-5. **Rebrands:** PrepNext → PrepNxt → (PrepKit, reverted) → **PrepPlace**, each as a guarded repo-wide migration preserving the live URL + storage keys.
+5. **Rebrands:** PrepNext → PrepNxt → (PrepKit, reverted) → **PrepNext**, each as a guarded repo-wide migration preserving the live URL + storage keys.
 6. **Recent (committed):** profile-completion enforcement; full light/dark theme-contrast fix; high-contrast logo badge; Career Roadmap module (14 roles); Hackathon module; production **security hardening** (open-redirect, headers, CSP, vuln fixes); typecheck-error cleanup; docs (summary/changelog/contributing).
 7. **Current direction:** harden + document for production/custom-domain deployment; groundwork for monetization + B2B.
 
@@ -349,7 +349,7 @@ No embeddings, vector DB, RAG, fine-tuning, or agents. _(Future AI — e.g., AI 
 
 | | |
 |---|---|
-| **Project name** | PrepPlace |
+| **Project name** | PrepNext |
 | **Purpose** | Placement-season operating system for Indian college students |
 | **Main stack** | React 19 + TS + Vite + Tailwind v4 · Express (ESM) · Prisma + Supabase Postgres · Vercel |
 | **Entry points** | Client: `client/src/main.tsx` → `App.tsx`. Server: `api/index.js` → `server/app.js` (Vercel); `server/index.js` (standalone) |
@@ -367,7 +367,7 @@ No embeddings, vector DB, RAG, fine-tuning, or agents. _(Future AI — e.g., AI 
 
 ## Addendum — Structured DSA Learning (2026-06)
 
-PrepPlace has been re-centered as a **structured DSA learning platform**: learn the
+PrepNext has been re-centered as a **structured DSA learning platform**: learn the
 concept first, solve problems second. Key architecture:
 
 **Standard lesson template.** Every roadmap topic renders one mentor flow —
@@ -396,7 +396,7 @@ completing any checklist item or solving a problem stamps today into `activeDays
 — merely logging in does nothing.
 
 **Payments removed.** All monetization (Pricing page/route, plan hook, Pro
-upsell, Salary/Compare upsells) was removed; PrepPlace presents as a free
+upsell, Salary/Compare upsells) was removed; PrepNext presents as a free
 learning platform. No learning content was ever gated, so the architecture stays
 payment-ready for the future.
 

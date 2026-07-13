@@ -33,7 +33,7 @@
     <!-- logo lockup (kept around y-center, x ~210+, clear of lower-left logo overlay) -->
     <circle cx="232" cy="96" r="26" fill="url(#neon)"/>
     <text x="232" y="107" font-size="33" font-weight="800" fill="#0c0c0c" text-anchor="middle">P</text>
-    <text x="270" y="107" font-size="40" font-weight="800" fill="#ffffff" letter-spacing="-1">PrepPlace</text>
+    <text x="270" y="107" font-size="40" font-weight="800" fill="#ffffff" letter-spacing="-1">PrepNext</text>
 
     <!-- right: tagline + punch -->
     <text x="495" y="88" font-size="27" font-weight="800" fill="#ffffff" letter-spacing="-0.5">Your placement season, organized.</text>

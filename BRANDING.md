@@ -1,6 +1,6 @@
-# PrepPlace → Branding & Naming Research
+# PrepNext → Branding & Naming Research
 
-> Working name today: **PrepPlace** (deployed as `prepnext.vercel.app`).
+> Working name today: **PrepNext** (deployed as `prepnext.vercel.app`).
 > Decision in progress: rename to a more professional, MNC-grade brand for college/campus go-to-market.
 
 ## Decision (current): **CareerSphere**

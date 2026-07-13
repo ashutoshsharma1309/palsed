@@ -13,7 +13,7 @@ Notable changes, most recent first. Dates are approximate.
   covering the DSA learning engine (streak math, progress derivations, roadmap
   data integrity) — plus a GitHub Actions CI workflow gating every push/PR on
   typecheck → test → build.
-- **Pivot:** PrepPlace reframed as a DSA Learning OS — learning dashboard,
+- **Pivot:** PrepNext reframed as a DSA Learning OS — learning dashboard,
   curated roadmap, per-topic lessons + C++ question banks, activity-based streak.
 
 - **Feature:** added a **Career Roadmap** module (`/roadmap`, in the Prep nav) —
@@ -33,7 +33,7 @@ Notable changes, most recent first. Dates are approximate.
   routed to `/onboarding` and must fill required fields (full name, college,
   branch, year, target roles) before using the app; LinkedIn/GitHub stay
   optional.
-- **Branding:** renamed to **PrepPlace** (from PrepNxt; earlier candidates
+- **Branding:** renamed to **PrepNext** (from PrepNxt; earlier candidates
   PrepNext/PrepKit were dropped for taken handles / trademark risk). Regenerated
   logo, profile picture, and LinkedIn banners.
 

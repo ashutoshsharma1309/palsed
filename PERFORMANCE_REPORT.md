@@ -1,6 +1,6 @@
 # PERFORMANCE REPORT
 
-*PrepPlace — Placement Season Operating System*
+*PrepNext — Placement Season Operating System*
 *Scope: Core Web Vitals, bundle size, caching, images, DB query patterns, deploy topology*
 *Live: https://prepnext.vercel.app*
 
@@ -11,14 +11,14 @@
 - **The 670 KB index chunk is a lie that's also wrong** — Landing.tsx is eager-imported (`import Landing from "./routes/Landing"`) and it pulls `framer-motion`, `lucide-react`, `react-hot-toast`, the entire `COMPANIES` (1,854 LOC) array and `PYQ_SEED` (272 LOC) into the first-paint chunk. Every visitor — including the 99% who never log in — pays for the placement vault before they see the hero. This is the single biggest LCP/INP regression.
 - **Runtime-config network gate blocks every API call** — `client/src/lib/api.ts` does `await refreshApiUrl()` (a `fetch("/runtime-config.json", { cache: "no-store" })`) before *every* first request. On Vercel that file is irrelevant (build-time `__API_URL__=""` is correct), but the SPA still pays a serialized round-trip + `no-store` cache miss on every cold load. This is invisible in dev but adds ~80–300 ms to TTFB-of-data on prod.
 - **Static-content tables are bundled, not fetched** — `companies.ts` (1,854 lines), `dsa-problems.ts` (242), `pyqs-seed.ts` (272), plus 848 lines of `placement/*.ts` ship as JS in the client. None of it is user-specific; all of it should be JSON in `/public` with a long-cache header, fetched per-route and cached in `localStorage` with a version key. Today a student on 3G in a tier-2 college eats ~120 KB gzipped of recruiter data just to read the landing page.
-- **No SSR / no prerender = bot-blind + slow LCP** — Vite SPA behind `<Suspense fallback={Loader}>` means the first paint after HTML is a spinner, not content. Lighthouse mobile LCP is almost certainly >3.5 s. Competitors (InterviewBit, GFG, Unstop) all SSR their company/PYQ pages and outrank you on `"<company> placement questions"` long-tail queries that *should* be PrepPlace's bread and butter.
+- **No SSR / no prerender = bot-blind + slow LCP** — Vite SPA behind `<Suspense fallback={Loader}>` means the first paint after HTML is a spinner, not content. Lighthouse mobile LCP is almost certainly >3.5 s. Competitors (InterviewBit, GFG, Unstop) all SSR their company/PYQ pages and outrank you on `"<company> placement questions"` long-tail queries that *should* be PrepNext's bread and butter.
 - **Dead routes are still in the bundle graph** — `Courses.tsx`, `CourseDetail.tsx`, `CourseLesson.tsx`, `CourseQuiz.tsx`, `CourseCreate.tsx`, `Roadmaps.tsx`, `RoadmapDetail.tsx`, `RoadmapCreate.tsx`, `Tutor.tsx` all exist in `/routes`. App.tsx routes them to `<Navigate>` so they never render — but they're still compiled, type-checked, and (if anything else imports their utilities) still tree-walked. Delete them. This is free 60–100 KB.
 
 ---
 
 ## 2. Current State
 
-PrepPlace is a hackathon SPA shipped to Vercel with a single serverless Express handler (`api/index.js`). The client is Vite 7 + React 19, the chunking config exists (`manualChunks` already splits monaco, mermaid, pdf, markdown, react-vendor), and lazy routes are wired correctly for everything except Landing. That's the good news. The bad news:
+PrepNext is a hackathon SPA shipped to Vercel with a single serverless Express handler (`api/index.js`). The client is Vite 7 + React 19, the chunking config exists (`manualChunks` already splits monaco, mermaid, pdf, markdown, react-vendor), and lazy routes are wired correctly for everything except Landing. That's the good news. The bad news:
 
 **First paint.** Landing is the marketing surface and the auth funnel. It's also the only thing that loads eagerly. It imports `framer-motion` (≈55 KB gz), `react-hot-toast` (≈8 KB gz), `lucide-react` icons (tree-shakes per-icon, OK), and — fatally — the entire `COMPANIES` array just to render `COMPANIES.length.toString()` in a stats row. Same for `PYQ_SEED.length`. A 1,854-line module is parsed and held in memory so we can `.length` it. This is the kind of thing that turns a 95 Lighthouse score into a 62.
 
@@ -185,7 +185,7 @@ Pipe to a single `EngagementDay`-style table or just `console.log` for now and e
 - **GeeksforGeeks** `/company/google/` — heavier (ads), but indexes everything. Wins on volume.
 - **Unstop** — SPA but with SSR shell + aggressive prefetching.
 
-PrepPlace's content is *better* than all three for the 50 startups you've curated. The reason you don't rank is purely technical (SPA, no per-route metadata, no SSR). Fix the rendering pipeline and the content already wins.
+PrepNext's content is *better* than all three for the 50 startups you've curated. The reason you don't rank is purely technical (SPA, no per-route metadata, no SSR). Fix the rendering pipeline and the content already wins.
 
 ---
 
@@ -234,4 +234,4 @@ PrepPlace's content is *better* than all three for the 50 startups you've curate
 
 ---
 
-**Bottom line.** PrepPlace doesn't have a performance problem — it has a *deferred decisions* problem. Every quick win in this report is one or two file edits. The structural wins (SSR/prerender, Next migration, content-as-data) are 1–2 week investments that unlock 10× SEO and a real Lighthouse 95+. Do the P0 list this week. The 670 KB chunk will be ≤300 KB before next Friday.
+**Bottom line.** PrepNext doesn't have a performance problem — it has a *deferred decisions* problem. Every quick win in this report is one or two file edits. The structural wins (SSR/prerender, Next migration, content-as-data) are 1–2 week investments that unlock 10× SEO and a real Lighthouse 95+. Do the P0 list this week. The 670 KB chunk will be ≤300 KB before next Friday.
