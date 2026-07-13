@@ -1,16 +1,16 @@
-# PrepPlace — Phase 2 Product Evolution Report
+# PrepNext — Phase 2 Product Evolution Report
 
 **Date:** 2026-06-30
 **Scope:** Reorganize navigation, remove obsolete features, add a Projects module, analyze the market, evaluate SaaS readiness, ship high-impact improvements, and audit the product.
 **Companion docs:** [`COMPETITOR_ANALYSIS.md`](./COMPETITOR_ANALYSIS.md) · [`SAAS_READINESS.md`](./SAAS_READINESS.md)
 
-> **Mission framing:** turn PrepPlace from a DSA-leaning tool into the one platform a student opens daily across the whole journey — **Learn → Practice → Build → Interview → Placement** — without feature bloat.
+> **Mission framing:** turn PrepNext from a DSA-leaning tool into the one platform a student opens daily across the whole journey — **Learn → Practice → Build → Interview → Placement** — without feature bloat.
 
 ---
 
 ## 1. Executive summary
 
-PrepPlace was a strong DSA learning product wearing a "placement OS" label. Phase 2 makes the label true:
+PrepNext was a strong DSA learning product wearing a "placement OS" label. Phase 2 makes the label true:
 
 - **Rebalanced the product around the placement journey** — navigation, dashboard, and mobile all now reflect Learn → Practice → Build → Interview → Placement instead of DSA-only.
 - **Removed dead weight** — Resume Roast, the Applications kanban, and 9 orphaned legacy route files, plus all their references, imports, and storage keys. Smaller, clearer, faster.
@@ -119,7 +119,7 @@ Full detail in [`COMPETITOR_ANALYSIS.md`](./COMPETITOR_ANALYSIS.md). The stronge
 - **Coding Ninjas:** in-platform TA/doubt support at scale (500+ TAs) as a retention lever — *but avoid billing dark patterns*.
 - **Unstop:** hackathon/off-campus opportunity layer, hiring-challenge-as-funnel, and a proven **"for Institutes" TPO motion** (validates the B2B2C path).
 
-**The market gap:** every competitor is a *point solution*; none own the whole journey, none do structured projects, and most have cluttered or sales-heavy UX. **PrepPlace's wedge = integration + projects + calm, trustworthy UX.**
+**The market gap:** every competitor is a *point solution*; none own the whole journey, none do structured projects, and most have cluttered or sales-heavy UX. **PrepNext's wedge = integration + projects + calm, trustworthy UX.**
 
 ---
 

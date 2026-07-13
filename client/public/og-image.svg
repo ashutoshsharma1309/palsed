@@ -18,7 +18,7 @@
   <g transform="translate(80,80) scale(0.30)">
     <path fill="#BDFF00" fill-rule="evenodd" d="M 128 96 L 320 96 L 384 160 L 384 224 L 320 288 L 208 288 L 208 416 L 128 416 Z M 208 160 L 208 224 L 288 224 L 320 192 L 288 160 Z"/>
   </g>
-  <text x="240" y="170" font-family="'Bricolage Grotesque', system-ui, sans-serif" font-size="64" font-weight="800" fill="#FFFFFF" letter-spacing="-2">PREPPLACE</text>
+  <text x="240" y="170" font-family="'Bricolage Grotesque', system-ui, sans-serif" font-size="64" font-weight="800" fill="#FFFFFF" letter-spacing="-2">PREPNEXT</text>
 
   <!-- Eyebrow -->
   <text x="80" y="330" font-family="'JetBrains Mono', monospace" font-size="22" fill="#BDFF00" letter-spacing="6">· PLACEMENT SEASON OS ·</text>

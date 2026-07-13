@@ -15,7 +15,7 @@ import { Router } from "express";
 const aiGoneRouter = Router();
 aiGoneRouter.all("*", (_req, res) =>
   res.status(410).json({
-    error: "This endpoint has been retired. PrepPlace no longer uses AI generation.",
+    error: "This endpoint has been retired. PrepNext no longer uses AI generation.",
   })
 );
 
@@ -30,7 +30,7 @@ dbGoneRouter.get("/health", async (_req, res, next) => {
   try {
     await prisma.$queryRaw`SELECT 1`;
     const userCount = await prisma.user.count();
-    res.json({ ok: true, db: "prepplace", users: userCount });
+    res.json({ ok: true, db: "prepnext", users: userCount });
   } catch (e) {
     next(e);
   }

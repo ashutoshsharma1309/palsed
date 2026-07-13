@@ -1,6 +1,6 @@
-# PrepPlace — SaaS Readiness & College-Adoption Roadmap (Task 6)
+# PrepNext — SaaS Readiness & College-Adoption Roadmap (Task 6)
 
-> Question: *What would it take for a college (placement cell / TPO) to officially adopt PrepPlace as the primary placement-prep destination for its students?*
+> Question: *What would it take for a college (placement cell / TPO) to officially adopt PrepNext as the primary placement-prep destination for its students?*
 
 This evaluates the product **as if selling to colleges (B2B2C)** and produces a roadmap. Per the brief, enterprise functionality is **not implemented** here — this is the assessment + plan.
 
@@ -48,7 +48,7 @@ This evaluates the product **as if selling to colleges (B2B2C)** and produces a 
 
 ## 3. What colleges actually require (acceptance criteria)
 
-A TPO will ask for these before officially recommending PrepPlace:
+A TPO will ask for these before officially recommending PrepNext:
 
 1. **Bulk onboarding** — import a batch by CSV / college-domain SSO; students auto-grouped into a cohort.
 2. **Cohort dashboard** — see batch-wide progress, weak areas, top performers, at-risk students.

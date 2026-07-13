@@ -1,4 +1,4 @@
-// PrepPlace — DSA Learning home.
+// PrepNext — DSA Learning home.
 //
 // The dashboard is now entirely focused on the DSA journey: continue-where-you-
 // left-off, learning stats (activity streak, problems solved, topics completed,

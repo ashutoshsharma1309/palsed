@@ -33,7 +33,7 @@
     <!-- logo lockup, centered -->
     <circle cx="660" cy="118" r="30" fill="url(#neon)"/>
     <text x="660" y="131" font-size="38" font-weight="800" fill="#0c0c0c" text-anchor="middle">P</text>
-    <text x="700" y="132" font-size="54" font-weight="800" fill="#ffffff" letter-spacing="-1" text-anchor="start">PrepPlace</text>
+    <text x="700" y="132" font-size="54" font-weight="800" fill="#ffffff" letter-spacing="-1" text-anchor="start">PrepNext</text>
 
     <!-- eyebrow -->
     <text x="792" y="192" font-family="'Courier New', monospace" font-size="19" fill="#c8ff3d" letter-spacing="7">PLACEMENT SEASON · OPERATING SYSTEM</text>

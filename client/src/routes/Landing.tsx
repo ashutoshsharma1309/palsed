@@ -73,28 +73,28 @@ const STATS = [
 
 const FAQ_SCHEMA_ITEMS = [
   {
-    q: "What is PrepPlace?",
-    a: "PrepPlace is an all-in-one placement preparation platform for Indian college students — learn DSA and core CS, master coding patterns and aptitude, build resume-worthy projects, practice mock OAs and PYQs, and prep for interviews, all in one workspace.",
+    q: "What is PrepNext?",
+    a: "PrepNext is an all-in-one placement preparation platform for Indian college students — learn DSA and core CS, master coding patterns and aptitude, build resume-worthy projects, practice mock OAs and PYQs, and prep for interviews, all in one workspace.",
   },
   {
-    q: "Is PrepPlace free?",
+    q: "Is PrepNext free?",
     a: "Yes — the core features are free forever. Pro features unlock unlimited PYQ access, advanced analytics, and mock interview AI.",
   },
   {
-    q: "Which companies does PrepPlace cover?",
+    q: "Which companies does PrepNext cover?",
     a: "100+ top recruiters including Google, Microsoft, Amazon, Goldman Sachs, plus YC startups hiring interns.",
   },
   {
-    q: "Does PrepPlace help with DSA practice?",
+    q: "Does PrepNext help with DSA practice?",
     a: "Yes — a curated DSA tracker with 450+ problems, company-tagged, with spaced repetition for retention.",
   },
   {
-    q: "Does PrepPlace help me build projects for my resume?",
+    q: "Does PrepNext help me build projects for my resume?",
     a: "Yes — the Projects module gives structured learning paths across 10 domains (Web, Backend, AI/ML, Cybersecurity, Cloud, DevOps, Mobile, Blockchain, Data Science, Open Source), each with beginner→advanced projects detailing objective, features, folder structure, tech stack, and stretch goals.",
   },
   {
-    q: "Is PrepPlace only for engineering students?",
-    a: "PrepPlace is optimized for engineering campus placements but works for any college student preparing for tech, finance, or consulting recruiting.",
+    q: "Is PrepNext only for engineering students?",
+    a: "PrepNext is optimized for engineering campus placements but works for any college student preparing for tech, finance, or consulting recruiting.",
   },
 ];
 
@@ -289,7 +289,7 @@ export default function Landing() {
             {[
               {
                 q: "Is this another AI-powered edtech?",
-                a: "No. PrepPlace does zero AI calls at runtime. We don't analyze you, predict you, or grade you. The platform is pure workflow — recruiter data + your data + tracking. Faster, cheaper, more trustworthy.",
+                a: "No. PrepNext does zero AI calls at runtime. We don't analyze you, predict you, or grade you. The platform is pure workflow — recruiter data + your data + tracking. Faster, cheaper, more trustworthy.",
               },
               {
                 q: "Where do the questions come from?",

@@ -1,11 +1,11 @@
-# PrepPlace — Database Setup
+# PrepNext — Database Setup
 
 > **Audit note (June 2026):** Production now runs on **Supabase PostgreSQL** (Prisma with `@prisma/adapter-pg`), not MySQL. This document describes the earlier **local MySQL** setup and is kept for historical reference. For current setup use `server/.env.example` (Supabase connection string + keys).
 
-This document describes the MySQL database that backs PrepPlace: its structure,
+This document describes the MySQL database that backs PrepNext: its structure,
 relationships, configuration, migrations, and backup/restore procedures.
 
-> **Architecture note.** PrepPlace's React client currently persists everything in
+> **Architecture note.** PrepNext's React client currently persists everything in
 > the browser's `localStorage`, and the Express server is a stateless proxy to the
 > Groq AI API. This MySQL layer is a **backend foundation**: a fully-migrated,
 > CRUD-tested relational database plus REST endpoints (`/api/db/*`), ready to be
@@ -33,11 +33,11 @@ adapter** rather than a bundled query engine. Connection URLs live in
 
 | Object              | Name              | Purpose                                  |
 | ------------------- | ----------------- | ---------------------------------------- |
-| Application DB      | `prepplace`        | All application tables                    |
-| Shadow DB           | `prepplace_shadow` | Used only by `prisma migrate dev`        |
-| Application user    | `prepplace_app`    | Least-privilege; `ALL` on the two DBs only |
+| Application DB      | `prepnext`        | All application tables                    |
+| Shadow DB           | `prepnext_shadow` | Used only by `prisma migrate dev`        |
+| Application user    | `prepnext_app`    | Least-privilege; `ALL` on the two DBs only |
 
-The app never connects as `root`. `prepplace_app` has `caching_sha2_password` auth
+The app never connects as `root`. `prepnext_app` has `caching_sha2_password` auth
 (MySQL 9 removed `mysql_native_password`).
 
 ---
@@ -51,11 +51,11 @@ Stored in [`server/.env`](server/.env) (git-ignored). Template:
 | --------------------- | ----------------------------------------------------------- | -------------------- |
 | `DB_HOST`             | `127.0.0.1`                                                  | reference / tooling  |
 | `DB_PORT`             | `3306`                                                       | reference / tooling  |
-| `DB_USER`             | `prepplace_app`                                               | reference / tooling  |
+| `DB_USER`             | `prepnext_app`                                               | reference / tooling  |
 | `DB_PASSWORD`         | `********`                                                   | reference / tooling  |
-| `DB_NAME`             | `prepplace`                                                   | reference / tooling  |
-| `DATABASE_URL`        | `mysql://prepplace_app:PASSWORD@127.0.0.1:3306/prepplace`         | Prisma client + migrations |
-| `SHADOW_DATABASE_URL` | `mysql://prepplace_app:PASSWORD@127.0.0.1:3306/prepplace_shadow`  | `prisma migrate dev` |
+| `DB_NAME`             | `prepnext`                                                   | reference / tooling  |
+| `DATABASE_URL`        | `mysql://prepnext_app:PASSWORD@127.0.0.1:3306/prepnext`         | Prisma client + migrations |
+| `SHADOW_DATABASE_URL` | `mysql://prepnext_app:PASSWORD@127.0.0.1:3306/prepnext_shadow`  | `prisma migrate dev` |
 | `JWT_SECRET`          | (64-byte random hex)                                        | Signs login JWTs     |
 | `JWT_EXPIRES_IN`      | `7d`                                                        | JWT lifetime         |
 
@@ -202,17 +202,17 @@ The MySQL binaries live in `/usr/local/mysql/bin` (not on `PATH` by default).
 
 ```bash
 /usr/local/mysql/bin/mysqldump \
-  -u prepplace_app -p --protocol=tcp -h 127.0.0.1 -P 3306 \
+  -u prepnext_app -p --protocol=tcp -h 127.0.0.1 -P 3306 \
   --single-transaction --routines --triggers \
-  prepplace > prepplace_backup_$(date +%Y%m%d).sql
+  prepnext > prepnext_backup_$(date +%Y%m%d).sql
 ```
 
 **Restore:**
 
 ```bash
 /usr/local/mysql/bin/mysql \
-  -u prepplace_app -p --protocol=tcp -h 127.0.0.1 -P 3306 \
-  prepplace < prepplace_backup_YYYYMMDD.sql
+  -u prepnext_app -p --protocol=tcp -h 127.0.0.1 -P 3306 \
+  prepnext < prepnext_backup_YYYYMMDD.sql
 ```
 
 **Schema-only / data-only:** add `--no-data` or `--no-create-info` to `mysqldump`.
@@ -227,11 +227,11 @@ The MySQL binaries live in `/usr/local/mysql/bin` (not on `PATH` by default).
 ```bash
 # 1. As MySQL root, create databases + least-privilege user:
 mysql -u root -p <<'SQL'
-CREATE DATABASE IF NOT EXISTS prepplace        CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-CREATE DATABASE IF NOT EXISTS prepplace_shadow CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-CREATE USER IF NOT EXISTS 'prepplace_app'@'%' IDENTIFIED BY 'CHOOSE_A_PASSWORD';
-GRANT ALL PRIVILEGES ON prepplace.*        TO 'prepplace_app'@'%';
-GRANT ALL PRIVILEGES ON prepplace_shadow.* TO 'prepplace_app'@'%';
+CREATE DATABASE IF NOT EXISTS prepnext        CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE IF NOT EXISTS prepnext_shadow CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE USER IF NOT EXISTS 'prepnext_app'@'%' IDENTIFIED BY 'CHOOSE_A_PASSWORD';
+GRANT ALL PRIVILEGES ON prepnext.*        TO 'prepnext_app'@'%';
+GRANT ALL PRIVILEGES ON prepnext_shadow.* TO 'prepnext_app'@'%';
 FLUSH PRIVILEGES;
 SQL
 

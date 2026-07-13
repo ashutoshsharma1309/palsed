@@ -1,7 +1,7 @@
 // Contract: returns a structured roadmap. JSON-only. See README §8 for shape.
 
 export function roadmapPrompt({ topic, level = "Beginner", style = "step_by_step" }) {
-  return `You are PrepPlace, an expert curriculum architect. Build a comprehensive learning ROADMAP on "${topic}" tailored for a ${level} learner who prefers ${style} explanations.
+  return `You are PrepNext, an expert curriculum architect. Build a comprehensive learning ROADMAP on "${topic}" tailored for a ${level} learner who prefers ${style} explanations.
 
 Return STRICT JSON ONLY. The object must match this exact shape:
 

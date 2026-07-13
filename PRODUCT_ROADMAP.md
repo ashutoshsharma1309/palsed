@@ -1,18 +1,18 @@
 # PM REPORT
 
-> **Audit note (June 2026):** The `index.html` `<title>` / OG / Twitter "Adaptive AI Learning Universe" identity mismatch flagged in this report has since been **resolved** — the document head now ships the PrepPlace placement-prep positioning. Treat references to that specific mismatch below as historical; other findings may still be open.
+> **Audit note (June 2026):** The `index.html` `<title>` / OG / Twitter "Adaptive AI Learning Universe" identity mismatch flagged in this report has since been **resolved** — the document head now ships the PrepNext placement-prep positioning. Treat references to that specific mismatch below as historical; other findings may still be open.
 
 ## 1. Executive Summary
 
-- **Positioning is fractured at the front door.** The product markets itself as a "Placement Season Operating System" on Landing, but `index.html` `<title>`, OG, and Twitter meta still read "Adaptive AI Learning Universe." Indian students Googling "Wipro NLT pattern 2024" or "Goldman Sachs OA questions" will never find PrepPlace, and the ones who do land bounce because the meta promises something different from what they see. Fix this in week one.
+- **Positioning is fractured at the front door.** The product markets itself as a "Placement Season Operating System" on Landing, but `index.html` `<title>`, OG, and Twitter meta still read "Adaptive AI Learning Universe." Indian students Googling "Wipro NLT pattern 2024" or "Goldman Sachs OA questions" will never find PrepNext, and the ones who do land bounce because the meta promises something different from what they see. Fix this in week one.
 - **18 signups in a hackathon-built product is not a retention problem yet — it is a distribution problem.** There is zero SEO surface (no sitemap, no JSON-LD, no per-route metas, SPA-only Suspense shell), no shareable artifacts (PYQ pages are not linkable for crawlers), and no growth loop. Building more features before fixing distribution is the wrong move.
-- **The single highest-leverage retention feature is the Application Tracker Kanban + Placement Calendar, not DSA practice.** LeetCode/InterviewBit/Coding Ninjas/GFG already own DSA. PrepPlace's defensible wedge is "I track *my* placement season here" — recruiter intel + applications + PYQs + calendar. Double down on this and demote DSA to a supporting feature.
+- **The single highest-leverage retention feature is the Application Tracker Kanban + Placement Calendar, not DSA practice.** LeetCode/InterviewBit/Coding Ninjas/GFG already own DSA. PrepNext's defensible wedge is "I track *my* placement season here" — recruiter intel + applications + PYQs + calendar. Double down on this and demote DSA to a supporting feature.
 - **Schema drift and dual auth are a tax on every future feature.** Tutor/Course/Roadmap Prisma models, legacy JWT alongside Supabase Auth, and stale `/routes` files (CourseDetail, RoadmapCreate, Tutor.tsx) are still shipped to clients. This bloats the bundle, confuses contributors, and makes the codebase look more "finished" than it is. Schedule a deprecation sprint.
-- **PrepPlace has no acquisition flywheel.** No domain, no SEO, no campus ambassadors, no Telegram/WhatsApp distribution. Unstop and PrepInsta own campus distribution because they have college reps and free-tier mock tests. Without at least *one* viral mechanic (shareable mock-interview report card, public PYQ contributions with credit, certificate verification page as social proof), the product will plateau at ~50 signups.
+- **PrepNext has no acquisition flywheel.** No domain, no SEO, no campus ambassadors, no Telegram/WhatsApp distribution. Unstop and PrepInsta own campus distribution because they have college reps and free-tier mock tests. Without at least *one* viral mechanic (shareable mock-interview report card, public PYQ contributions with credit, certificate verification page as social proof), the product will plateau at ~50 signups.
 
 ## 2. Current State
 
-PrepPlace is a thoughtfully-scoped product trapped in a hackathon shell. The thesis is genuinely sharp: Indian campus placements are a chaotic mess of WhatsApp leaks, rotting Google Docs, and PrepInsta's ad-laden "company pages." A "Placement Season OS" that consolidates 50 recruiters, PYQs, applications kanban, and per-company prep kits is exactly the right wedge against Unstop (event marketplace, not prep) and LeetCode (DSA-only, US-coded). The execution gaps, however, are severe enough that the product is not yet defensible.
+PrepNext is a thoughtfully-scoped product trapped in a hackathon shell. The thesis is genuinely sharp: Indian campus placements are a chaotic mess of WhatsApp leaks, rotting Google Docs, and PrepInsta's ad-laden "company pages." A "Placement Season OS" that consolidates 50 recruiters, PYQs, applications kanban, and per-company prep kits is exactly the right wedge against Unstop (event marketplace, not prep) and LeetCode (DSA-only, US-coded). The execution gaps, however, are severe enough that the product is not yet defensible.
 
 **What's working:**
 - The Recruiter Map (50 companies with eligibility, rounds, OA platforms) is genuinely the differentiator. No competitor has this in one curated, searchable place — PrepInsta has it but buried under ads and outdated.
@@ -34,7 +34,7 @@ PrepPlace is a thoughtfully-scoped product trapped in a hackathon shell. The the
 
 | # | Issue | Impact | Effort | Priority |
 |---|-------|--------|--------|----------|
-| 1 | SEO mismatch + zero per-route metadata + SPA-only shell — long-tail placement queries don't reach PrepPlace | Catastrophic (kills organic growth) | M (2 weeks: prerender + react-helmet + sitemap + JSON-LD) | P0 |
+| 1 | SEO mismatch + zero per-route metadata + SPA-only shell — long-tail placement queries don't reach PrepNext | Catastrophic (kills organic growth) | M (2 weeks: prerender + react-helmet + sitemap + JSON-LD) | P0 |
 | 2 | No domain — `vercel.app` URL kills credibility, college students will not share | High (trust + sharing) | XS (1 day, ~₹800/yr) | P0 |
 | 3 | Messaging contradiction (`index.html` vs `Landing.tsx`) confuses every visitor | High (bounce rate) | XS (1 hour) | P0 |
 | 4 | PYQ Vault has no submission incentive — empty vault = no users = no submissions | High (kills moat) | M (leaderboard + credit + Telegram cross-post) | P0 |
@@ -57,19 +57,19 @@ PrepPlace is a thoughtfully-scoped product trapped in a hackathon shell. The the
 The `<head>` in `index.html` is contradicting the product. Replace the title and meta to match Landing.tsx's actual positioning:
 
 ```html
-<title>PrepPlace — Your Placement Season, Organized | Indian Campus Placement Prep</title>
+<title>PrepNext — Your Placement Season, Organized | Indian Campus Placement Prep</title>
 <meta name="description" content="Track applications, study PYQs from 50+ companies (Google, Microsoft, Goldman Sachs, Razorpay, Zerodha), and prep with curated DSA + system design. Built for Indian engineering students." />
 <meta name="keywords" content="campus placement prep, PYQ previous year questions, placement tracker, Indian engineering placement, OA questions, off-campus drives" />
 ```
 
-Buy `prepplace.in` (₹800/yr on GoDaddy or Cloudflare Registrar). The `.vercel.app` URL is killing every share. Update Supabase Auth redirect URLs accordingly.
+Buy `prepnext.in` (₹800/yr on GoDaddy or Cloudflare Registrar). The `.vercel.app` URL is killing every share. Update Supabase Auth redirect URLs accordingly.
 
 Add `react-helmet-async` and set per-route `<title>` and `<meta>` on:
-- `/companies/:slug` → "Goldman Sachs Placement Prep | Eligibility, PYQs, OA Pattern — PrepPlace"
-- `/pyq/:companySlug` → "Microsoft OA Questions 2024 (Verified) | PrepPlace"
-- `/dsa/:slug` → "Two Sum — Asked at Amazon, Google | PrepPlace"
+- `/companies/:slug` → "Goldman Sachs Placement Prep | Eligibility, PYQs, OA Pattern — PrepNext"
+- `/pyq/:companySlug` → "Microsoft OA Questions 2024 (Verified) | PrepNext"
+- `/dsa/:slug` → "Two Sum — Asked at Amazon, Google | PrepNext"
 
-These long-tail queries are exactly what 3rd/4th-year students Google at 2am the night before an OA. Right now PrepPlace is invisible for them.
+These long-tail queries are exactly what 3rd/4th-year students Google at 2am the night before an OA. Right now PrepNext is invisible for them.
 
 ### 4.2 Prerender or SSR the public routes (P0, ~1 week)
 
@@ -86,7 +86,7 @@ PYQ Vault is the only feature competitors cannot easily clone because it require
 - **Contributor credit**: PYQ submitter's displayName + (optional) college shows on the question card. Indian students care intensely about credit.
 - **Leaderboard**: Top contributors per college per month, surfaced on `/pyq` landing.
 - **Quality bounty**: First 100 verified PYQs for any company gets the contributor a free Pro month (when paid tier ships) or a certificate.
-- **Telegram cross-post**: When a PYQ is verified, auto-post to a public PrepPlace Telegram channel. Telegram is where placement leaks already happen — meet students where they are.
+- **Telegram cross-post**: When a PYQ is verified, auto-post to a public PrepNext Telegram channel. Telegram is where placement leaks already happen — meet students where they are.
 - **Submission flow**: Currently `/pyq/submit` exists; add image OCR (cheap with Tesseract.js client-side) so students can screenshot OA questions on their phone and submit in 10 seconds.
 
 Schema additions to `prisma/schema.prisma`:
@@ -149,16 +149,16 @@ Indian students will pay ₹199–₹499/yr for a placement tool that visibly im
 ### 4.9 Distribution playbook (P2, ongoing)
 
 - **College ambassadors**: Recruit 1 ambassador per top-50 engineering college (NITs, IIITs, BITS, top private). Give them a custom referral link tracked via a new `Referral` model. Top 3 ambassadors per month get a payout or LinkedIn recommendation.
-- **Telegram channel + group**: "PrepPlace Placement Leaks" channel for verified PYQs, a group for discussion. This is where the audience already lives.
+- **Telegram channel + group**: "PrepNext Placement Leaks" channel for verified PYQs, a group for discussion. This is where the audience already lives.
 - **LinkedIn**: Share weekly "What companies are hiring this week" posts. The data is already in the Internship feed.
-- **Reddit `r/developersIndia` and `r/JEEAdvanced` (for incoming students)**: Don't spam; answer questions and reference PrepPlace company pages.
+- **Reddit `r/developersIndia` and `r/JEEAdvanced` (for incoming students)**: Don't spam; answer questions and reference PrepNext company pages.
 
 ## 5. 30-Day Priorities
 
-1. **Day 1–2**: Buy `prepplace.in`, update Supabase Auth redirect URLs, deploy with new domain. Concrete deliverable: live at `prepplace.in` with valid HTTPS.
+1. **Day 1–2**: Buy `prepnext.in`, update Supabase Auth redirect URLs, deploy with new domain. Concrete deliverable: live at `prepnext.in` with valid HTTPS.
 2. **Day 3–5**: Rewrite `index.html` `<head>` to match placement-OS positioning. Add `react-helmet-async`. Set per-route `<title>`+`<meta>`+canonical on `/`, `/companies`, `/companies/:slug`, `/pyq`, `/dsa`. Deliverable: PR merged, Lighthouse SEO score > 95.
 3. **Day 6–10**: Add `vite-plugin-prerender` or `react-snap` to statically prerender all 50 `/companies/:slug` pages + `/`. Generate `sitemap.xml` and `robots.txt` at build. Submit to Google Search Console. Deliverable: 50+ pages indexed within 7 days of submission.
-4. **Day 11–17**: PYQ contributor credit + Telegram cross-post bot. Schema migration for `PyqContribution`. Create `t.me/prepplace_pyq` channel. Deliverable: every verified PYQ shows submitter name and is auto-posted to Telegram.
+4. **Day 11–17**: PYQ contributor credit + Telegram cross-post bot. Schema migration for `PyqContribution`. Create `t.me/prepnext_pyq` channel. Deliverable: every verified PYQ shows submitter name and is auto-posted to Telegram.
 5. **Day 18–22**: Application Tracker reminders. Vercel Cron Job at `/api/cron/round-reminders` that emails users with rounds in the next 24h. Use Supabase + existing `Notification` model. Deliverable: 100% of upcoming rounds trigger a reminder.
 6. **Day 23–27**: Deprecate dead routes + schema. Delete 9 stale `routes/*.tsx` files, run Prisma migration dropping Course/Roadmap/Tutor models. Deliverable: bundle size reduction (target -15%), zero `<Navigate>` redirects.
 7. **Day 28–30**: Razorpay integration spike. `Subscription` model, pricing page at `/pricing`, gated checkout flow. Deliverable: one paid test transaction end-to-end with a real ₹1 payment.
@@ -169,7 +169,7 @@ Indian students will pay ₹199–₹499/yr for a placement tool that visibly im
 2. **Campus ambassador program v1** in 25 colleges. `Referral` model, per-ambassador dashboard, monthly leaderboard with payout. Deliverable: 25 active ambassadors, 500+ signups attributed.
 3. **Company-specific DSA lists replacing the generic `/dsa` tracker.** Source the "asked at" tags from PYQ submissions. Add "Solve on LeetCode" deeplink, remove Monaco from mobile. Deliverable: 50 company-specific lists live, Monaco removed from mobile bundle.
 4. **Off-campus drives feed** — scrape Linkedin/Naukri/AngelList via a Vercel Cron Job into a new `OffCampusDrive` model. This is what students Google more than anything else after PYQs. Deliverable: 100+ active drives, updated daily.
-5. **Mock interview module** with a shareable "report card" PDF. Use the existing jspdf dep. The PDF should be brag-worthy on LinkedIn (PrepPlace logo, score, percentile vs cohort). Deliverable: 10% of users share their mock report on LinkedIn = built-in growth loop.
+5. **Mock interview module** with a shareable "report card" PDF. Use the existing jspdf dep. The PDF should be brag-worthy on LinkedIn (PrepNext logo, score, percentile vs cohort). Deliverable: 10% of users share their mock report on LinkedIn = built-in growth loop.
 6. **Mobile PWA polish + Android install funnel.** Wire `vite-plugin-pwa`, install prompt on Dashboard, audit kanban DnD on mobile. Deliverable: 30% of mobile users install the PWA.
 7. **Admin analytics dashboard** consuming the existing `EngagementDay.routes` JSON. You're sitting on real engagement data and have no UI to read it. Deliverable: internal `/admin` page showing DAU, route popularity, drop-off funnels.
 
@@ -178,7 +178,7 @@ Indian students will pay ₹199–₹499/yr for a placement tool that visibly im
 **Acquisition**
 - Organic search impressions (Google Search Console): **0 → 10,000/month by Day 90**
 - Indexed pages: **~5 (current homepage shell) → 200+ by Day 60**
-- Direct traffic from `prepplace.in` (post-domain): **track from Day 7**
+- Direct traffic from `prepnext.in` (post-domain): **track from Day 7**
 - Referral signups from ambassador codes: **0 → 500 by Day 90**
 
 **Activation**

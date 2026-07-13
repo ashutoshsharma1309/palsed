@@ -52,7 +52,7 @@ export default defineConfig(async ({ command }) => {
     devPort = await probeFreePort();
     setTimeout(() => {
       console.log("\n" + "═".repeat(56));
-      console.log(`  🟣 PrepPlace client on http://localhost:${devPort}`);
+      console.log(`  🟣 PrepNext client on http://localhost:${devPort}`);
       console.log(`     API → ${serverUrl}`);
       console.log("═".repeat(56) + "\n");
     }, 250);

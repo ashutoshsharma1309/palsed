@@ -1,6 +1,6 @@
 # SR_ENGINEER REPORT
 
-> **Audit note (June 2026):** The `index.html` `<title>` / OG / Twitter "Adaptive AI Learning Universe" identity mismatch flagged in this report has since been **resolved** — the document head now ships the PrepPlace placement-prep positioning. Treat references to that specific mismatch below as historical; other findings may still be open.
+> **Audit note (June 2026):** The `index.html` `<title>` / OG / Twitter "Adaptive AI Learning Universe" identity mismatch flagged in this report has since been **resolved** — the document head now ships the PrepNext placement-prep positioning. Treat references to that specific mismatch below as historical; other findings may still be open.
 
 ## 1. Executive Summary
 
@@ -12,7 +12,7 @@
 
 ## 2. Current State
 
-PrepPlace is in the dangerous middle-state where a hackathon prototype has been re-positioned ("Placement Season OS"), the UI was rewritten to match, but the **persistence and infrastructure layers were never migrated**. The Landing page promises a kanban applications tracker, a PYQ vault, and a mastery radar — and all three exist as functional UIs. None of them write to the database.
+PrepNext is in the dangerous middle-state where a hackathon prototype has been re-positioned ("Placement Season OS"), the UI was rewritten to match, but the **persistence and infrastructure layers were never migrated**. The Landing page promises a kanban applications tracker, a PYQ vault, and a mastery radar — and all three exist as functional UIs. None of them write to the database.
 
 Concretely:
 

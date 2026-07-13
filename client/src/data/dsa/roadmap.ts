@@ -1,5 +1,5 @@
 // ────────────────────────────────────────────────────────────────────────────
-//  DSA Learning Roadmap — the curated content layer for PrepPlace's pivot to a
+//  DSA Learning Roadmap — the curated content layer for PrepNext's pivot to a
 //  DSA Learning OS. Fully data-driven: the UI (dashboard, roadmap, lesson pages)
 //  renders entirely from here, so adding a topic/question is a pure data change.
 //
