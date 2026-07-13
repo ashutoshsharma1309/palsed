@@ -42,6 +42,30 @@ export default function OaTest() {
     return () => clearInterval(t);
   }, []);
 
+  // Timer math — kept null-safe so these run before the guards below.
+  const finished = !!session?.finishedAt;
+  const totalMs = (session?.config.durationMin ?? 0) * 60_000;
+  const elapsedMs = now - new Date(session?.startedAt ?? now).getTime();
+  const remainingMs = Math.max(0, totalMs - elapsedMs);
+  const remainingSec = Math.floor(remainingMs / 1000);
+  const mm = Math.floor(remainingSec / 60);
+  const ss = remainingSec % 60;
+  const timeOut = !!session && remainingMs <= 0;
+  const urgency: "fine" | "warn" | "critical" = remainingSec < 60 ? "critical" : remainingSec < 300 ? "warn" : "fine";
+
+  // Redirect to results once finished — in an effect, never during render.
+  useEffect(() => {
+    if (session && finished) navigate(`/oa/result/${session.id}`, { replace: true });
+  }, [session, finished, navigate]);
+
+  // Auto-submit when the timer expires.
+  useEffect(() => {
+    if (session && timeOut && !session.finishedAt) {
+      finish(session.id);
+      navigate(`/oa/result/${session.id}`, { replace: true });
+    }
+  }, [session, timeOut, finish, navigate]);
+
   if (!session) {
     return (
       <div className="mx-auto max-w-3xl py-32 text-center">
@@ -53,21 +77,20 @@ export default function OaTest() {
     );
   }
 
-  if (session.finishedAt) {
-    navigate(`/oa/result/${session.id}`, { replace: true });
-    return null;
-  }
-
-  const totalMs = session.config.durationMin * 60_000;
-  const elapsedMs = now - new Date(session.startedAt).getTime();
-  const remainingMs = Math.max(0, totalMs - elapsedMs);
-  const remainingSec = Math.floor(remainingMs / 1000);
-  const mm = Math.floor(remainingSec / 60);
-  const ss = remainingSec % 60;
-  const timeOut = remainingMs <= 0;
-  const urgency: "fine" | "warn" | "critical" = remainingSec < 60 ? "critical" : remainingSec < 300 ? "warn" : "fine";
+  if (finished) return null; // redirect handled by the effect above
 
   const q = questions[idx];
+  if (!q) {
+    return (
+      <div className="mx-auto max-w-3xl py-32 text-center">
+        <div className="display text-3xl">This session's questions couldn't be loaded.</div>
+        <p className="text-[var(--color-text-faint)] text-sm mt-2">
+          They may have been updated since the session started.{" "}
+          <a href="/oa" className="text-[var(--color-neon)] underline">Back to OA Practice</a>
+        </p>
+      </div>
+    );
+  }
   const ans = session.answers[q.id];
   const company = getCompany(q.companySlug);
 
@@ -75,10 +98,6 @@ export default function OaTest() {
     finish(session.id);
     navigate(`/oa/result/${session.id}`, { replace: true });
   };
-
-  if (timeOut && !session.finishedAt) {
-    setTimeout(() => submit(), 200);
-  }
 
   return (
     <div className="min-h-screen flex flex-col">

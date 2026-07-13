@@ -16,12 +16,12 @@ const MAX_COMPARE = 6;
 export default function Compare() {
   usePageMeta({
     title: "Compare placement offers — Companies side-by-side",
-    description: "Compare any 2-3 recruiters side-by-side: CTC, eligibility, interview rounds, difficulty, hiring window. Pick smarter.",
+    description: "Compare up to 6 recruiters side-by-side: CTC, eligibility, interview rounds, difficulty, hiring window. Pick smarter.",
     canonical: "/compare",
   });
 
   const [params, setParams] = useSearchParams();
-  const initial = ["a", "b", "c", "d"].map((k) => params.get(k)).filter(Boolean) as string[];
+  const initial = Array.from({ length: MAX_COMPARE }, (_, i) => params.get(String.fromCharCode(97 + i))).filter(Boolean) as string[];
   const [slugs, setSlugs] = useState<string[]>(initial.length > 0 ? initial : []);
   const [picker, setPicker] = useState("");
 

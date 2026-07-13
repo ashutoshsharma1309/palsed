@@ -20,8 +20,20 @@ async function sha256Hex(input: string): Promise<string> {
     .join("");
 }
 
+// UTF-8-safe base64url: btoa() only accepts Latin1, so names/titles with
+// accents, non-Latin scripts, or emoji would otherwise throw during render.
 function base64url(s: string): string {
-  return btoa(s).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+  const bytes = new TextEncoder().encode(s);
+  let bin = "";
+  for (const b of bytes) bin += String.fromCharCode(b);
+  return btoa(bin).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+}
+
+function base64urlDecode(s: string): string {
+  const padded = s.replace(/-/g, "+").replace(/_/g, "/");
+  const bin = atob(padded);
+  const bytes = Uint8Array.from(bin, (c) => c.charCodeAt(0));
+  return new TextDecoder().decode(bytes);
 }
 
 export async function issueCertificate({
@@ -59,8 +71,7 @@ export function parseVerifyHash(): Certificate | null {
   try {
     const hash = location.hash.replace(/^#/, "");
     if (!hash) return null;
-    const padded = hash.replace(/-/g, "+").replace(/_/g, "/");
-    const json = atob(padded);
+    const json = base64urlDecode(hash);
     const p = JSON.parse(json);
     return { id: p.verifyCode, courseId: "", ...p };
   } catch {

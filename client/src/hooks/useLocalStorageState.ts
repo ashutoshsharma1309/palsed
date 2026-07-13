@@ -157,3 +157,65 @@ export const LS_KEYS = {
   authUser: "prepnext.auth.user.v1",
   theme: "prepnext.theme.v1",
 } as const;
+
+// Session/identity keys — never exported, imported, or wiped so a data wipe
+// or restore doesn't silently log the user out mid-session.
+const PROTECTED_BASE_KEYS: string[] = [LS_KEYS.authToken, LS_KEYS.authUser];
+const BASE_KEYS: string[] = Object.values(LS_KEYS);
+
+/** The actual localStorage key a base LS_KEYS value is stored under right now,
+ *  matching useScopedKey (global auth keys as-is, everything else per-user). */
+export function scopedKeyFor(baseKey: string): string {
+  return isGlobalKey(baseKey) ? baseKey : `${baseKey}__u:${readUid()}`;
+}
+
+/** Snapshot of the current user's saved data, keyed by base LS_KEYS value. */
+export function exportUserData(): Record<string, unknown> {
+  const blob: Record<string, unknown> = {};
+  for (const base of BASE_KEYS) {
+    if (PROTECTED_BASE_KEYS.includes(base)) continue;
+    const raw = localStorage.getItem(scopedKeyFor(base));
+    if (raw === null) continue;
+    try {
+      blob[base] = JSON.parse(raw);
+    } catch {
+      /* skip unparyseable entry */
+    }
+  }
+  return blob;
+}
+
+/** Restore a previously exported snapshot into the current user's namespace.
+ *  Accepts both base keys and already-scoped keys for backward-compat. Returns
+ *  the number of entries written. Live subscribers are notified so open views
+ *  update immediately. */
+export function importUserData(parsed: Record<string, unknown>): number {
+  let count = 0;
+  for (const [k, value] of Object.entries(parsed)) {
+    const base = k.includes("__u:") ? k.slice(0, k.indexOf("__u:")) : k;
+    if (!BASE_KEYS.includes(base) || PROTECTED_BASE_KEYS.includes(base)) continue;
+    const sk = scopedKeyFor(base);
+    try {
+      localStorage.setItem(sk, JSON.stringify(value));
+      notify(sk, value);
+      count++;
+    } catch {
+      /* quota or serialization failure — skip */
+    }
+  }
+  return count;
+}
+
+/** Remove all of the current user's saved data (keeps them signed in).
+ *  Returns the number of keys actually removed. */
+export function wipeUserData(): number {
+  let count = 0;
+  for (const base of BASE_KEYS) {
+    if (PROTECTED_BASE_KEYS.includes(base)) continue;
+    const sk = scopedKeyFor(base);
+    if (localStorage.getItem(sk) !== null) count++;
+    localStorage.removeItem(sk);
+    notify(sk, undefined);
+  }
+  return count;
+}

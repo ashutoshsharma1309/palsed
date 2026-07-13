@@ -7,8 +7,10 @@ import { Nav } from "./components/layout/Nav";
 import { Footer } from "./components/layout/Footer";
 import { MobileTabBar } from "./components/layout/MobileTabBar";
 import { EngagementProvider } from "./components/adaptive/EngagementProvider";
+import { AuthProvider } from "./hooks/useAuth";
 import { FocusMode } from "./components/adaptive/FocusMode";
 import { CommandPalette } from "./components/CommandPalette";
+import { ChatWidget } from "./components/ChatWidget";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { RequireAuth } from "./components/auth/RequireAuth";
 import { Loader } from "./components/ui/Loader";
@@ -83,6 +85,7 @@ function HideChromeForLanding({ children }: { children: React.ReactNode }) {
       {children}
       {!hide && <Footer />}
       {!hide && <MobileTabBar />}
+      {!hide && <ChatWidget />}
     </>
   );
 }
@@ -94,6 +97,7 @@ export default function App() {
 
   return (
     <ErrorBoundary>
+      <AuthProvider>
       <EngagementProvider>
         <Background />
         <CommandPalette />
@@ -167,6 +171,7 @@ export default function App() {
         <Analytics />
         <SpeedInsights />
       </EngagementProvider>
+      </AuthProvider>
     </ErrorBoundary>
   );
 }

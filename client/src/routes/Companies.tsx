@@ -14,7 +14,7 @@ type Sort = typeof SORT_OPTIONS[number];
 export default function Companies() {
   usePageMeta({
     title: "Top recruiters for campus placements",
-    description: "Browse 75+ recruiters with eligibility, CTC, interview rounds, OA platforms, and topics asked. Curated for Indian engineering students.",
+    description: `Browse ${COMPANIES.length} recruiters with eligibility, CTC, interview rounds, OA platforms, and topics asked. Curated for Indian engineering students.`,
     canonical: "/companies",
   });
 
@@ -47,7 +47,7 @@ export default function Companies() {
       default: break;
     }
     return arr;
-  }, [q, tier, location, sort]);
+  }, [q, tier, location, sort, profile]);
 
   const tierCounts = useMemo(() => {
     const m: Record<string, number> = { All: COMPANIES.length };
@@ -61,7 +61,7 @@ export default function Companies() {
         <div className="mono text-xs uppercase tracking-[0.3em] text-[var(--color-neon)] mb-2">// companies</div>
         <h1 className="display text-5xl sm:text-7xl">RECRUITER MAP.</h1>
         <p className="text-[var(--color-text-faint)] mt-2 max-w-2xl">
-          50 top recruiters for Indian campus placements — eligibility, hiring windows, packages,
+          {COMPANIES.length} top recruiters for Indian campus placements — eligibility, hiring windows, packages,
           rounds, topics asked, and tips from previous offer-holders. Click any company for the full
           prep kit + previous-year questions.
         </p>

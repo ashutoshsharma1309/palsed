@@ -14,6 +14,7 @@ import { Button } from "../components/ui/Button";
 import { Chip } from "../components/ui/Chip";
 import { AccordionItem } from "../components/dsa/Accordion";
 import { LeetCodeLogo } from "../components/dsa/LeetCodeLogo";
+import { CodeRunner } from "../components/dsa/CodeRunner";
 import { MarkdownView } from "../components/lesson/MarkdownView";
 import { apiPost } from "../lib/api";
 import toast from "react-hot-toast";
@@ -256,6 +257,10 @@ export default function DsaProblem() {
             ) : (
               <p className="text-sm text-[var(--color-text-faint)]">Complexity analysis will appear with the solution.</p>
             )}
+          </AccordionItem>
+
+          <AccordionItem title="Code Playground" icon={<Code2 className="w-4 h-4" />} hint="run JS in-browser">
+            <CodeRunner storageKey={problem.slug} />
           </AccordionItem>
         </div>
 

@@ -202,7 +202,7 @@ export const PROBLEMS: DSAProblem[] = [
   M(125, 10, "Regular Expression Matching", "regular-expression-matching", "Hard", "2-D DP", ["Facebook", "Google"], 3, ["Blind 75", "NeetCode 150"]),
 
   // Greedy
-  M(126, 53, "Maximum Subarray (Kadane)", "maximum-subarray-kadane", "Medium", "Greedy", ["Amazon"], 5, ["NeetCode 150"]),
+  M(126, 53, "Maximum Subarray (Kadane)", "maximum-subarray", "Medium", "Greedy", ["Amazon"], 5, ["NeetCode 150"]),
   M(127, 55, "Jump Game", "jump-game", "Medium", "Greedy", ["Amazon", "Microsoft"], 4, ["Blind 75", "NeetCode 150"]),
   M(128, 45, "Jump Game II", "jump-game-ii", "Medium", "Greedy", ["Amazon"], 3, ["NeetCode 150"]),
   M(129, 134, "Gas Station", "gas-station", "Medium", "Greedy", ["Amazon"], 3, ["NeetCode 150"]),

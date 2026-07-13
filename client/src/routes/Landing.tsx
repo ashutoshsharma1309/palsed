@@ -23,7 +23,7 @@ const FEATURES = [
     tint: "neon" as const,
     icon: <Building2 className="w-7 h-7" />,
     title: "Recruiter Map",
-    desc: "50 top companies — eligibility, packages, rounds, OA platforms, topics asked, tips from past offer holders.",
+    desc: `${COMPANY_COUNT} top companies — eligibility, packages, rounds, OA platforms, topics asked, tips from past offer holders.`,
   },
   {
     tint: "mint" as const,
@@ -82,11 +82,11 @@ const FAQ_SCHEMA_ITEMS = [
   },
   {
     q: "Which companies does PrepNext cover?",
-    a: "100+ top recruiters including Google, Microsoft, Amazon, Goldman Sachs, plus YC startups hiring interns.",
+    a: `${COMPANY_COUNT} top recruiters including Google, Microsoft, Amazon, Goldman Sachs, plus YC startups hiring interns.`,
   },
   {
     q: "Does PrepNext help with DSA practice?",
-    a: "Yes — a curated DSA tracker with 450+ problems, company-tagged, with spaced repetition for retention.",
+    a: "Yes — a curated DSA tracker with 150 hand-picked problems, company-tagged, with spaced repetition for retention.",
   },
   {
     q: "Does PrepNext help me build projects for my resume?",
@@ -289,7 +289,7 @@ export default function Landing() {
             {[
               {
                 q: "Is this another AI-powered edtech?",
-                a: "No. PrepNext does zero AI calls at runtime. We don't analyze you, predict you, or grade you. The platform is pure workflow — recruiter data + your data + tracking. Faster, cheaper, more trustworthy.",
+                a: "No. There's no AI grading, prediction, or profiling — your progress is pure workflow: recruiter data + your data + tracking. The only AI is an optional Socratic tutor you invoke on-demand when you're stuck on a problem; it never runs on its own.",
               },
               {
                 q: "Where do the questions come from?",

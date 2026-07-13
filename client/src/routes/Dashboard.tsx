@@ -16,6 +16,7 @@ import { DailyStreakCard } from "../components/dashboard/DailyStreakCard";
 import { DailyGoalBanner } from "../components/dashboard/DailyGoalBanner";
 import { JourneyMap } from "../components/dashboard/JourneyMap";
 import { ReadinessCard } from "../components/dashboard/ReadinessCard";
+import { InsightsCard } from "../components/dashboard/InsightsCard";
 
 export default function Dashboard() {
   usePageMeta({ title: "Dashboard", description: "Your placement journey — learn, practice, build, interview, and place.", canonical: "/dashboard" });
@@ -78,6 +79,9 @@ export default function Dashboard() {
 
           {/* Placement journey map — orient students across the full arc */}
           <JourneyMap />
+
+          {/* DSA analytics — solved mix, difficulty, weak areas, focus-next */}
+          <InsightsCard />
 
           {/* Roadmap */}
           <div>
