@@ -1,4 +1,4 @@
-// PrepPlace brand mark — "Hard P" (Option D). Inline SVG (not <img src=>) so
+// PrepNext brand mark — "Hard P" (Option D). Inline SVG (not <img src=>) so
 // it picks up currentColor — the parent's text color drives the fill. Lets us
 // use the same mark in neon, black, white, or invert-on-hover without shipping
 // multiple SVG files.
@@ -14,7 +14,7 @@ interface LogoMarkProps {
   title?: string;
 }
 
-export function LogoMark({ className, size = 24, title = "PrepPlace" }: LogoMarkProps) {
+export function LogoMark({ className, size = 24, title = "PrepNext" }: LogoMarkProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -40,7 +40,7 @@ interface LogoLockupProps {
   className?: string;
   /** "horizontal" places mark left of wordmark; "stacked" puts wordmark below. */
   variant?: "horizontal" | "stacked";
-  /** Wordmark size class — controls font-size of "PREPPLACE". */
+  /** Wordmark size class — controls font-size of "PREPNEXT". */
   wordmarkClass?: string;
   /** Mark pixel size. */
   markSize?: number;
@@ -48,7 +48,7 @@ interface LogoLockupProps {
 
 /**
  * The mark rendered as a filled neon "chip" with a dark P — the same treatment
- * used in the PrepPlace social/brand assets. Unlike a bare neon-colored glyph
+ * used in the PrepNext social/brand assets. Unlike a bare neon-colored glyph
  * (which becomes a pale, low-contrast lime in light mode), this stays clearly
  * visible in BOTH themes: the neon fill reads on dark and light page
  * backgrounds, and the near-black P always has strong contrast against the neon.
@@ -80,14 +80,14 @@ export function LogoLockup({
     return (
       <span className={`inline-flex flex-col items-center gap-2 ${className}`}>
         <LogoBadge size={markSize} />
-        <span className={wordmarkClass}>PREPPLACE</span>
+        <span className={wordmarkClass}>PREPNEXT</span>
       </span>
     );
   }
   return (
     <span className={`inline-flex items-center gap-2.5 ${className}`}>
       <LogoBadge size={markSize} />
-      <span className={wordmarkClass}>PREPPLACE</span>
+      <span className={wordmarkClass}>PREPNEXT</span>
     </span>
   );
 }

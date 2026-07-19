@@ -1,4 +1,4 @@
-// Mounts generic CRUD routers for every PrepPlace entity under /api/db/*.
+// Mounts generic CRUD routers for every PrepNext entity under /api/db/*.
 // Also exposes a deep "create full course" endpoint that proves nested
 // relational inserts (course -> chapters -> lessons) work end-to-end.
 import { Router } from "express";
@@ -37,7 +37,7 @@ router.get("/health", async (_req, res, next) => {
     for (const [seg, delegate] of Object.entries(RESOURCES)) {
       counts[seg] = await prisma[delegate].count();
     }
-    res.json({ ok: true, db: "prepplace", tables: Object.keys(RESOURCES).length, counts });
+    res.json({ ok: true, db: "prepnext", tables: Object.keys(RESOURCES).length, counts });
   } catch (e) {
     next(e);
   }

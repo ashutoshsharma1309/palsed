@@ -1,4 +1,4 @@
-// PrepPlace — relational schema for PostgreSQL (Supabase).
+// PrepNext — relational schema for PostgreSQL (Supabase).
 // Migrated from MySQL/MariaDB. JSON columns become PG `jsonb` automatically.
 // Deeply-nested AI-generated payloads (lesson explanations, roadmap stages)
 // stay as JSON; the relational structure around them is normalized to 3NF

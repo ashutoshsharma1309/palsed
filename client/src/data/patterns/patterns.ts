@@ -1,4 +1,4 @@
-// PrepPlace — Coding Patterns curriculum (Task 2).
+// PrepNext — Coding Patterns curriculum (Task 2).
 //
 // A standalone learning module (separate from the DSA Roadmap) that teaches the
 // recurring *shapes* of DSA / CP solutions: how to recognize them, when to reach
