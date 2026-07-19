@@ -26,7 +26,7 @@ export function RequireAuth() {
   if (loading) {
     return (
       <div className="py-40">
-        <Loader label="Loading" />
+        <Loader label="Preparing your workspace…" />
       </div>
     );
   }

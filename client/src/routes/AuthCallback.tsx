@@ -28,21 +28,34 @@ export default function AuthCallback() {
 
   useEffect(() => {
     let cancelled = false;
+    // settle() is triggered by several signals below (eager getSession, the
+    // INITIAL_SESSION / SIGNED_IN events, and the timeout). We latch ONLY on a
+    // successful outcome — one /api/auth/me + one navigate — so redundant
+    // signals after success are ignored, while an early attempt that finds no
+    // session yet does NOT latch and a later event can still complete the flow.
+    let done = false;
 
-    // Race three signals — whichever fires first wins:
-    //   1. Existing session (already exchanged)
-    //   2. onAuthStateChange "SIGNED_IN" event (token detected from URL)
-    //   3. 6-second timeout → show error
     const settle = async (msg?: string) => {
-      if (cancelled) return;
+      if (cancelled || done) return;
+
+      const { data } = await supabase.auth.getSession();
+
       if (intent === "reset") {
-        const { data } = await supabase.auth.getSession();
         if (!data.session) { setStatus("error"); setError("Reset link expired. Request a new one."); return; }
+        done = true;
         setStatus("reset");
         return;
       }
-      const { data } = await supabase.auth.getSession();
-      if (!data.session) { setStatus("error"); setError(msg || "No active session — sign-in link may have expired."); return; }
+
+      if (!data.session) {
+        // No session yet — only surface an error if this was the final signal
+        // (the timeout passes a msg). Otherwise stay in "loading" and let the
+        // SIGNED_IN event settle us once the token exchange finishes.
+        if (msg) { setStatus("error"); setError(msg); }
+        return;
+      }
+
+      done = true;
       toast.success("You're in!");
       // Route based on profile completion: new users go to /onboarding to
       // fill out college/branch/year; returning users go to /dashboard.
@@ -102,7 +115,7 @@ export default function AuthCallback() {
       <Background />
       <div className="relative z-10 min-h-screen grid place-items-center px-4">
         <Card className="max-w-md w-full">
-          {status === "loading" && <Loader label="Finalizing sign-in" />}
+          {status === "loading" && <Loader label="Signing you in…" />}
 
           {status === "error" && (
             <div>
