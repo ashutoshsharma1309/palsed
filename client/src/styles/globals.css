@@ -581,3 +581,30 @@ html[data-warm="on"][data-theme="dark"] body::after {
   outline-offset: 2px;
   border-radius: 4px;
 }
+
+/* ────────────────────────────────────────────────────────────────────────
+   Vision 3.0 — Reading surface (lesson pages)
+   Keeps the neon brand on nav/dashboard/marketing but gives long-form lessons
+   a calmer, roomier reading feel: softened accent, generous rhythm, comfortable
+   measure. Scoped to .reading-surface so nothing else changes.
+   ──────────────────────────────────────────────────────────────────────── */
+.reading-surface .markdown-body {
+  font-size: 17px;
+  line-height: 1.85;
+}
+.reading-surface .markdown-body > * { max-width: 70ch; }
+.reading-surface .markdown-body h3 {
+  margin-top: 1.9em;
+  margin-bottom: 0.5em;
+  letter-spacing: -0.01em;
+}
+.reading-surface .markdown-body p { margin-bottom: 1.15em; }
+.reading-surface .markdown-body ul,
+.reading-surface .markdown-body ol { margin-bottom: 1.15em; }
+/* Softer, less-electric accent for a calm read (dark mode only; light is
+   already an olive ink). Section labels + inline accents inherit this. */
+[data-theme="dark"] .reading-surface { --color-neon-text: #bfe081; }
+
+/* ── Immersive reading mode ────────────────────────────────────────────── */
+body.reading-immersive [data-app-chrome] { display: none !important; }
+body.reading-immersive { --immersive: 1; }

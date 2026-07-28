@@ -13,6 +13,7 @@ import { useAuth } from "../hooks/useAuth";
 import { useLearningProgress } from "../hooks/useLearningProgress";
 import { RoadmapView } from "../components/roadmap/RoadmapView";
 import { DailyStreakCard } from "../components/dashboard/DailyStreakCard";
+import { GamificationCard } from "../components/dashboard/GamificationCard";
 import { DailyGoalBanner } from "../components/dashboard/DailyGoalBanner";
 import { JourneyMap } from "../components/dashboard/JourneyMap";
 import { ReadinessCard } from "../components/dashboard/ReadinessCard";
@@ -96,6 +97,7 @@ export default function Dashboard() {
         {/* ===================== SIDEBAR ===================== */}
         <aside className="lg:sticky lg:top-20 space-y-6">
           <ReadinessCard />
+          <GamificationCard />
           <DailyStreakCard />
         </aside>
       </div>
