@@ -53,7 +53,16 @@ const STREAM_COLOR: Record<Line["stream"], string> = {
   error: "var(--severity-crit-text)",
 };
 
-export function CodeRunner({ storageKey, starter }: { storageKey: string; starter?: string }) {
+export function CodeRunner({
+  storageKey,
+  starter,
+  onResult,
+}: {
+  storageKey: string;
+  starter?: string;
+  /** Called after a successful run with the joined console output (for grading). */
+  onResult?: (output: string) => void;
+}) {
   const key = STORAGE_PREFIX + storageKey;
   const defaultCode =
     starter ??
@@ -116,14 +125,19 @@ export function CodeRunner({ storageKey, starter }: { storageKey: string; starte
     }
     workerRef.current = worker;
 
+    // Collect stdout for optional grading (onResult).
+    const collected: string[] = [];
+
     worker.onmessage = (ev: MessageEvent) => {
       const msg = ev.data;
       if (msg.type === "log") {
+        if (msg.stream === "log") collected.push(msg.text);
         setLines((l) => [...l, { stream: msg.stream, text: msg.text }]);
       } else if (msg.type === "done") {
         setElapsed(msg.ms);
         setRunning(false);
         cleanup();
+        onResult?.(collected.join("\n"));
       } else if (msg.type === "error") {
         setLines((l) => [...l, { stream: "error", text: msg.text }]);
         setRunning(false);
@@ -142,7 +156,7 @@ export function CodeRunner({ storageKey, starter }: { storageKey: string; starte
       setLines((l) => [...l, { stream: "error", text: `⏱ Timed out after ${RUN_TIMEOUT_MS / 1000}s (possible infinite loop).` }]);
       stop();
     }, RUN_TIMEOUT_MS);
-  }, [code, cleanup, stop]);
+  }, [code, cleanup, stop, onResult]);
 
   const reset = useCallback(() => {
     setCode(defaultCode);
