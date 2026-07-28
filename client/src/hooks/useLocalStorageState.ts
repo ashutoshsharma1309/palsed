@@ -150,6 +150,13 @@ export const LS_KEYS = {
   focusMode: "palsed.focusmode.v1",
 
   // new "prepnext.*" namespace (placement-OS pivot)
+  // NOTE: every per-user key MUST be registered here — exportUserData /
+  // importUserData / wipeUserData iterate these values, and the server progress
+  // sync (lib/sync/progressSync.ts) rides on that snapshot. A key that's missing
+  // here silently never syncs and never gets wiped.
+  dsaLearning: "prepnext.dsaLearning.v1",   // central learning store (checklist/solved/activeDays)
+  quiz: "prepnext.quiz.v1",                 // inline lesson-quiz results
+  gamificationLevel: "prepnext.gamification.lastLevel.v1", // last celebrated level
   pyq: "prepnext.pyq.v1",
   placementCompleted: "prepnext.placement.completed.v1",
   placementBookmarks: "prepnext.placement.bookmarks.v1",
