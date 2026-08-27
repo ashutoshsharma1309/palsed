@@ -6,11 +6,11 @@
 // days ending today (or yesterday). So opening the site does nothing — only
 // actually learning extends the streak.
 import { useMemo } from "react";
-import { useLocalStorageState } from "./useLocalStorageState";
+import { useLocalStorageState, LS_KEYS } from "./useLocalStorageState";
 import { localISO, computeCurrentStreak, computeBestStreak } from "../lib/streakDates";
 import { EMPTY_STORE, type LearningStore } from "../services/progressService";
 
-const KEY = "prepnext.dsaLearning.v1";
+const KEY = LS_KEYS.dsaLearning;
 
 export interface DailyStreak {
   /** Set of active-learning dates for O(1) calendar lookups. */

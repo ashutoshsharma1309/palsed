@@ -3,7 +3,7 @@ import { Menu, X, LogOut, User, ChevronDown, BookOpen, Settings as SettingsIcon,
 import { useState, useRef, useEffect } from "react";
 import toast from "react-hot-toast";
 import { useSRS } from "../../hooks/useSRS";
-import { useEngagement } from "../adaptive/EngagementProvider";
+import { useDailyStreak } from "../../hooks/useDailyStreak";
 import { useAuth } from "../../hooks/useAuth";
 import { ThemeToggle } from "../ui/ThemeToggle";
 import { ComfortMenu } from "../ui/ComfortMenu";
@@ -14,6 +14,7 @@ import { LogoLockup } from "../ui/Logo";
 // one click deeper in the journey-grouped "Prep" dropdown or the avatar menu.
 const PRIMARY = [
   { to: "/dashboard", label: "Dashboard" },
+  { to: "/learn", label: "Learn" },
   { to: "/dsa", label: "DSA" },
   { to: "/patterns", label: "Patterns" },
   { to: "/aptitude", label: "Aptitude" },
@@ -68,7 +69,7 @@ export function Nav() {
   const [menu, setMenu] = useState(false);
   const [prepOpen, setPrepOpen] = useState(false);
   const { dueCount } = useSRS();
-  const { streakDays } = useEngagement();
+  const { currentStreak } = useDailyStreak();
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -96,7 +97,7 @@ export function Nav() {
   };
 
   return (
-    <nav className="sticky top-0 z-30 backdrop-blur-md bg-[var(--color-bg)]/85 border-b border-[var(--color-line)]">
+    <nav data-app-chrome className="sticky top-0 z-30 backdrop-blur-md bg-[var(--color-bg)]/85 border-b border-[var(--color-line)]">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 flex items-center justify-between h-14">
         <Link to="/" className="shrink-0 neon-text" aria-label="PrepNext home">
           <LogoLockup wordmarkClass="display text-2xl tracking-tight" markSize={26} />
@@ -172,9 +173,9 @@ export function Nav() {
 
         {/* DESKTOP RIGHT — streak + theme + avatar */}
         <div className="hidden lg:flex items-center gap-3 relative">
-          {streakDays > 0 && (
+          {currentStreak > 0 && (
             <div className="mono text-[11px] text-[var(--color-neon)] uppercase tracking-widest">
-              🔥 {streakDays}d
+              🔥 {currentStreak}d
             </div>
           )}
           <ComfortMenu />

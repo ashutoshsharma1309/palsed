@@ -29,7 +29,9 @@ export function securityHeaders(req, res, next) {
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net",
       "font-src 'self' data: https://fonts.gstatic.com https://cdn.jsdelivr.net",
       "img-src 'self' data: blob: https:",
-      "connect-src 'self'",
+      // Allow Supabase Auth/DB (https) + Realtime (wss). 'self'-only here
+      // white-screens login on the standalone/Render build. Matches vercel.json.
+      "connect-src 'self' https: wss:",
       "worker-src 'self' blob:",
       "frame-ancestors 'none'",
       "base-uri 'self'",

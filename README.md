@@ -107,23 +107,45 @@ PostgreSQL (Supabase)  +  Supabase Auth (Google)
 
 ## Run locally
 
-**Prerequisites:** Node 20+ and a Supabase project (Postgres + Auth) — set the
-connection string and keys in `server/.env` / `client/.env`.
+**Prerequisites:** Node 20+ and a free [Supabase](https://supabase.com) project
+(Postgres + Auth). Everything else installs from npm.
 
 ```bash
-# 1. Install dependencies
+# 1. Clone and install dependencies (root + client)
+git clone https://github.com/ashutoshsharma1309/palsed.git
+cd palsed
 npm run install:all
 
 # 2. Configure environment
-cp server/.env.example server/.env
-#    set DATABASE_URL, SHADOW_DATABASE_URL, SUPABASE_* keys
+cp server/.env.example server/.env     # DATABASE_URL, DIRECT_URL, SUPABASE_* keys
+cp client/.env.example client/.env     # VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY
 
-# 3. Create the database schema
+# 3. Create the database schema (+ optional seed data)
 cd server && npm run db:migrate && npm run db:seed && cd ..
 
-# 4. Start dev servers (client + API)
+# 4. Start both dev servers (Express API + Vite client)
 npm run dev
 ```
+
+`npm run dev` starts the Express API first, which writes a `.ports.json` at the
+repo root; Vite waits for that file, then bakes the API URL into the client dev
+bundle. So always start the client via the root `npm run dev` — running
+`cd client && npm run dev` on its own fails until the server is up.
+
+Where each value comes from:
+
+| Variable | Where to find it |
+|---|---|
+| `DATABASE_URL` | Supabase → Project Settings → Database → **Transaction** pooler (port 6543) |
+| `DIRECT_URL` | Supabase → Project Settings → Database → **Session** pooler (port 5432), used for migrations |
+| `SUPABASE_URL` / `VITE_SUPABASE_URL` | Supabase → Project Settings → API → Project URL |
+| `VITE_SUPABASE_ANON_KEY` | Supabase → Project Settings → API → `anon` public key |
+| `SUPABASE_SERVICE_ROLE_KEY` | Supabase → Project Settings → API → `service_role` key (**server-only**) |
+| `GROQ_API_KEY` | [console.groq.com](https://console.groq.com) — optional, powers the AI tutor |
+| `OPENAI_API_KEY` | [platform.openai.com](https://platform.openai.com) — optional, powers the PrepNext Assistant |
+
+The AI keys are optional: without them the app runs fully, and only the AI tutor
+and Assistant features are disabled.
 
 See [`DATABASE_SETUP.md`](DATABASE_SETUP.md) for the full database guide and
 [`summary.md`](summary.md) for the current product/architecture overview.

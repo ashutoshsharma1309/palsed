@@ -7,8 +7,11 @@ import { Nav } from "./components/layout/Nav";
 import { Footer } from "./components/layout/Footer";
 import { MobileTabBar } from "./components/layout/MobileTabBar";
 import { EngagementProvider } from "./components/adaptive/EngagementProvider";
+import { AuthProvider } from "./hooks/useAuth";
+import { useProgressSync } from "./hooks/useProgressSync";
 import { FocusMode } from "./components/adaptive/FocusMode";
 import { CommandPalette } from "./components/CommandPalette";
+import { ChatWidget } from "./components/ChatWidget";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { RequireAuth } from "./components/auth/RequireAuth";
 import { Loader } from "./components/ui/Loader";
@@ -40,7 +43,9 @@ const Settings = lazy(() => import("./routes/Settings"));
 const PlacementHub = lazy(() => import("./routes/PlacementHub"));
 const Roadmap = lazy(() => import("./routes/Roadmap"));
 const Hackathon = lazy(() => import("./routes/Hackathon"));
-const LearnTopic = lazy(() => import("./routes/LearnTopic"));
+const Learn = lazy(() => import("./routes/Learn"));
+const LearnDomain = lazy(() => import("./routes/LearnDomain"));
+const Lesson = lazy(() => import("./routes/Lesson"));
 const Patterns = lazy(() => import("./routes/Patterns"));
 const PatternDetail = lazy(() => import("./routes/PatternDetail"));
 const Projects = lazy(() => import("./routes/Projects"));
@@ -52,6 +57,14 @@ const Oa = lazy(() => import("./routes/Oa"));
 const OaTest = lazy(() => import("./routes/OaTest"));
 const OaResult = lazy(() => import("./routes/OaResult"));
 const NotFound = lazy(() => import("./routes/NotFound"));
+
+// Mounted once inside <AuthProvider> so useAuth() is available. Renders
+// nothing — purely wires the offline-first localStorage↔server progress sync
+// to auth state without adding any logic to AuthProvider itself.
+function ProgressSyncMount() {
+  useProgressSync();
+  return null;
+}
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -83,6 +96,7 @@ function HideChromeForLanding({ children }: { children: React.ReactNode }) {
       {children}
       {!hide && <Footer />}
       {!hide && <MobileTabBar />}
+      {!hide && <ChatWidget />}
     </>
   );
 }
@@ -94,6 +108,8 @@ export default function App() {
 
   return (
     <ErrorBoundary>
+      <AuthProvider>
+      <ProgressSyncMount />
       <EngagementProvider>
         <Background />
         <CommandPalette />
@@ -134,7 +150,9 @@ export default function App() {
                     <Route path="/placement-hub" element={<PlacementHub />} />
                     <Route path="/roadmap" element={<Roadmap />} />
                     <Route path="/hackathon" element={<Hackathon />} />
-                    <Route path="/learn/:topicId" element={<LearnTopic />} />
+                    <Route path="/learn" element={<Learn />} />
+                    <Route path="/learn/:domain" element={<LearnDomain />} />
+                    <Route path="/learn/:domain/:topicId" element={<Lesson />} />
                     <Route path="/patterns" element={<Patterns />} />
                     <Route path="/patterns/:patternId" element={<PatternDetail />} />
                     <Route path="/salary" element={<Salary />} />
@@ -167,6 +185,7 @@ export default function App() {
         <Analytics />
         <SpeedInsights />
       </EngagementProvider>
+      </AuthProvider>
     </ErrorBoundary>
   );
 }

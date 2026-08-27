@@ -3,7 +3,7 @@
 // localStorage key); useChecklist + useDailyStreak read from the same store so
 // everything stays in sync. Backend-migratable (swap the persistence here).
 import { useCallback, useMemo } from "react";
-import { useLocalStorageState } from "./useLocalStorageState";
+import { useLocalStorageState, LS_KEYS } from "./useLocalStorageState";
 import { localISO } from "../lib/streakDates";
 import {
   EMPTY_STORE, checklistKey, computeStats, topicStatus, topicCompleted,
@@ -11,7 +11,7 @@ import {
 } from "../services/progressService";
 import { getTopic, type Topic } from "../data/dsa/roadmap";
 
-const KEY = "prepnext.dsaLearning.v1";
+const KEY = LS_KEYS.dsaLearning;
 
 export function useLearningProgress() {
   const [store, setStore] = useLocalStorageState<LearningStore>(KEY, EMPTY_STORE);

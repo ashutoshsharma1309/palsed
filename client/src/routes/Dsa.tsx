@@ -28,12 +28,13 @@ const DIFF_COLOR: Record<Difficulty, string> = {
 export default function Dsa() {
   usePageMeta({
     title: "DSA Practice — company-tagged problem sheets",
-    description: "450+ curated DSA problems tagged by company and topic. Track progress, bookmark, get spaced-repetition reviews. Free for students.",
+    description: "150 hand-curated DSA problems tagged by company and topic. Track progress, bookmark, get spaced-repetition reviews. Free for students.",
     canonical: "/dsa",
   });
 
   const [statuses, setStatuses] = useLocalStorageState<Record<number, Status>>(LS_KEYS.dsaStatuses, {});
   const [bookmarks, setBookmarks] = useLocalStorageState<number[]>(LS_KEYS.dsaBookmarks, []);
+  const [, setAttempts] = useLocalStorageState<Record<number, { count: number; lastAt: string }>>(LS_KEYS.dsaAttempts, {});
 
   const [q, setQ] = useState("");
   const [showFilters, setShowFilters] = useState(false);
@@ -85,11 +86,13 @@ export default function Dsa() {
   }, [statuses]);
 
   const cycleStatus = (id: number) => {
-    setStatuses((prev) => {
-      const cur = prev[id] ?? "not_started";
-      const next: Status = cur === "not_started" ? "attempted" : cur === "attempted" ? "solved" : "not_started";
-      return { ...prev, [id]: next };
-    });
+    const cur = statuses[id] ?? "not_started";
+    const next: Status = cur === "not_started" ? "attempted" : cur === "attempted" ? "solved" : "not_started";
+    setStatuses((prev) => ({ ...prev, [id]: next }));
+    // Record attempt timestamps so the adaptive "reinforce" pick can surface.
+    if (next === "attempted") {
+      setAttempts((a) => ({ ...a, [id]: { count: (a[id]?.count ?? 0) + 1, lastAt: new Date().toISOString() } }));
+    }
   };
   const toggleBookmark = (id: number) =>
     setBookmarks((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));

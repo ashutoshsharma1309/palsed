@@ -239,12 +239,21 @@ export async function saveProfile(payload: ProfileSetupPayload): Promise<AuthUse
   return json.user as AuthUser;
 }
 
-/** Kick off Google OAuth. Redirects to Google's consent screen. */
+/**
+ * Kick off Google OAuth (full-page redirect to Google, back to /auth/callback).
+ *
+ * We deliberately DON'T pass `prompt: "consent"` / `access_type: "offline"`.
+ * Those force Google's account-picker + consent screen on EVERY sign-in — even
+ * for returning users who already granted access — which made re-login feel
+ * slow and "reload-y". Supabase manages its own session refresh (it doesn't
+ * need Google's offline refresh token), so once a user has consented, Google
+ * bounces them straight back and login feels instant.
+ */
 export async function loginGoogle(): Promise<void> {
   const redirectTo = `${window.location.origin}/auth/callback`;
   const { error } = await supabase.auth.signInWithOAuth({
     provider: "google",
-    options: { redirectTo, queryParams: { access_type: "offline", prompt: "consent" } },
+    options: { redirectTo },
   });
   if (error) throw new Error(error.message);
 }

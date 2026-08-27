@@ -10,6 +10,7 @@
 //  Primary language is C++ (every solution defaults to C++); the schema allows
 //  adding Java/Python/C solutions later without UI changes.
 // ────────────────────────────────────────────────────────────────────────────
+import { DEEP_TOPICS } from "./deep-topics";
 
 export type Difficulty = "Easy" | "Medium" | "Hard";
 export type TopicStatus = "not_started" | "in_progress" | "completed";
@@ -587,7 +588,17 @@ const MORE_TOPICS: Topic[] = [
   },
 ];
 
-export const TOPICS_ALL: Topic[] = [...TOPICS, ...FUNDAMENTALS, ...MORE_TOPICS, ...STUB_TOPICS];
+// Tier-A topics (hashing/stack/trees/bst/heap/graphs) were upgraded from stubs
+// to full lessons + practice in deep-topics.ts; the stub versions are filtered
+// out here so each id resolves to exactly one Topic (curriculum P0-a).
+const DEEP_IDS = new Set(DEEP_TOPICS.map((t) => t.id));
+export const TOPICS_ALL: Topic[] = [
+  ...TOPICS,
+  ...FUNDAMENTALS,
+  ...MORE_TOPICS,
+  ...DEEP_TOPICS,
+  ...STUB_TOPICS.filter((t) => !DEEP_IDS.has(t.id)),
+];
 
 // ── PHASES (ordered) ────────────────────────────────────────────────────────
 export const PHASES: Phase[] = [

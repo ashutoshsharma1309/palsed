@@ -94,6 +94,7 @@ model User {
   dsaAttempts    DsaAttempt[]
   notes          Note[]
   notifications  Notification[]
+  progress       UserProgress?
 }
 
 // ---------- courses (course -> chapters -> lessons) ----------
@@ -375,4 +376,24 @@ model Notification {
 
   @@index([userId])
   @@index([userId, readAt])
+}
+
+// ---------- Vision 3.0 — durable client-progress sync ----------
+//
+// One JSON blob per user, mirroring exactly what the client's
+// exportUserData()/importUserData() (client/src/hooks/useLocalStorageState.ts)
+// already produce/consume: a Record<LS_KEYS base key, value> snapshot of every
+// per-user localStorage collection (DSA checklist/solved/streak, lesson
+// checklist state, quiz results, mastery, SRS, notes, etc). Deliberately a
+// single flexible blob rather than one table per feature: localStorage is
+// already the schema-of-record client-side, this is just its durable mirror —
+// splitting it into typed tables would mean keeping two schemas in lockstep
+// for every future LS_KEYS addition, for no query benefit (nothing here is
+// ever queried server-side, only fetched whole per-user and merged client-side).
+model UserProgress {
+  userId    String   @id
+  data      Json
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

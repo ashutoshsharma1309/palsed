@@ -117,7 +117,7 @@ export default function OaResult() {
         <StatBox label="Missed" value={stats.unsolvedCount} color="var(--severity-crit-text)" Icon={XCircle} />
         <StatBox
           label="Hints used"
-          value={questions.filter((q) => session.answers[q.id].viewedApproach).length}
+          value={questions.filter((q) => session.answers[q.id]?.viewedApproach).length}
           color="var(--color-text-faint)"
           Icon={Eye}
         />

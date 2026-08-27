@@ -13,9 +13,11 @@ import { useAuth } from "../hooks/useAuth";
 import { useLearningProgress } from "../hooks/useLearningProgress";
 import { RoadmapView } from "../components/roadmap/RoadmapView";
 import { DailyStreakCard } from "../components/dashboard/DailyStreakCard";
+import { GamificationCard } from "../components/dashboard/GamificationCard";
 import { DailyGoalBanner } from "../components/dashboard/DailyGoalBanner";
 import { JourneyMap } from "../components/dashboard/JourneyMap";
 import { ReadinessCard } from "../components/dashboard/ReadinessCard";
+import { InsightsCard } from "../components/dashboard/InsightsCard";
 
 export default function Dashboard() {
   usePageMeta({ title: "Dashboard", description: "Your placement journey — learn, practice, build, interview, and place.", canonical: "/dashboard" });
@@ -79,6 +81,9 @@ export default function Dashboard() {
           {/* Placement journey map — orient students across the full arc */}
           <JourneyMap />
 
+          {/* DSA analytics — solved mix, difficulty, weak areas, focus-next */}
+          <InsightsCard />
+
           {/* Roadmap */}
           <div>
             <div className="flex items-center gap-2 mb-4">
@@ -92,6 +97,7 @@ export default function Dashboard() {
         {/* ===================== SIDEBAR ===================== */}
         <aside className="lg:sticky lg:top-20 space-y-6">
           <ReadinessCard />
+          <GamificationCard />
           <DailyStreakCard />
         </aside>
       </div>

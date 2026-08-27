@@ -19,7 +19,7 @@ export default function Pyq() {
     canonical: "/pyq",
   });
 
-  const { all, votes, vote } = usePYQs();
+  const { all, votes, vote, countsFor } = usePYQs();
   const [params, setParams] = useSearchParams();
   const [q, setQ] = useState("");
   const companyFilter = params.get("company") || "";
@@ -142,10 +142,10 @@ export default function Pyq() {
                   </div>
                   <div className="flex items-center gap-2">
                     <button onClick={() => vote(p.id, "up")} className={`inline-flex items-center gap-1 px-2 py-0.5 rounded ${votes[p.id] === "up" ? "bg-[var(--color-neon)]/20 text-[var(--color-neon)]" : "text-[var(--color-text-faint)] hover:text-[var(--color-text)]"}`}>
-                      <ThumbsUp className="w-3 h-3" /> {p.upvotes}
+                      <ThumbsUp className="w-3 h-3" /> {countsFor(p).upvotes}
                     </button>
                     <button onClick={() => vote(p.id, "down")} className={`inline-flex items-center gap-1 px-2 py-0.5 rounded ${votes[p.id] === "down" ? "bg-red-400/20 text-red-300" : "text-[var(--color-text-faint)] hover:text-[var(--color-text)]"}`}>
-                      <ThumbsDown className="w-3 h-3" /> {p.downvotes}
+                      <ThumbsDown className="w-3 h-3" /> {countsFor(p).downvotes}
                     </button>
                   </div>
                 </div>

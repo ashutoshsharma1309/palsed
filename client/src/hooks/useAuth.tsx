@@ -1,12 +1,37 @@
-// Auth state powered by Supabase Auth.
-// - `isAuthenticated` depends ONLY on token presence (not user-row fetch
-//   success), so a slow /api/auth/me call never gets us stuck in a "logged in
-//   but redirected" loop.
-// - Synchronously primes initial state from Supabase's localStorage key so
-//   RequireAuth doesn't redirect on the first render after a hard refresh.
-// - Subscribes to onAuthStateChange so login/logout/refresh from anywhere
-//   updates the UI.
-import { useCallback, useEffect, useState } from "react";
+// Auth state powered by Supabase Auth — exposed through a single shared
+// React Context so the WHOLE app has exactly ONE source of truth.
+//
+// Why a provider (and not a bare hook):
+//   Previously `useAuth()` was a plain hook holding its own state + its own
+//   `onAuthStateChange` subscription + its own `/api/auth/me` fetch. Because it
+//   was called from 6 components (RequireAuth, Nav, MobileTabBar, Dashboard,
+//   AuthPanel, Onboarding), a single protected page mounted ~4 independent
+//   copies. Each copy:
+//     • fetched /api/auth/me on mount, and
+//     • installed its own auth listener that re-fetched /api/auth/me on EVERY
+//       auth event (INITIAL_SESSION, SIGNED_IN, TOKEN_REFRESHED).
+//   Result on login: ~8–12 concurrent duplicate /me calls, each triggering a
+//   server-side Supabase getUser() round-trip + a User-row upsert racing on the
+//   unique constraint — i.e. the slow, flaky "finishing sign-in" the incident
+//   describes.
+//
+// Now: one <AuthProvider> subscribes once, fetches /me once (with in-flight
+// dedup), and every `useAuth()` consumer reads the same state via context.
+//
+// Behavior preserved from the old hook:
+//   - `isAuthenticated` depends ONLY on token presence, so a slow /me never
+//     traps a logged-in user in a redirect loop.
+//   - Initial state is primed synchronously from Supabase's localStorage key so
+//     RequireAuth doesn't flash-redirect a logged-in user on hard refresh.
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { supabase } from "../lib/supabase";
 import {
   AUTH_TOKEN_KEY,
@@ -48,76 +73,97 @@ function readInitialUser(): AuthUser | null {
   } catch { return null; }
 }
 
-export function useAuth() {
+export interface AuthContextValue {
+  token: string | null;
+  user: AuthUser | null;
+  isAuthenticated: boolean;
+  loading: boolean;
+  login: (email: string, password: string) => Promise<AuthUser>;
+  signup: (email: string, password: string, displayName: string) => Promise<AuthUser>;
+  google: () => Promise<void>;
+  logout: () => Promise<void>;
+  refetch: () => Promise<AuthUser | null>;
+}
+
+const AuthContext = createContext<AuthContextValue | null>(null);
+
+/**
+ * Single owner of auth state. Mount ONCE, high in the tree (App.tsx).
+ * Subscribes to Supabase auth exactly once and fetches the app user exactly
+ * once per sign-in (concurrent calls are deduped).
+ */
+export function AuthProvider({ children }: { children: React.ReactNode }) {
   // Prime from localStorage so the first render already reflects a logged-in user.
   const [token, setToken] = useState<string | null>(readInitialToken);
   const [user, setUser] = useState<AuthUser | null>(readInitialUser);
   const [loading, setLoading] = useState<boolean>(() => !readInitialToken());
 
-  // Hydrate from existing Supabase session (handles cross-tab + cold start).
-  useEffect(() => {
-    let active = true;
-    (async () => {
-      const { data } = await supabase.auth.getSession();
-      const t = data.session?.access_token ?? null;
-      if (!active) return;
-      setToken(t);
-      if (t) {
-        try {
-          const u = await fetchAppUser();
-          if (!active) return;
-          setUser(u);
-          try { window.localStorage.setItem(AUTH_USER_KEY, JSON.stringify(u)); } catch {}
-        } catch (e) {
-          // Don't clear token on a transient /me failure — keeps the user
-          // logged-in and components can retry.
-          if (active) console.warn("[useAuth] fetchAppUser failed:", (e as Error)?.message);
-        }
-      } else {
-        if (active) setUser(null);
+  // Mirror `user` into a ref so the auth listener can read the latest value
+  // without re-subscribing (keeps the subscription stable for the app's life).
+  const userRef = useRef<AuthUser | null>(user);
+  useEffect(() => { userRef.current = user; }, [user]);
+
+  // Dedup /api/auth/me: while a fetch is in flight, every caller shares the
+  // same promise instead of firing its own request. This is what collapses the
+  // login-time request storm down to a single /me.
+  const inflightRef = useRef<Promise<AuthUser | null> | null>(null);
+  const loadUser = useCallback(async (): Promise<AuthUser | null> => {
+    if (inflightRef.current) return inflightRef.current;
+    const p = (async () => {
+      try {
+        const u = await fetchAppUser();
+        setUser(u);
+        userRef.current = u;
+        try { window.localStorage.setItem(AUTH_USER_KEY, JSON.stringify(u)); } catch {}
+        return u;
+      } catch (e) {
+        // Don't clear the token on a transient /me failure — the user stays
+        // logged in (isAuthenticated tracks the token) and can retry.
+        console.warn("[auth] fetchAppUser failed:", (e as Error)?.message);
+        return null;
+      } finally {
+        inflightRef.current = null;
       }
-      if (active) setLoading(false);
     })();
-    return () => { active = false; };
+    inflightRef.current = p;
+    return p;
   }, []);
 
-  // Listen for login / logout / token-refresh from anywhere.
+  // One subscription for the whole app: cold-start hydration + login/logout/
+  // refresh from any tab. onAuthStateChange fires INITIAL_SESSION immediately
+  // on subscribe, which covers the cold-start case (no separate getSession()).
   useEffect(() => {
-    const { data: sub } = supabase.auth.onAuthStateChange(async (event, session) => {
+    let active = true;
+    const { data: sub } = supabase.auth.onAuthStateChange((event, session) => {
+      if (!active) return;
       const t = session?.access_token ?? null;
       setToken(t);
       try { window.localStorage.setItem(AUTH_TOKEN_KEY, t || ""); } catch {}
-      if (t) {
-        try {
-          const u = await fetchAppUser();
-          setUser(u);
-          try { window.localStorage.setItem(AUTH_USER_KEY, JSON.stringify(u)); } catch {}
-        } catch (e) {
-          console.warn("[useAuth] fetchAppUser on event failed:", (e as Error)?.message);
-        }
-      } else {
+
+      if (!t) {
         setUser(null);
+        userRef.current = null;
         try { window.localStorage.removeItem(AUTH_USER_KEY); } catch {}
+        setLoading(false);
+        return;
       }
-      // Any state change means we're no longer in initial loading.
+
+      // Only (re)fetch the app user when it's a genuine sign-in or we don't
+      // have one yet. A bare TOKEN_REFRESHED (hourly) rotates the JWT but the
+      // user row is unchanged — no need to hit /me again.
+      if (event === "SIGNED_IN" || !userRef.current) {
+        void loadUser();
+      }
       setLoading(false);
     });
-    return () => sub.subscription.unsubscribe();
-  }, []);
+    return () => { active = false; sub.subscription.unsubscribe(); };
+  }, [loadUser]);
 
   const login = useCallback(async (email: string, password: string) => {
     await loginEmail(email, password);
-    // Re-fetch user inline so the AuthPanel's local state has it immediately.
-    try {
-      const u = await fetchAppUser();
-      setUser(u);
-      return u;
-    } catch {
-      // Even if fetchAppUser fails, the Supabase session is set; isAuthenticated
-      // will be true. Components can retry on demand.
-      return null as unknown as AuthUser;
-    }
-  }, []);
+    const u = await loadUser();
+    return (u ?? (null as unknown as AuthUser));
+  }, [loadUser]);
 
   /**
    * Sign up + immediately bring the user in.
@@ -128,13 +174,8 @@ export function useAuth() {
     const { needsEmailConfirmation } = await signupEmail(email, password, displayName);
 
     if (!needsEmailConfirmation) {
-      try {
-        const u = await fetchAppUser();
-        setUser(u);
-        return u;
-      } catch {
-        return null as unknown as AuthUser;
-      }
+      const u = await loadUser();
+      return (u ?? (null as unknown as AuthUser));
     }
 
     // Server-side admin signup should never set needsEmailConfirmation, but if
@@ -143,13 +184,12 @@ export function useAuth() {
     if (confirmed) {
       try {
         await loginEmail(email, password);
-        const u = await fetchAppUser();
-        setUser(u);
-        return u;
+        const u = await loadUser();
+        if (u) return u;
       } catch { /* fall through */ }
     }
     return { id: "", email, displayName, emailVerified: false } as AuthUser;
-  }, []);
+  }, [loadUser]);
 
   const google = useCallback(async () => {
     await loginGoogle();
@@ -159,25 +199,19 @@ export function useAuth() {
     await apiLogout();
     setToken(null);
     setUser(null);
+    userRef.current = null;
   }, []);
 
-  // Re-pulls /api/auth/me — used after profile-setup so the UI immediately
-  // reflects the new profileComplete + fullName + etc. without forcing a
-  // hard reload.
+  // Force a fresh /api/auth/me — used after profile-setup so the UI immediately
+  // reflects the new profileComplete + fullName without a hard reload. Bypasses
+  // the "already have a user" short-circuit by clearing the dedup slot first.
   const refetch = useCallback(async () => {
     if (!token) return null;
-    try {
-      const u = await fetchAppUser();
-      setUser(u);
-      try { window.localStorage.setItem(AUTH_USER_KEY, JSON.stringify(u)); } catch {}
-      return u;
-    } catch (e) {
-      console.warn("[useAuth] refetch failed:", (e as Error)?.message);
-      return null;
-    }
-  }, [token]);
+    inflightRef.current = null;
+    return loadUser();
+  }, [token, loadUser]);
 
-  return {
+  const value = useMemo<AuthContextValue>(() => ({
     token,
     user,
     isAuthenticated: Boolean(token),
@@ -187,5 +221,16 @@ export function useAuth() {
     google,
     logout,
     refetch,
-  };
+  }), [token, user, loading, login, signup, google, logout, refetch]);
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+}
+
+/** Read the shared auth state. Must be used under <AuthProvider>. */
+export function useAuth(): AuthContextValue {
+  const ctx = useContext(AuthContext);
+  if (!ctx) {
+    throw new Error("useAuth must be used within <AuthProvider>. Wrap the app in App.tsx.");
+  }
+  return ctx;
 }

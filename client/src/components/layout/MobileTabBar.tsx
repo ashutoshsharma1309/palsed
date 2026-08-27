@@ -24,6 +24,7 @@ export function MobileTabBar() {
   return (
     <nav
       aria-label="Primary navigation"
+      data-app-chrome
       className="lg:hidden fixed bottom-0 inset-x-0 z-40 border-t border-[var(--color-line)] bg-[var(--color-bg)]/85 backdrop-blur-xl"
       style={{ paddingBottom: "max(env(safe-area-inset-bottom), 0px)" }}
     >
